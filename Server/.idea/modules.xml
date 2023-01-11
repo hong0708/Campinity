@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-api-server/com.ssafy.campinity.demo.demo-api-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-api-server/com.ssafy.campinity.demo.demo-api-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-api-server/demo-api-server.demo.demo-api-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-api-server/demo-api-server.demo.demo-api-server.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-core/demo-core.demo.demo-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-core/demo-core.demo.demo-core.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-api-server/demo.demo-api-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-api-server/demo.demo-api-server.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-core/demo.demo-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-core/demo.demo-core.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-core/org.example.demo.demo-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-core/org.example.demo.demo-core.main.iml" />
