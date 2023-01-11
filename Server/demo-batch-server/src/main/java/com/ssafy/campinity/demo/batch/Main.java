@@ -1,4 +1,4 @@
-package com.ssafy.campinity.demo;
+package com.ssafy.campinity.demo.batch;
 
 public class Main {
     public static void main(String[] args) {

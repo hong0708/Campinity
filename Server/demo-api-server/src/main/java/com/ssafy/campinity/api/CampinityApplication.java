@@ -1,4 +1,4 @@
-package com.ssafy.campinity.demo;
+package com.ssafy.campinity.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
