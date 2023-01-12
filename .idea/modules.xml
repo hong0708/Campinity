@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/S08P11D101.iml" filepath="$PROJECT_DIR$/.idea/S08P11D101.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-api-server/demo.demo-api-server.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-api-server/demo.demo-api-server.main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/demo-core/demo.demo-core.main.iml" filepath="$PROJECT_DIR$/.idea/modules/demo-core/demo.demo-core.main.iml" />
     </modules>
   </component>
 </project>
