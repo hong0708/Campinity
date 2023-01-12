@@ -28,24 +28,23 @@ public class GocampClient {
 
         MultiValueMap<String, String> params = reqCampsiteDto.toMultiValueMap(serviceKey);
         ObjectMapper objectMapper = new ObjectMapper();
-
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
-        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(baseUrl).build();
 
+        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(baseUrl).build();
         ResponseEntity<String> response = wc
                 .get()
                 .uri(uri -> uri.queryParams(params).build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
-                .toEntity(String.class).block();
+                .toEntity(String.class)
+                .block();
+
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        ResCampsiteListDto campsiteDto = objectMapper.readValue(response.getBody(), ResCampsiteListDto.class);
-//        System.out.println(campsiteDto.getResponse().getBody().getItems().getItem().get(0).getCaravInnerFclty());
-//        List<ResCampsiteDto> camsiteList = campsiteDto.getResponse().getBody().getItems().getItem();
-//        camsiteList.forEach(camsite -> System.out.println(camsite));
-        return campsiteDto;
+        ResCampsiteListDto campsiteList = objectMapper.readValue(response.getBody(), ResCampsiteListDto.class);
+
+        return campsiteList;
     }
 
 }
