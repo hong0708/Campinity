@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">Campinity</string>
+
+    <!-- Splash -->
+    <string name="title_splash">Campinity</string>
+    <string name="content_splash">캠핑은 Campinity와 함께!</string>
+    <string name="image_splash_sun">image_splash_sun</string>
+    <string name="image_splash_mountain">image_splash_mountain</string>
+    <string name="image_splash_logo">image_splash_logo</string>
+    <string name="image_splash_background">image_splash_background</string>
+
 </resources>
