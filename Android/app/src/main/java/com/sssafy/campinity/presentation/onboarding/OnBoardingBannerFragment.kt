@@ -1,7 +1,7 @@
 package com.sssafy.campinity.presentation.onboarding
 
-import com.ssafy.campinity.R
-import com.ssafy.campinity.databinding.FragmentOnboardingBannerBinding
+import com.sssafy.campinity.R
+import com.sssafy.campinity.databinding.FragmentOnboardingBannerBinding
 import com.sssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 

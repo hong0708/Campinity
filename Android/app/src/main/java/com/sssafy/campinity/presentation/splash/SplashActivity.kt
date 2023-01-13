@@ -10,8 +10,8 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
-import com.ssafy.campinity.R
-import com.ssafy.campinity.databinding.ActivitySplashBinding
+import com.sssafy.campinity.R
+import com.sssafy.campinity.databinding.ActivitySplashBinding
 import com.sssafy.campinity.presentation.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay

@@ -12,11 +12,11 @@ Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
-    namespace 'com.ssafy.campinity'
+    namespace 'com.sssafy.campinity'
     compileSdk 32
 
     defaultConfig {
-        applicationId "com.ssafy.campinity"
+        applicationId "com.sssafy.campinity"
         minSdk 26
         targetSdk 32
         versionCode 1

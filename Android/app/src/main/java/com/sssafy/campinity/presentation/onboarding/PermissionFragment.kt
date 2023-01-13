@@ -3,8 +3,8 @@ package com.sssafy.campinity.presentation.onboarding
 import android.Manifest
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import com.ssafy.campinity.R
-import com.ssafy.campinity.databinding.FragmentPermissionBinding
+import com.sssafy.campinity.R
+import com.sssafy.campinity.databinding.FragmentPermissionBinding
 import com.sssafy.campinity.common.util.isGranted
 import com.sssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint

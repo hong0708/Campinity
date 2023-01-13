@@ -39,4 +39,21 @@
     </array>
     <string name="image_onboarding_banner">image_onboarding_banner</string>
 
+    <!-- Join -->
+    <string name="title_join">회원 정보 입력</string>
+    <string name="content_join">Campinity에서 사용할\n고객님의 정보를 입력해주세요!</string>
+    <string name="content_hint_join">닉네임을 입력해주세요</string>
+    <string name="content_duplicate_check">중복 확인</string>
+    <string name="content_btn_confirm">회원 정보 작성 완료</string>
+    <string name="content_existing_user">안녕하세요. 김싸피님!\n오랜만에 뵙네요.</string>
+    <string name="image_complete_join">image_complete_join</string>
+    <string name="content_join_cancle_dialog_1">닉네임만 입력하면\n회원가입은 완료됩니다.</string>
+    <string name="content_join_cancle_dialog_2">정말</string>
+    <string name="content_join_cancle_dialog_3">취소</string>
+    <string name="content_join_cancle_dialog_4">하시겠어요?</string>
+    <string name="content_cancel">취소</string>
+    <string name="content_join_complete">김싸피님!\n회원가입이 완료되었습니다.</string>
+    <string name="image_arrow_left">image_arrow_left</string>
+    <string name="image_profile">image_profile</string>
+
 </resources>

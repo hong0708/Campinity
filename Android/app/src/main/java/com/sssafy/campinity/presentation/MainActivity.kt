@@ -5,8 +5,8 @@ import android.os.Bundle
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import com.ssafy.campinity.R
-import com.ssafy.campinity.databinding.ActivityMainBinding
+import com.sssafy.campinity.R
+import com.sssafy.campinity.databinding.ActivityMainBinding
 import com.sssafy.campinity.ApplicationClass
 import com.sssafy.campinity.common.util.isGranted
 import dagger.hilt.android.AndroidEntryPoint
