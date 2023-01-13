@@ -15,8 +15,6 @@ import java.net.URLEncoder;
 @AllArgsConstructor
 public class ReqCampsiteDto {
 
-    private String numOfRows = "10";
-
     private String pageNo = "1";
 
     private String MobileOS = "ETC";
@@ -25,10 +23,10 @@ public class ReqCampsiteDto {
 
     private String _type = "json";
 
-    public MultiValueMap<String, String> toMultiValueMap(String serviceKey) throws UnsupportedEncodingException {
+    public MultiValueMap<String, String> toMultiValueMap(int numOfRows, String serviceKey) throws UnsupportedEncodingException {
 
         var map = new LinkedMultiValueMap<String, String>();
-        map.add(URLEncoder.encode("numOfRows","UTF-8"), URLEncoder.encode(numOfRows,"UTF-8"));
+        map.add(URLEncoder.encode("numOfRows","UTF-8"), URLEncoder.encode(String.valueOf(numOfRows),"UTF-8"));
         map.add(URLEncoder.encode("pageNo","UTF-8"), URLEncoder.encode(pageNo,"UTF-8"));
         map.add(URLEncoder.encode("MobileOS","UTF-8"), URLEncoder.encode(MobileOS,"UTF-8"));
         map.add(URLEncoder.encode("MobileApp","UTF-8"), URLEncoder.encode(MobileApp,"UTF-8"));
