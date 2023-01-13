@@ -1,4 +1,4 @@
-package com.ssafy.campinity.demo;
+package com.ssafy.campinity;
 
 import com.ssafy.campinity.core.CampinityApplication;
 import org.junit.jupiter.api.Test;
