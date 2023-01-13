@@ -8,6 +8,8 @@
     <string name="image_splash_mountain">image_splash_mountain</string>
     <string name="image_splash_logo">image_splash_logo</string>
     <string name="image_splash_background">image_splash_background</string>
+
+    <!-- Permission -->
     <string name="title_permission">Campinity 접근 권한 안내</string>
     <string name="content_permission">campinity에서는 다음 권한을 사용하오니 허용해 주시기 바랍니다.</string>
     <string name="title_permission_camera">카메라 (선택)</string>
@@ -24,5 +26,17 @@
     <string name="image_permission_location">image_permission_location</string>
     <string name="image_permission_notification">image_permission_notification</string>
 
+    <!-- OnBoarding -->
+    <array name="content_on_boarding_banner">
+        <item name="content_on_boarding_banner_1">캠핑은 가고 싶은데\n어떤 것부터 해야 할 지 모르겠나요?</item>
+        <item name="content_on_boarding_banner_2">캠핑장을 사용하고 있는 사람들에게\n궁금한 점이 있지 않으신가요?</item>
+        <item name="content_on_boarding_banner_3">캠핑장을 같이 사용하는 사람들과\n소통하고 싶지 않으신가요?</item>
+    </array>
+    <array name="content_on_boarding_banner_sub">
+        <item name="content_on_boarding_banner_sub_1">campinity와 함께 준비해보세요!</item>
+        <item name="content_on_boarding_banner_sub_2">campinity에서는 실시간으로 물어볼 수 있어요!</item>
+        <item name="content_on_boarding_banner_sub_3">campinity에서 다른 사람들과 추억을 나눠보세요!</item>
+    </array>
+    <string name="image_onboarding_banner">image_onboarding_banner</string>
 
 </resources>
