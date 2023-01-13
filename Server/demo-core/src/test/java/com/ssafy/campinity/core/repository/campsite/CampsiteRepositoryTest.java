@@ -1,6 +1,7 @@
 package com.ssafy.campinity.core.repository.campsite;
 
 import com.ssafy.campinity.core.entity.campsite.Campsite;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,25 +19,23 @@ class CampsiteRepositoryTest {
     CampsiteRepository campsiteRepository;
 
     @Test
+    @DisplayName("캠핑장 엔터티 리스너 테스트")
     void campsiteListenerTest(){
 
         Campsite campsite = new Campsite();
         campsite.setCampName("test1");
         campsite.setUuid(UUID.randomUUID());
-
-        campsiteRepository.save(campsite);
-        Campsite campsite1 = campsiteRepository.findById(1).stream().findFirst().get();
-        System.out.println(campsite1);
+        Campsite campsite1 = campsiteRepository.save(campsite);
 
         assertNotNull(campsite1.getCreatedAt());
         assertNotNull(campsite1.getUpdatedAt());
 
         campsite1.setCampName("updated1");
-        campsiteRepository.save(campsite1);
-
-        Campsite campsite2 = campsiteRepository.findById(1).stream().findFirst().get();
+        Campsite campsite2 = campsiteRepository.save(campsite1);
 
         assertNotSame(campsite1.getUpdatedAt(), campsite2.getUpdatedAt());
+
+        campsiteRepository.deleteAllInBatch();
 
     }
 }
