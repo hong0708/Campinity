@@ -9,6 +9,54 @@
     <string name="image_splash_logo">image_splash_logo</string>
     <string name="image_splash_background">image_splash_background</string>
 
+    <!-- Permission -->
+    <string name="title_permission">Campinity 접근 권한 안내</string>
+    <string name="content_permission">campinity에서는 다음 권한을 사용하오니 허용해 주시기 바랍니다.</string>
+    <string name="title_permission_camera">카메라 (선택)</string>
+    <string name="content_permission_camera">사진 촬영을 위해 허용</string>
+    <string name="title_permission_gallery">사진 (선택)</string>
+    <string name="content_permission_gallery">사진 등록을 위한 촬영, 이미지 저장을 위해 이용</string>
+    <string name="title_permission_location">위치정보 (선택)</string>
+    <string name="content_permission_location">현재 위치한 캠핑장 검색을 위해 이용</string>
+    <string name="title_permission_notification">알림 (선택)</string>
+    <string name="content_permission_notification">이벤트 알림 전송을 위해 이용</string>
+    <string name="content_confirm">확인</string>
+    <string name="image_permission_camera">image_permission_camera</string>
+    <string name="image_permission_gallery">image_permission_gallery</string>
+    <string name="image_permission_location">image_permission_location</string>
+    <string name="image_permission_notification">image_permission_notification</string>
+
+    <!-- OnBoarding -->
+    <array name="content_on_boarding_banner">
+        <item name="content_on_boarding_banner_1">캠핑은 가고 싶은데\n어떤 것부터 해야 할 지 모르겠나요?</item>
+        <item name="content_on_boarding_banner_2">캠핑장을 사용하고 있는 사람들에게\n궁금한 점이 있지 않으신가요?</item>
+        <item name="content_on_boarding_banner_3">캠핑장을 같이 사용하는 사람들과\n소통하고 싶지 않으신가요?</item>
+    </array>
+    <array name="content_on_boarding_banner_sub">
+        <item name="content_on_boarding_banner_sub_1">campinity와 함께 준비해보세요!</item>
+        <item name="content_on_boarding_banner_sub_2">campinity에서는 실시간으로 물어볼 수 있어요!</item>
+        <item name="content_on_boarding_banner_sub_3">campinity에서 다른 사람들과 추억을 나눠보세요!</item>
+    </array>
+    <string name="image_onboarding_banner">image_onboarding_banner</string>
+
+    <!-- Join -->
+    <string name="title_join">회원 정보 입력</string>
+    <string name="content_join">Campinity에서 사용할\n고객님의 정보를 입력해주세요!</string>
+    <string name="content_hint_join">닉네임을 입력해주세요</string>
+    <string name="content_duplicate_check">중복 확인</string>
+    <string name="content_btn_confirm">회원 정보 작성 완료</string>
+    <string name="content_existing_user">안녕하세요. 김싸피님!\n오랜만에 뵙네요.</string>
+    <string name="image_complete_join">image_complete_join</string>
+    <string name="content_join_cancle_dialog_1">닉네임만 입력하면\n회원가입은 완료됩니다.</string>
+    <string name="content_join_cancle_dialog_2">정말</string>
+    <string name="content_join_cancle_dialog_3">취소</string>
+    <string name="content_join_cancle_dialog_4">하시겠어요?</string>
+    <string name="content_cancel">취소</string>
+    <string name="content_join_complete">김싸피님!\n회원가입이 완료되었습니다.</string>
+    <string name="image_arrow_left">image_arrow_left</string>
+    <string name="image_profile">image_profile</string>
+
+    <!-- 검색 모드 메인 지도 화면 -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
     <string name="content_area">지역</string>
     <string name="image_filter_area">지역 필터링 선택 버튼</string>
