@@ -10,4 +10,8 @@
     <string name="image_splash_background">image_splash_background</string>
 
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
+    <string name="content_area">지역</string>
+    <string name="image_filter_area">지역 필터링 선택 버튼</string>
+    <string name="content_filter">필터</string>
+    <string name="content_search_in_this_scope">현 지도에서 검색</string>
 </resources>

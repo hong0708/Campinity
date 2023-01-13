@@ -24,9 +24,81 @@
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
             android:textSize="16sp"
+            android:theme="@style/EditTextStyle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_area"
+            android:layout_width="66dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_rectangle_white_round12"
+            android:contentDescription="@string/image_filter_area"
+            android:drawableStart="@drawable/ic_marker_basic_black"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:stateListAnimator="@null"
+            android:paddingHorizontal="12dp"
+            android:text="@string/content_area"
+            android:textColor="@color/zambezi"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="@id/et_search"
+            app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+        <RelativeLayout
+            android:id="@+id/cl_filter"
+            android:layout_width="66dp"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_rectangle_white_round12"
+            android:elevation="4dp"
+            app:layout_constraintStart_toEndOf="@id/btn_area"
+            app:layout_constraintTop_toBottomOf="@id/et_search">
+
+            <ImageView
+                android:id="@+id/iv_filter"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="3dp"
+                android:contentDescription="@string/image_filter_area"
+                android:src="@drawable/ic_filter" />
+
+            <TextView
+                android:id="@+id/tv_filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@id/iv_filter"
+                android:gravity="center"
+                android:text="@string/content_filter"
+                android:textColor="@color/zambezi"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_search_in_this_scope"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_rectangle_white_round12"
+            android:drawableStart="@drawable/ic_refresh"
+            android:drawablePadding="3dp"
+            android:elevation="4dp"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="12dp"
+            android:text="@string/content_search_in_this_scope"
+            android:textColor="@color/zambezi"
+            android:textSize="12sp"
+            android:stateListAnimator="@null"
+            app:layout_constraintStart_toEndOf="@id/cl_filter"
+            app:layout_constraintTop_toBottomOf="@id/et_search" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
