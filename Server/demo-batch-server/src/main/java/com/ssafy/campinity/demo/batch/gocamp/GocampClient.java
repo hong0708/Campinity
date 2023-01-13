@@ -24,9 +24,9 @@ public class GocampClient {
     @Value("${goCamp.url.serviceKey}")
     private String serviceKey;
 
-    public ResCampsiteListDto RequestGocampApi(ReqCampsiteDto reqCampsiteDto) throws UnsupportedEncodingException, JsonProcessingException {
+    public ResCampsiteListDto RequestGocampApi(int numOfRows, ReqCampsiteDto reqCampsiteDto) throws UnsupportedEncodingException, JsonProcessingException {
 
-        MultiValueMap<String, String> params = reqCampsiteDto.toMultiValueMap(serviceKey);
+        MultiValueMap<String, String> params = reqCampsiteDto.toMultiValueMap(numOfRows, serviceKey);
         ObjectMapper objectMapper = new ObjectMapper();
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
