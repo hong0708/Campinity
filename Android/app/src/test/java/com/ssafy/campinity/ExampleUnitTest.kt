@@ -1,4 +1,4 @@
-package com.sssafy.campinity
+package com.ssafy.campinity
 
 import org.junit.Test
 
