@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/permissionFragment"
-        android:name="com.sssafy.campinity.presentation.onboarding.PermissionFragment"
+        android:name="com.ssafy.campinity.presentation.onboarding.PermissionFragment"
         android:label="fragment_permission"
         tools:layout="@layout/fragment_permission" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/onboardingFragment"
-        android:name="com.sssafy.campinity.presentation.onboarding.OnboardingFragment"
+        android:name="com.ssafy.campinity.presentation.onboarding.OnboardingFragment"
         android:label="OnboardingFragment"
         tools:layout="@layout/fragment_onboarding"/>
 </navigation>
