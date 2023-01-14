@@ -2,8 +2,8 @@ plugins {
     id 'java'
 }
 
-group 'org.example'
-version 'unspecified'
+group = 'com.ssafy.campinity'
+version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
