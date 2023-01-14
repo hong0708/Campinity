@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/bg_splash"
-        tools:context="com.sssafy.campinity.presentation.splash.SplashActivity">
+        tools:context=".presentation.splash.SplashActivity">
 
         <ImageView
             android:id="@+id/iv_sun"
