@@ -1,0 +1,49 @@
+package com.ssafy.campinity.common.util
+
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
+import android.content.pm.Signature
+import android.os.Build
+import android.util.Base64
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
+
+
+fun getHashKey(activity: AppCompatActivity) {
+    var packageInfo: PackageInfo? = null
+    var signatures: Array<Signature>? = null
+
+    try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            packageInfo = activity.packageManager.getPackageInfo(
+                activity.packageName,
+                PackageManager.GET_SIGNING_CERTIFICATES
+            )
+            signatures = packageInfo.signingInfo.apkContentsSigners
+        } else {
+            packageInfo = activity.packageManager.getPackageInfo(
+                activity.packageName,
+                PackageManager.GET_SIGNATURES
+            )
+            signatures = packageInfo.signatures
+        }
+    } catch (e: PackageManager.NameNotFoundException) {
+        e.printStackTrace()
+    }
+
+    if (packageInfo == null) Log.e("KeyHash", "KeyHash:null")
+
+    if (signatures != null) {
+        for (signature in signatures) {
+            try {
+                val md: MessageDigest = MessageDigest.getInstance("SHA")
+                md.update(signature.toByteArray())
+                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+            } catch (e: NoSuchAlgorithmException) {
+                Log.e("KeyHash", "Unable to get MessageDigest. signature=$signature", e)
+            }
+        }
+    }
+}
