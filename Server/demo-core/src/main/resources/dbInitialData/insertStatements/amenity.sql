@@ -1,0 +1,11 @@
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (1, '2023-01-15 12:57:47.670234', '2023-01-15 12:57:47.670234', '운동장');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (2, '2023-01-15 12:57:47.688233', '2023-01-15 12:57:47.688233', '운동시설');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (3, '2023-01-15 12:57:47.691233', '2023-01-15 12:57:47.691233', '전기');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (4, '2023-01-15 12:57:47.694247', '2023-01-15 12:57:47.694247', '마트.편의점');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (5, '2023-01-15 12:57:47.697236', '2023-01-15 12:57:47.697236', '장작판매');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (6, '2023-01-15 12:57:47.700236', '2023-01-15 12:57:47.700236', '온수');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (7, '2023-01-15 12:57:47.703236', '2023-01-15 12:57:47.703236', '물놀이장');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (8, '2023-01-15 12:57:47.705251', '2023-01-15 12:57:47.705251', '무선인터넷');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (9, '2023-01-15 12:57:47.708237', '2023-01-15 12:57:47.708237', '트렘폴린');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (10, '2023-01-15 12:57:47.711235', '2023-01-15 12:57:47.711235', '산책로');
+insert into MY_TABLE (id, created_at, updated_at, amenity_name) values (11, '2023-01-15 12:57:47.713235', '2023-01-15 12:57:47.713235', '놀이터');

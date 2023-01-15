@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,4 +25,9 @@ public class CampsiteAndTheme extends BaseEntity {
     @ManyToOne
     private Theme theme;
 
+    @Builder
+    public CampsiteAndTheme(Campsite campsite, Theme theme) {
+        this.campsite = campsite;
+        this.theme = theme;
+    }
 }

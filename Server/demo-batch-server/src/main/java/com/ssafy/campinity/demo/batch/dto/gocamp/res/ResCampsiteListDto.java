@@ -1,4 +1,4 @@
-package com.ssafy.campinity.demo.batch.gocamp.dto.res;
+package com.ssafy.campinity.demo.batch.dto.gocamp.res;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

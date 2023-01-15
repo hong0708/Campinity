@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -28,5 +27,9 @@ public class OpenSeason extends BaseEntity {
     private List<CampsiteAndOpenSeason> campsiteAndOpenSeasons = new ArrayList<>();
 
 
-
+    @Builder
+    public OpenSeason(String seasonName, List<CampsiteAndOpenSeason> campsiteAndOpenSeasons) {
+        this.seasonName = seasonName;
+        this.campsiteAndOpenSeasons = campsiteAndOpenSeasons;
+    }
 }

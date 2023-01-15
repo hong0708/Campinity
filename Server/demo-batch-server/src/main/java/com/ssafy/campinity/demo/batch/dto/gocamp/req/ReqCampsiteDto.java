@@ -1,4 +1,4 @@
-package com.ssafy.campinity.demo.batch.gocamp.dto.req;
+package com.ssafy.campinity.demo.batch.dto.gocamp.req;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

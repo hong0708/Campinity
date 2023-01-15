@@ -1,15 +1,16 @@
-package com.ssafy.campinity.demo.batch.gocamp;
+package com.ssafy.campinity.demo.batch.dto;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.campinity.demo.batch.gocamp.dto.req.ReqCampsiteDto;
-import com.ssafy.campinity.demo.batch.gocamp.dto.res.ResCampsiteListDto;
+import com.ssafy.campinity.demo.batch.dto.gocamp.req.ReqCampsiteDto;
+import com.ssafy.campinity.demo.batch.dto.gocamp.res.ResCampsiteListDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
@@ -30,8 +31,15 @@ public class GocampClient {
         ObjectMapper objectMapper = new ObjectMapper();
         DefaultUriBuilderFactory factory = new DefaultUriBuilderFactory(baseUrl);
         factory.setEncodingMode(DefaultUriBuilderFactory.EncodingMode.VALUES_ONLY);
+        ExchangeStrategies exchangeStrategies = ExchangeStrategies.builder()
+                .codecs(configurer -> configurer.defaultCodecs().maxInMemorySize(-1))
+                .build();
 
-        WebClient wc = WebClient.builder().uriBuilderFactory(factory).baseUrl(baseUrl).build();
+        WebClient wc = WebClient.builder()
+                .exchangeStrategies(exchangeStrategies)
+                .uriBuilderFactory(factory)
+                .baseUrl(baseUrl)
+                .build();
         ResponseEntity<String> response = wc
                 .get()
                 .uri(uri -> uri.queryParams(params).build())

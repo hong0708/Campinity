@@ -1,7 +1,7 @@
 package com.ssafy.campinity.demo.batch.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ssafy.campinity.demo.batch.gocamp.dto.res.ResCampsiteDto;
+import com.ssafy.campinity.demo.batch.dto.gocamp.res.ResCampsiteDto;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

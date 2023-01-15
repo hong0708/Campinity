@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,4 +25,10 @@ public class Theme extends BaseEntity {
     @JoinColumn(name = "theme_id")
     @ToString.Exclude
     private List<CampsiteAndTheme> campsiteAndThemes = new ArrayList<>();
+
+    @Builder
+    public Theme(String themeName, List<CampsiteAndTheme> campsiteAndThemes) {
+        this.themeName = themeName;
+        this.campsiteAndThemes = campsiteAndThemes;
+    }
 }

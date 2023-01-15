@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,4 +25,9 @@ public class CampsiteAndGlampFclty extends BaseEntity {
     @ManyToOne
     private GlampFclty glampFclty;
 
+    @Builder
+    public CampsiteAndGlampFclty(Campsite campsite, GlampFclty glampFclty) {
+        this.campsite = campsite;
+        this.glampFclty = glampFclty;
+    }
 }

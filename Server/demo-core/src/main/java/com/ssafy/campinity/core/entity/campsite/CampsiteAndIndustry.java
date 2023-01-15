@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,4 +25,9 @@ public class CampsiteAndIndustry extends BaseEntity {
     @ManyToOne
     private Industry industry;
 
+    @Builder
+    public CampsiteAndIndustry(Campsite campsite, Industry industry) {
+        this.campsite = campsite;
+        this.industry = industry;
+    }
 }

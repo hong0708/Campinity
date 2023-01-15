@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,4 +25,10 @@ public class Industry extends BaseEntity {
     @JoinColumn(name = "industry_id")
     @ToString.Exclude
     private List<CampsiteAndIndustry> campsiteAndIndustries = new ArrayList<>();
+
+    @Builder
+    public Industry(String industryName, List<CampsiteAndIndustry> campsiteAndIndustries) {
+        this.industryName = industryName;
+        this.campsiteAndIndustries = campsiteAndIndustries;
+    }
 }

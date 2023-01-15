@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -26,4 +25,10 @@ public class GlampFclty extends BaseEntity {
     @JoinColumn(name = "glamp_fclty_id")
     @ToString.Exclude
     private List<CampsiteAndGlampFclty> campsiteAndGlampFclties = new ArrayList<>();
+
+    @Builder
+    public GlampFclty(String fcltyName, List<CampsiteAndGlampFclty> campsiteAndGlampFclties) {
+        this.fcltyName = fcltyName;
+        this.campsiteAndGlampFclties = campsiteAndGlampFclties;
+    }
 }

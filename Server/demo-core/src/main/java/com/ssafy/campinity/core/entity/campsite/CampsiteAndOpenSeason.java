@@ -10,7 +10,6 @@ import javax.persistence.*;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -28,4 +27,9 @@ public class CampsiteAndOpenSeason extends BaseEntity {
     @ToString.Exclude
     private OpenSeason openSeason;
 
+    @Builder
+    public CampsiteAndOpenSeason(Campsite campsite, OpenSeason openSeason) {
+        this.campsite = campsite;
+        this.openSeason = openSeason;
+    }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -22,9 +21,16 @@ public class Amenity extends BaseEntity {
 
     private String amenityName;
 
+
     @OneToMany
     @JoinColumn(name = "amenity_id")
     @ToString.Exclude
     private List<CampsiteAndAmenity> campsiteAndAmenities = new ArrayList<>();
 
+    @Builder
+    public Amenity(int id, String amenityName, List<CampsiteAndAmenity> campsiteAndAmenities) {
+        this.id = id;
+        this.amenityName = amenityName;
+        this.campsiteAndAmenities = campsiteAndAmenities;
+    }
 }

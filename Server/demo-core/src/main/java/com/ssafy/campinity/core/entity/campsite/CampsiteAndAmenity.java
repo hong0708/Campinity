@@ -25,5 +25,9 @@ public class CampsiteAndAmenity extends BaseEntity {
     @ManyToOne
     private Amenity amenity;
 
-
+    @Builder
+    public CampsiteAndAmenity(Campsite campsite, Amenity amenity) {
+        this.campsite = campsite;
+        this.amenity = amenity;
+    }
 }

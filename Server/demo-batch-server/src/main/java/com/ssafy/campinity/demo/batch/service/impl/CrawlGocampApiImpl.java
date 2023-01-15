@@ -2,10 +2,10 @@ package com.ssafy.campinity.demo.batch.service.impl;
 
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ssafy.campinity.demo.batch.gocamp.GocampClient;
-import com.ssafy.campinity.demo.batch.gocamp.dto.req.ReqCampsiteDto;
-import com.ssafy.campinity.demo.batch.gocamp.dto.res.ResCampsiteDto;
-import com.ssafy.campinity.demo.batch.gocamp.dto.res.ResCampsiteListDto;
+import com.ssafy.campinity.demo.batch.dto.GocampClient;
+import com.ssafy.campinity.demo.batch.dto.gocamp.req.ReqCampsiteDto;
+import com.ssafy.campinity.demo.batch.dto.gocamp.res.ResCampsiteDto;
+import com.ssafy.campinity.demo.batch.dto.gocamp.res.ResCampsiteListDto;
 import com.ssafy.campinity.demo.batch.service.CrawlGocampApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

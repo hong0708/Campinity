@@ -13,7 +13,6 @@ import org.hibernate.annotations.Where;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
@@ -84,6 +83,7 @@ public class Campsite extends BaseEntity {
 
     private String reserveType;
 
+    @Lob
     private String intro;
 
     private String lineIntro;
@@ -94,8 +94,36 @@ public class Campsite extends BaseEntity {
 
     private String dayOperation;
 
-    private boolean allowAnimal;
+    private String allowAnimal;
 
     private boolean isDeleted = false;
+
+    @Builder
+    public Campsite(UUID uuid, List<CampsiteAndAmenity> amenities, List<CampsiteAndCaravanFclty> caravanfclties, List<CampsiteAndGlampFclty> glampfclties, List<CampsiteAndOpenSeason> openSeasons, List<CampsiteAndTheme> themes, List<CampsiteAndIndustry> industries, int contentId, String campName, String firstImageUrl, String address, String doName, String sigunguName, Double latitude, Double longitude, String phoneNumber, String homepage, String reserveType, String intro, String lineIntro, String experienceProgram, String subFacilityEtc, String dayOperation, String allowAnimal) {
+        this.uuid = uuid;
+        this.amenities = amenities;
+        this.caravanfclties = caravanfclties;
+        this.glampfclties = glampfclties;
+        this.openSeasons = openSeasons;
+        this.themes = themes;
+        this.industries = industries;
+        this.contentId = contentId;
+        this.campName = campName;
+        this.firstImageUrl = firstImageUrl;
+        this.address = address;
+        this.doName = doName;
+        this.sigunguName = sigunguName;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.phoneNumber = phoneNumber;
+        this.homepage = homepage;
+        this.reserveType = reserveType;
+        this.intro = intro;
+        this.lineIntro = lineIntro;
+        this.experienceProgram = experienceProgram;
+        this.subFacilityEtc = subFacilityEtc;
+        this.dayOperation = dayOperation;
+        this.allowAnimal = allowAnimal;
+    }
 
 }
