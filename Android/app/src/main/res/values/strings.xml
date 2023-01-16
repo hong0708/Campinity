@@ -58,4 +58,9 @@
 
     <!-- search mode - map -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
+    <string name="content_area">지역</string>
+    <string name="image_filter_area">지역 필터링 선택 버튼</string>
+    <string name="content_filter">필터</string>
+    <string name="content_search_in_this_scope">현 지도에서 검색</string>
+    <string name="image_show_campsite_as_list">캠핑장 목록을 리스트로 보는 버튼입니다.</string>
 </resources>
