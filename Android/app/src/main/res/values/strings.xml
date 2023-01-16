@@ -56,4 +56,7 @@
     <string name="image_arrow_left">image_arrow_left</string>
     <string name="image_profile">image_profile</string>
 
+    <!-- search mode - camping site information -->
+    <string name="image_camping_site">캠핑장 사진입니다.</string>
+
 </resources>

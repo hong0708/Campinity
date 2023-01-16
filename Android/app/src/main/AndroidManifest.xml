@@ -21,7 +21,13 @@
         android:theme="@style/Theme.Campinity"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".presentation.search.CampsiteInfoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true">
@@ -31,8 +37,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".presentation.MainActivity"/>
+        <activity android:name=".presentation.MainActivity" />
     </application>
 
 </manifest>

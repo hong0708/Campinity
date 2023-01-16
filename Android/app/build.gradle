@@ -64,6 +64,8 @@ dependencies {
 
     implementation libs.bundles.retrofit.bundles
     implementation libs.bundles.okhttp3.bundles
+    implementation 'androidx.appcompat:appcompat:1.6.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
     testImplementation libs.junit
 
@@ -71,6 +73,10 @@ dependencies {
     androidTestImplementation libs.android.test.espresso
 
     kapt libs.hilt.complier
+
+    // Glide
+    implementation libs.glide
+    annotationProcessor libs.glide.compiler
 }
 
 kapt {
