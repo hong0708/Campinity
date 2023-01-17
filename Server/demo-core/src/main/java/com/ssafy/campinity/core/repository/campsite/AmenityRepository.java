@@ -9,4 +9,6 @@ import java.util.Optional;
 
 public interface AmenityRepository extends JpaRepository<Amenity, Integer> {
     Amenity findByAmenityName(String amenityName);
+
+    List<Amenity> findAll();
 }

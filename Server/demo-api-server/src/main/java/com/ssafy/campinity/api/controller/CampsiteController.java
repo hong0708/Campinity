@@ -1,6 +1,7 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
+import com.ssafy.campinity.core.dto.CampsiteListDTO;
 import com.ssafy.campinity.core.dto.LocationInfoDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
@@ -48,5 +49,56 @@ public class CampsiteController {
                 .campsiteId(a.getUuid())
                 .lat(a.getLatitude())
                 .lng(a.getLongitude()).build()).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @GetMapping("/lists")
+    public ResponseEntity<List<CampsiteListDTO>> getCampsiteListByFiltering(@RequestParam(name = "keyword", defaultValue = "") String keyword,
+                                                                            @RequestParam(name = "do-name", defaultValue = "") String doName,
+                                                                            @RequestParam(name = "sigungu-name", defaultValue = "") String sigunguName,
+                                                                            @RequestParam(name = "fclty", defaultValue = "") String fclty,
+                                                                            @RequestParam(name = "amenity", defaultValue = "") String amenity,
+                                                                            @RequestParam(name = "induty", defaultValue = "") String induty,
+                                                                            @RequestParam(name = "theme", defaultValue = "") String thema,
+                                                                            @RequestParam(name = "allow-animal", defaultValue = "") String allowAnimal,
+                                                                            @RequestParam(name = "oper-season", defaultValue = "") String operSeason) {
+
+        String[] fclties = new String[0];
+        if (!fclty.trim().isEmpty()) {
+            fclties = fclty.split(" ");
+        }
+
+        String[] amenities = new String[0];
+        if (!amenity.trim().isEmpty()) {
+            amenities = amenity.split(" ");
+        }
+
+
+        String[] induties = new String[0];
+        if (!induty.trim().isEmpty()) {
+            induties = induty.split(" ");
+        }
+
+
+        String[] themas = new String[0];
+        if (!thema.trim().isEmpty()) {
+            themas = thema.split(" ");
+        }
+
+
+        String[] operSeasons = new String[0];
+        if (!operSeason.trim().isEmpty()) {
+            operSeasons = operSeason.split(" ");
+        }
+
+        String[] allowAnimals = new String[0];
+        if (!allowAnimal.trim().isEmpty()) {
+            allowAnimals = allowAnimal.split(" ");
+        }
+
+
+        List<CampsiteListDTO> result = campsiteService.getCampsiteListByFiltering(keyword.trim(), doName.trim(),
+                sigunguName.trim(), fclties, amenities, induties, themas, allowAnimals, operSeasons);
+
+        return new ResponseEntity<List<CampsiteListDTO>>(result, HttpStatus.OK);
     }
 }

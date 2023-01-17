@@ -223,36 +223,6 @@ public class GetGocampApiJsonTest {
 
         }
 
-//
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//        DbToJsonDto dbToJsonDto = DbToJsonDto.builder()
-//                .campsite(campsiteRepository.findAll())
-//                .amenity(amenityRepository.findAll())
-//                .caravanFclty(caravanFcltyRepository.findAll())
-//                .glampFclty(glampFcltyRepository.findAll())
-//                .industry(industryRepository.findAll())
-//                .openSeason(openSeasonRepository.findAll())
-//                .theme(themeRepository.findAll())
-//                .campsiteAndAmenity(campsiteAndAmenityRepository.findAll())
-//                .campsiteAndCaravanFclty(campsiteAndCaravanFcltyRepository.findAll())
-//                .campsiteAndGlampFclty(campsiteAndGlampFcltyRepository.findAll())
-//                .campsiteAndIndustry(campsiteAndIndustryRepository.findAll())
-//                .campsiteAndOpenSeason(campsiteAndOpenSeasonRepository.findAll())
-//                .campsiteAndTheme(campsiteAndThemeRepository.findAll())
-//                .build();
-//
-//        FileWriter fw = new FileWriter("C:\\Users\\multicampus\\Desktop\\dbInitialData.json");
-//        gson.toJson(dbToJsonDto, fw);
-//        fw.flush();
-//        fw.close();
-
-//        amenityRepository.deleteAllInBatch();
-//        caravanFcltyRepository.deleteAllInBatch();
-//        glampFcltyRepository.deleteAllInBatch();
-//        industryRepository.deleteAllInBatch();
-//        openSeasonRepository.deleteAllInBatch();
-//        themeRepository.deleteAllInBatch();
-
     }
 
 }
