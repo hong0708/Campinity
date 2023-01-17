@@ -73,5 +73,7 @@
     <string name="content_make_help">생성하기</string>
     <string name="content_user_location_hint">도움을 받을 사람이 보고 찾아올 수 있게 자세하게 작성해주세요.</string>
     <string name="content_user_help_hint">도움을 주실 수 있는 내용을 작성해주세요</string>
+    <string name="content_select_marker">확인</string>
+    <string name="content_cancel_marker">취소</string>
 
 </resources>
