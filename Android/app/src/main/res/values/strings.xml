@@ -75,5 +75,8 @@
     <string name="content_user_help_hint">도움을 주실 수 있는 내용을 작성해주세요</string>
     <string name="content_select_marker">확인</string>
     <string name="content_cancel_marker">취소</string>
+    <string name="title_write_question_note">질문을 남겨주세요!</string>
+    <string name="content_write_question">확인</string>
+    <string name="content_cancel_question">취소</string>
 
 </resources>
