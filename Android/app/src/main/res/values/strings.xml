@@ -64,5 +64,14 @@
     <string name="content_review_hint">캠핑장의 특정 사이트에 대한 리뷰를 남겨보세요.</string>
     <string name="image_add_photo">image_add_photo</string>
     <string name="image_close_dialog">image_close_dialog</string>
+    <string name="title_help">도움주기</string>
+    <string name="content_user_location">내 위치를 알려주세요.</string>
+    <string name="content_user_help">도움을 줄 내용을 작성해주세요.</string>
+    <string name="content_event_time">이벤트 유지 시간</string>
+    <string name="content_event_time_ex">오후 8:00</string>
+    <string name="content_until_time">까지</string>
+    <string name="content_make_help">생성하기</string>
+    <string name="content_user_location_hint">도움을 받을 사람이 보고 찾아올 수 있게 자세하게 작성해주세요.</string>
+    <string name="content_user_help_hint">도움을 주실 수 있는 내용을 작성해주세요</string>
 
 </resources>
