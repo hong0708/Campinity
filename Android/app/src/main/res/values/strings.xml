@@ -56,4 +56,13 @@
     <string name="image_arrow_left">image_arrow_left</string>
     <string name="image_profile">image_profile</string>
 
+    <!-- dialog -->
+    <string name="title_review_note">리뷰쪽지</string>
+    <string name="content_add_photo">사진 추가하기</string>
+    <string name="content_select_marker_location">마커 위치 선택</string>
+    <string name="content_write_review_note">작성하기</string>
+    <string name="content_review_hint">캠핑장의 특정 사이트에 대한 리뷰를 남겨보세요.</string>
+    <string name="image_add_photo">image_add_photo</string>
+    <string name="image_close_dialog">image_close_dialog</string>
+
 </resources>
