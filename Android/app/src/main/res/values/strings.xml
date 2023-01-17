@@ -56,6 +56,30 @@
     <string name="image_arrow_left">image_arrow_left</string>
     <string name="image_profile">image_profile</string>
 
+    <!-- dialog -->
+    <!-- 공통 단어 정리하기 -->
+    <string name="title_review_note">리뷰쪽지</string>
+    <string name="content_add_photo">사진 추가하기</string>
+    <string name="content_select_marker_location">마커 위치 선택</string>
+    <string name="content_write_review_note">작성하기</string>
+    <string name="content_review_hint">캠핑장의 특정 사이트에 대한 리뷰를 남겨보세요.</string>
+    <string name="image_add_photo">image_add_photo</string>
+    <string name="image_close_dialog">image_close_dialog</string>
+    <string name="title_help">도움주기</string>
+    <string name="content_user_location">내 위치를 알려주세요.</string>
+    <string name="content_user_help">도움을 줄 내용을 작성해주세요.</string>
+    <string name="content_event_time">이벤트 유지 시간</string>
+    <string name="content_event_time_ex">오후 8:00</string>
+    <string name="content_until_time">까지</string>
+    <string name="content_make_help">생성하기</string>
+    <string name="content_user_location_hint">도움을 받을 사람이 보고 찾아올 수 있게 자세하게 작성해주세요.</string>
+    <string name="content_user_help_hint">도움을 주실 수 있는 내용을 작성해주세요</string>
+    <string name="content_select_marker">확인</string>
+    <string name="content_cancel_marker">취소</string>
+    <string name="title_write_question_note">질문을 남겨주세요!</string>
+    <string name="content_write_question">확인</string>
+    <string name="content_cancel_question">취소</string>
+
     <!-- search mode - camping site long information -->
     <string name="image_camping_site">캠핑장 사진입니다.</string>
     <string name="image_campsite_location">캠핑장 위치 정보</string>
