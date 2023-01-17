@@ -17,7 +17,6 @@ import org.hibernate.annotations.Where;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Where(clause = "is_deleted = false")
-@Builder
 public class Campsite extends BaseEntity {
 
     @Id

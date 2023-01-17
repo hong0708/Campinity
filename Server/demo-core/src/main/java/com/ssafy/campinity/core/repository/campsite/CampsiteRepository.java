@@ -11,4 +11,7 @@ public interface CampsiteRepository extends JpaRepository<Campsite, Integer> {
 
     Campsite findByContentId(int contentId);
 
+    List<Campsite> findAll();
+
+    Campsite findById(int id);
 }

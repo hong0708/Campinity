@@ -21,6 +21,9 @@ dependencies {
     // WebClient 사용을 위한 의존성
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    // qlrm(jpql결과를 DTO를 mapping해주기 위한 라이브러리)
+    implementation 'org.qlrm:qlrm:2.0.2'
+
 }
 
 test {
