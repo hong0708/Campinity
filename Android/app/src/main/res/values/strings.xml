@@ -57,6 +57,7 @@
     <string name="image_profile">image_profile</string>
 
     <!-- dialog -->
+    <!-- 공통 단어 정리하기 -->
     <string name="title_review_note">리뷰쪽지</string>
     <string name="content_add_photo">사진 추가하기</string>
     <string name="content_select_marker_location">마커 위치 선택</string>
