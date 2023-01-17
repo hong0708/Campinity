@@ -28,7 +28,7 @@
             android:text="@string/title_help"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +42,7 @@
             android:text="@string/content_user_location"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_help_title" />
 
@@ -60,6 +60,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="10dp"
             android:textSize="12sp"
+            android:fontFamily="@font/roboto_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_user_location" />
@@ -73,7 +74,7 @@
             android:text="@string/content_user_help"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_user_location" />
 
@@ -91,6 +92,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="10dp"
             android:textSize="12sp"
+            android:fontFamily="@font/roboto_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_user_help" />
@@ -104,7 +106,7 @@
             android:text="@string/content_event_time"
             android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_user_help" />
 
@@ -117,7 +119,7 @@
             android:text="@string/content_event_time_ex"
             android:textColor="@color/black"
             android:textSize="12sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_event_time_title" />
 
@@ -128,6 +130,7 @@
             android:text="@string/content_until_time"
             android:textColor="@color/black"
             android:textSize="11sp"
+            android:fontFamily="@font/roboto_light"
             app:layout_constraintBottom_toBottomOf="@id/tv_event_time"
             app:layout_constraintStart_toEndOf="@id/tv_event_time" />
 
@@ -144,7 +147,7 @@
             android:text="@string/content_make_help"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

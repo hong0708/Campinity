@@ -25,10 +25,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_bold"
             android:text="@string/title_review_note"
             android:textColor="@color/black"
             android:textSize="20sp"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,6 +69,7 @@
                     android:id="@+id/tv_add_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
                     android:text="@string/content_add_photo"
                     android:textColor="@color/grey"
                     android:textSize="11sp"
@@ -78,7 +79,6 @@
                     app:layout_constraintTop_toBottomOf="@id/ib_add_photo" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -91,6 +91,7 @@
             android:layout_marginEnd="26dp"
             android:autofillHints="no"
             android:background="@drawable/bg_rect_grey_white_radius15_stroke1"
+            android:fontFamily="@font/roboto_regular"
             android:hint="@string/content_review_hint"
             android:inputType="textMultiLine"
             android:paddingStart="12dp"
@@ -110,6 +111,7 @@
             android:layout_marginEnd="26dp"
             android:layout_marginBottom="16dp"
             android:background="@drawable/bg_rect_primrose_radius20"
+            android:fontFamily="@font/roboto_regular"
             android:gravity="center"
             android:text="@string/content_select_marker_location"
             android:textColor="@color/white"
@@ -125,11 +127,11 @@
             android:layout_marginEnd="28dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/bg_rect_bilbao_radius10"
+            android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="@string/content_write_review_note"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

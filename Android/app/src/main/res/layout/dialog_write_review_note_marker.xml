@@ -30,11 +30,11 @@
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="14dp"
             android:background="@drawable/bg_rect_bilbao_radius15"
+            android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="@string/content_select_marker"
             android:textColor="@color/white"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -44,11 +44,11 @@
             android:layout_height="37dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="14dp"
+            android:fontFamily="@font/roboto_bold"
             android:gravity="center"
             android:text="@string/content_cancel_marker"
             android:textColor="@color/grey"
             android:textSize="16sp"
-            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/tv_make_event_note_marker" />
 
