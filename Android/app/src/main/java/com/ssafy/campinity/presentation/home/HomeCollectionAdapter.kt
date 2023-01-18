@@ -18,10 +18,10 @@ class HomeCollectionAdapter(private val datas: ArrayList<HomeCollection>) : Recy
 
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {
         val viewHolder: CollectionViewHolder = holder
-        viewHolder.onBind(datas[position % datas.size])
+        viewHolder.onBind(datas[position])
     }
 
-    override fun getItemCount(): Int = Int.MAX_VALUE
+    override fun getItemCount(): Int = datas.size
 }
 
 class CollectionViewHolder(val binding: ItemHomeCollectionBinding) : RecyclerView.ViewHolder(binding.root) {

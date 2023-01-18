@@ -17,8 +17,45 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     lateinit var job: Job
 
     override fun initView() {
+        initListener()
         initCollection()
         initBanner()
+        initCampingSite()
+    }
+
+    private fun initListener() {
+        binding.tvCollectionMore.setOnClickListener { navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment()) }
+    }
+
+    private fun initCampingSite() {
+        val list: ArrayList<HomeCampingSite> = ArrayList<HomeCampingSite>().let {
+            it.apply {
+                add(
+                    HomeCampingSite(
+                        R.drawable.bg_home_banner,
+                        "비니비니 글램핑",
+                        "서울 특별시, 대한민국"
+                    )
+                )
+                add(
+                    HomeCampingSite(
+                        R.drawable.bg_home_banner,
+                        "비니비니 글램핑",
+                        "서울 특별시, 대한민국"
+                    )
+                )
+                add(
+                    HomeCampingSite(
+                        R.drawable.bg_home_banner,
+                        "비니비니 글램핑",
+                        "서울 특별시, 대한민국"
+                    )
+                )
+            }
+        }
+
+        binding.rvPopularCampingSite.adapter = HomeCampingSiteAdapter(list)
+        binding.rvScoreCampingSite.adapter = HomeCampingSiteAdapter(list)
     }
 
     private fun initCollection() {
@@ -48,13 +85,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
         }
 
-        binding.vpBannerHome.adapter = HomeCollectionAdapter(list)
-        binding.vpBannerHome.orientation = ViewPager2.ORIENTATION_HORIZONTAL
-
-
-        bannerPosition = Int.MAX_VALUE / 2 - ceil(list.size.toDouble() / 2).toInt()
-
-        binding.vpCollectionHome.setCurrentItem(bannerPosition, false)
+        binding.rvCollectionHome.adapter = HomeCollectionAdapter(list)
     }
 
     private fun initBanner() {
@@ -109,7 +140,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         })
 
         bannerPosition = Int.MAX_VALUE / 2 - ceil(list.size.toDouble() / 2).toInt()
-
         binding.vpBannerHome.setCurrentItem(bannerPosition, false)
     }
 
