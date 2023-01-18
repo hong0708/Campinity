@@ -21,10 +21,7 @@ class CommunityActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_community) as NavHostFragment
         navController = navHostFragment.navController
-
-        val graphInflater = navHostFragment.navController.navInflater
-        val navGraph = graphInflater.inflate(R.navigation.navigation_community)
-
+        val navGraph = navController.navInflater.inflate(R.navigation.navigation_community)
         navController.graph = navGraph
     }
 }
