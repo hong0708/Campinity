@@ -5,21 +5,25 @@
 
     <data>
 
+        <variable
+            name="item"
+            type="com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_rect_white_radius20"
+        android:paddingHorizontal="16dp"
         android:paddingVertical="20dp">
 
         <TextView
             android:id="@+id/tv_campsite_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="29dp"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
+            android:text="@{item.name}"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,6 +37,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
+            android:text="@{item.area}"
             android:textColor="@color/grey"
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@id/tv_campsite_name"
@@ -56,17 +61,30 @@
             android:layout_marginStart="10dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
+            android:text="@string/content_note_count"
             android:textColor="@color/grey"
             android:textSize="10sp"
             app:layout_constraintStart_toEndOf="@id/divider"
+            app:layout_constraintTop_toTopOf="@id/tv_campsite_area" />
+
+        <TextView
+            android:id="@+id/tv_campsite_note_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="3dp"
+            android:fontFamily="@font/roboto_regular"
+            android:gravity="center"
+            android:text="@{item.noteCount}"
+            android:textColor="@color/grey"
+            android:textSize="10sp"
+            app:layout_constraintStart_toEndOf="@id/tv_campsite_note"
             app:layout_constraintTop_toTopOf="@id/tv_campsite_area"
-            tools:text="쪽지 50" />
+            tools:text="50" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_bookmark"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:layout_marginEnd="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/tv_campsite_name"
             tools:background="@drawable/ic_bookmark_off" />
@@ -81,6 +99,7 @@
             app:layout_constraintTop_toTopOf="@id/tv_campsite_name" />
 
         <ListView
+            android:id="@+id/lv_campsite_image"
             android:layout_width="wrap_content"
             android:layout_height="82dp"
             android:layout_marginTop="10dp"

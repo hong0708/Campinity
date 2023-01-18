@@ -126,16 +126,14 @@
     <string name="content_delete_cancel_dialog">삭제하면 컬렉션을 되돌릴 수 없습니다.</string>
     <string name="content_delete_cancel_dialog_2">삭제</string>
 
-    <!-- search mode - map -->
+    <!-- Search -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
     <string name="content_area">지역</string>
-    <string name="image_filter_area">지역 필터링 선택 버튼</string>
+    <string name="image_area">지역 필터링 선택 버튼</string>
     <string name="content_filter">필터</string>
     <string name="content_search_in_this_scope">현 지도에서 검색</string>
     <string name="image_show_campsite_as_list">캠핑장 목록을 리스트로 보는 버튼입니다.</string>
     <string name="title_campsite_pet">반려동물 동반 가능</string>
-
-    <!-- search mode - camping site long information -->
     <string name="image_camping_site">캠핑장 사진입니다.</string>
     <string name="image_campsite_location">캠핑장 위치 정보</string>
     <string name="title_campsite_long_content">캠핑장 소개</string>
@@ -150,4 +148,6 @@
     <string name="content_campsite_review_score">점</string>
     <string name="image_campsite_score_aver">캠핑장 평균 평점입니다.</string>
     <string name="button_show_list_review">후기 더 보기</string>
+    <string name="image_filter">필터링 선택 버튼</string>
+    <string name="content_note_count">쪽지</string>
 </resources>
