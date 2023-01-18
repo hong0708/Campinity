@@ -16,12 +16,20 @@
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Campinity"
         android:usesCleartextTraffic="true"
-        android:largeHeap="true"
         tools:targetApi="31">
+
+        <activity
+            android:name=".presentation.search.CampsiteInfoActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".presentation.search.SearchActivity"
+            android:exported="true" />
 
         <activity
             android:name=".presentation.splash.SplashActivity"
@@ -33,9 +41,14 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.MainActivity"/>
+        <activity
+            android:name=".presentation.MainActivity"
+            android:exported="true" />
 
-        <activity android:name=".presentation.community.CommunityActivity"/>
+        <activity android:name=".presentation.community.CommunityActivity" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="${kakaoMapApiKey}" />
     </application>
-
 </manifest>
