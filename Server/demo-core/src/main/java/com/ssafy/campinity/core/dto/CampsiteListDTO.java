@@ -1,6 +1,9 @@
 package com.ssafy.campinity.core.dto;
 
+import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.campsite.CampsiteAndAmenity;
+import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
+import com.ssafy.campinity.core.entity.user.User;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -11,11 +14,8 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CampsiteListDTO {
     // 이미지들이랑 쪽지 개수는 추후에 엔티티 완성되면 추가
-    private int id;
 
-    private UUID uuid;
-
-    private int contentId;
+    private UUID campsiteId;
 
     private String campName;
 
@@ -25,14 +25,22 @@ public class CampsiteListDTO {
 
     private Double longitude;
 
+    private boolean isScraped;
+
     @Builder
-    public CampsiteListDTO(int id, UUID uuid, int contentId, String campName, String address, Double latitude, Double longitude) {
-        this.id = id;
-        this.uuid = uuid;
-        this.contentId = contentId;
-        this.campName = campName;
-        this.address = address;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public CampsiteListDTO(Campsite camp, User user) {
+        boolean isScraped = false;
+        for (CampsiteScrap cs: camp.getScraps()) {
+            if (cs.getUser().equals(user)){
+                isScraped = true;
+                break;
+            }
+        }
+        this.campsiteId = camp.getUuid();
+        this.campName = camp.getCampName();
+        this.address = camp.getAddress();
+        this.latitude = camp.getLatitude();
+        this.longitude = camp.getLongitude();
+        this.isScraped = isScraped;
     }
 }

@@ -1,20 +1,16 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
-import com.ssafy.campinity.core.dto.CampsiteListDTO;
-import com.ssafy.campinity.core.dto.LocationInfoDTO;
+import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -51,16 +47,17 @@ public class CampsiteController {
                 .lng(a.getLongitude()).build()).collect(Collectors.toList()), HttpStatus.OK);
     }
 
-    @GetMapping("/lists")
+    @GetMapping("/conditions")
     public ResponseEntity<List<CampsiteListDTO>> getCampsiteListByFiltering(@RequestParam(name = "keyword", defaultValue = "") String keyword,
-                                                                            @RequestParam(name = "do-name", defaultValue = "") String doName,
-                                                                            @RequestParam(name = "sigungu-name", defaultValue = "") String sigunguName,
+                                                                            @RequestParam(name = "doName", defaultValue = "") String doName,
+                                                                            @RequestParam(name = "sigunguName", defaultValue = "") String sigunguName,
                                                                             @RequestParam(name = "fclty", defaultValue = "") String fclty,
                                                                             @RequestParam(name = "amenity", defaultValue = "") String amenity,
-                                                                            @RequestParam(name = "induty", defaultValue = "") String induty,
+                                                                            @RequestParam(name = "industy", defaultValue = "") String induty,
                                                                             @RequestParam(name = "theme", defaultValue = "") String thema,
-                                                                            @RequestParam(name = "allow-animal", defaultValue = "") String allowAnimal,
-                                                                            @RequestParam(name = "oper-season", defaultValue = "") String operSeason) {
+                                                                            @RequestParam(name = "allowAnimal", defaultValue = "") String allowAnimal,
+                                                                            @RequestParam(name = "operSeason", defaultValue = "") String operSeason,
+                                                                            @RequestParam(name = "userId") UUID userId) {
 
         String[] fclties = new String[0];
         if (!fclty.trim().isEmpty()) {
@@ -95,10 +92,28 @@ public class CampsiteController {
             allowAnimals = allowAnimal.split(" ");
         }
 
-
         List<CampsiteListDTO> result = campsiteService.getCampsiteListByFiltering(keyword.trim(), doName.trim(),
-                sigunguName.trim(), fclties, amenities, induties, themas, allowAnimals, operSeasons);
+                sigunguName.trim(), fclties, amenities, induties, themas, allowAnimals, operSeasons, userId);
 
         return new ResponseEntity<List<CampsiteListDTO>>(result, HttpStatus.OK);
     }
+
+    @GetMapping("/metadata/{campsiteId}")
+    public ResponseEntity<CampsiteMetaDTO> getCampsiteMetaData(@PathVariable("campsiteId") UUID campsiteId){
+        return new ResponseEntity<CampsiteMetaDTO>(campsiteService.getCampsiteMetaData(campsiteId), HttpStatus.OK);
+    }
+
+    @GetMapping("/detail/{campsiteId}")
+    public ResponseEntity<CampsiteDetailDTO> getCampsiteDetail(@PathVariable UUID campsiteId, @RequestParam UUID userId) {
+        return new ResponseEntity<>(campsiteService.getCampsiteDetail(campsiteId, userId), HttpStatus.OK);
+    }
+
+    @PutMapping("/{userId}/scrap/{campsiteId}")
+    public ResponseEntity<Object> campsiteScrap(@PathVariable UUID userId,
+                                                @PathVariable UUID campsiteId) {
+        campsiteService.scrap(userId, campsiteId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+
 }
