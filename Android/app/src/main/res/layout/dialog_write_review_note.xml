@@ -90,7 +90,7 @@
             android:layout_marginTop="12dp"
             android:layout_marginEnd="26dp"
             android:autofillHints="no"
-            android:background="@drawable/bg_rect_grey_white_radius15_stroke1"
+            android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
             android:fontFamily="@font/roboto_regular"
             android:hint="@string/content_review_hint"
             android:inputType="textMultiLine"

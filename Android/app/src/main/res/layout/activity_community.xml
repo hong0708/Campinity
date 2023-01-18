@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
+            android:id="@+id/supl_community_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            app:umanoDragView="@id/cl_search_campsite"
+            app:umanoPanelHeight="0dp"
+            tools:context=".presentation.community.CommunityActivity">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_toolbar_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@drawable/bg_rect_bilbao_under_radius20"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageButton
+                        android:id="@+id/ib_back_to_main"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_marginStart="13dp"
+                        android:backgroundTint="@color/bilbao"
+                        android:contentDescription="@string/image_back_to_main"
+                        android:src="@drawable/ic_arrow_line_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_campsite_condition"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/content_campsite_condition"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/ib_back_to_main"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:id="@+id/ib_select_campsite_condition"
+                        android:layout_width="8dp"
+                        android:layout_height="8dp"
+                        android:layout_marginStart="6dp"
+                        android:backgroundTint="@color/bilbao"
+                        android:contentDescription="@string/image_campsite_condition"
+                        android:src="@drawable/ic_polygon_under"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/tv_campsite_condition"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_map_backSite"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:layout_editor_absoluteX="0dp"
+                    tools:layout_editor_absoluteY="0dp">
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/image_floatingactionbutton_help"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_help_fab"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="@id/fab_main"
+                    app:layout_constraintEnd_toEndOf="@id/fab_main"
+                    app:layout_constraintStart_toStartOf="@id/fab_main"
+                    app:layout_constraintTop_toTopOf="@id/fab_main"
+                    app:maxImageSize="46dp"
+                    app:tint="@null" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_get_help"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/image_floatingactionbutton_get_help"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_get_help_fab"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="@id/fab_main"
+                    app:layout_constraintEnd_toEndOf="@id/fab_main"
+                    app:layout_constraintStart_toStartOf="@id/fab_main"
+                    app:layout_constraintTop_toTopOf="@id/fab_main"
+                    app:maxImageSize="46dp"
+                    app:tint="@null" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_review"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/image_floatingactionbutton_review"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_review_fab"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="@id/fab_main"
+                    app:layout_constraintEnd_toEndOf="@id/fab_main"
+                    app:layout_constraintStart_toStartOf="@id/fab_main"
+                    app:layout_constraintTop_toTopOf="@id/fab_main"
+                    app:maxImageSize="46dp"
+                    app:tint="@null" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_free_note"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:contentDescription="@string/image_floatingactionbutton_free"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_free_note_fab"
+                    app:fabSize="mini"
+                    app:layout_constraintBottom_toBottomOf="@id/fab_main"
+                    app:layout_constraintEnd_toEndOf="@id/fab_main"
+                    app:layout_constraintStart_toStartOf="@id/fab_main"
+                    app:layout_constraintTop_toTopOf="@id/fab_main"
+                    app:maxImageSize="46dp"
+                    app:tint="@null" />
+
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="24dp"
+                    android:backgroundTint="@color/primrose"
+                    android:contentDescription="@string/image_floatingactionbutton_main"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_add_fab"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:maxImageSize="56dp"
+                    app:tint="@null" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_search_campsite"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/tv_campsite_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="30dp"
+                    android:text="@string/title_campsite_condition"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="12dp"
+                    android:text="@string/content_select_campsite_condition"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/et_input_campsite_name"
+                    android:layout_width="0dp"
+                    android:layout_height="46dp"
+                    android:layout_marginStart="12dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginEnd="12dp"
+                    android:autofillHints="no"
+                    android:background="@drawable/bg_rect_white_smoke_radius15"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="8dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/content_search_campsite_name"
+                    android:inputType="text"
+                    android:paddingStart="16dp"
+                    android:paddingTop="16dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="16dp"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_campsite_title" />
+
+                <ImageView
+                    android:id="@+id/iv_icon_aim"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="15dp"
+                    android:contentDescription="@string/image_aim"
+                    android:src="@drawable/ic_aim"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_input_campsite_name" />
+
+                <TextView
+                    android:id="@+id/tv_search_current_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="7dp"
+                    android:layout_marginTop="15dp"
+                    android:text="@string/content_search_campsite"
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@id/iv_icon_aim"
+                    app:layout_constraintTop_toBottomOf="@id/et_input_campsite_name" />
+
+                <ImageButton
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="12dp"
+                    android:contentDescription="@string/image_search_now_location"
+                    android:src="@drawable/ic_arrow_right"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/et_input_campsite_name" />
+
+                <View
+                    android:id="@+id/v_underline_search"
+                    android:layout_width="0dp"
+                    android:layout_height="8dp"
+                    android:layout_marginTop="15dp"
+                    android:background="@color/white_smoke"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_search_current_location" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_campsite_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/v_underline_search" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
