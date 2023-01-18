@@ -2,12 +2,13 @@ package com.ssafy.campinity.core.repository.campsite.custom;
 
 import com.ssafy.campinity.core.dto.CampsiteListDTO;
 import com.ssafy.campinity.core.entity.campsite.*;
-import org.qlrm.mapper.JpaResultMapper;
+import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.repository.campsite.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.util.*;
 
 @Repository
@@ -16,10 +17,15 @@ public class CampsiteCustomRepository {
     @PersistenceContext
     EntityManager em;
 
+    @Autowired
+    UserRepository userRepository;
+
 
     public List<CampsiteListDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                      String[] fclties, String[] amenities, String[] induties,
-                                                     String[] themas, String[] allowAnimals, String[] operSeasons) {
+                                                     String[] themas, String[] allowAnimals, String[] operSeasons,
+                                                            UUID userId) {
+        User user = userRepository.findByUuid(userId).orElseThrow(IllegalArgumentException::new);
 
         String query = "Select c From Campsite c ";
 
@@ -87,7 +93,7 @@ public class CampsiteCustomRepository {
 
 
         // 후처리
-        List<CampsiteListDTO> CompletedResult = new ArrayList<>();
+        List<CampsiteListDTO> completedResult = new ArrayList<>();
 
         boolean[] isInduties = new boolean[5];
         for (String item: induties) {
@@ -193,12 +199,8 @@ public class CampsiteCustomRepository {
                 }
             }
 
-            CompletedResult.add(CampsiteListDTO.builder().id(camp.getId()).uuid(camp.getUuid()).
-                    contentId(camp.getContentId()).campName(camp.getCampName()).
-                    address(camp.getAddress()).latitude(camp.getLatitude()).
-                    longitude(camp.getLongitude()).build());
+            completedResult.add(CampsiteListDTO.builder().camp(camp).user(user).build());
         }
-
-        return CompletedResult;
+        return completedResult;
     }
 }

@@ -59,6 +59,11 @@ public class Campsite extends BaseEntity {
     @ToString.Exclude
     private List<CampsiteAndIndustry> industries = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "campsite_id")
+    @ToString.Exclude
+    private List<CampsiteScrap> scraps = new ArrayList<>();
+
 
     private int contentId;
 
@@ -125,4 +130,8 @@ public class Campsite extends BaseEntity {
         this.allowAnimal = allowAnimal;
     }
 
+
+    public void addCampsiteScrap(CampsiteScrap campsiteScrap) {
+        this.getScraps().add(campsiteScrap);
+    }
 }

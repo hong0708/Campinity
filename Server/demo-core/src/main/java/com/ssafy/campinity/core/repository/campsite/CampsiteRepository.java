@@ -4,14 +4,14 @@ import com.ssafy.campinity.core.entity.campsite.Campsite;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 public interface CampsiteRepository extends JpaRepository<Campsite, Integer> {
     List<Campsite> getCampsitesByLatitudeBetweenAndLongitudeBetween(Double topLeftLat, Double topLeftLng,
                                                                     Double bottomRightLat, Double bottomRightLng);
 
-    Campsite findByContentId(int contentId);
+    Optional<Campsite> findById(int id);
 
-    List<Campsite> findAll();
-
-    Campsite findById(int id);
+    Optional<Campsite> findByUuid(UUID campsiteId);
 }
