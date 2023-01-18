@@ -65,6 +65,7 @@ dependencies {
     implementation libs.hilt
     implementation libs.databinding
     implementation libs.circleindicator
+    implementation libs.androidslidinguppanel
 
     implementation libs.bundles.retrofit.bundles
     implementation libs.bundles.okhttp3.bundles
@@ -78,6 +79,10 @@ dependencies {
 
     // kakao map api
     implementation files('libs/libDaumMapAndroid.jar')
+
+    // Glide
+    implementation libs.glide
+    annotationProcessor libs.glide.compiler
 }
 
 kapt {
