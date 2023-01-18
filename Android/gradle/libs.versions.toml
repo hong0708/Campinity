@@ -29,6 +29,8 @@ circleindicator = "2.1.6"
 
 glide = "4.9.0"
 
+androidslidinguppanel = "4.2.1"
+
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx_appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -56,6 +58,7 @@ oktthp3-urlconnection = { module = "com.squareup.okhttp3:okhttp-urlconnection", 
 circleindicator = { module = "me.relex:circleindicator", version.ref = "circleindicator" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide"}
 glide_compiler = { module = "com.github.bumptech.glide:compiler", version.ref = "glide"}
+androidslidinguppanel = { module = "com.github.hannesa2:AndroidSlidingUpPanel", version.ref = "androidslidinguppanel" }
 
 
 [bundles]

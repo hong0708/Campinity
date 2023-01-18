@@ -75,7 +75,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image_splash_background"
             android:scaleType="fitXY"
-            android:src="@drawable/bg_rectangle_grey" />
+            android:src="@drawable/bg_rect_grey" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
