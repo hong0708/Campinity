@@ -80,14 +80,6 @@
     <string name="content_write_question">확인</string>
     <string name="content_cancel_question">취소</string>
 
-    <!-- search mode - camping site long information -->
-    <string name="image_camping_site">캠핑장 사진입니다.</string>
-    <string name="image_campsite_location">캠핑장 위치 정보</string>
-    <string name="title_campsite_long_content">캠핑장 소개</string>
-    <string name="button_show_more">더보기</string>
-    <string name="title_additional_info">기본정보</string>
-    <string name="title_campsite_oper_season">운영 기간</string>
-
     <!-- search mode - map -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
     <string name="content_area">지역</string>
@@ -95,4 +87,21 @@
     <string name="content_filter">필터</string>
     <string name="content_search_in_this_scope">현 지도에서 검색</string>
     <string name="image_show_campsite_as_list">캠핑장 목록을 리스트로 보는 버튼입니다.</string>
+    <string name="title_campsite_pet">반려동물 동반 가능</string>
+
+    <!-- search mode - camping site long information -->
+    <string name="image_camping_site">캠핑장 사진입니다.</string>
+    <string name="image_campsite_location">캠핑장 위치 정보</string>
+    <string name="title_campsite_long_content">캠핑장 소개</string>
+    <string name="button_show_more_long_content">더보기</string>
+    <string name="title_additional_info">기본정보</string>
+    <string name="title_campsite_oper_season">운영 기간</string>
+    <string name="title_campsite_how_to_reserve">예약 방법</string>
+    <string name="title_campsite_homepage_url">홈페이지</string>
+    <string name="title_campsite_amenity">시설 및 레저</string>
+    <string name="title_review">리뷰</string>
+    <string name="button_write_review">리뷰 작성하기</string>
+    <string name="content_campsite_review_score">점</string>
+    <string name="image_campsite_score_aver">캠핑장 평균 평점입니다.</string>
+    <string name="button_show_list_review">후기 더 보기</string>
 </resources>

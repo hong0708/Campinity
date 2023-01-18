@@ -19,17 +19,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <RelativeLayout
                     android:id="@+id/rl_view_pager"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
                     <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/btn_go_back"
@@ -50,25 +48,36 @@
                         android:layout_alignParentEnd="true" />
                 </RelativeLayout>
 
-                <androidx.constraintlayout.widget.Guideline
-                    android:id="@+id/gl_main_start"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    app:layout_constraintGuide_begin="12dp" />
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_campsite_brief_info"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/gl_main_start"
-                    app:layout_constraintTop_toBottomOf="@id/rl_view_pager">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_bookmark"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/ic_bookmark_off"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_postbox"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="9dp"
+                        android:background="@drawable/ic_postbox"
+                        app:layout_constraintEnd_toStartOf="@id/btn_bookmark"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/tv_campsite_industry"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="25dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/bilbao"
@@ -154,24 +163,20 @@
 
                 <View
                     android:id="@+id/view_divider_brief_info_to_long_content"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="2dp"
-                    android:background="@color/white_smoke"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/cl_campsite_brief_info" />
+                    android:background="@color/white_smoke" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_campsite_long_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="12dp"
-                    app:layout_constraintTop_toBottomOf="@id/view_divider_brief_info_to_long_content">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_title_campsite_long_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="28dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="@string/title_campsite_long_content"
@@ -184,7 +189,7 @@
                         android:id="@+id/tv_campsite_long_content"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="4dp"
+                        android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="21dp"
                         android:ellipsize="end"
                         android:fontFamily="@font/roboto_regular"
@@ -192,7 +197,7 @@
                         android:textColor="@color/grey"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/tv_title_campsite_long_content"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_long_content"
                         tools:text="글램핑은 각종 아웃도어를 한 번에 즐길 수 있는 글램핑이다. 글램핑은 편안한 잠자리에서부터 캠핑에 필요한 모든 도구들과 놀거리 블라블라. 집에 가고싶어요. 집에 보내주세요. 사람 살려~~" />
 
@@ -200,10 +205,9 @@
                         android:id="@+id/tv_show_more"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="27dp"
-                        android:layout_marginBottom="26dp"
+                        android:layout_marginVertical="26dp"
                         android:fontFamily="@font/roboto_bold"
-                        android:text="@string/button_show_more"
+                        android:text="@string/button_show_more_long_content"
                         android:textColor="@color/black"
                         android:textSize="14sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -216,21 +220,18 @@
                     android:id="@+id/view_divider_long_content_to_additional_info"
                     android:layout_width="match_parent"
                     android:layout_height="5dp"
-                    android:background="@color/white_smoke"
-                    app:layout_constraintTop_toBottomOf="@id/cl_campsite_long_content" />
+                    android:background="@color/white_smoke" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_campsite_additional_info"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="23dp"
-                    app:layout_constraintTop_toBottomOf="@id/view_divider_long_content_to_additional_info">
+                    android:layout_height="wrap_content">
 
                     <TextView
                         android:id="@+id/tv_title_campsite_additional_info"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="28dp"
                         android:fontFamily="@font/roboto_bold"
                         android:text="@string/title_additional_info"
@@ -240,24 +241,296 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/gl_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_end="391dp" />
+
+                    <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/gl_content"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_end="236dp" />
+                        app:layout_constraintGuide_percent="0.4" />
 
                     <TextView
+                        android:id="@+id/tv_title_campsite_oper_season"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="21dp"
                         android:text="@string/title_campsite_oper_season"
                         android:textColor="@color/zambezi"
-                        app:layout_constraintStart_toStartOf="@id/tv_title_campsite_additional_info"
+                        app:layout_constraintStart_toStartOf="@id/gl_title"
                         app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_additional_info" />
 
+                    <TextView
+                        android:id="@+id/tv_content_campsite_oper_season"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@id/gl_content"
+                        app:layout_constraintTop_toTopOf="@id/tv_title_campsite_oper_season"
+                        tools:text="봄 | 여름 | 가을 | 겨울" />
+
+                    <TextView
+                        android:id="@+id/tv_title_campsite_pet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/title_campsite_pet"
+                        android:textColor="@color/zambezi"
+                        app:layout_constraintStart_toStartOf="@id/gl_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_oper_season" />
+
+                    <TextView
+                        android:id="@+id/tv_content_campsite_pet"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@id/gl_content"
+                        app:layout_constraintTop_toTopOf="@id/tv_title_campsite_pet"
+                        tools:text="가능" />
+
+                    <TextView
+                        android:id="@+id/tv_title_campsite_how_to_reserve"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="@string/title_campsite_how_to_reserve"
+                        android:textColor="@color/zambezi"
+                        app:layout_constraintStart_toStartOf="@id/gl_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_pet" />
+
+                    <TextView
+                        android:id="@+id/tv_content_campsite_how_to_reserve"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@id/gl_content"
+                        app:layout_constraintTop_toTopOf="@id/tv_title_campsite_how_to_reserve"
+                        tools:text="전화예약" />
+
+                    <TextView
+                        android:id="@+id/tv_title_campsite_homepage_url"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginBottom="33dp"
+                        android:text="@string/title_campsite_homepage_url"
+                        android:textColor="@color/zambezi"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/gl_title"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_how_to_reserve" />
+
+                    <TextView
+                        android:id="@+id/tv_content_campsite_homepage_url"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp"
+                        app:layout_constraintStart_toStartOf="@id/gl_content"
+                        app:layout_constraintTop_toTopOf="@id/tv_title_campsite_homepage_url"
+                        tools:text="http://www.wglamping.com/" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view_divider_additional_info_to_amenity"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/white_smoke" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_campsite_amenity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_title_campsite_amenity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="28dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/title_campsite_amenity"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:id="@+id/fl_container_campsite_amenity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="24dp"
+                        android:layout_marginTop="27dp"
+                        android:layout_marginBottom="32dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_amenity" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:id="@+id/view_divider_amenity_to_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="5dp"
+                    android:background="@color/white_smoke" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_campsite_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/tv_title_campsite_review"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="28dp"
+                        android:fontFamily="@font/roboto_bold"
+                        android:text="@string/title_review"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/btn_campsite_write_review"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="28dp"
+                        android:layout_marginTop="17dp"
+                        android:background="@drawable/bg_rect_bilbao_radius10"
+                        android:fontFamily="@font/roboto_bold"
+                        android:paddingVertical="16dp"
+                        android:text="@string/button_write_review"
+                        android:textColor="@color/white"
+                        android:textSize="16sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_review" />
+
+                    <TextView
+                        android:id="@+id/tv_content_campsite_review_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/btn_campsite_write_review"
+                        tools:text="3" />
+
+                    <TextView
+                        android:id="@+id/tv_campsite_review_score_unit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="5dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/content_campsite_review_score"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_content_campsite_review_score"
+                        app:layout_constraintStart_toEndOf="@id/tv_content_campsite_review_score" />
+
+                    <LinearLayout
+                        android:id="@+id/ll_campsite_review_score"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:orientation="horizontal"
+
+                        app:layout_constraintBottom_toBottomOf="@id/tv_content_campsite_review_score"
+                        app:layout_constraintStart_toEndOf="@id/tv_campsite_review_score_unit"
+                        app:layout_constraintTop_toTopOf="@id/tv_content_campsite_review_score">
+
+                        <ImageView
+                            android:id="@+id/iv_campsite_score1"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:contentDescription="@string/image_campsite_score_aver"
+                            android:src="@drawable/ic_star_off" />
+
+                        <ImageView
+                            android:id="@+id/iv_campsite_score2"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="5dp"
+                            android:contentDescription="@string/image_campsite_score_aver"
+                            android:src="@drawable/ic_star_off" />
+
+                        <ImageView
+                            android:id="@+id/iv_campsite_score3"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="5dp"
+                            android:contentDescription="@string/image_campsite_score_aver"
+                            android:src="@drawable/ic_star_off" />
+
+                        <ImageView
+                            android:id="@+id/iv_campsite_score4"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="5dp"
+                            android:contentDescription="@string/image_campsite_score_aver"
+                            android:src="@drawable/ic_star_off" />
+
+                        <ImageView
+                            android:id="@+id/iv_campsite_score5"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_marginStart="5dp"
+                            android:contentDescription="@string/image_campsite_score_aver"
+                            android:src="@drawable/ic_star_off" />
+                    </LinearLayout>
+
+                    <View
+                        android:id="@+id/view_divider_write_review_to_review_list"
+                        android:layout_width="0dp"
+                        android:layout_height="2dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@color/white_smoke"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tv_content_campsite_review_score" />
+
+                    <FrameLayout
+                        android:id="@+id/fl_container_campsite_review"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginTop="24dp"
+                        android:layout_marginBottom="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/view_divider_write_review_to_review_list" />
+
+                    <TextView
+                        android:id="@+id/btn_show_list_review"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="18dp"
+                        android:layout_marginEnd="18dp"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/button_show_list_review"
+                        android:textColor="@color/zambezi"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fl_container_campsite_review" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
         </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
