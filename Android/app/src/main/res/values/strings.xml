@@ -119,6 +119,10 @@
     <string name="content_collection">나의 캠핑 기록을 확인해보세요!</string>
     <string name="content_add_collection">컬렉션 추가</string>
     <string name="image_collection_mode">image_collection_mode</string>
+    <string name="image_curation_detail">image_curation_detail</string>
+    <string name="image_multi_option">image_multi_option</string>
+    <string name="image_share">image_share</string>
+    <string name="content_share">공유하기</string>
 
     <!-- search mode - map -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
