@@ -61,6 +61,7 @@ dependencies {
     implementation libs.hilt
     implementation libs.databinding
     implementation libs.circleindicator
+    implementation libs.androidslidinguppanel
 
     implementation libs.bundles.retrofit.bundles
     implementation libs.bundles.okhttp3.bundles
