@@ -25,7 +25,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_content_join_2"
+            android:id="@+id/cl_content_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="37dp"
@@ -80,7 +80,7 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_content_join_2" />
+            app:layout_constraintTop_toBottomOf="@id/cl_content_delete" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="120dp"
@@ -95,7 +95,7 @@
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_content_join_2" />
+            app:layout_constraintTop_toBottomOf="@id/cl_content_delete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
