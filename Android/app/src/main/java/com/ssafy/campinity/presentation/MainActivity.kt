@@ -29,7 +29,8 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.permissionFragment,
-                R.id.onboardingFragment
+                R.id.onboardingFragment,
+                R.id.homeFragment
             )
         )
 

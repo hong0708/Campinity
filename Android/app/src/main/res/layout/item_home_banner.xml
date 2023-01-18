@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintCircleRadius="15dp">
+
+        <ImageView
+            android:id="@+id/iv_home_banner"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:contentDescription="@string/image_home_banner"
+            app:srcCompat="@drawable/bg_home_banner" />
+
+        <TextView
+            android:id="@+id/tv_home_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="14dp"
+            android:layout_marginBottom="14dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_home_banner"
+            app:layout_constraintStart_toStartOf="@id/iv_home_banner"
+            tools:text="초보자를 위한 캠핑 준비물 A - Z" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

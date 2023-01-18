@@ -11,6 +11,7 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
         binding.apply {
             vpBanner.adapter = OnBoardingAdapter(this@OnboardingFragment)
             ciBanner.setViewPager(binding.vpBanner)
+            btnConfirm.setOnClickListener { navigate(OnboardingFragmentDirections.actionOnboardingFragmentToHomeFragment()) }
         }
     }
 }

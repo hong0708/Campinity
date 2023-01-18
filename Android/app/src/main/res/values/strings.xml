@@ -53,8 +53,26 @@
     <string name="content_join_cancle_dialog_4">하시겠어요?</string>
     <string name="content_cancel">취소</string>
     <string name="content_join_complete">김싸피님!\n회원가입이 완료되었습니다.</string>
+
+    <!-- Home -->
     <string name="image_arrow_left">image_arrow_left</string>
     <string name="image_profile">image_profile</string>
+    <string name="title_search_button">검색</string>
+    <string name="content_search_button">캠핑장 정보 검색</string>
+    <string name="title_community_button">커뮤니티</string>
+    <string name="content_community_button">캠핑장 이웃들과\n소통하기</string>
+    <string name="title_home">Campinity</string>
+    <string name="image_home_mypage_btn">image_home_mypage_btn</string>
+    <string name="image_home_notification_btn">image_home_notification_btn</string>
+    <string name="image_home_search">image_home_search</string>
+    <string name="image_home_community">image_home_community</string>
+    <string name="title_home_collection">나의 컬렉션</string>
+    <string name="content_collection_more">더 보기</string>
+    <string name="title_home_popular_camping_site">지금 가장 HOT한 캠핑장 Top 5</string>
+    <string name="title_home_score_camping_site">평점 좋은 캠핑장 Top 5</string>
+    <string name="image_home_collection">image_home_collection</string>
+    <string name="image_home_banner">image_home_banner</string>
+    <string name="image_location_home_camping_site">image_location_home_camping_site</string>
 
     <!-- dialog -->
     <!-- 공통 단어 정리하기 -->
