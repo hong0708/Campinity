@@ -74,7 +74,7 @@
     <string name="image_home_banner">image_home_banner</string>
     <string name="image_location_home_camping_site">image_location_home_camping_site</string>
 
-    <!-- dialog -->
+    <!-- Dialog -->
     <!-- 공통 단어 정리하기 -->
     <string name="title_review_note">리뷰쪽지</string>
     <string name="content_add_photo">사진 추가하기</string>
@@ -98,7 +98,7 @@
     <string name="content_write_question">확인</string>
     <string name="content_cancel_question">취소</string>
 
-    <!-- community -->
+    <!-- Community -->
     <string name="image_back_to_main">image_back_to_main</string>
     <string name="content_campsite_condition">미 지정</string>
     <string name="image_campsite_condition">image_campsite_condition</string>
@@ -113,5 +113,11 @@
     <string name="image_aim">image_aim</string>
     <string name="image_search_now_location">image_search_now_location</string>
     <string name="content_search_campsite_name">캠핑장 이름으로 검색</string>
+
+    <!-- Collection -->
+    <string name="title_collection">My Collection</string>
+    <string name="content_collection">나의 캠핑 기록을 확인해보세요!</string>
+    <string name="content_add_collection">컬렉션 추가</string>
+    <string name="image_collection_mode">image_collection_mode</string>
 
 </resources>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+        <variable
+            name="collection"
+            type="com.ssafy.campinity.domain.entity.collection.CollectionItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="150dp"
+        android:layout_height="250dp"
+        android:layout_marginHorizontal="6dp">
+
+        <ImageView
+            android:id="@+id/iv_home_collection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_home_collection"
+            android:scaleType="fitXY"
+            app:srcCompat="@drawable/bg_home_banner" />
+
+        <TextView
+            android:id="@+id/tv_title_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_date_collection"
+            app:layout_constraintStart_toStartOf="@id/tv_date_collection"
+            tools:text="싸피캠핑장" />
+
+        <TextView
+            android:id="@+id/tv_date_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SmallSp"
+            tools:text="2023/01/08" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

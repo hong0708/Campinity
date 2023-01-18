@@ -9,7 +9,7 @@
         android:id="@+id/permissionFragment"
         android:name="com.ssafy.campinity.presentation.onboarding.PermissionFragment"
         android:label="fragment_permission"
-        tools:layout="@layout/fragment_permission" >
+        tools:layout="@layout/fragment_permission">
         <action
             android:id="@+id/action_permissionFragment_to_onboardingFragment"
             app:destination="@id/onboardingFragment" />
@@ -36,5 +36,18 @@
         android:id="@+id/collectionFragment"
         android:name="com.ssafy.campinity.presentation.collection.CollectionFragment"
         android:label="CollectionFragment"
-        tools:layout="@layout/fragment_collection"/>
+        tools:layout="@layout/fragment_collection">
+        <action
+            android:id="@+id/action_collectionFragment_to_collectionDetailFragment"
+            app:destination="@id/collectionDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/collectionDetailFragment"
+        android:name="com.ssafy.campinity.presentation.collection.CollectionDetailFragment"
+        android:label="CollectionDetailFragment"
+        tools:layout="@layout/fragment_collection_detail">
+        <argument
+            android:name="collectionId"
+            app:argType="string" />
+    </fragment>
 </navigation>
