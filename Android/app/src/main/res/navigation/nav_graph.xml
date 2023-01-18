@@ -9,11 +9,12 @@
         android:id="@+id/permissionFragment"
         android:name="com.ssafy.campinity.presentation.onboarding.PermissionFragment"
         android:label="fragment_permission"
-        tools:layout="@layout/fragment_permission" >
+        tools:layout="@layout/fragment_permission">
         <action
             android:id="@+id/action_permissionFragment_to_onboardingFragment"
             app:destination="@id/onboardingFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/onboardingFragment"
         android:name="com.ssafy.campinity.presentation.onboarding.OnboardingFragment"
@@ -23,6 +24,7 @@
             android:id="@+id/action_onboardingFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.ssafy.campinity.presentation.home.HomeFragment"
@@ -31,10 +33,21 @@
         <action
             android:id="@+id/action_homeFragment_to_collectionFragment"
             app:destination="@id/collectionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_communityActivity"
+            app:destination="@id/communityActivity" />
     </fragment>
+
     <fragment
         android:id="@+id/collectionFragment"
         android:name="com.ssafy.campinity.presentation.collection.CollectionFragment"
         android:label="CollectionFragment"
-        tools:layout="@layout/fragment_collection"/>
+        tools:layout="@layout/fragment_collection" />
+
+    <activity
+        android:id="@+id/communityActivity"
+        android:name="com.ssafy.campinity.presentation.community.CommunityActivity"
+        android:label="CommunityActivity"
+        tools:layout="@layout/activity_community" />
+
 </navigation>

@@ -25,6 +25,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initListener() {
         binding.tvCollectionMore.setOnClickListener { navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment()) }
+        binding.clCommunity.setOnClickListener { navigate(HomeFragmentDirections.actionHomeFragmentToCommunityActivity()) }
     }
 
     private fun initCampingSite() {

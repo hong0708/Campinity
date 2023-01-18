@@ -12,7 +12,8 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.fragment_permission) {
 
-    private val action: NavDirections = PermissionFragmentDirections.actionPermissionFragmentToOnboardingFragment()
+    private val action: NavDirections =
+        PermissionFragmentDirections.actionPermissionFragmentToOnboardingFragment()
 
     override fun initView() {
         setButtonClickListener()
@@ -23,12 +24,13 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_NOTIFICATION_POLICY
-            )) {
+            )
+        ) {
             requireView().findNavController().navigate(action)
         }
     }
 
-    fun setButtonClickListener() {
+    private fun setButtonClickListener() {
         binding.btnConfirm.setOnClickListener {
             requireView().findNavController().navigate(action)
         }

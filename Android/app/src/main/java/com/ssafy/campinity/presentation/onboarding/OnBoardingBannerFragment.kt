@@ -6,7 +6,8 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class OnBoardingBannerFragment : BaseFragment<FragmentOnboardingBannerBinding>(R.layout.fragment_onboarding_banner) {
+class OnBoardingBannerFragment :
+    BaseFragment<FragmentOnboardingBannerBinding>(R.layout.fragment_onboarding_banner) {
 
     private var bannerPosition = -1
     private val bannerContentList by lazy { resources.getStringArray(R.array.content_on_boarding_banner) }
@@ -15,9 +16,21 @@ class OnBoardingBannerFragment : BaseFragment<FragmentOnboardingBannerBinding>(R
     override fun initView() {
 
         val bannerData = listOf(
-            OnBoardingBanner(R.drawable.ic_onboarding_tent, bannerContentList[0], bannerSubContentList[0]),
-            OnBoardingBanner(R.drawable.ic_onboarding_people, bannerContentList[1], bannerSubContentList[1]),
-            OnBoardingBanner(R.drawable.ic_onboarding_camping, bannerContentList[2], bannerSubContentList[2]),
+            OnBoardingBanner(
+                R.drawable.ic_onboarding_tent,
+                bannerContentList[0],
+                bannerSubContentList[0]
+            ),
+            OnBoardingBanner(
+                R.drawable.ic_onboarding_people,
+                bannerContentList[1],
+                bannerSubContentList[1]
+            ),
+            OnBoardingBanner(
+                R.drawable.ic_onboarding_camping,
+                bannerContentList[2],
+                bannerSubContentList[2]
+            ),
         )
 
         bannerPosition = arguments?.getInt("banner_position")!!
