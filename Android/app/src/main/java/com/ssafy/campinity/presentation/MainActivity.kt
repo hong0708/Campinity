@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         val graphInflater = navHostFragment.navController.navInflater
         val navGraph = graphInflater.inflate(R.navigation.navigation_main)
 
-        navController = navHostFragment.navController
         val startDestination = when {
             isGranted() -> {
                 R.id.permissionFragment
