@@ -4,6 +4,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentHomeBinding
+import com.ssafy.campinity.domain.entity.home.HomeBanner
+import com.ssafy.campinity.domain.entity.home.HomeCampingSite
+import com.ssafy.campinity.domain.entity.home.HomeCollection
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
@@ -24,8 +27,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initListener() {
-        binding.tvCollectionMore.setOnClickListener { navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment()) }
-        binding.clCommunity.setOnClickListener { navigate(HomeFragmentDirections.actionHomeFragmentToCommunityActivity()) }
+        binding.tvCollectionMore.setOnClickListener {
+            navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment())
+        }
     }
 
     private fun initCampingSite() {
@@ -33,23 +37,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             it.apply {
                 add(
                     HomeCampingSite(
-                        R.drawable.bg_home_banner,
-                        "비니비니 글램핑",
-                        "서울 특별시, 대한민국"
+                        R.drawable.bg_home_banner, "비니비니 글램핑", "서울 특별시, 대한민국"
                     )
                 )
                 add(
                     HomeCampingSite(
-                        R.drawable.bg_home_banner,
-                        "비니비니 글램핑",
-                        "서울 특별시, 대한민국"
+                        R.drawable.bg_home_banner, "비니비니 글램핑", "서울 특별시, 대한민국"
                     )
                 )
                 add(
                     HomeCampingSite(
-                        R.drawable.bg_home_banner,
-                        "비니비니 글램핑",
-                        "서울 특별시, 대한민국"
+                        R.drawable.bg_home_banner, "비니비니 글램핑", "서울 특별시, 대한민국"
                     )
                 )
             }
@@ -64,23 +62,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             it.apply {
                 add(
                     HomeCollection(
-                        R.drawable.bg_home_banner,
-                        "싸피캠핑장",
-                        "2023/01/08"
+                        R.drawable.bg_home_banner, "싸피캠핑장", "2023/01/08"
                     )
                 )
                 add(
                     HomeCollection(
-                        R.drawable.bg_home_banner,
-                        "싸피캠핑장",
-                        "2023/01/08"
+                        R.drawable.bg_home_banner, "싸피캠핑장", "2023/01/08"
                     )
                 )
                 add(
                     HomeCollection(
-                        R.drawable.bg_home_banner,
-                        "싸피캠핑장",
-                        "2023/01/08"
+                        R.drawable.bg_home_banner, "싸피캠핑장", "2023/01/08"
                     )
                 )
             }
@@ -94,23 +86,17 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             it.apply {
                 add(
                     HomeBanner(
-                        R.drawable.bg_home_banner,
-                        "초보자를 위한 캠핑 준비물 A - Z",
-                        "초보자를 위한 캠핑 준비물 A - Z"
+                        R.drawable.bg_home_banner, "초보자를 위한 캠핑 준비물 A - Z", "초보자를 위한 캠핑 준비물 A - Z"
                     )
                 )
                 add(
                     HomeBanner(
-                        R.drawable.bg_home_banner,
-                        "초보자를 위한 캠핑 준비물 A - Z",
-                        "초보자를 위한 캠핑 준비물 A - Z"
+                        R.drawable.bg_home_banner, "초보자를 위한 캠핑 준비물 A - Z", "초보자를 위한 캠핑 준비물 A - Z"
                     )
                 )
                 add(
                     HomeBanner(
-                        R.drawable.bg_home_banner,
-                        "초보자를 위한 캠핑 준비물 A - Z",
-                        "초보자를 위한 캠핑 준비물 A - Z"
+                        R.drawable.bg_home_banner, "초보자를 위한 캠핑 준비물 A - Z", "초보자를 위한 캠핑 준비물 A - Z"
                     )
                 )
             }

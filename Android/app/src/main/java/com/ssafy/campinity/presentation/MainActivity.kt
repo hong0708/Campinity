@@ -1,7 +1,7 @@
 package com.ssafy.campinity.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         val graphInflater = navHostFragment.navController.navInflater
-        val navGraph = graphInflater.inflate(R.navigation.nav_graph)
+        val navGraph = graphInflater.inflate(R.navigation.navigation_main)
 
         val startDestination = when {
             isGranted() -> {

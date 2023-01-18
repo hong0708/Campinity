@@ -6,13 +6,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemHomeCollectionBinding
+import com.ssafy.campinity.domain.entity.home.HomeCollection
 
-class HomeCollectionAdapter(private val datas: ArrayList<HomeCollection>) : RecyclerView.Adapter<CollectionViewHolder>() {
+class HomeCollectionAdapter(private val datas: ArrayList<HomeCollection>) :
+    RecyclerView.Adapter<CollectionViewHolder>() {
 
     lateinit var binding: ItemHomeCollectionBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionViewHolder {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_home_collection, parent, false)
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.item_home_collection,
+            parent,
+            false
+        )
         return CollectionViewHolder(binding)
     }
 
@@ -24,7 +31,8 @@ class HomeCollectionAdapter(private val datas: ArrayList<HomeCollection>) : Recy
     override fun getItemCount(): Int = datas.size
 }
 
-class CollectionViewHolder(val binding: ItemHomeCollectionBinding) : RecyclerView.ViewHolder(binding.root) {
+class CollectionViewHolder(val binding: ItemHomeCollectionBinding) :
+    RecyclerView.ViewHolder(binding.root) {
     fun onBind(datas: HomeCollection) {
         binding.ivHomeCollection.setImageResource(datas.img)
         binding.tvTitleHomeCollection.text = datas.title

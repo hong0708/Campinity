@@ -6,13 +6,20 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemHomeCampingSiteBinding
+import com.ssafy.campinity.domain.entity.home.HomeCampingSite
 
-class HomeCampingSiteAdapter(private val datas: ArrayList<HomeCampingSite>) : RecyclerView.Adapter<CampingSiteViewHolder>() {
+class HomeCampingSiteAdapter(private val datas: ArrayList<HomeCampingSite>) :
+    RecyclerView.Adapter<CampingSiteViewHolder>() {
 
     lateinit var binding: ItemHomeCampingSiteBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampingSiteViewHolder {
-        binding = DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_home_camping_site, parent, false)
+        binding = DataBindingUtil.inflate(
+            LayoutInflater.from(parent.context),
+            R.layout.item_home_camping_site,
+            parent,
+            false
+        )
         return CampingSiteViewHolder(binding)
     }
 
@@ -24,7 +31,8 @@ class HomeCampingSiteAdapter(private val datas: ArrayList<HomeCampingSite>) : Re
     override fun getItemCount(): Int = datas.size
 }
 
-class CampingSiteViewHolder(val binding: ItemHomeCampingSiteBinding) : RecyclerView.ViewHolder(binding.root) {
+class CampingSiteViewHolder(val binding: ItemHomeCampingSiteBinding) :
+    RecyclerView.ViewHolder(binding.root) {
     fun onBind(datas: HomeCampingSite) {
         binding.ivHomeCampingSite.setImageResource(datas.img)
         binding.tvTitleHomeCampingSite.text = datas.title
