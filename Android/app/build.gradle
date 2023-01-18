@@ -11,6 +11,8 @@ plugins {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
+def kakaoMapApiKey = properties.getProperty('kakao.api.native.key')
+
 android {
     namespace 'com.ssafy.campinity'
     compileSdk 32
@@ -23,6 +25,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [kakaoMapApiKey:kakaoMapApiKey]
     }
 
     buildTypes {
@@ -71,6 +75,9 @@ dependencies {
     androidTestImplementation libs.android.test.espresso
 
     kapt libs.hilt.complier
+
+    // kakao map api
+    implementation files('libs/libDaumMapAndroid.jar')
 
     // Glide
     implementation libs.glide

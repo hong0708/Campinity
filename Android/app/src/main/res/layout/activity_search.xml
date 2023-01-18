@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.search.SearchActivity">
+
+        <RelativeLayout
+            android:id="@+id/rl_map_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:background="@color/grey" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_search_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:paddingTop="20dp"
+            android:paddingBottom="13dp">
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginHorizontal="16dp"
+                android:autofillHints="name"
+                android:background="@drawable/bg_rectangle_white_radius12"
+                android:drawableStart="@drawable/ic_search"
+                android:drawablePadding="9dp"
+                android:elevation="10dp"
+                android:hint="@string/content_search_by_name"
+                android:imeOptions="actionSearch"
+                android:inputType="text"
+                android:paddingHorizontal="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="16sp"
+                android:theme="@style/EditTextStyle"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_area"
+                android:layout_width="66dp"
+                android:layout_height="36dp"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/bg_rectangle_white_radius12"
+                android:contentDescription="@string/image_filter_area"
+                android:drawableStart="@drawable/ic_marker_basic_black"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:paddingHorizontal="12dp"
+                android:stateListAnimator="@null"
+                android:text="@string/content_area"
+                android:textColor="@color/zambezi"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/et_search"
+                app:layout_constraintTop_toBottomOf="@id/et_search" />
+
+            <RelativeLayout
+                android:id="@+id/cl_filter"
+                android:layout_width="66dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_rectangle_white_radius12"
+                android:elevation="4dp"
+                app:layout_constraintStart_toEndOf="@id/btn_area"
+                app:layout_constraintTop_toTopOf="@id/btn_area">
+
+                <ImageView
+                    android:id="@+id/iv_filter"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginEnd="3dp"
+                    android:contentDescription="@string/image_filter_area"
+                    android:src="@drawable/ic_filter" />
+
+                <TextView
+                    android:id="@+id/tv_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toEndOf="@id/iv_filter"
+                    android:gravity="center"
+                    android:text="@string/content_filter"
+                    android:textColor="@color/zambezi"
+                    android:textSize="12sp" />
+            </RelativeLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_search_in_this_scope"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_rectangle_white_radius12"
+                android:drawableStart="@drawable/ic_refresh"
+                android:drawablePadding="3dp"
+                android:elevation="4dp"
+                android:gravity="center_vertical"
+                android:paddingHorizontal="12dp"
+                android:stateListAnimator="@null"
+                android:text="@string/content_search_in_this_scope"
+                android:textColor="@color/zambezi"
+                android:textSize="12sp"
+                app:layout_constraintStart_toEndOf="@id/cl_filter"
+                app:layout_constraintTop_toTopOf="@id/btn_area" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_show_list"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_above="@id/fragment_container_campsite_brief_information"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_circle_white">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_centerInParent="true"
+                android:contentDescription="@string/image_show_campsite_as_list"
+                android:src="@drawable/ic_show_list" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:id="@+id/fragment_container_campsite_brief_information"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+</layout>
