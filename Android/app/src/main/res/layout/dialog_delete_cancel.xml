@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <data>
 
     </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="290dp"
         android:layout_height="wrap_content"
@@ -12,88 +14,88 @@
             android:id="@+id/tv_content_join"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/content_join_cancle_dialog_1"
-            android:textSize="20sp"
-            android:textColor="@color/black"
+            android:layout_marginTop="43dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center_horizontal"
-            android:layout_marginTop="43dp"
-            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/content_delete_cancel_dialog"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/cl_content_join"
+            android:id="@+id/cl_content_delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="37dp"
-            app:layout_constraintTop_toBottomOf="@id/tv_content_join"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintTop_toBottomOf="@id/tv_content_join">
 
             <TextView
                 android:id="@+id/tv_content_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/content_join_cancle_dialog_2"
-                android:textSize="20sp"
-                android:textColor="@color/black"
                 android:fontFamily="@font/roboto_regular"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"/>
+                android:text="@string/content_join_cancle_dialog_2"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/tv_content_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/content_join_cancle_dialog_3"
-                android:textSize="20sp"
-                android:textColor="@color/black"
-                android:fontFamily="@font/roboto_bold"
                 android:layout_marginStart="4dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_content_1"/>
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/content_delete_cancel_dialog_2"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@id/tv_content_1"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/content_join_cancle_dialog_4"
-                android:textSize="20sp"
-                android:textColor="@color/black"
                 android:fontFamily="@font/roboto_regular"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_content_2"/>
+                android:text="@string/content_join_cancle_dialog_4"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintStart_toEndOf="@id/tv_content_2"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="120dp"
             android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="18dp"
+            android:background="@drawable/bg_rect_light_yellow_radius15"
+            android:fontFamily="@font/roboto_bold"
             android:text="@string/content_confirm"
             android:textColor="@color/bilbao"
             android:textSize="20sp"
-            android:fontFamily="@font/roboto_bold"
-            android:background="@drawable/bg_rect_light_yellow_radius15"
-            android:layout_marginTop="70dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginBottom="18dp"
-            app:layout_constraintTop_toBottomOf="@id/cl_content_join"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/cl_content_delete" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="120dp"
             android:layout_height="60dp"
-            android:text="@string/content_cancel"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            android:fontFamily="@font/roboto_bold"
-            android:background="@drawable/bg_rect_bilbao_radius15"
             android:layout_marginTop="70dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="18dp"
-            app:layout_constraintTop_toBottomOf="@id/cl_content_join"
+            android:background="@drawable/bg_rect_bilbao_radius15"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/content_cancel"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@id/cl_content_delete" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
