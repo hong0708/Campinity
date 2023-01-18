@@ -10,22 +10,19 @@ import androidx.appcompat.app.AppCompatActivity
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-
 fun getHashKey(activity: AppCompatActivity) {
-    var packageInfo: PackageInfo? = null
-    var signatures: Array<Signature>? = null
+    lateinit var packageInfo: PackageInfo
+    lateinit var signatures: Array<Signature>
 
     try {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             packageInfo = activity.packageManager.getPackageInfo(
-                activity.packageName,
-                PackageManager.GET_SIGNING_CERTIFICATES
+                activity.packageName, PackageManager.GET_SIGNING_CERTIFICATES
             )
             signatures = packageInfo.signingInfo.apkContentsSigners
         } else {
             packageInfo = activity.packageManager.getPackageInfo(
-                activity.packageName,
-                PackageManager.GET_SIGNATURES
+                activity.packageName, PackageManager.GET_SIGNATURES
             )
             signatures = packageInfo.signatures
         }
@@ -33,17 +30,13 @@ fun getHashKey(activity: AppCompatActivity) {
         e.printStackTrace()
     }
 
-    if (packageInfo == null) Log.e("KeyHash", "KeyHash:null")
-
-    if (signatures != null) {
-        for (signature in signatures) {
-            try {
-                val md: MessageDigest = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT))
-            } catch (e: NoSuchAlgorithmException) {
-                Log.e("KeyHash", "Unable to get MessageDigest. signature=$signature", e)
-            }
+    for (signature in signatures) {
+        try {
+            val md: MessageDigest = MessageDigest.getInstance("SHA")
+            md.update(signature.toByteArray())
+            Log.d("KeyHash", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+        } catch (e: NoSuchAlgorithmException) {
+            Log.e("KeyHash", "Unable to get MessageDigest. signature=$signature", e)
         }
     }
 }
