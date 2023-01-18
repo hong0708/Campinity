@@ -123,6 +123,8 @@
     <string name="image_multi_option">image_multi_option</string>
     <string name="image_share">image_share</string>
     <string name="content_share">공유하기</string>
+    <string name="content_delete_cancel_dialog">삭제하면 컬렉션을 되돌릴 수 없습니다.</string>
+    <string name="content_delete_cancel_dialog_2">삭제</string>
 
     <!-- search mode - map -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
