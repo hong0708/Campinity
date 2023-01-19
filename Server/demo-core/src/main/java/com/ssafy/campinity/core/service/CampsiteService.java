@@ -11,13 +11,13 @@ import java.util.UUID;
 public interface CampsiteService {
     List<Campsite> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO);
 
-    List<CampsiteListDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
-                                                      String[] fclties, String[] amenities, String[] induties,
-                                                      String[] themas, String[] allowAnimals, String[] operSeasons, UUID userId);
+    List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
+                                                        String[] fclties, String[] amenities, String[] induties,
+                                                        String[] themas, String[] allowAnimals, String[] operSeasons, UUID userId);
 
-    CampsiteMetaDTO getCampsiteMetaData(UUID campsiteId);
+    CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId);
 
     void scrap(UUID userId, UUID campsiteId);
 
-    CampsiteDetailDTO getCampsiteDetail(UUID campsiteId, UUID userId);
+    CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID userId);
 }

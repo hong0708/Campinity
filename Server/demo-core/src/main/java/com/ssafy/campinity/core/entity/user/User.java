@@ -7,6 +7,7 @@ import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
 import com.ssafy.campinity.core.entity.message.LikeMessage;
 import com.ssafy.campinity.core.entity.message.Message;
+import com.ssafy.campinity.core.entity.review.Review;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,10 @@ public class User extends BaseEntity {
     @JoinColumn(name = "user_id")
     private List<CampsiteScrap> scraps = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Review> reviews = new ArrayList<>();
+
     private String fcmToken;
 
     private String name;
@@ -61,7 +66,11 @@ public class User extends BaseEntity {
         this.isDeleted = isDeleted;
     }
 
-    public void addCampsiteScrap(CampsiteScrap campsiteScrap) {
+    public void addUserScrap(CampsiteScrap campsiteScrap) {
         this.getScraps().add(campsiteScrap);
+    }
+
+    public void addUserReview(Review review) {
+        this.getReviews().add(review);
     }
 }

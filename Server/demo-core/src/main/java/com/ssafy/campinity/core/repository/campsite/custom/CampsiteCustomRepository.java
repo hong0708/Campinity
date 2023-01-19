@@ -1,9 +1,9 @@
 package com.ssafy.campinity.core.repository.campsite.custom;
 
-import com.ssafy.campinity.core.dto.CampsiteListDTO;
+import com.ssafy.campinity.core.dto.CampsiteListResDTO;
 import com.ssafy.campinity.core.entity.campsite.*;
 import com.ssafy.campinity.core.entity.user.User;
-import com.ssafy.campinity.core.repository.campsite.UserRepository;
+import com.ssafy.campinity.core.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -21,10 +21,10 @@ public class CampsiteCustomRepository {
     UserRepository userRepository;
 
 
-    public List<CampsiteListDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
-                                                     String[] fclties, String[] amenities, String[] induties,
-                                                     String[] themas, String[] allowAnimals, String[] operSeasons,
-                                                            UUID userId) {
+    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
+                                                               String[] fclties, String[] amenities, String[] induties,
+                                                               String[] themas, String[] allowAnimals, String[] operSeasons,
+                                                               UUID userId) {
         User user = userRepository.findByUuid(userId).orElseThrow(IllegalArgumentException::new);
 
         String query = "Select c From Campsite c ";
@@ -93,7 +93,7 @@ public class CampsiteCustomRepository {
 
 
         // 후처리
-        List<CampsiteListDTO> completedResult = new ArrayList<>();
+        List<CampsiteListResDTO> completedResult = new ArrayList<>();
 
         boolean[] isInduties = new boolean[5];
         for (String item: induties) {
@@ -199,7 +199,7 @@ public class CampsiteCustomRepository {
                 }
             }
 
-            completedResult.add(CampsiteListDTO.builder().camp(camp).user(user).build());
+            completedResult.add(CampsiteListResDTO.builder().camp(camp).user(user).build());
         }
         return completedResult;
     }

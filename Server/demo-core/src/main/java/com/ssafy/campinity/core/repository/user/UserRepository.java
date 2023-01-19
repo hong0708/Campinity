@@ -1,4 +1,4 @@
-package com.ssafy.campinity.core.repository.campsite;
+package com.ssafy.campinity.core.repository.user;
 
 import com.ssafy.campinity.core.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -9,13 +9,12 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CampsiteDetailDTO {
+public class CampsiteDetailResDTO {
 
-    private UUID campsiteId;
+    private String campsiteId;
 
     private List<String> amenities;
 
@@ -67,7 +66,7 @@ public class CampsiteDetailDTO {
 //    private double total_rate;
 
     @Builder
-    public CampsiteDetailDTO(Campsite camp, User user) {
+    public CampsiteDetailResDTO(Campsite camp, User user) {
         boolean isScraped = false;
         for (CampsiteScrap cs: camp.getScraps()) {
             if (cs.getUser().equals(user)){
@@ -105,7 +104,7 @@ public class CampsiteDetailDTO {
         for (CampsiteAndIndustry item: camp.getIndustries()) {
             industies.add(item.getIndustry().getIndustryName());
         }
-        this.campsiteId = camp.getUuid();
+        this.campsiteId = camp.getUuid().toString();
         this.amenities = amenities;
         this.caravanfclties = caravanfclties;
         this.glampfclties = glampfclties;

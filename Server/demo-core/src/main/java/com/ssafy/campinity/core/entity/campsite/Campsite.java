@@ -2,6 +2,7 @@ package com.ssafy.campinity.core.entity.campsite;
 
 
 import com.ssafy.campinity.core.entity.BaseEntity;
+import com.ssafy.campinity.core.entity.review.Review;
 import lombok.*;
 
 import javax.persistence.*;
@@ -63,6 +64,11 @@ public class Campsite extends BaseEntity {
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<CampsiteScrap> scraps = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "campsite_id")
+    @ToString.Exclude
+    private List<Review> reviews = new ArrayList<>();
 
 
     private int contentId;
@@ -133,5 +139,9 @@ public class Campsite extends BaseEntity {
 
     public void addCampsiteScrap(CampsiteScrap campsiteScrap) {
         this.getScraps().add(campsiteScrap);
+    }
+
+    public void addCampsiteReview(Review review) {
+        this.getReviews().add(review);
     }
 }

@@ -3,7 +3,7 @@ package com.ssafy.campinity.core.entity.campsite;
 import com.ssafy.campinity.core.entity.user.User;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
-import com.ssafy.campinity.core.repository.campsite.UserRepository;
+import com.ssafy.campinity.core.repository.user.UserRepository;
 import com.ssafy.campinity.core.service.impl.CampsiteServiceImpl;
 
 import org.assertj.core.api.Assertions;
