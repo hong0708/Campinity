@@ -83,6 +83,10 @@ dependencies {
     // Glide
     implementation libs.glide
     annotationProcessor libs.glide.compiler
+
+    // CardStackView
+    implementation libs.cardStackView
+
 }
 
 kapt {
