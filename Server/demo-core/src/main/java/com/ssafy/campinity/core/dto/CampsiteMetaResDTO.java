@@ -9,9 +9,9 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class CampsiteMetaDTO {
+public class CampsiteMetaResDTO {
 
-    private UUID campsiteId;
+    private String campsiteId;
 
     private String campName;
 
@@ -20,8 +20,8 @@ public class CampsiteMetaDTO {
     private String firstImageUrl;
 
     @Builder
-    public CampsiteMetaDTO(UUID campsiteId, String campName, String address, String firstImageUrl) {
-        this.campsiteId = campsiteId;
+    public CampsiteMetaResDTO(UUID campsiteId, String campName, String address, String firstImageUrl) {
+        this.campsiteId = campsiteId.toString();
         this.campName = campName;
         this.address = address;
         this.firstImageUrl = firstImageUrl;

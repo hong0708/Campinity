@@ -1,9 +1,10 @@
 package com.ssafy.campinity.core.entity.campsite;
 
-import com.ssafy.campinity.core.dto.CampsiteListDTO;
+import com.ssafy.campinity.core.dto.CampsiteListResDTO;
 import com.ssafy.campinity.core.entity.user.User;
 import com.ssafy.campinity.core.repository.campsite.*;
 import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
+import com.ssafy.campinity.core.repository.user.UserRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,12 +43,12 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "캠핑", "충청북도", "단양군", new String[0], new String[0],
                 new String[0], new String[0], allowAnimalList1, new String[0], savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result1) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result1) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             assertThat(camp.getCampName()).contains("캠핑");
             assertThat(camp.getDoName()).isEqualTo("충청북도");
             assertThat(camp.getSigunguName()).isEqualTo("단양군");
@@ -55,12 +56,12 @@ public class CampsiteGetListByFiltringTest {
         }
 
         String[] allowAnimalList2 = {"가능", "가능(소형견)", "불가능"};
-        List<CampsiteListDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "오토", "강원도", "삼척시", new String[0], new String[0],
                 new String[0], new String[0], allowAnimalList2, new String[0], savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result2) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result2) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             assertThat(camp.getCampName()).contains("오토");
             assertThat(camp.getDoName()).isEqualTo("강원도");
             assertThat(camp.getSigunguName()).isEqualTo("삼척시");
@@ -78,12 +79,12 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], amenities_list1,
                 new String[0], new String[0], new String[0], new String[0], savedUser.getUuid());
 
-        for(CampsiteListDTO campDto: result1) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for(CampsiteListResDTO campDto: result1) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             boolean flag1 = false;
             boolean flag2 = false;
             for (CampsiteAndAmenity ca: camp.getAmenities()) {
@@ -99,12 +100,12 @@ public class CampsiteGetListByFiltringTest {
 
         String[] amenities_list2 = {"3", "4"};
 
-        List<CampsiteListDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], amenities_list2,
                 new String[0], new String[0], new String[0], new String[0], savedUser.getUuid());
 
-        for(CampsiteListDTO campDto: result2) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for(CampsiteListResDTO campDto: result2) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             boolean flag1 = false;
             boolean flag2 = false;
             for (CampsiteAndAmenity ca: camp.getAmenities()) {
@@ -128,12 +129,12 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], new String[0],
                 indutyList1, new String[0], new String[0], new String[0], savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result1) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result1) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             boolean[] isIndustries = new boolean[5];
             for (CampsiteAndIndustry item: camp.getIndustries()) {
                 (isIndustries[item.getIndustry().getId()]) = true;
@@ -157,7 +158,7 @@ public class CampsiteGetListByFiltringTest {
 
         String[] indutyList2 = {"1", "2", "3", "4"};
 
-        List<CampsiteListDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], new String[0],
                 indutyList2, new String[0], new String[0], new String[0], savedUser.getUuid());
 
@@ -174,12 +175,12 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], new String[0],
                 new String[0], themaList1, new String[0], new String[0], savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result1) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result1) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             boolean[] isthemas = new boolean[13];
             for (CampsiteAndTheme item: camp.getThemes()) {
                 (isthemas[item.getTheme().getId()]) = true;
@@ -203,7 +204,7 @@ public class CampsiteGetListByFiltringTest {
 
         String[] themaList2 = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"};
 
-        List<CampsiteListDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], new String[0],
                 new String[0], themaList2, new String[0], new String[0], savedUser.getUuid());
 
@@ -219,12 +220,12 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], new String[0],
                 new String[0], new String[0], new String[0], openSeasonList1, savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result1) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result1) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             boolean[] isopenSeasons = new boolean[5];
             for (CampsiteAndOpenSeason item: camp.getOpenSeasons()) {
                 (isopenSeasons[item.getOpenSeason().getId()]) = true;
@@ -250,7 +251,7 @@ public class CampsiteGetListByFiltringTest {
 
         String[] openSeasonList2 = {"1", "2", "3", "4"};
 
-        List<CampsiteListDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], new String[0],
                 new String[0], new String[0], new String[0], openSeasonList2, savedUser.getUuid());
 
@@ -267,12 +268,12 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result1 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", fcltyList1, new String[0],
                 indutyList1, new String[0], new String[0], new String[0], savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result1) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result1) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
 
             boolean passFclty = true;
 
@@ -304,12 +305,12 @@ public class CampsiteGetListByFiltringTest {
         String[] indutyList2 = {"3", "4"};
         String[] fcltyList2 = {"1", "3"};
 
-        List<CampsiteListDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result2 = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", fcltyList2, new String[0],
                 indutyList2, new String[0], new String[0], new String[0], savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result2) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result2) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
             boolean passFclty = true;
 
             boolean isCaravan = false;
@@ -367,12 +368,12 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "충청북도", "단양군", new String[0], new String[0],
                 indutyList, themeList, allowAnimals, new String[0], savedUser.getUuid());
 
-        for (CampsiteListDTO campDto: result) {
-            Campsite camp = campsiteRepository.findByUuid(campDto.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
+        for (CampsiteListResDTO campDto: result) {
+            Campsite camp = campsiteRepository.findByUuid(UUID.fromString(campDto.getCampsiteId())).orElseThrow(IllegalArgumentException::new);
 
             boolean[] isthemas = new boolean[13];
             for (CampsiteAndTheme item: camp.getThemes()) {
@@ -416,7 +417,7 @@ public class CampsiteGetListByFiltringTest {
 
         User savedUser = userRepository.save(user);
 
-        List<CampsiteListDTO> result = campsiteCustomRepository.getCampsiteListByFiltering(
+        List<CampsiteListResDTO> result = campsiteCustomRepository.getCampsiteListByFiltering(
                 "", "", "", new String[0], new String[0],
                 new String[0], new String[0], new String[0], new String[0], savedUser.getUuid());
 
