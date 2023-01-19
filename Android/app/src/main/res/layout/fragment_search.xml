@@ -7,16 +7,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.slidingpanelayout.widget.SlidingPaneLayout
+        <com.sothree.slidinguppanel.SlidingUpPanelLayout
             android:id="@+id/sl_search_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"
-            app:umanoDragView="@id/fragment_container_campsite_list"
-            app:umanoPanelHeight="232dp"
+            app:umanoDragView="@id/cl_campsite_list"
+            app:umanoOverlay="true"
+            app:umanoPanelHeight="0dp"
             tools:context=".presentation.search.SearchFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_campsite_map"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -48,19 +50,55 @@
                 </RelativeLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment_container_campsite_list"
-                android:name="com.ssafy.campinity.presentation.search.SearchListFragment"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_campsite_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                tools:layout="@layout/fragment_search_list" />
-        </androidx.slidingpanelayout.widget.SlidingPaneLayout>
+                android:background="@android:color/transparent">
+
+                <View
+                    android:id="@+id/view_invisible"
+                    android:layout_width="0dp"
+                    android:layout_height="115dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.fragment.app.FragmentContainerView
+                    android:id="@+id/fragment_container_campsite_list"
+                    android:name="com.ssafy.campinity.presentation.search.SearchListFragment"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/view_invisible"
+                    tools:layout="@layout/fragment_search_list" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.sothree.slidinguppanel.SlidingUpPanelLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_search_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true">
+
+            <RelativeLayout
+                android:id="@+id/rl_background"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/bg_rect_bilbao_under_radius30" />
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/et_search_by_name"
@@ -216,5 +254,26 @@
                     android:textSize="12sp" />
             </RelativeLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_show_map"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_circle_white"
+            android:clickable="true"
+            android:elevation="4dp"
+            android:gravity="center"
+            android:visibility="gone">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:contentDescription="@string/image_show_campsite_as_list"
+                android:src="@drawable/ic_show_map" />
+        </RelativeLayout>
     </RelativeLayout>
 </layout>

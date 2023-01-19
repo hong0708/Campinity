@@ -7,6 +7,6 @@ import net.daum.mf.map.api.MapView
 
 class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragment_search_map) {
     override fun initView() {
-        binding.rlMapView.addView(MapView(context))
+        binding.rlMapView.addView(MapView(requireContext()))
     }
 }

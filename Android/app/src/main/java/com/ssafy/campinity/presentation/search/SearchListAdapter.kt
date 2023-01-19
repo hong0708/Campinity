@@ -1,28 +1,43 @@
 package com.ssafy.campinity.presentation.search
 
-import android.content.Context
+import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.databinding.ItemSearchListBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 
-class SearchListAdapter(
-    private val context: Context, private val campsites: ArrayList<CampsiteBriefInfo>
-) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
-    class SearchListViewHolder(private val binding: ItemSearchListBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-        fun bind() {
-            TODO("Not yet implemented")
-        }
-    }
+class SearchListAdapter(private val campsites: ArrayList<CampsiteBriefInfo>) :
+    RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
+    private lateinit var binding: ItemSearchListBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchListViewHolder {
-        TODO("Not yet implemented")
+        binding = ItemSearchListBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+
+        return SearchListViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: SearchListViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind(campsites[position])
+
+        binding.rvCampsiteImage.apply {
+            layoutManager = LinearLayoutManager(
+                binding.rvCampsiteImage.context,
+                RecyclerView.HORIZONTAL,
+                false
+            )
+            adapter = SearchImageAdapter(campsites[position].images)
+        }
     }
 
     override fun getItemCount(): Int = campsites.size
+
+    class SearchListViewHolder(private val binding: ItemSearchListBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(item: CampsiteBriefInfo) {
+            binding.item = item
+        }
+    }
 }
