@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface CampsiteRepository extends JpaRepository<Campsite, Integer> {
-    List<Campsite> getCampsitesByLatitudeBetweenAndLongitudeBetween(Double topLeftLat, Double topLeftLng,
-                                                                    Double bottomRightLat, Double bottomRightLng);
+    List<Campsite> getCampsitesByLatitudeBetweenAndLongitudeBetween(Double topLeftLat, Double bottomRightLat,
+                                                                    Double topLeftLng, Double bottomRightLng);
 
     Optional<Campsite> findById(int id);
 

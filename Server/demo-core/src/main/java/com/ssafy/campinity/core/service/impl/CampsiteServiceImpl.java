@@ -38,8 +38,8 @@ public class CampsiteServiceImpl implements CampsiteService {
         Double bottomRightLat = locationInfoDTO.getBottomRightLat();
         Double bottomRightLng = locationInfoDTO.getBottomRightLng();
 
-        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(topLeftLat, topLeftLng,
-                bottomRightLat, bottomRightLng);
+        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(topLeftLat, bottomRightLat,
+                topLeftLng, bottomRightLng);
     }
 
 
