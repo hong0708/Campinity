@@ -87,7 +87,7 @@
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            tools:background="@drawable/ic_bookmark_off" />
+            android:background="@drawable/ic_bookmark_off" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_postbox"
