@@ -3,23 +3,24 @@ package com.ssafy.campinity.api.campsite;
 import com.ssafy.campinity.api.CampinityApplication;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
+import javax.transaction.Transactional;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 @SpringBootTest(classes = CampinityApplication.class)
+@Transactional
 public class CampsiteSearchByRangeTest {
 
     @Autowired
     CampsiteRepository campsiteRepository;
-    @BeforeEach
-    public void saveDummyCampsite() {
+
+    @Test
+    @DisplayName("campsite range retrieve test")
+    public void campsiteRangeRetrieveTest() {
         Campsite campsite1 = Campsite.builder()
                 .latitude(36.1088718)
                 .longitude(128.4187025)
@@ -65,18 +66,9 @@ public class CampsiteSearchByRangeTest {
         campsiteRepository.save(campsite3);
         campsiteRepository.save(campsite4);
         campsiteRepository.save(campsite5);
-    }
 
-    @AfterEach
-    public void deleteCampsite() {
-        campsiteRepository.deleteAll();
-    }
-
-    @Test
-    @DisplayName("위경도 기반 캠핑장 검색")
-    public void getCampSiteByRange() {
         assertThat(campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(
-                36.1088718, 128.4187025, 36.1097202,128.4204129)
+                        36.1088718, 36.1097202, 128.4187025,128.4204129)
                 .size(), is(equalTo(5)));
     }
 }
