@@ -30,9 +30,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.tvCollectionMore.setOnClickListener {
             navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment())
         }
-        binding.clSearch.setOnClickListener {
-            navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
-        }
         binding.clCommunity.setOnClickListener {
             navigate(HomeFragmentDirections.actionHomeFragmentToCommunityActivity())
         }
