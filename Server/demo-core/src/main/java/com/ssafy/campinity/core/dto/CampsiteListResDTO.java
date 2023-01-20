@@ -2,8 +2,10 @@ package com.ssafy.campinity.core.dto;
 
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
-import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.entity.member.Member;
 import lombok.*;
+
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,10 +25,10 @@ public class CampsiteListResDTO {
     private boolean isScraped;
 
     @Builder
-    public CampsiteListResDTO(Campsite camp, User user) {
+    public CampsiteListResDTO(Campsite camp, Member member) {
         boolean isScraped = false;
         for (CampsiteScrap cs: camp.getScraps()) {
-            if (cs.getUser().equals(user)){
+            if (cs.getMember().equals(member)){
                 isScraped = true;
                 break;
             }

@@ -4,11 +4,11 @@ package com.ssafy.campinity.core.service.impl;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
-import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
-import com.ssafy.campinity.core.repository.user.UserRepository;
 import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
+import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.CampsiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class CampsiteServiceImpl implements CampsiteService {
     CampsiteScrapRepository campsiteScrapRepository;
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Override
     public List<Campsite> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO) {
@@ -47,9 +47,9 @@ public class CampsiteServiceImpl implements CampsiteService {
     @Override
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                                String[] fclties, String[] amenities, String[] induties,
-                                                               String[] themas, String[] allowAnimals, String[] operSeasons, UUID userId) {
+                                                               String[] themas, String[] allowAnimals, String[] operSeasons, UUID memberId) {
 
-        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, induties, themas, allowAnimals, operSeasons, userId);
+        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, induties, themas, allowAnimals, operSeasons, memberId);
     }
 
     @Override
@@ -64,28 +64,28 @@ public class CampsiteServiceImpl implements CampsiteService {
     }
 
     @Override
-    public void scrap(UUID userId, UUID campsiteId) {
+    public void scrap(UUID memberId, UUID campsiteId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        User user = userRepository.findByUuid(userId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
-        CampsiteScrap campsiteScrap = campsiteScrapRepository.findByUserAndCampsite(user, campsite).orElse(null);
+        CampsiteScrap campsiteScrap = campsiteScrapRepository.findByMemberAndCampsite(member, campsite).orElse(null);
 
         if (campsiteScrap != null) {
             campsiteScrap.changeScrapType();
             campsiteScrapRepository.save(campsiteScrap);
         } else {
-            CampsiteScrap savedScrap = campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).user(user).scrapType(true).build());
+            CampsiteScrap savedScrap = campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).member(member).scrapType(true).build());
             campsite.addCampsiteScrap(savedScrap);
-            user.addUserScrap(savedScrap);
+            member.addUserScrap(savedScrap);
         }
     }
 
     @Override
-    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID userId) {
+    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID memberId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        User user = userRepository.findByUuid(userId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
-        return CampsiteDetailResDTO.builder().camp(campsite).user(user).build();
+        return CampsiteDetailResDTO.builder().camp(campsite).member(member).build();
     }
 
 

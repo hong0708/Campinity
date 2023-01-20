@@ -1,7 +1,7 @@
 package com.ssafy.campinity.core.dto;
 
 import com.ssafy.campinity.core.entity.campsite.*;
-import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.entity.member.Member;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -66,10 +67,10 @@ public class CampsiteDetailResDTO {
 //    private double total_rate;
 
     @Builder
-    public CampsiteDetailResDTO(Campsite camp, User user) {
+    public CampsiteDetailResDTO(Campsite camp, Member member) {
         boolean isScraped = false;
         for (CampsiteScrap cs: camp.getScraps()) {
-            if (cs.getUser().equals(user)){
+            if (cs.getMember().equals(member)){
                 isScraped = true;
                 break;
             }
@@ -81,12 +82,12 @@ public class CampsiteDetailResDTO {
         }
 
         List<String> caravanfclties = new ArrayList<>();
-        for (CampsiteAndCaravanFclty item: camp.getCaravanfclties()) {
+        for (CampsiteAndCaravanFclty item: camp.getCaravanFclties()) {
             caravanfclties.add(item.getCaravanFclty().getFcltyName());
         }
 
         List<String> glampfclties = new ArrayList<>();
-        for (CampsiteAndGlampFclty item: camp.getGlampfclties()) {
+        for (CampsiteAndGlampFclty item: camp.getGlampFclties()) {
             glampfclties.add(item.getGlampFclty().getFcltyName());
         }
 

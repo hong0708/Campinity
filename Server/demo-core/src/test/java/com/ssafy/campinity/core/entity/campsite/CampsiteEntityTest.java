@@ -1,7 +1,10 @@
 package com.ssafy.campinity.core.entity.campsite;
 
+import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
+import com.ssafy.campinity.core.repository.message.MessageRepository;
 import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -12,6 +15,16 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 class CampsiteEntityTest {
+
+    @Autowired
+    CampsiteRepository campsiteRepository;
+    @Autowired
+    MessageRepository messageRepository;
+    @Test
+    void Test1(){
+
+
+    }
 
     @Test
     void CampsiteTest(){
