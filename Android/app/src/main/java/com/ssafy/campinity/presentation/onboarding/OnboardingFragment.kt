@@ -13,6 +13,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.fragment_onboarding) {
 
+    private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+        if (error != null) {
+            Log.e("login", "카카오계정으로 로그인 실패", error)
+        } else if (token != null) {
+            Log.i("login", "카카오계정으로 로그인 성공 ${token.accessToken}")
+        }
+    }
+
     override fun initView() {
         initListener()
         initBanner()
@@ -26,14 +34,6 @@ class OnboardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
         binding.apply {
             vpBanner.adapter = OnBoardingAdapter(this@OnboardingFragment)
             ciBanner.setViewPager(binding.vpBanner)
-        }
-    }
-
-    private val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-        if (error != null) {
-            Log.e("login", "카카오계정으로 로그인 실패", error)
-        } else if (token != null) {
-            Log.i("login", "카카오계정으로 로그인 성공 ${token.accessToken}")
         }
     }
 
