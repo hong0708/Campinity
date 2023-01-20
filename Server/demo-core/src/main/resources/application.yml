@@ -34,7 +34,10 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 10MB
-
+  jwt:
+    key: carrotcarrot
+    live:
+      atk : 300000
 logging:
   level:
     org.hibernate:

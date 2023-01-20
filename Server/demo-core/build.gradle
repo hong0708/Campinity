@@ -23,7 +23,12 @@ dependencies {
 
     // qlrm(jpql결과를 DTO를 mapping해주기 위한 라이브러리)
     implementation 'org.qlrm:qlrm:2.0.2'
-
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.security:spring-security-test'
+    // [JWT]
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'org.springframework.security:spring-security-core:5.7.6'
 }
 
 test {
