@@ -18,6 +18,10 @@
     <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="colorControlActivated">@color/bilbao</item>
     </style>
+
+    <style name="tabTextSizeBold" parent="TextAppearance.Design.Tab">
+        <item name="fontFamily">@font/roboto_bold</item>
+    </style>
 </resources>
 
 

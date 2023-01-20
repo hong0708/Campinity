@@ -14,6 +14,7 @@
     <color name="light_yellow">#F8F9E6</color>
     <color name="zambezi">#5C5C5C</color>
     <color name="grey">#7C7A7A</color>
+    <color name="very_light_grey">#CCCCCC</color>
     <color name="white_smoke">#F3F3F3</color>
     <color name="dodger_blue">#2196F3</color>
 </resources>
