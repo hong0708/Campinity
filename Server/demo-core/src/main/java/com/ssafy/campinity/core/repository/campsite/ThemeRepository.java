@@ -4,7 +4,9 @@ import com.ssafy.campinity.core.entity.campsite.Industry;
 import com.ssafy.campinity.core.entity.campsite.Theme;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface ThemeRepository extends JpaRepository<Theme, Integer> {
-    Theme findByThemeName(String themeName);
+    Optional<Theme> findByThemeName(String themeName);
 
 }

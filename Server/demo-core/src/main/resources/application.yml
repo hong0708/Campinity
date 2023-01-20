@@ -3,7 +3,7 @@ goCamp:
     search:
       campsite: http://apis.data.go.kr/B551011/GoCamping/basedList
       image: http://apis.data.go.kr/B551011/GoCamping/imageList
-  serviceKey: A8ooqts7IHFPYficmW%2BDAWnazQPpJnk6MQO%2Bp0hqcBD6lTlv1IoFeGe%2F%2Bu5K%2BWgrxJh2gUrF8YapUodyOkwowA%3D%3D
+    serviceKey: A8ooqts7IHFPYficmW%2BDAWnazQPpJnk6MQO%2Bp0hqcBD6lTlv1IoFeGe%2F%2Bu5K%2BWgrxJh2gUrF8YapUodyOkwowA%3D%3D
 
 server:
   port: 8003
@@ -16,6 +16,7 @@ spring:
     password: root
 
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: update
     properties:
@@ -23,14 +24,21 @@ spring:
         format_sql: true #To beautify or pretty print the SQL
         type:
           preferred_uuid_jdbc_type: CHAR
-    show_sql: true #show sql
+#    show_sql: true #show sql
     defer-datasource-initialization: true
   sql:
     init:
       mode: always
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
 
 logging:
   level:
     org.hibernate:
       type.descriptor.sql: trace #show parameter binding
       SQL: DEBUG
+
+

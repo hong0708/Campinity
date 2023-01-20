@@ -2,8 +2,8 @@ package com.ssafy.campinity.core.repository.campsite.custom;
 
 import com.ssafy.campinity.core.dto.CampsiteListResDTO;
 import com.ssafy.campinity.core.entity.campsite.*;
-import com.ssafy.campinity.core.entity.user.User;
-import com.ssafy.campinity.core.repository.user.UserRepository;
+import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -18,14 +18,14 @@ public class CampsiteCustomRepository {
     EntityManager em;
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
 
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
-                                                               String[] fclties, String[] amenities, String[] induties,
-                                                               String[] themas, String[] allowAnimals, String[] operSeasons,
-                                                               UUID userId) {
-        User user = userRepository.findByUuid(userId).orElseThrow(IllegalArgumentException::new);
+                                                     String[] fclties, String[] amenities, String[] induties,
+                                                     String[] themas, String[] allowAnimals, String[] operSeasons,
+                                                            UUID memberId) {
+        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         String query = "Select c From Campsite c ";
 
@@ -126,7 +126,7 @@ public class CampsiteCustomRepository {
                 boolean passFclty = true;
                 if (isInduties[3] && isIndustriesCampsite[3]) {  //  카라반
                     boolean[] isCaravanFcltiesCampsite = new boolean[10];
-                    for (CampsiteAndCaravanFclty item: camp.getCaravanfclties()) {
+                    for (CampsiteAndCaravanFclty item: camp.getCaravanFclties()) {
                         isCaravanFcltiesCampsite[item.getCaravanFclty().getId()] = true;
                     }
                     for (String fclty :fclties) {
@@ -143,7 +143,7 @@ public class CampsiteCustomRepository {
 
                 if (isInduties[4] && isIndustriesCampsite[4]) {  //  글램핑
                     boolean[] isGlampFcltiesCampsite = new boolean[10];
-                    for (CampsiteAndGlampFclty item: camp.getGlampfclties()) {
+                    for (CampsiteAndGlampFclty item: camp.getGlampFclties()) {
                         isGlampFcltiesCampsite[item.getGlampFclty().getId()] = true;
                     }
                     for (String fclty :fclties) {
@@ -199,7 +199,7 @@ public class CampsiteCustomRepository {
                 }
             }
 
-            completedResult.add(CampsiteListResDTO.builder().camp(camp).user(user).build());
+            completedResult.add(CampsiteListResDTO.builder().camp(camp).member(member).build());
         }
         return completedResult;
     }

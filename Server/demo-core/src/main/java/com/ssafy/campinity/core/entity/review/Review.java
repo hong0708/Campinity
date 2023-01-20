@@ -2,7 +2,7 @@ package com.ssafy.campinity.core.entity.review;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
-import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.entity.member.Member;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
@@ -32,17 +32,17 @@ public class Review extends BaseEntity {
     private Boolean isDeleted = false;
 
     @ManyToOne
-    private User user;
+    private Member member;
 
     @ManyToOne
     private Campsite campsite;
 
     @Builder
-    public Review(UUID uuid, String content, int rate, User user, Campsite campsite) {
+    public Review(UUID uuid, String content, int rate, Member member, Campsite campsite) {
         this.uuid = uuid;
         this.content = content;
         this.rate = rate;
-        this.user = user;
+        this.member = member;
         this.campsite = campsite;
     }
 }

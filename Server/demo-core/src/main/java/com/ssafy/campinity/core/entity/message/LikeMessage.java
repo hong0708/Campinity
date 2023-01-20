@@ -1,7 +1,7 @@
 package com.ssafy.campinity.core.entity.message;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
-import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.entity.member.Member;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,11 +21,20 @@ public class LikeMessage extends BaseEntity {
     private Message message;
 
     @ManyToOne
-    private User user;
+    private Member member;
+
+    private Boolean likeCheck;
 
     @Builder
-    public LikeMessage(Message message, User user) {
+    public LikeMessage(Message message, Member member, Boolean likeCheck) {
         this.message = message;
-        this.user = user;
+        this.member = member;
+        this.likeCheck = likeCheck;
     }
+
+    public Boolean changeLikeCheck() {
+        this.likeCheck = !this.likeCheck;
+        return this.likeCheck;
+    }
+
 }

@@ -32,8 +32,8 @@ dependencies {
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client' // MariaDB
 
-	// WebClient 사용을 위한 의존성
-	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'commons-io:commons-io:2.6'
+
 }
 
 tasks.named('test') {

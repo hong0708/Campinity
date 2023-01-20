@@ -12,10 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+
 @SpringBootTest
 public class GetGocampApiJsonTest {
 
@@ -163,7 +161,7 @@ public class GetGocampApiJsonTest {
         List<ResCampsiteDto> campsiteList1 = crawlGocampApi.getCampsiteList(numOfRows);
 
         for (ResCampsiteDto res : campsiteList1){
-            Campsite camp = campsiteRepository.findByContentId(res.getContentId());
+            Campsite camp = campsiteRepository.findByContentId(res.getContentId()).orElse(null);
 
             List<String> amenityItems_ = Lists.newArrayList(res.getSbrsCl().split(","));
             List<String> caravanItems_ = Lists.newArrayList(res.getCaravInnerFclty().split(","));
@@ -186,38 +184,38 @@ public class GetGocampApiJsonTest {
 
             for (String item : amenityItems_){
 
-                Amenity amenity = amenityRepository.findByAmenityName(item);
+                Amenity amenity = amenityRepository.findByAmenityName(item).orElse(null);
                 CampsiteAndAmenity campsiteAndAmenity = CampsiteAndAmenity.builder().campsite(camp).amenity(amenity).build();
                 campsiteAndAmenityRepository.save(campsiteAndAmenity);
 
             }
             for (String item : caravanItems_){
-                CaravanFclty caravanFclty = caravanFcltyRepository.findByFcltyName(item);
+                CaravanFclty caravanFclty = caravanFcltyRepository.findByFcltyName(item).orElse(null);
                 CampsiteAndCaravanFclty campsiteAndCaravanFclty = new CampsiteAndCaravanFclty(camp, caravanFclty);
                 campsiteAndCaravanFcltyRepository.save(campsiteAndCaravanFclty);
             }
 
             for (String item : glampItems_){
-                GlampFclty glampFclty = glampFcltyRepository.findByFcltyName(item);
+                GlampFclty glampFclty = glampFcltyRepository.findByFcltyName(item).orElse(null);
                 CampsiteAndGlampFclty campsiteAndGlampFclty = new CampsiteAndGlampFclty(camp, glampFclty);
                 campsiteAndGlampFcltyRepository.save(campsiteAndGlampFclty);
             }
 
             for (String item : industryItems_){
-                Industry industry = industryRepository.findByIndustryName(item);
+                Industry industry = industryRepository.findByIndustryName(item).orElse(null);
                 CampsiteAndIndustry campsiteAndIndustry = new CampsiteAndIndustry(camp, industry);
                 campsiteAndIndustryRepository.save(campsiteAndIndustry);
             }
 
             for (String item : openSeasonItems_){
-                OpenSeason openSeason = openSeasonRepository.findBySeasonName(item);
+                OpenSeason openSeason = openSeasonRepository.findBySeasonName(item).orElse(null);
                 CampsiteAndOpenSeason campsiteAndOpenSeason = new CampsiteAndOpenSeason(camp, openSeason);
                 campsiteAndOpenSeasonRepository.save(campsiteAndOpenSeason);
             }
 
             for (String item : themeItems_){
-                Theme theme = themeRepository.findByThemeName(item);
-                CampsiteAndTheme campsiteAndTheme = new CampsiteAndTheme(camp, theme);
+                Optional<Theme> theme = themeRepository.findByThemeName(item);
+                CampsiteAndTheme campsiteAndTheme = new CampsiteAndTheme(camp, theme.get());
                 campsiteAndThemeRepository.save(campsiteAndTheme);
             }
 

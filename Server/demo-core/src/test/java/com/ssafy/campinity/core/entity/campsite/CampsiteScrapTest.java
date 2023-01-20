@@ -1,9 +1,9 @@
 package com.ssafy.campinity.core.entity.campsite;
 
-import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
-import com.ssafy.campinity.core.repository.user.UserRepository;
+import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.impl.CampsiteServiceImpl;
 
 import org.assertj.core.api.Assertions;
@@ -21,7 +21,7 @@ import java.util.UUID;
 public class CampsiteScrapTest {
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     CampsiteScrapRepository campsiteScrapRepository;
@@ -35,20 +35,20 @@ public class CampsiteScrapTest {
     @Test
     @DisplayName("scrap 스크랩, 해제 기능 테스트")
     public void scrapTest () {
-        User user = User.builder().name("test").uuid(UUID.randomUUID()).build();
-        User savedUser = userRepository.save(user);
+        Member member = Member.builder().name("test").uuid(UUID.randomUUID()).build();
+        Member savedMember = memberRepository.save(member);
 
         Campsite camp = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
 
-        campsiteService.scrap(savedUser.getUuid(), camp.getUuid());
+        campsiteService.scrap(savedMember.getUuid(), camp.getUuid());
 
-        CampsiteScrap campsiteScrap1 = campsiteScrapRepository.findByUserAndCampsite(savedUser, camp).orElseThrow(IllegalArgumentException::new);
+        CampsiteScrap campsiteScrap1 = campsiteScrapRepository.findByMemberAndCampsite(savedMember, camp).orElseThrow(IllegalArgumentException::new);
 
         Assertions.assertThat(campsiteScrap1.getScrapType()).isEqualTo(true);
 
-        campsiteService.scrap(savedUser.getUuid(), camp.getUuid());
+        campsiteService.scrap(savedMember.getUuid(), camp.getUuid());
 
-        CampsiteScrap campsiteScrap2 = campsiteScrapRepository.findByUserAndCampsite(savedUser, camp).orElseThrow(IllegalArgumentException::new);
+        CampsiteScrap campsiteScrap2 = campsiteScrapRepository.findByMemberAndCampsite(savedMember, camp).orElseThrow(IllegalArgumentException::new);
 
         Assertions.assertThat(campsiteScrap2.getScrapType()).isEqualTo(false);
     }

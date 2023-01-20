@@ -3,10 +3,9 @@ package com.ssafy.campinity.core.entity.message;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
-import com.ssafy.campinity.core.entity.user.User;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.ssafy.campinity.core.entity.member.Member;
+import lombok.*;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -14,10 +13,12 @@ import java.util.ArrayList;
 import java.util.UUID;
 import java.util.List;
 
-
 @Data
 @NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @Entity
+@SQLDelete(sql = "update message set expired = true where id = ?")
 public class Message extends BaseEntity {
 
     @Id
@@ -27,18 +28,18 @@ public class Message extends BaseEntity {
     @Column(columnDefinition = "char(36)")
     @Type(type = "uuid-char")
     private UUID uuid;
-
     @ManyToOne
     private Campsite campsite;
 
     @ManyToOne
-    private User user;
+    private Member member;
 
     @Enumerated(value = EnumType.STRING)
     private MessageCategory messageCategory;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "message_id")
+    @ToString.Exclude
     private List<LikeMessage> likeMessages = new ArrayList<>();
 
     private String content;
@@ -49,18 +50,19 @@ public class Message extends BaseEntity {
 
     private Double latitude;
 
-    private boolean isDeleted = false;
+    private Boolean expired;
 
     @Builder
-    public Message(UUID uuid, Campsite campsite, User user, MessageCategory messageCategory, List<LikeMessage> likeMessages, String content, Double longitude, Double latitude, boolean isDeleted) {
+    public Message(UUID uuid, Campsite campsite, Member member, MessageCategory messageCategory, List<LikeMessage> likeMessages, String content, String imagePath, Double longitude, Double latitude) {
         this.uuid = uuid;
         this.campsite = campsite;
-        this.user = user;
+        this.member = member;
         this.messageCategory = messageCategory;
         this.likeMessages = likeMessages;
         this.content = content;
+        this.imagePath = imagePath;
         this.longitude = longitude;
         this.latitude = latitude;
-        this.isDeleted = isDeleted;
+        this.expired = false;
     }
 }

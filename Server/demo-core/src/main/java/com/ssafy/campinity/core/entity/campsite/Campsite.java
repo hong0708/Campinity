@@ -3,6 +3,7 @@ package com.ssafy.campinity.core.entity.campsite;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.review.Review;
+import com.ssafy.campinity.core.entity.message.Message;
 import lombok.*;
 
 import javax.persistence.*;
@@ -17,7 +18,6 @@ import org.hibernate.annotations.Where;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@Where(clause = "is_deleted = false")
 public class Campsite extends BaseEntity {
 
     @Id
@@ -36,12 +36,12 @@ public class Campsite extends BaseEntity {
     @OneToMany
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
-    private List<CampsiteAndCaravanFclty> caravanfclties = new ArrayList<>();
+    private List<CampsiteAndCaravanFclty> caravanFclties = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
-    private List<CampsiteAndGlampFclty> glampfclties = new ArrayList<>();
+    private List<CampsiteAndGlampFclty> glampFclties = new ArrayList<>();
 
 
     @OneToMany
@@ -69,6 +69,11 @@ public class Campsite extends BaseEntity {
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "campsite_id")
+    @ToString.Exclude
+    private List<Message> messages = new ArrayList<>();
 
 
     private int contentId;
@@ -106,17 +111,16 @@ public class Campsite extends BaseEntity {
 
     private String allowAnimal;
 
-    private boolean isDeleted = false;
-
     @Builder
-    public Campsite(UUID uuid, List<CampsiteAndAmenity> amenities, List<CampsiteAndCaravanFclty> caravanfclties, List<CampsiteAndGlampFclty> glampfclties, List<CampsiteAndOpenSeason> openSeasons, List<CampsiteAndTheme> themes, List<CampsiteAndIndustry> industries, int contentId, String campName, String firstImageUrl, String address, String doName, String sigunguName, Double latitude, Double longitude, String phoneNumber, String homepage, String reserveType, String intro, String lineIntro, String experienceProgram, String subFacilityEtc, String dayOperation, String allowAnimal) {
+    public Campsite(UUID uuid, List<CampsiteAndAmenity> amenities, List<CampsiteAndCaravanFclty> caravanFclties, List<CampsiteAndGlampFclty> glampFclties, List<CampsiteAndOpenSeason> openSeasons, List<CampsiteAndTheme> themes, List<CampsiteAndIndustry> industries, List<Message> messages, int contentId, String campName, String firstImageUrl, String address, String doName, String sigunguName, Double latitude, Double longitude, String phoneNumber, String homepage, String reserveType, String intro, String lineIntro, String experienceProgram, String subFacilityEtc, String dayOperation, String allowAnimal) {
         this.uuid = uuid;
         this.amenities = amenities;
-        this.caravanfclties = caravanfclties;
-        this.glampfclties = glampfclties;
+        this.caravanFclties = caravanFclties;
+        this.glampFclties = glampFclties;
         this.openSeasons = openSeasons;
         this.themes = themes;
         this.industries = industries;
+        this.messages = messages;
         this.contentId = contentId;
         this.campName = campName;
         this.firstImageUrl = firstImageUrl;
