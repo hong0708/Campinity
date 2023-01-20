@@ -1,0 +1,94 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'com.google.dagger.hilt.android'
+    id 'kotlin-parcelize'
+    id 'kotlin-android'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+def kakaoMapApiKey = properties.getProperty('kakao.api.native.key')
+
+android {
+    namespace 'com.ssafy.campinity'
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.ssafy.campinity"
+        minSdk 26
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [kakaoMapApiKey: kakaoMapApiKey]
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    splits {
+        abi {
+            enable true
+            reset()
+            include 'x86', 'x86_64', 'armeabi-v7a', 'armeabi'
+            universalApk true
+        }
+    }
+
+    buildFeatures {
+        viewBinding true
+        dataBinding true
+    }
+}
+
+dependencies {
+
+    implementation libs.bundles.androidx
+    implementation libs.android.material
+    implementation libs.hilt
+    implementation libs.databinding
+    implementation libs.circleindicator
+    implementation libs.androidslidinguppanel
+
+    implementation libs.bundles.retrofit.bundles
+    implementation libs.bundles.okhttp3.bundles
+
+    testImplementation libs.junit
+
+    androidTestImplementation libs.android.test.junit
+    androidTestImplementation libs.android.test.espresso
+
+    kapt libs.hilt.complier
+
+    // kakao map api
+    implementation files('libs/libDaumMapAndroid.jar')
+
+    // Glide
+    implementation libs.glide
+    annotationProcessor libs.glide.compiler
+
+    // CardStackView
+    implementation libs.cardStackView
+
+}
+
+kapt {
+    correctErrorTypes true
+}
