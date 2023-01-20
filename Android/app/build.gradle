@@ -8,11 +8,6 @@ plugins {
     id 'androidx.navigation.safeargs.kotlin'
 }
 
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-def kakaoMapApiKey = properties.getProperty('kakao.api.native.key')
-
 android {
     namespace 'com.ssafy.campinity'
     compileSdk 32
@@ -25,8 +20,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        manifestPlaceholders = [kakaoMapApiKey:kakaoMapApiKey]
     }
 
     buildTypes {
@@ -87,6 +80,8 @@ dependencies {
     // CardStackView
     implementation libs.cardStackView
 
+    // kakao login
+    implementation libs.kakao.sdk.user
 }
 
 kapt {

@@ -23,6 +23,32 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="org.android.ticco.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/external" />
+        </provider>
+
+        <activity
+            android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
+            android:launchMode="singleTask"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth"
+                    android:scheme="@string/KAKAO_APP_KEY" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".presentation.search.CampsiteInfoActivity"
             android:exported="true" />
@@ -49,6 +75,6 @@
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
-            android:value="${kakaoMapApiKey}" />
+            android:value="@string/KAKAO_NATIVE_APP_KEY" />
     </application>
 </manifest>
