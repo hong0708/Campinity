@@ -36,9 +36,6 @@
         <action
             android:id="@+id/action_homeFragment_to_communityActivity"
             app:destination="@id/communityActivity" />
-        <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
-            app:destination="@id/searchFragment" />
     </fragment>
 
     <fragment
@@ -66,11 +63,5 @@
         android:name="com.ssafy.campinity.presentation.community.CommunityActivity"
         tools:label="CommunityActivity"
         tools:layout="@layout/activity_community" />
-
-    <fragment
-        android:id="@+id/searchFragment"
-        android:name="com.ssafy.campinity.presentation.search.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search" />
 
 </navigation>
