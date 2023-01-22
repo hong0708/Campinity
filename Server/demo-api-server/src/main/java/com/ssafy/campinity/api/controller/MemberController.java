@@ -19,6 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -63,11 +65,16 @@ public class MemberController {
                         .email(member.getEmail()).build(), HttpStatus.OK);
     }
 
+    @GetMapping("/nicknames/{nickname}/exists")
+    public ResponseEntity<Boolean> checkNickname(@PathVariable String nickname) {
+        return new ResponseEntity<>(memberService.checkNicknameDuplicate(nickname), HttpStatus.OK);
+    }
+
     @GetMapping("/reissue")
-    public TokenResponse reissue(
+    public ResponseEntity<TokenResponse> reissue(
             @AuthenticationPrincipal MemberDetails memberDetails
     ) throws JsonProcessingException {
         Member member = memberDetails.getMember();
-        return jwtProvider.reissueAtk(member);
+        return new ResponseEntity<>(jwtProvider.reissueAtk(member), HttpStatus.OK);
     }
 }

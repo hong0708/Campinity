@@ -29,4 +29,9 @@ public class MemberServiceImpl implements MemberService {
     public Member save(Member member) {
         return memberRepository.save(member);
     }
+
+    @Override
+    public Boolean checkNicknameDuplicate(String nickname) {
+        return memberRepository.existsByName(nickname);
+    }
 }
