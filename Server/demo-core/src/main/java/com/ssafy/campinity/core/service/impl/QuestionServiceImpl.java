@@ -1,33 +1,37 @@
 package com.ssafy.campinity.core.service.impl;
 
+import com.ssafy.campinity.core.dto.AnswerResDTO;
 import com.ssafy.campinity.core.dto.QuestionDetailResDTO;
 import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
+import com.ssafy.campinity.core.entity.answer.Answer;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.question.Question;
+import com.ssafy.campinity.core.repository.answer.AnswerRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.question.QuestionRepository;
 import com.ssafy.campinity.core.service.QuestionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class QuestionServiceImpl implements QuestionService {
 
-    @Autowired
-    MemberRepository memberRepository;
+    private final MemberRepository memberRepository;
 
-    @Autowired
-    CampsiteRepository campsiteRepository;
+    private final CampsiteRepository campsiteRepository;
 
-    @Autowired
-    QuestionRepository questionRepository;
+    private final QuestionRepository questionRepository;
+
+    private final AnswerRepository answerRepository;
 
 
     @Override
@@ -63,18 +67,21 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
 
-    // QuestionDetailResDTO에 answer 리스트 추가하기
-    // expired된 글을 찾으면 에러 발생
     @Override
+    @Transactional
     public QuestionDetailResDTO getQuestionDetail(UUID questionId) {
         Question question = questionRepository.findByUuidAndExpiredIsFalse(questionId).orElseThrow(IllegalArgumentException::new);
-        return QuestionDetailResDTO.builder().question(question).build();
+
+        List<AnswerResDTO> answers = answerRepository.findAllByQuestion_idAndExpiredIsFalse(question.getId()).stream().
+                map(answer -> {return AnswerResDTO.builder().answer(answer).build();}).collect(Collectors.toList());
+
+        return QuestionDetailResDTO.builder().question(question).answers(answers).build();
     }
 
     @Override
     public void deleteQuestion(UUID questionId) {
         Question question = questionRepository.findByUuidAndExpiredIsFalse(questionId).orElseThrow(IllegalArgumentException::new);
+        answerRepository.deleteByQuestion_id(question.getId());
         questionRepository.deleteById(question.getId());
     }
-
 }

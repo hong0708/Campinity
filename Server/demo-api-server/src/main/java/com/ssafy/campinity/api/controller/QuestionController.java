@@ -5,6 +5,7 @@ import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
 import com.ssafy.campinity.core.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,9 @@ public class QuestionController {
     public ResponseEntity<Object> createQuestion(QuestionReqDTO questionReqDTO) {
         try {
             QuestionResDTO questionResDTO = questionService.createQuestion(questionReqDTO);
-            return new ResponseEntity<>(questionResDTO, HttpStatus.CREATED);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/api/v1/questions/" + questionResDTO.getQuestionId());
+            return new ResponseEntity<>(questionResDTO, headers, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
+import com.ssafy.campinity.core.entity.answer.Answer;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
 import com.ssafy.campinity.core.entity.message.LikeMessage;
 import com.ssafy.campinity.core.entity.message.Message;
@@ -33,6 +34,7 @@ public class Member extends BaseEntity {
 
     @OneToMany
     @JoinColumn(name = "member_id")
+    @ToString.Exclude
     private List<Message> messages = new ArrayList<>();
 
     @OneToMany
@@ -50,6 +52,10 @@ public class Member extends BaseEntity {
     @OneToMany
     @JoinColumn(name = "user_id")
     private List<Question> questions = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Answer> answers = new ArrayList<>();
 
     private String fcmToken;
 

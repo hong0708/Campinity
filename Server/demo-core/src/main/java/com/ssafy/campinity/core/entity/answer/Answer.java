@@ -1,16 +1,13 @@
-package com.ssafy.campinity.core.entity.question;
+package com.ssafy.campinity.core.entity.answer;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
-import com.ssafy.campinity.core.entity.answer.Answer;
-import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.entity.question.Question;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,8 +15,8 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @Entity
 @Getter
-@SQLDelete(sql = "UPDATE question SET expired = true WHERE question.id = ?")
-public class Question extends BaseEntity {
+@SQLDelete(sql = "UPDATE answer SET expired = true WHERE answer.id = ?")
+public class Answer extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,22 +31,17 @@ public class Question extends BaseEntity {
     private Boolean expired;
 
     @ManyToOne
-    private Member member;
+    private Question question;
 
     @ManyToOne
-    private Campsite campsite;
-
-    @OneToMany
-    @JoinColumn(name = "question_id")
-    @ToString.Exclude
-    private List<Answer> answers = new ArrayList<>();
+    private Member member;
 
     @Builder
-    public Question(UUID uuid, String content, Member member, Campsite campsite) {
+    public Answer(UUID uuid, String content, Question question, Member member) {
         this.uuid = uuid;
         this.content = content;
-        this.member = member;
-        this.campsite = campsite;
         this.expired = false;
+        this.question = question;
+        this.member = member;
     }
 }
