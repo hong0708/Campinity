@@ -9,20 +9,18 @@ import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ReviewReqDTO {
-    UUID campsiteId;
+public class QuestionReqDTO {
 
     UUID memberId;
 
+    UUID campsiteId;
+
     String content;
 
-    int rate;
-
     @Builder
-    public ReviewReqDTO(UUID campsiteId, UUID memberId, String content, int rate) {
-        this.campsiteId = campsiteId;
+    public QuestionReqDTO(UUID memberId, UUID campsiteId, String content) {
         this.memberId = memberId;
+        this.campsiteId = campsiteId;
         this.content = content;
-        this.rate = rate;
     }
 }

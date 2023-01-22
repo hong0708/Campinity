@@ -8,5 +8,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 
 public interface CampsiteScrapRepository extends JpaRepository<CampsiteScrap, Integer> {
-    Optional<CampsiteScrap> findByMemberAndCampsite(Member member, Campsite campsite);
+    Optional<CampsiteScrap> findByMember_idAndCampsite_id(int memberId, int campsiteId);
 }

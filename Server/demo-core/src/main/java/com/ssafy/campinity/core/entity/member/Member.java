@@ -7,10 +7,12 @@ import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
 import com.ssafy.campinity.core.entity.message.LikeMessage;
 import com.ssafy.campinity.core.entity.message.Message;
+import com.ssafy.campinity.core.entity.question.Question;
 import com.ssafy.campinity.core.entity.review.Review;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -42,8 +44,12 @@ public class Member extends BaseEntity {
     private List<CampsiteScrap> scraps = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "user_id")
+    private List<Question> questions = new ArrayList<>();
 
     private String fcmToken;
 
