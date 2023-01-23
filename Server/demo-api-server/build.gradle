@@ -4,7 +4,6 @@ plugins {
 
 group = 'com.ssafy.campinity'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
 
 configurations {
 	compileOnly {
@@ -32,8 +31,9 @@ dependencies {
 
 	runtimeOnly 'org.mariadb.jdbc:mariadb-java-client' // MariaDB
 
+	implementation 'io.jsonwebtoken:jjwt:0.9.1'
 	implementation 'commons-io:commons-io:2.6'
-
+	implementation 'com.fasterxml.jackson.core:jackson-databind:2.12.3'
 }
 
 tasks.named('test') {
