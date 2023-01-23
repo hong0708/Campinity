@@ -10,27 +10,24 @@ import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.CampsiteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
 
+@RequiredArgsConstructor
 @Service
 public class CampsiteServiceImpl implements CampsiteService {
 
-    @Autowired
-    CampsiteRepository campsiteRepository;
+    private final CampsiteRepository campsiteRepository;
+    private final CampsiteCustomRepository campsiteCustomRepository;
+    private final CampsiteScrapRepository campsiteScrapRepository;
+    private final MemberRepository memberRepository;
 
-    @Autowired
-    CampsiteCustomRepository campsiteCustomRepository;
-
-    @Autowired
-    CampsiteScrapRepository campsiteScrapRepository;
-
-    @Autowired
-    MemberRepository memberRepository;
-
+    @Transactional
     @Override
     public List<Campsite> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO) {
         Double topLeftLat = locationInfoDTO.getTopLeftLat();
@@ -42,8 +39,7 @@ public class CampsiteServiceImpl implements CampsiteService {
                 topLeftLng, bottomRightLng);
     }
 
-
-
+    @Transactional
     @Override
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                                String[] fclties, String[] amenities, String[] induties,
@@ -52,6 +48,7 @@ public class CampsiteServiceImpl implements CampsiteService {
         return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, induties, themas, allowAnimals, operSeasons, memberId);
     }
 
+    @Transactional
     @Override
     public CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId) {
         Campsite camp = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalAccessError::new);
@@ -63,6 +60,7 @@ public class CampsiteServiceImpl implements CampsiteService {
                 build();
     }
 
+    @Transactional
     @Override
     public void scrap(UUID memberId, UUID campsiteId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
@@ -80,6 +78,7 @@ public class CampsiteServiceImpl implements CampsiteService {
         }
     }
 
+    @Transactional
     @Override
     public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID memberId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
@@ -87,6 +86,4 @@ public class CampsiteServiceImpl implements CampsiteService {
 
         return CampsiteDetailResDTO.builder().camp(campsite).member(member).build();
     }
-
-
 }

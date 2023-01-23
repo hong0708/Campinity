@@ -1,10 +1,11 @@
 package com.ssafy.campinity.core.dto;
 
 import com.ssafy.campinity.core.entity.message.Message;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
-@Data
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageResDTO {
 
     private String messageId;
@@ -38,19 +39,18 @@ public class MessageResDTO {
 
         this.messageId = String.valueOf(message.getUuid());
         this.campsiteName = message.getCampsite().getCampName();
-        this.authorName = message.getMember() == null ? "" : message.getMember().getName();
+        this.authorName = message.getMember().getName();
         this.messageCategory = message.getMessageCategory().name();
         this.countLikes = message.getLikeMessages() == null ? 0 : message.getLikeMessages().size();
         this.content =  message.getContent();
         this.imagePath = message.getImagePath();
         this.longitude = message.getLongitude();
         this.latitude = message.getLatitude();
-        this.likeCheck = message.getLikeMessages() != null ?
+        this.likeCheck = message.getLikeMessages() != null &&
                 message.getLikeMessages().stream().anyMatch(likeMessage ->
-                        likeMessage.getMember().getUuid().toString().equals(memberUuid)) : false;
+                likeMessage.getMember().getUuid().toString().equals(memberUuid));
         this.etcValidDate = String.valueOf(message.getCreatedAt().plusDays(2));
         this.createdAt = String.valueOf(message.getCreatedAt());
         this.updatedAt = String.valueOf(message.getUpdatedAt());
-
     }
 }

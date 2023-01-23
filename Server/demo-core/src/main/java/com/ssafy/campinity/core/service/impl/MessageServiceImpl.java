@@ -11,9 +11,10 @@ import com.ssafy.campinity.core.repository.message.LikeMessageRepository;
 import com.ssafy.campinity.core.repository.message.MessageRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.MessageService;
-import com.ssafy.campinity.core.utils.UploadImageUtil;
+import com.ssafy.campinity.core.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -27,10 +28,11 @@ public class MessageServiceImpl implements MessageService {
 
     private final CampsiteRepository campsiteRepository;
     private final MessageRepository messageRepository;
-    private final UploadImageUtil uploadImageUtil;
+    private final ImageUtil imageUtil;
     private final MemberRepository memberRepository;
     private final LikeMessageRepository likeMessageRepository;
 
+    @Transactional
     @Override
     public Message createMessage(MessageReqDTO messageReqDTO, String memberUuid) {
 
@@ -41,7 +43,7 @@ public class MessageServiceImpl implements MessageService {
 
         String imagePath = "";
         try {
-            imagePath = uploadImageUtil.uploadImage(messageReqDTO.getFile(), "message");
+            imagePath = imageUtil.uploadImage(messageReqDTO.getFile(), "message");
         }
         catch (IOException e) {
             throw new RuntimeException(e);
@@ -58,14 +60,11 @@ public class MessageServiceImpl implements MessageService {
                 .longitude(messageReqDTO.getLongitude())
                 .build();
 
-        try {
-            return messageRepository.save(message);
-        }
-        catch (Exception e){
-            throw new IllegalArgumentException(e);
-        }
+        try { return messageRepository.save(message); }
+        catch (Exception e){ throw new IllegalArgumentException(e); }
     }
 
+    @Transactional
     @Override
     public List<Message> getMessagesByCampsiteUuidBetweenLatLng(String campsiteUuid, LatLngDTO latLngDTO) {
 
@@ -84,12 +83,14 @@ public class MessageServiceImpl implements MessageService {
         return messages;
     }
 
+    @Transactional
     @Override
     public Message getMessage(String messageId) {
         return messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageId))
                 .orElseThrow(IllegalArgumentException::new);
     }
 
+    @Transactional
     @Override
     public void deleteMessage(String messageId) {
         Message message = messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageId))
@@ -97,6 +98,7 @@ public class MessageServiceImpl implements MessageService {
         messageRepository.deleteById(message.getId());
     }
 
+    @Transactional
     @Override
     public boolean likeMessage(String userUuid, String messageUuid) {
 

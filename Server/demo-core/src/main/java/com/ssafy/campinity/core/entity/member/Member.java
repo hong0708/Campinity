@@ -11,6 +11,7 @@ import com.ssafy.campinity.core.entity.review.Review;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -19,6 +20,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "update member set expired = true where id = ?")
 public class Member extends BaseEntity {
 
     @Id
@@ -42,7 +44,7 @@ public class Member extends BaseEntity {
     private List<CampsiteScrap> scraps = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private List<Review> reviews = new ArrayList<>();
 
     private String fcmToken;

@@ -1,10 +1,11 @@
 package com.ssafy.campinity.core.dto;
 
 
-import lombok.Data;
-import lombok.Builder;
+import lombok.*;
 
-@Data
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageLikeDTO {
 
     private boolean likeCheck;
