@@ -58,10 +58,10 @@ public class CampsiteController {
                                                                                @RequestParam(name = "sigunguName", defaultValue = "") String sigunguName,
                                                                                @RequestParam(name = "fclty", defaultValue = "") String fclty,
                                                                                @RequestParam(name = "amenity", defaultValue = "") String amenity,
-                                                                               @RequestParam(name = "industy", defaultValue = "") String induty,
-                                                                               @RequestParam(name = "theme", defaultValue = "") String thema,
+                                                                               @RequestParam(name = "industry", defaultValue = "") String industry,
+                                                                               @RequestParam(name = "theme", defaultValue = "") String theme,
                                                                                @RequestParam(name = "allowAnimal", defaultValue = "") String allowAnimal,
-                                                                               @RequestParam(name = "operSeason", defaultValue = "") String operSeason,
+                                                                               @RequestParam(name = "openSeason", defaultValue = "") String openSeason,
                                                                                @AuthenticationPrincipal MemberDetails memberDetails) {
 
         String[] fclties = new String[0];
@@ -74,22 +74,19 @@ public class CampsiteController {
             amenities = amenity.split(" ");
         }
 
-
-        String[] induties = new String[0];
-        if (!induty.trim().isEmpty()) {
-            induties = induty.split(" ");
+        String[] industries = new String[0];
+        if (!industry.trim().isEmpty()) {
+            industries = industry.split(" ");
         }
 
-
-        String[] themas = new String[0];
-        if (!thema.trim().isEmpty()) {
-            themas = thema.split(" ");
+        String[] themes = new String[0];
+        if (!theme.trim().isEmpty()) {
+            themes = theme.split(" ");
         }
 
-
-        String[] operSeasons = new String[0];
-        if (!operSeason.trim().isEmpty()) {
-            operSeasons = operSeason.split(" ");
+        String[] openSeasons = new String[0];
+        if (!openSeason.trim().isEmpty()) {
+            openSeasons = openSeason.split(" ");
         }
 
         String[] allowAnimals = new String[0];
@@ -98,9 +95,9 @@ public class CampsiteController {
         }
 
         List<CampsiteListResDTO> result = campsiteService.getCampsiteListByFiltering(keyword.trim(), doName.trim(),
-                sigunguName.trim(), fclties, amenities, induties, themas, allowAnimals, operSeasons, memberDetails.getMember().getUuid());
+                sigunguName.trim(), fclties, amenities, industries, themes, allowAnimals, openSeasons, memberDetails.getMember().getId());
 
-        return new ResponseEntity<List<CampsiteListResDTO>>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/metadata/{campsiteId}")

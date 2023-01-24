@@ -26,10 +26,9 @@ public class CampsiteCustomRepository {
 
 
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
-                                                     String[] fclties, String[] amenities, String[] induties,
-                                                     String[] themas, String[] allowAnimals, String[] operSeasons,
-                                                            UUID memberId) {
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
+                                                               String[] fclties, String[] amenities, String[] industries,
+                                                               String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
 
         String query = "Select c From Campsite c ";
 
@@ -100,14 +99,14 @@ public class CampsiteCustomRepository {
         List<CampsiteListResDTO> completedResult = new ArrayList<>();
 
         boolean[] isInduties = new boolean[5];
-        for (String item: induties) {
+        for (String item: industries) {
             isInduties[Integer.parseInt(item)] = true;
         }
 
         for (Campsite camp: result) {
             // 사업
             boolean[] isIndustriesCampsite = new boolean[5];
-            if (0 < induties.length && induties.length < 4) {
+            if (0 < industries.length && industries.length < 4) {
                 for (CampsiteAndIndustry item: camp.getIndustries()) {
                     isIndustriesCampsite[item.getIndustry().getId()] = true;
                 }
@@ -164,14 +163,14 @@ public class CampsiteCustomRepository {
             }
 
             // themas
-            if (0 < themas.length && themas.length < 12) {
+            if (0 < themes.length && themes.length < 12) {
                 boolean[] isThemasCampsite = new boolean[13];
                 for (CampsiteAndTheme item: camp.getThemes()) {
                     isThemasCampsite[item.getTheme().getId()] = true;
                 }
 
                 boolean passThemas = false;
-                for (String thema: themas) {
+                for (String thema: themes) {
                     if (isThemasCampsite[Integer.parseInt(thema)]) {
                         passThemas = true;
                         break;
@@ -184,14 +183,14 @@ public class CampsiteCustomRepository {
             }
 
             // openSeason
-            if (0 < operSeasons.length && operSeasons.length < 4) {
+            if (0 < openSeasons.length && openSeasons.length < 4) {
                 boolean[] isOpenSeasonCampsite = new boolean[5];
                 for (CampsiteAndOpenSeason item: camp.getOpenSeasons()) {
                     isOpenSeasonCampsite[item.getOpenSeason().getId()] = true;
                 }
 
                 boolean passOpenSeason = false;
-                for (String season: operSeasons) {
+                for (String season: openSeasons) {
                     if (isOpenSeasonCampsite[Integer.parseInt(season)]) {
                         passOpenSeason = true;
                         break;

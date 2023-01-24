@@ -47,10 +47,10 @@ public class CampsiteServiceImpl implements CampsiteService {
     @Transactional
     @Override
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
-                                                               String[] fclties, String[] amenities, String[] induties,
-                                                               String[] themas, String[] allowAnimals, String[] operSeasons, UUID memberId) {
+                                                               String[] fclties, String[] amenities, String[] industries,
+                                                               String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
 
-        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, induties, themas, allowAnimals, operSeasons, memberId);
+        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, industries, themes, allowAnimals, openSeasons, requestMemberId);
     }
 
     @Transactional
