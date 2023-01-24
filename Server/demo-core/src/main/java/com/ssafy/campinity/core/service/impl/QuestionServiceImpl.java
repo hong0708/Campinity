@@ -4,7 +4,6 @@ import com.ssafy.campinity.core.dto.AnswerResDTO;
 import com.ssafy.campinity.core.dto.QuestionDetailResDTO;
 import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
-import com.ssafy.campinity.core.entity.answer.Answer;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.question.Question;
@@ -35,8 +34,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO) {
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(questionReqDTO.getMemberId()).orElseThrow(IllegalArgumentException::new);
+    public QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO, int requestMemberId) {
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
         Campsite campsite = campsiteRepository.findByUuid(questionReqDTO.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
 
         Question question = Question.builder().member(member).campsite(campsite).
@@ -79,9 +78,15 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void deleteQuestion(UUID questionId) {
+    public void deleteQuestion(UUID questionId, UUID requestMemberId) throws Exception {
         Question question = questionRepository.findByUuidAndExpiredIsFalse(questionId).orElseThrow(IllegalArgumentException::new);
-        answerRepository.deleteByQuestion_id(question.getId());
-        questionRepository.deleteById(question.getId());
+
+        if (question.getMember().getUuid().equals(requestMemberId)) {
+            answerRepository.deleteByQuestion_id(question.getId());
+            questionRepository.deleteById(question.getId());
+        }
+        else {
+            throw new Exception("삭제 권한이 없습니다.");
+        }
     }
 }

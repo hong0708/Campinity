@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Service
 public interface QuestionService {
-    QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO);
+    QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO, int requestMemberId);
 
     List<QuestionResDTO> getQuestionListByCampsite(UUID campsiteId);
 
@@ -18,5 +18,5 @@ public interface QuestionService {
 
     QuestionDetailResDTO getQuestionDetail(UUID questionId);
 
-    void deleteQuestion(UUID questionId);
+    void deleteQuestion(UUID questionId, UUID requestMemberId) throws Exception;
 }

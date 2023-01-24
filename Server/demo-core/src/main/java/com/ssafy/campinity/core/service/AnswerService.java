@@ -7,6 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public interface AnswerService {
 
-    public AnswerResDTO createAnswer(AnswerReqDTO answerReqDTO);
+    public AnswerResDTO createAnswer(AnswerReqDTO answerReqDTO, int requestMemberId);
 
 }

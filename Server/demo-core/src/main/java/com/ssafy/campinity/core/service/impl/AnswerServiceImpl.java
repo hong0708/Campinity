@@ -26,9 +26,9 @@ public class AnswerServiceImpl implements AnswerService {
     private final MemberRepository memberRepository;
 
     @Override
-    public AnswerResDTO createAnswer(AnswerReqDTO answerReqDTO) {
+    public AnswerResDTO createAnswer(AnswerReqDTO answerReqDTO, int requestMemberId) {
         Question question = questionRepository.findByUuidAndExpiredIsFalse(answerReqDTO.getQuestionId()).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(answerReqDTO.getMemberId()).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
 
         Answer answer = Answer.builder().uuid(UUID.randomUUID()).question(question).member(member).content(answerReqDTO.getContent()).build();
 
