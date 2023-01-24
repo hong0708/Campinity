@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="328dp"
+        android:layout_height="545dp"
+        android:background="@drawable/bg_rect_white_radius15_dialog">
+
+        <ImageView
+            android:id="@+id/iv_close_write_review_note_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="@string/image_close_dialog"
+            android:src="@drawable/ic_cancel"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_review_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/title_review_note"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_user_profile"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="13dp"
+            android:src="@drawable/ic_profile_default"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_review_title" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_user_profile"
+            app:layout_constraintStart_toEndOf="@id/iv_user_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_user_profile"
+            tools:text="세림" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/bg_rect_white_smoke_radius15"
+            android:padding="4dp"
+            app:layout_constraintBottom_toTopOf="@id/iv_review_img"
+            app:layout_constraintEnd_toEndOf="@id/iv_review_img"
+            tools:text="2023.01.10" />
+
+        <ImageView
+            android:id="@+id/iv_review_img"
+            android:layout_width="0dp"
+            android:layout_height="230dp"
+            android:layout_marginStart="23dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="23dp"
+            android:background="@drawable/bg_rect_bilbao_radius10"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_user_profile" />
+
+        <TextView
+            android:id="@+id/tv_review_content"
+            android:layout_width="0dp"
+            android:layout_height="152dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="31dp"
+            android:background="@drawable/bg_rect_light_yellow_radius10"
+            android:padding="11dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="와 여기 너무 좋음;; \n 무슨 글램핑장에" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
