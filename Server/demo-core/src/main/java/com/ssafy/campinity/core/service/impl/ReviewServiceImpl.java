@@ -1,6 +1,7 @@
 package com.ssafy.campinity.core.service.impl;
 
 import com.ssafy.campinity.core.dto.ReviewReqDTO;
+import com.ssafy.campinity.core.dto.ReviewResDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.review.Review;
@@ -26,8 +27,8 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewRepository reviewRepository;
 
     @Override
-    public void createReview(ReviewReqDTO reviewReqDTO) {
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(reviewReqDTO.getMemberId())
+    public ReviewResDTO createReview(ReviewReqDTO reviewReqDTO, int requestMemberId) {
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId)
                 .orElseThrow(IllegalArgumentException::new);
         Campsite campsite = campsiteRepository.findByUuid(reviewReqDTO.getCampsiteId())
                 .orElseThrow(IllegalArgumentException::new);
@@ -36,16 +37,18 @@ public class ReviewServiceImpl implements ReviewService {
                 content(reviewReqDTO.getContent()).rate(reviewReqDTO.getRate()).campsite(campsite).
                 member(member).build();
 
-        reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
 
-//        member.addUserReview(review);
-//        campsite.addCampsiteReview(review);
+        return ReviewResDTO.builder().review(savedReview).build();
     }
 
     @Override
-    public void deleteReview(UUID reviewId) {
+    public void deleteReview(UUID reviewId, UUID requestMemberId) throws Exception {
         Review review = reviewRepository.findByUuid(reviewId).orElseThrow(IllegalArgumentException::new);
-
-        reviewRepository.delete(review);
+        if (review.getMember().getUuid().equals(requestMemberId)) {
+            reviewRepository.delete(review);
+        } else {
+            throw new Exception("삭제 권한이 없습니다.");
+        }
     }
 }

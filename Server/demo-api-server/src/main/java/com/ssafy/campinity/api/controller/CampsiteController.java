@@ -5,6 +5,7 @@ import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,10 +21,10 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/campsites")
+@RequiredArgsConstructor
 public class CampsiteController {
 
-    @Autowired
-    CampsiteService campsiteService;
+    private final CampsiteService campsiteService;
 
     @GetMapping("/scope")
     public ResponseEntity<List<CampsiteLocationInfoDTO>> getCampsiteByScope(

@@ -5,6 +5,7 @@ import com.ssafy.campinity.core.dto.QuestionDetailResDTO;
 import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
 import com.ssafy.campinity.core.service.QuestionService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -17,10 +18,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v6/questions")
+@RequiredArgsConstructor
 public class QuestionController {
 
-    @Autowired
-    QuestionService questionService;
+    private final QuestionService questionService;
 
     @PostMapping("")
     public ResponseEntity<Object> createQuestion(QuestionReqDTO questionReqDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
