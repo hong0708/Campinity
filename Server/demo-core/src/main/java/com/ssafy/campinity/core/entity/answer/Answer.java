@@ -1,8 +1,8 @@
-package com.ssafy.campinity.core.entity.review;
+package com.ssafy.campinity.core.entity.answer;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
-import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.entity.question.Question;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
@@ -10,13 +10,14 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.UUID;
 
-@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
+@Entity
 @Getter
-@SQLDelete(sql = "UPDATE review SET expired = true WHERE review.id = ?")
-public class Review extends BaseEntity {
+@SQLDelete(sql = "UPDATE answer SET expired = true WHERE answer.id = ?")
+public class Answer extends BaseEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -27,23 +28,20 @@ public class Review extends BaseEntity {
 
     private String content;
 
-    private int rate;
-
     private Boolean expired;
+
+    @ManyToOne
+    private Question question;
 
     @ManyToOne
     private Member member;
 
-    @ManyToOne
-    private Campsite campsite;
-
     @Builder
-    public Review(UUID uuid, String content, int rate, Member member, Campsite campsite) {
+    public Answer(UUID uuid, String content, Question question, Member member) {
         this.uuid = uuid;
         this.content = content;
-        this.rate = rate;
-        this.member = member;
-        this.campsite = campsite;
         this.expired = false;
+        this.question = question;
+        this.member = member;
     }
 }

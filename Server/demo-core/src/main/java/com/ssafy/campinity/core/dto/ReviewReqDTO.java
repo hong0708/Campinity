@@ -10,16 +10,16 @@ import java.util.UUID;
 public class ReviewReqDTO {
     UUID campsiteId;
 
-    UUID userId;
+    UUID memberId;
 
     String content;
 
     int rate;
 
     @Builder
-    public ReviewReqDTO(UUID campsiteId, UUID userId, String content, int rate) {
+    public ReviewReqDTO(UUID campsiteId, UUID memberId, String content, int rate) {
         this.campsiteId = campsiteId;
-        this.userId = userId;
+        this.memberId = memberId;
         this.content = content;
         this.rate = rate;
     }

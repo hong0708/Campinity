@@ -3,6 +3,7 @@ package com.ssafy.campinity.core.repository.campsite.custom;
 import com.ssafy.campinity.core.dto.CampsiteListResDTO;
 import com.ssafy.campinity.core.entity.campsite.*;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,8 @@ public class CampsiteCustomRepository {
     @Autowired
     MemberRepository memberRepository;
 
+    @Autowired
+    CampsiteScrapRepository campsiteScrapRepository;
 
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                      String[] fclties, String[] amenities, String[] induties,
@@ -199,7 +202,14 @@ public class CampsiteCustomRepository {
                 }
             }
 
-            completedResult.add(CampsiteListResDTO.builder().camp(camp).member(member).build());
+            Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(member.getId(), camp.getId());
+
+            Boolean isScraped = false;
+            if (campsiteScrap.isPresent()) {
+                isScraped = true;
+            }
+
+            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).build());
         }
         return completedResult;
     }

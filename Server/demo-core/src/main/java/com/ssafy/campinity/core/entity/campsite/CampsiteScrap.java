@@ -33,7 +33,7 @@ public class CampsiteScrap extends BaseEntity {
     }
 
 
-    public void changeScrapType() {
-        this.scrapType = !this.scrapType;
-    }
+//    public void changeScrapType() {
+//        this.scrapType = !this.scrapType;
+//    }
 }

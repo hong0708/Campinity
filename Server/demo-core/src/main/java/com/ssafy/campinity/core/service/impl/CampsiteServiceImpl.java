@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -27,8 +28,8 @@ public class CampsiteServiceImpl implements CampsiteService {
     private final CampsiteScrapRepository campsiteScrapRepository;
     private final MemberRepository memberRepository;
 
-    @Transactional
     @Override
+    @Transactional
     public List<Campsite> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO) {
         Double topLeftLat = locationInfoDTO.getTopLeftLat();
         Double topLeftLng = locationInfoDTO.getTopLeftLng();
@@ -52,6 +53,7 @@ public class CampsiteServiceImpl implements CampsiteService {
     @Override
     public CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId) {
         Campsite camp = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalAccessError::new);
+
         return CampsiteMetaResDTO.builder().
                 campsiteId(camp.getUuid()).
                 campName(camp.getCampName()).
@@ -60,30 +62,31 @@ public class CampsiteServiceImpl implements CampsiteService {
                 build();
     }
 
-    @Transactional
     @Override
-    public void scrap(UUID memberId, UUID campsiteId) {
+    @Transactional
+    public Boolean scrap(UUID memberId, UUID campsiteId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
-        CampsiteScrap campsiteScrap = campsiteScrapRepository.findByMemberAndCampsite(member, campsite).orElse(null);
+        Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(member.getId(), campsite.getId());
 
-        if (campsiteScrap != null) {
-            campsiteScrap.changeScrapType();
-            campsiteScrapRepository.save(campsiteScrap);
+        if (campsiteScrap.isPresent()) {
+            campsiteScrapRepository.delete(campsiteScrap.get());
+            return false;
         } else {
-            CampsiteScrap savedScrap = campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).member(member).scrapType(true).build());
-            campsite.addCampsiteScrap(savedScrap);
-            member.addUserScrap(savedScrap);
+            campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).member(member).scrapType(true).build());
+            return true;
         }
     }
 
-    @Transactional
     @Override
+    @Transactional
     public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID memberId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         return CampsiteDetailResDTO.builder().camp(campsite).member(member).build();
     }
+
+
 }

@@ -57,7 +57,7 @@ public class CampsiteController {
                                                                                @RequestParam(name = "theme", defaultValue = "") String thema,
                                                                                @RequestParam(name = "allowAnimal", defaultValue = "") String allowAnimal,
                                                                                @RequestParam(name = "operSeason", defaultValue = "") String operSeason,
-                                                                               @RequestParam(name = "userId") UUID userId) {
+                                                                               @RequestParam(name = "memberId") UUID memberId) {
 
         String[] fclties = new String[0];
         if (!fclty.trim().isEmpty()) {
@@ -93,7 +93,7 @@ public class CampsiteController {
         }
 
         List<CampsiteListResDTO> result = campsiteService.getCampsiteListByFiltering(keyword.trim(), doName.trim(),
-                sigunguName.trim(), fclties, amenities, induties, themas, allowAnimals, operSeasons, userId);
+                sigunguName.trim(), fclties, amenities, induties, themas, allowAnimals, operSeasons, memberId);
 
         return new ResponseEntity<List<CampsiteListResDTO>>(result, HttpStatus.OK);
     }
@@ -104,14 +104,14 @@ public class CampsiteController {
     }
 
     @GetMapping("/detail/{campsiteId}")
-    public ResponseEntity<CampsiteDetailResDTO> getCampsiteDetail(@PathVariable UUID campsiteId, @RequestParam UUID userId) {
-        return new ResponseEntity<>(campsiteService.getCampsiteDetail(campsiteId, userId), HttpStatus.OK);
+    public ResponseEntity<CampsiteDetailResDTO> getCampsiteDetail(@PathVariable UUID campsiteId, @RequestParam UUID memberId) {
+        return new ResponseEntity<>(campsiteService.getCampsiteDetail(campsiteId, memberId), HttpStatus.OK);
     }
 
-    @PutMapping("/{userId}/scrap/{campsiteId}")
-    public ResponseEntity<Object> campsiteScrap(@PathVariable UUID userId,
+    @PutMapping("/{memberId}/scrap/{campsiteId}")
+    public ResponseEntity<Object> campsiteScrap(@PathVariable UUID memberId,
                                                 @PathVariable UUID campsiteId) {
-        campsiteService.scrap(userId, campsiteId);
+        campsiteService.scrap(memberId, campsiteId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

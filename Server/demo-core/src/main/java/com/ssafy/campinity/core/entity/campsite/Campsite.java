@@ -2,6 +2,7 @@ package com.ssafy.campinity.core.entity.campsite;
 
 
 import com.ssafy.campinity.core.entity.BaseEntity;
+import com.ssafy.campinity.core.entity.question.Question;
 import com.ssafy.campinity.core.entity.review.Review;
 import com.ssafy.campinity.core.entity.message.Message;
 import lombok.*;
@@ -74,6 +75,11 @@ public class Campsite extends BaseEntity {
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<Message> messages = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "campsite_id")
+    @ToString.Exclude
+    private List<Question> questions = new ArrayList<>();
 
 
     private int contentId;

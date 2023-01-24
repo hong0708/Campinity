@@ -27,7 +27,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void createReview(ReviewReqDTO reviewReqDTO) {
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(reviewReqDTO.getUserId())
+        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(reviewReqDTO.getMemberId())
                 .orElseThrow(IllegalArgumentException::new);
         Campsite campsite = campsiteRepository.findByUuid(reviewReqDTO.getCampsiteId())
                 .orElseThrow(IllegalArgumentException::new);
@@ -38,8 +38,8 @@ public class ReviewServiceImpl implements ReviewService {
 
         reviewRepository.save(review);
 
-        member.addUserReview(review);
-        campsite.addCampsiteReview(review);
+//        member.addUserReview(review);
+//        campsite.addCampsiteReview(review);
     }
 
     @Override
