@@ -17,7 +17,7 @@ public interface CampsiteService {
 
     CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId);
 
-    Boolean scrap(UUID userId, UUID campsiteId);
+    Boolean scrap(int requestMemberId, UUID campsiteId);
 
-    CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID userId);
+    CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int requestMemberId);
 }

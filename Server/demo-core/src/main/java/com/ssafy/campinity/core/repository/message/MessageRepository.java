@@ -20,5 +20,7 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
 
     Optional<Message> findByUuidAndExpiredIsFalse(UUID messageId);
 
+    List<Message> findByCampsite_idAndExpiredIsFalse(int campsiteId);
+
     void deleteById(Integer id);
 }

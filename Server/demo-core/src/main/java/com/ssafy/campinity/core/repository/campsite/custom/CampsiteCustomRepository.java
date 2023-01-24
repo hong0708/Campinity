@@ -5,6 +5,8 @@ import com.ssafy.campinity.core.entity.campsite.*;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
+import com.ssafy.campinity.core.repository.message.MessageRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,16 +15,15 @@ import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Repository
+@RequiredArgsConstructor
 public class CampsiteCustomRepository {
 
-    @PersistenceContext
-    EntityManager em;
 
-    @Autowired
-    MemberRepository memberRepository;
+    private final EntityManager em;
+    private final MemberRepository memberRepository;
+    private final CampsiteScrapRepository campsiteScrapRepository;
+    private final MessageRepository messageRepository;
 
-    @Autowired
-    CampsiteScrapRepository campsiteScrapRepository;
 
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                      String[] fclties, String[] amenities, String[] induties,
@@ -209,7 +210,9 @@ public class CampsiteCustomRepository {
                 isScraped = true;
             }
 
-            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).build());
+            int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+
+            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).build());
         }
         return completedResult;
     }

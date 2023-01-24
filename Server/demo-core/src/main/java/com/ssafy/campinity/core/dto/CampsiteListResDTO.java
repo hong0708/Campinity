@@ -1,18 +1,16 @@
 package com.ssafy.campinity.core.dto;
 
 import com.ssafy.campinity.core.entity.campsite.Campsite;
-import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
-import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import lombok.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.UUID;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CampsiteListResDTO {
-    // 이미지들이랑 쪽지 개수는 추후에 엔티티 완성되면 추가
     @Autowired
     private static CampsiteScrapRepository campsiteScrapRepository;
 
@@ -26,15 +24,24 @@ public class CampsiteListResDTO {
 
     private Double longitude;
 
+    private String firstImageUrl;
+
     private Boolean isScraped;
 
+    private List<String> images;
+
+    private int messageCnt;
+
     @Builder
-    public CampsiteListResDTO(Campsite camp, Boolean isScraped) {
+    public CampsiteListResDTO(Campsite camp, Boolean isScraped, int messageCnt) {
         this.isScraped = isScraped;
         this.campsiteId = camp.getUuid().toString();
         this.campName = camp.getCampName();
         this.address = camp.getAddress();
         this.latitude = camp.getLatitude();
         this.longitude = camp.getLongitude();
+        this.images = new ArrayList<>();
+        this.messageCnt = messageCnt;
+        this.firstImageUrl = camp.getFirstImageUrl();
     }
 }

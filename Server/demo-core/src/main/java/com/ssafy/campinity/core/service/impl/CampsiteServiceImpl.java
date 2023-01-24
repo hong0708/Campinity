@@ -5,10 +5,12 @@ import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.entity.review.Review;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
+import com.ssafy.campinity.core.repository.review.ReviewRepository;
 import com.ssafy.campinity.core.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -27,6 +30,7 @@ public class CampsiteServiceImpl implements CampsiteService {
     private final CampsiteCustomRepository campsiteCustomRepository;
     private final CampsiteScrapRepository campsiteScrapRepository;
     private final MemberRepository memberRepository;
+    private final ReviewRepository reviewRepository;
 
     @Override
     @Transactional
@@ -64,9 +68,9 @@ public class CampsiteServiceImpl implements CampsiteService {
 
     @Override
     @Transactional
-    public Boolean scrap(UUID memberId, UUID campsiteId) {
+    public Boolean scrap(int requestMemberId, UUID campsiteId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
 
         Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(member.getId(), campsite.getId());
 
@@ -74,19 +78,23 @@ public class CampsiteServiceImpl implements CampsiteService {
             campsiteScrapRepository.delete(campsiteScrap.get());
             return false;
         } else {
-            campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).member(member).scrapType(true).build());
+            campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).member(member).build());
             return true;
         }
     }
 
     @Override
     @Transactional
-    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID memberId) {
+    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int requestMemberId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
 
-        return CampsiteDetailResDTO.builder().camp(campsite).member(member).build();
+        List<Review> reviews = reviewRepository.findByCampsite_idAndExpiredIsFalse(campsite.getId());
+
+        List<ReviewResDTO> reviewDTOLists = reviews.stream().map(review -> {
+            return ReviewResDTO.builder().review(review).build();
+        }).collect(Collectors.toList());
+
+        return CampsiteDetailResDTO.builder().camp(campsite).member(member).reviews(reviewDTOLists).build();
     }
-
-
 }
