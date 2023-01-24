@@ -79,5 +79,6 @@
     <string name="title_write_question_note">질문을 남겨주세요!</string>
     <string name="content_write_question">확인</string>
     <string name="content_cancel_question">취소</string>
+    <string name="image_curation">image_curation</string>
 
 </resources>
