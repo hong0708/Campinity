@@ -15,4 +15,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     List<Question> findAllByCampsite_idAndMember_idAndExpiredIsFalse(int campsiteId, int memberId);
 
     void deleteById(int questionId);
+
+    Optional<Question> findById(int questionId);
 }

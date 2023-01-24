@@ -50,11 +50,11 @@ public class Member extends BaseEntity {
     private List<Review> reviews = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private List<Question> questions = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private List<Answer> answers = new ArrayList<>();
 
     private String fcmToken;

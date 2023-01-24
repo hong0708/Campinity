@@ -16,9 +16,9 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
-@Entity
 @Getter
 @SQLDelete(sql = "UPDATE question SET expired = true WHERE question.id = ?")
+@Entity
 public class Question extends BaseEntity {
 
     @Id

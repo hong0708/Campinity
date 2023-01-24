@@ -42,13 +42,13 @@ public class CampsiteScrapTest {
 
         campsiteService.scrap(savedMember.getUuid(), camp.getUuid());
 
-        CampsiteScrap campsiteScrap1 = campsiteScrapRepository.findByMemberAndCampsite(savedMember, camp).orElseThrow(IllegalArgumentException::new);
+        CampsiteScrap campsiteScrap1 = campsiteScrapRepository.findByMember_idAndCampsite_id(savedMember.getId(), camp.getId()).orElseThrow(IllegalArgumentException::new);
 
         Assertions.assertThat(campsiteScrap1.getScrapType()).isEqualTo(true);
 
         campsiteService.scrap(savedMember.getUuid(), camp.getUuid());
 
-        CampsiteScrap campsiteScrap2 = campsiteScrapRepository.findByMemberAndCampsite(savedMember, camp).orElseThrow(IllegalArgumentException::new);
+        CampsiteScrap campsiteScrap2 = campsiteScrapRepository.findByMember_idAndCampsite_id(savedMember.getId(), camp.getId()).orElseThrow(IllegalArgumentException::new);
 
         Assertions.assertThat(campsiteScrap2.getScrapType()).isEqualTo(false);
     }
