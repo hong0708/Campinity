@@ -8,7 +8,7 @@ import com.ssafy.campinity.api.service.KakaoUserService;
 import com.ssafy.campinity.core.dto.MemberResDTO;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.service.MemberService;
-import com.ssafy.campinity.core.utils.UploadImageUtil;
+import com.ssafy.campinity.core.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,8 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-//import javax.validation.constraints.NotBlank;
-//import javax.validation.constraints.Size;
 import java.io.IOException;
 import java.util.NoSuchElementException;
 
@@ -33,7 +31,7 @@ public class MemberController {
     private final KakaoUserService kakaoUserService;
     private final JwtProvider jwtProvider;
     private final MemberService memberService;
-    private final UploadImageUtil uploadImageUtil;
+    private final ImageUtil imageUtil;
     /**
      *
      * @param code
@@ -53,7 +51,7 @@ public class MemberController {
                                                @AuthenticationPrincipal MemberDetails memberDetails) throws IOException, NoSuchElementException {
         Member member = memberService.findMemberByUUID(memberDetails.getMember().getUuid());
 
-        String profileImgPath = uploadImageUtil.uploadImage(profileImg, "member");
+        String profileImgPath = imageUtil.uploadImage(profileImg, "member");
 
         member.setProfileImage(profileImgPath);
         member.setName(nickName);

@@ -19,9 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-
-@Service
 @RequiredArgsConstructor
+@Service
 public class CampsiteServiceImpl implements CampsiteService {
 
     private final CampsiteRepository campsiteRepository;
@@ -41,10 +40,8 @@ public class CampsiteServiceImpl implements CampsiteService {
                 topLeftLng, bottomRightLng);
     }
 
-
-
-    @Override
     @Transactional
+    @Override
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                                String[] fclties, String[] amenities, String[] induties,
                                                                String[] themas, String[] allowAnimals, String[] operSeasons, UUID memberId) {
@@ -52,8 +49,8 @@ public class CampsiteServiceImpl implements CampsiteService {
         return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, induties, themas, allowAnimals, operSeasons, memberId);
     }
 
-    @Override
     @Transactional
+    @Override
     public CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId) {
         Campsite camp = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalAccessError::new);
 

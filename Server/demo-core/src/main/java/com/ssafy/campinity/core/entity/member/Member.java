@@ -14,6 +14,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "update member set expired = true where id = ?")
 public class Member extends BaseEntity {
 
     @Id
