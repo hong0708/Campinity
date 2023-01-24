@@ -1,14 +1,14 @@
 package com.ssafy.campinity.core.dto;
 
 import com.ssafy.campinity.core.entity.message.MessageCategory;
-import lombok.Data;
-import lombok.Builder;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
-@Data
-public class MessageReqDTO {
+@Getter
+@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED)public class MessageReqDTO {
 
     private UUID campsiteId;
 

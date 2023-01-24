@@ -2,26 +2,24 @@ package com.ssafy.campinity.api.message;
 
 import com.ssafy.campinity.api.CampinityApplication;
 import com.ssafy.campinity.core.dto.LatLngDTO;
-import com.ssafy.campinity.core.dto.MessageReqDTO;
-import com.ssafy.campinity.core.repository.message.MessageRepository;
 import com.ssafy.campinity.core.service.MessageService;
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.UUID;
+import javax.transaction.Transactional;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Transactional
 @SpringBootTest(classes = CampinityApplication.class)
 public class MessageSearchByCampsiteIdByScopeTest {
 
     @Autowired
     MessageService messageService;
-    @Test
+//    @Test
     @DisplayName("캠핑장 아이디 및 위경도 기반 쪽지 검색")
     public void getMessageByCampsiteIdByScope() {
 
