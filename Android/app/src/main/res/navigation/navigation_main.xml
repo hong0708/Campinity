@@ -42,6 +42,12 @@
         <action
             android:id="@+id/action_homeFragment_to_searchFragment"
             app:destination="@id/searchActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_curationFragment"
+            app:destination="@id/curationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_curationDetailFragment"
+            app:destination="@id/curationDetailFragment" />
     </fragment>
 
     <fragment
@@ -61,6 +67,26 @@
         tools:layout="@layout/fragment_collection_detail">
         <argument
             android:name="collectionId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/curationFragment"
+        android:name="com.ssafy.campinity.presentation.curation.CurationFragment"
+        android:label="CurationFragment"
+        tools:layout="@layout/fragment_curation">
+        <action
+            android:id="@+id/action_curationFragment_to_curationDetailFragment"
+            app:destination="@id/curationDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/curationDetailFragment"
+        android:name="com.ssafy.campinity.presentation.curation.CurationDetailFragment"
+        android:label="CurationDetailFragment"
+        tools:layout="@layout/fragment_curation_detail">
+        <argument
+            android:name="curationId"
             app:argType="string" />
     </fragment>
 

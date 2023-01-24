@@ -5,7 +5,7 @@
 
         <variable
             name="curation"
-            type="com.ssafy.campinity.presentation.curation.CurationData" />
+            type="com.ssafy.campinity.domain.entity.curation.CurationItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
