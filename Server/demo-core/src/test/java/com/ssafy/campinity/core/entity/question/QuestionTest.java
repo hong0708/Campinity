@@ -37,7 +37,8 @@ public class QuestionTest {
     @DisplayName("question 및 answer 생성 테스트")
     public void questionCreateAndDeleteTest (){
         Campsite campsite = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findById(1).orElseThrow(IllegalArgumentException::new);
+        Member member = Member.builder().uuid(UUID.randomUUID()).name("test").build();
+        Member savedMember = memberRepository.save(member);
 
         Question question = Question.builder().uuid(UUID.randomUUID()).content("testtest").member(member).campsite(campsite).build();
 

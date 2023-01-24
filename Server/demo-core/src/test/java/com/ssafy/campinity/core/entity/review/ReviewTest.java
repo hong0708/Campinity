@@ -31,7 +31,9 @@ public class ReviewTest {
     @DisplayName("review 글 작성 및 삭제 테스트")
     public void reviewTest (){
         Campsite campsite = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findById(1).orElseThrow(IllegalArgumentException::new);
+        Member member = Member.builder().uuid(UUID.randomUUID()).name("test").build();
+        Member savedMember = memberRepository.save(member);
+
         Review review = Review.builder().uuid(UUID.randomUUID()).rate(5).
                 content("test용 게시글입니다. ").member(member).campsite(campsite).build();
 
