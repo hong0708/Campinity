@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="bottom"
-            app:umanoDragView="@id/fragment_container_campsite_list"
+            app:umanoDragView="@id/fcv_list"
             app:umanoOverlay="true"
             app:umanoPanelHeight="0dp"
             tools:context=".presentation.search.SearchFragment">
@@ -52,7 +52,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fragment_container_campsite_list"
+                android:id="@+id/fcv_list"
                 android:name="com.ssafy.campinity.presentation.search.SearchListFragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

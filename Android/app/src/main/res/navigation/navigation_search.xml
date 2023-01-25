@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_search"
+    app:startDestination="@id/searchActivity">
+
+    <action
+        android:id="@+id/action_searchActivity_to_campsiteDetailFragment"
+        app:destination="@id/campsiteDetailFragment" />
+
+    <activity
+        android:id="@+id/searchActivity"
+        android:name="com.ssafy.campinity.presentation.search.SearchActivity"
+        android:label="activity_search"
+        tools:layout="@layout/activity_search" />
+
+    <fragment
+        android:id="@+id/campsiteDetailFragment"
+        android:name="com.ssafy.campinity.presentation.search.CampsiteDetailFragment"
+        android:label="fragment_campsite_detail"
+        tools:layout="@layout/fragment_campsite_detail">
+        <argument
+            android:name="campsiteId"
+            app:argType="string" />
+    </fragment>
+</navigation>

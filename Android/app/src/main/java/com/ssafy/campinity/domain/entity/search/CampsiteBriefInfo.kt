@@ -5,5 +5,5 @@ data class CampsiteBriefInfo(
     val name: String,
     val area: String,
     val noteCount: Int,
-    val images: ArrayList<String>
+    val images: List<String>
 )

@@ -8,8 +8,8 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.databinding.ItemCampsiteImageBinding
 
-class SearchImageAdapter(private val images: ArrayList<String>) :
-    RecyclerView.Adapter<SearchImageAdapter.SearchImageViewHolder>() {
+class CampsiteBriefImageAdapter(private val images: List<String>) :
+    RecyclerView.Adapter<CampsiteBriefImageAdapter.SearchImageViewHolder>() {
     private lateinit var binding: ItemCampsiteImageBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchImageViewHolder {

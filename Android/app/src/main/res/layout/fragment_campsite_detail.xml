@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.search.CampsiteInfoFragment">
+        tools:context=".presentation.search.CampsiteDetailFragment">
 
         <ScrollView
             android:id="@+id/sv_campsite_info"
@@ -46,6 +46,19 @@
                         android:layout_alignParentStart="true"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true" />
+
+                    <com.zhpan.indicator.IndicatorView
+                        android:id="@+id/iv_indicator"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/vp_campsite_image"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        app:vpi_orientation="horizontal"
+                        app:vpi_slide_mode="smooth"
+                        app:vpi_slider_checked_color="@color/black"
+                        app:vpi_slider_normal_color="@color/silver"
+                        app:vpi_style="dash" />
                 </RelativeLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
