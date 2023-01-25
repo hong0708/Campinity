@@ -5,7 +5,6 @@ import com.ssafy.campinity.core.dto.MessageLikeDTO;
 import com.ssafy.campinity.core.dto.MessageReqDTO;
 import com.ssafy.campinity.core.dto.MessageResDTO;
 import com.ssafy.campinity.core.entity.message.Message;
-import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.MessageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -42,8 +41,8 @@ public class MessageController {
         }
     }
 
-    @GetMapping("/{campsiteId}/scopes")
-    public ResponseEntity<List<MessageResDTO>> getMessagesByCampsiteIdLatLngBetweenScopes(
+    @GetMapping("/{campsiteId}/scope")
+    public ResponseEntity<List<MessageResDTO>> getMessagesByCampsiteIdLatLngBetweenScope(
             @PathVariable String campsiteId,
             LatLngDTO latLngDTO){
         try {
@@ -82,6 +81,7 @@ public class MessageController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
     }
+
 
     @PutMapping("/{memberId}/like/{messageId}")
     public ResponseEntity<MessageLikeDTO> likeMessage(

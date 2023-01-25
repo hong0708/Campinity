@@ -1,15 +1,18 @@
 package com.ssafy.campinity.core.repository.campsite;
 
-import com.ssafy.campinity.core.entity.campsite.Amenity;
 import com.ssafy.campinity.core.entity.campsite.Industry;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.jupiter.api.Assertions.*;
+import javax.transaction.Transactional;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 
 
+@Transactional
 @SpringBootTest
 class IndustryRepositoryTest {
 

@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Component
-public class UploadImageUtil {
+public class ImageUtil {
 
     public String uploadImage(MultipartFile multipartFile, String table) throws IOException {
 
@@ -56,6 +56,16 @@ public class UploadImageUtil {
         file.setWritable(true);
         file.setReadable(true);
 
-        return file.getAbsolutePath();
-    };
+        return "\\" + path + File.separator + newFileName;
+    }
+
+    public boolean removeImage(String imagePath){
+
+        boolean result;
+        String absolutePath = new File("demo-core\\src\\main\\resources\\static").getAbsolutePath();
+        File file = new File(absolutePath + imagePath);
+        result = file.delete();
+        return result;
+
+    }
 }

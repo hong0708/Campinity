@@ -40,27 +40,26 @@ public class CampsiteScrapTest {
 
         Campsite camp = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
 
-        campsiteService.scrap(savedMember.getUuid(), camp.getUuid());
+        campsiteService.scrap(savedMember.getId(), camp.getUuid());
 
-        CampsiteScrap campsiteScrap1 = campsiteScrapRepository.findByMemberAndCampsite(savedMember, camp).orElseThrow(IllegalArgumentException::new);
+        CampsiteScrap campsiteScrap1 = campsiteScrapRepository.findByMember_idAndCampsite_id(savedMember.getId(), camp.getId()).orElseThrow(IllegalArgumentException::new);
 
-        Assertions.assertThat(campsiteScrap1.getScrapType()).isEqualTo(true);
+        Assertions.assertThat(campsiteScrap1.getCampsite().getUuid()).isEqualTo(camp.getUuid());
 
-        campsiteService.scrap(savedMember.getUuid(), camp.getUuid());
 
-        CampsiteScrap campsiteScrap2 = campsiteScrapRepository.findByMemberAndCampsite(savedMember, camp).orElseThrow(IllegalArgumentException::new);
-
-        Assertions.assertThat(campsiteScrap2.getScrapType()).isEqualTo(false);
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, ()-> {
+            campsiteService.scrap(savedMember.getId(), camp.getUuid());
+            CampsiteScrap campsiteScrap2 = campsiteScrapRepository.findByMember_idAndCampsite_id(savedMember.getId(), camp.getId()).orElseThrow(IllegalArgumentException::new);
+        });
     }
 
     @Test
     @DisplayName("scrap 오류 발생 테스트")
     public void scrapErrorTest (){
-        UUID userId = UUID.randomUUID();
         UUID campsiteId = UUID.randomUUID();
 
         org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
-            campsiteService.scrap(userId, campsiteId);
+            campsiteService.scrap(10, campsiteId);
         });
     }
 }

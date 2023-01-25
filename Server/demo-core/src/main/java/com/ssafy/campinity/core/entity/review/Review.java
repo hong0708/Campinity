@@ -15,7 +15,7 @@ import java.util.UUID;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Getter
-@SQLDelete(sql = "UPDATE review SET is_deleted = true WHERE review.id = ?")
+@SQLDelete(sql = "UPDATE review SET expired = true WHERE review.id = ?")
 public class Review extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Review extends BaseEntity {
 
     private int rate;
 
-    private Boolean isDeleted = false;
+    private Boolean expired;
 
     @ManyToOne
     private Member member;
@@ -44,5 +44,6 @@ public class Review extends BaseEntity {
         this.rate = rate;
         this.member = member;
         this.campsite = campsite;
+        this.expired = false;
     }
 }

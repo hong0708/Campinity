@@ -1,10 +1,10 @@
 package com.ssafy.campinity.core.entity.review;
 
 import com.ssafy.campinity.core.entity.campsite.Campsite;
-import com.ssafy.campinity.core.entity.user.User;
+import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
+import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.review.ReviewRepository;
-import com.ssafy.campinity.core.repository.user.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,24 +25,26 @@ public class ReviewTest {
     CampsiteRepository campsiteRepository;
 
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Test
     @DisplayName("review 글 작성 및 삭제 테스트")
     public void reviewTest (){
         Campsite campsite = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
-        User user = userRepository.findById(1).orElseThrow(IllegalArgumentException::new);
+        Member member = Member.builder().uuid(UUID.randomUUID()).name("test").build();
+        Member savedMember = memberRepository.save(member);
+
         Review review = Review.builder().uuid(UUID.randomUUID()).rate(5).
-                content("test용 게시글입니다. ").user(user).campsite(campsite).build();
+                content("test용 게시글입니다. ").member(member).campsite(campsite).build();
 
         Review savedReview = reviewRepository.save(review);
-        Assertions.assertThat(savedReview.getIsDeleted()).isEqualTo(false);
+        Assertions.assertThat(savedReview.getExpired()).isEqualTo(false);
 
         reviewRepository.delete(savedReview);
 
         Review deletedReview = reviewRepository.findByUuid(savedReview.getUuid()).orElseThrow(IllegalArgumentException::new);
 
-        Assertions.assertThat(deletedReview.getIsDeleted()).isEqualTo(true);
+        Assertions.assertThat(deletedReview.getExpired()).isEqualTo(true);
     }
 
 }

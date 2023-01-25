@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
+import com.ssafy.campinity.core.entity.answer.Answer;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
 import com.ssafy.campinity.core.entity.message.LikeMessage;
 import com.ssafy.campinity.core.entity.message.Message;
+import com.ssafy.campinity.core.entity.question.Question;
 import com.ssafy.campinity.core.entity.review.Review;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -19,6 +23,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @Entity
+@SQLDelete(sql = "update member set expired = true where id = ?")
 public class Member extends BaseEntity {
 
     @Id
@@ -31,6 +36,7 @@ public class Member extends BaseEntity {
 
     @OneToMany
     @JoinColumn(name = "member_id")
+    @ToString.Exclude
     private List<Message> messages = new ArrayList<>();
 
     @OneToMany
@@ -42,8 +48,16 @@ public class Member extends BaseEntity {
     private List<CampsiteScrap> scraps = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "member_id")
     private List<Review> reviews = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "member_id")
+    private List<Question> questions = new ArrayList<>();
+
+    @OneToMany
+    @JoinColumn(name = "member_id")
+    private List<Answer> answers = new ArrayList<>();
 
     private String fcmToken;
 
