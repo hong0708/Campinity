@@ -11,6 +11,7 @@ import com.ssafy.campinity.core.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.naming.NoPermissionException;
 import java.util.UUID;
 
 @Service
@@ -26,8 +27,8 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewRepository reviewRepository;
 
     @Override
-    public void createReview(ReviewReqDTO reviewReqDTO) {
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(reviewReqDTO.getMemberId())
+    public void createReview(ReviewReqDTO reviewReqDTO, int memberId) {
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
         Campsite campsite = campsiteRepository.findByUuid(reviewReqDTO.getCampsiteId())
                 .orElseThrow(IllegalArgumentException::new);
@@ -37,14 +38,15 @@ public class ReviewServiceImpl implements ReviewService {
                 member(member).build();
 
         reviewRepository.save(review);
-
-//        member.addUserReview(review);
-//        campsite.addCampsiteReview(review);
     }
 
     @Override
-    public void deleteReview(UUID reviewId) {
+    public void deleteReview(UUID reviewId, UUID memberUuid) throws NoPermissionException {
+
         Review review = reviewRepository.findByUuid(reviewId).orElseThrow(IllegalArgumentException::new);
+
+        if (!review.getMember().getUuid().equals(memberUuid))
+            throw new NoPermissionException("삭제 권한이 없습니다.");
 
         reviewRepository.delete(review);
     }

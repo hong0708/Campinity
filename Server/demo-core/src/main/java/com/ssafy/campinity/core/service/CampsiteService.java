@@ -13,11 +13,11 @@ public interface CampsiteService {
 
     List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                         String[] fclties, String[] amenities, String[] induties,
-                                                        String[] themas, String[] allowAnimals, String[] operSeasons, UUID memberId);
+                                                        String[] themas, String[] allowAnimals, String[] operSeasons, int memberId);
 
     CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId);
 
-    Boolean scrap(UUID userId, UUID campsiteId);
+    Boolean scrap(int userId, UUID campsiteId);
 
-    CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, UUID userId);
+    CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int userId);
 }

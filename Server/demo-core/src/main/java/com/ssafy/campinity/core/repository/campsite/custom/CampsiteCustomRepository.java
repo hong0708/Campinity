@@ -27,8 +27,8 @@ public class CampsiteCustomRepository {
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                      String[] fclties, String[] amenities, String[] induties,
                                                      String[] themas, String[] allowAnimals, String[] operSeasons,
-                                                            UUID memberId) {
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
+                                                            int memberId) {
+        Member member = memberRepository.findMemberByidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         String query = "Select c From Campsite c ";
 

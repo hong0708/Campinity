@@ -6,6 +6,7 @@ import com.ssafy.campinity.api.service.MemberDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,6 +19,13 @@ public class AppConfig {
     private final JwtProvider jwtProvider;
     private final MemberDetailService memberDetailService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private static final String[] AUTH_ARR = {
+            "/v2/api-docs",
+            "/swagger/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/api/v4/members/kakao/callback"
+    };
 
     public AppConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.jwtProvider = jwtProvider;
@@ -34,7 +42,7 @@ public class AppConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v4/members/kakao/callback").permitAll()
+                .antMatchers(AUTH_ARR).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider,  memberDetailService),
