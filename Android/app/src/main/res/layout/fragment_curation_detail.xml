@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/iv_curation"
+            android:layout_width="match_parent"
+            android:layout_height="370dp"
+            android:contentDescription="@string/image_curation"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_collection_detail"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_arrow_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="25dp"
+            android:contentDescription="@string/image_arrow_left"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/iv_book_mark"
+            android:layout_width="19dp"
+            android:layout_height="19dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="25dp"
+            android:contentDescription="@string/image_book_mark"
+            android:src="@drawable/ic_bookmark_off"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/ns_curation"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="14dp"
+            android:layout_marginTop="11dp"
+            android:layout_marginBottom="11dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_curation">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_title_curation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_bold"
+                    android:textColor="@color/black"
+                    android:textSize="24sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="parent"
+                    tools:text="초보자를 위한 캠핑 준비물 A - Z" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintStart_toStartOf="@id/tv_title_curation"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title_curation"
+                    tools:text="안녕하세요! 캠피니티입니다:)\n
+오늘은 튜토리얼의 첫번째 시간으로 캠핑 준비물에 대해서 소개를 해보려고 합니다.\n
+준비물? 그거 그냥 챙기면 되는거 아닌가? 라고 생각하실 수 있지만, 아무 생각 없이 챙기다 보면 짐은 엄청 많아지는데, 정작 필요한 물건들은 없는 그런 상황이 생길 수 있으니, 이 글을 참고해서 짐을 간소하게 잘챙겨봅시다!\n
+첫번째 준비물은 텐트입니다. 캠핑용품 기본 중에 기본이죠! 가격대도 다양하고, 종류도 다양하니 캠핑장의 특성에 따라서 결정하면 좋을 것 같습니다.\n
+두번째 준비물은 자충매트입니다. 텐트가 있다고 해도 딱딱한 바닥에서 잘수는 없으니까 꼭 챙기시는게 좋습니다. " />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
