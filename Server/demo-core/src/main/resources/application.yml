@@ -16,7 +16,7 @@ spring:
     password: root
 
   redis:
-    host: localhost
+    host: redis_boot
     port: 6379
 
   jpa:
