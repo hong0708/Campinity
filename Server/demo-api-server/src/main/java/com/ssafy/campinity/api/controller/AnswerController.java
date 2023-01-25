@@ -26,5 +26,6 @@ public class AnswerController {
     public ResponseEntity<Object> createAnswer(AnswerReqDTO answerReqDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
         AnswerResDTO result = answerService.createAnswer(answerReqDTO, memberDetails.getMember().getId());
         return new ResponseEntity<>(result, HttpStatus.CREATED);
+
     }
 }

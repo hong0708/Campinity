@@ -13,7 +13,6 @@ import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.review.ReviewRepository;
 import com.ssafy.campinity.core.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,7 +39,7 @@ public class CampsiteServiceImpl implements CampsiteService {
         Double bottomRightLat = locationInfoDTO.getBottomRightLat();
         Double bottomRightLng = locationInfoDTO.getBottomRightLng();
 
-        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(topLeftLat, bottomRightLat,
+        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat, topLeftLat,
                 topLeftLng, bottomRightLng);
     }
 
@@ -48,9 +47,10 @@ public class CampsiteServiceImpl implements CampsiteService {
     @Override
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                                String[] fclties, String[] amenities, String[] industries,
-                                                               String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
+                                                               String[] themes, String[] allowAnimals, String[] openSeasons,
+                                                               int memberId) {
 
-        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, industries, themes, allowAnimals, openSeasons, requestMemberId);
+        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, industries, themes, allowAnimals, openSeasons, memberId);
     }
 
     @Transactional
@@ -68,9 +68,9 @@ public class CampsiteServiceImpl implements CampsiteService {
 
     @Override
     @Transactional
-    public Boolean scrap(int requestMemberId, UUID campsiteId) {
+    public Boolean scrap(int memberId, UUID campsiteId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(member.getId(), campsite.getId());
 
@@ -85,15 +85,13 @@ public class CampsiteServiceImpl implements CampsiteService {
 
     @Override
     @Transactional
-    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int requestMemberId) {
+    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int memberId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         List<Review> reviews = reviewRepository.findByCampsite_idAndExpiredIsFalse(campsite.getId());
 
-        List<ReviewResDTO> reviewDTOLists = reviews.stream().map(review -> {
-            return ReviewResDTO.builder().review(review).build();
-        }).collect(Collectors.toList());
+        List<ReviewResDTO> reviewDTOLists = reviews.stream().map(review -> ReviewResDTO.builder().review(review).build()).collect(Collectors.toList());
 
         return CampsiteDetailResDTO.builder().camp(campsite).member(member).reviews(reviewDTOLists).build();
     }

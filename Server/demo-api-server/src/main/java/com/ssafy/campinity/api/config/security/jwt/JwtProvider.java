@@ -3,7 +3,7 @@ package com.ssafy.campinity.api.config.security.jwt;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
-import com.ssafy.campinity.api.exception.ForbiddenException;
+import com.ssafy.campinity.core.exception.ForbiddenException;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.redis.RedisDao;
 import io.jsonwebtoken.Claims;

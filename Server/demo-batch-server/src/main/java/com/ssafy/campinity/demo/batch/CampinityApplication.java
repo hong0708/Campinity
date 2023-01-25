@@ -19,5 +19,4 @@ public class CampinityApplication {
 
 		SpringApplication.run(CampinityApplication.class, args);
 	}
-
 }

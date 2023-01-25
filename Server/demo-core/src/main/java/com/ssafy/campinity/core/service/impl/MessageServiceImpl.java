@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,11 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
-    public Message createMessage(MessageReqDTO messageReqDTO, String memberUuid) {
+    public Message createMessage(MessageReqDTO messageReqDTO, int memberId) {
 
         Campsite campsite = campsiteRepository.findByUuid(messageReqDTO.getCampsiteId())
                 .orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(UUID.fromString(memberUuid))
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
 
         String imagePath = "";
@@ -92,17 +93,29 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
-    public void deleteMessage(String messageId) {
+    public void deleteMessage(String messageId, UUID memberUuid) throws FileNotFoundException {
         Message message = messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageId))
                 .orElseThrow(IllegalArgumentException::new);
-        messageRepository.deleteById(message.getId());
+        String imagePath = message.getImagePath();
+
+        if (message.getMember().getUuid().equals(memberUuid)){
+            if (!imagePath.isEmpty()){
+                try {
+                    imageUtil.removeImage(imagePath);
+                }
+                catch (Exception e){
+                    throw new FileNotFoundException();
+                }
+            }
+            messageRepository.deleteById(message.getId());
+        }
     }
 
     @Transactional
     @Override
-    public boolean likeMessage(String userUuid, String messageUuid) {
+    public boolean likeMessage(int memberId, String messageUuid) {
 
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(UUID.fromString(userUuid))
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
         Message message = messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageUuid))
                 .orElseThrow(IllegalArgumentException::new);

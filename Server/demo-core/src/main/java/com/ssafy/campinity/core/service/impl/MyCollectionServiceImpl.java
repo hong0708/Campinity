@@ -4,6 +4,7 @@ package com.ssafy.campinity.core.service.impl;
 import com.ssafy.campinity.core.dto.MyCollectionReqDTO;
 import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.exception.BadRequestException;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.myCollection.MyCollectionRepository;
 import com.ssafy.campinity.core.service.MyCollectionService;
@@ -14,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,9 +30,9 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
     @Transactional
     @Override
-    public MyCollection createMyCollection(MyCollectionReqDTO myCollectionReqDTO, String memberUuid) {
+    public MyCollection createMyCollection(MyCollectionReqDTO myCollectionReqDTO, int memberId) {
 
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(UUID.fromString(memberUuid))
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
 
         String imagePath = "";
@@ -54,11 +54,15 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
     @Transactional
     @Override
-    public MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid) throws FileNotFoundException {
+    public MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, UUID memberUuid) throws FileNotFoundException {
 
         MyCollection myCollection = myCollectionRepository.findByUuidAndExpiredIsFalse(UUID.fromString(collectionUuid))
                 .orElseThrow(IllegalArgumentException::new);
         String imagePath = myCollection.getImagePath();
+
+        if (!myCollection.getMember().getUuid().equals(memberUuid)) {
+            throw new BadRequestException("수정 권한이 없습니다.");
+        }
 
         if (!myCollectionReqDTO.getFile().isEmpty()){
             if (!imagePath.isEmpty()){
@@ -87,9 +91,9 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
     @Transactional
     @Override
-    public List<MyCollection> getMyCollections(String memberUuid) {
+    public List<MyCollection> getMyCollections(int memberId) {
 
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(UUID.fromString(memberUuid))
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
 
         List<MyCollection> myCollections = myCollectionRepository.findByMemberAndExpiredIsFalse(member);
@@ -108,9 +112,13 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
     @Transactional
     @Override
-    public void deleteMyCollection(String collectionUuid) throws FileNotFoundException {
+    public void deleteMyCollection(String collectionUuid, UUID memberUuid) throws FileNotFoundException {
         MyCollection myCollection = myCollectionRepository.findByUuidAndExpiredIsFalse(UUID.fromString(collectionUuid))
                 .orElseThrow(IllegalArgumentException::new);
+
+        if (!myCollection.getMember().getUuid().equals(memberUuid)) {
+            throw new BadRequestException("삭제 권한이 없습니다.");
+        }
 
         String imagePath = myCollection.getImagePath();
         try {
@@ -121,10 +129,8 @@ public class MyCollectionServiceImpl implements MyCollectionService {
             }
         }
         catch (Exception e){
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("이미지 파일 삭제를 실패했습니다.");
         }
-
         myCollectionRepository.deleteById(myCollection.getId());
-
     }
 }

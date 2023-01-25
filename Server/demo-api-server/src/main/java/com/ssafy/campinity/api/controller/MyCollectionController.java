@@ -1,5 +1,6 @@
 package com.ssafy.campinity.api.controller;
 
+import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.core.dto.MyCollectionReqDTO;
 import com.ssafy.campinity.core.dto.MyCollectionResDTO;
 import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
@@ -8,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
@@ -21,80 +23,67 @@ import java.util.stream.Collectors;
 public class MyCollectionController {
 
     private final MyCollectionService myCollectionService;
-    private final String userUuid = "ae7766ef-a63c-4be3-ae7b-352112813328"; // 임시 테스트용 member uuid
-
 
     @PostMapping
-    public ResponseEntity<MyCollectionResDTO> createMyCollection(MyCollectionReqDTO myCollectionReqDTO) {
+    public ResponseEntity<MyCollectionResDTO> createMyCollection(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            MyCollectionReqDTO myCollectionReqDTO) {
 
-        try {
-            MyCollection myCollection = myCollectionService.createMyCollection(myCollectionReqDTO, userUuid);
+        MyCollection myCollection = myCollectionService.createMyCollection(myCollectionReqDTO, memberDetails.getMember().getId());
 
-            MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
+        MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
 
-            return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(myCollectionResDTO);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(myCollectionResDTO);
     }
 
     @PutMapping("/{collectionId}")
     public ResponseEntity<MyCollectionResDTO> editMyCollection(
+            @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable String collectionId,
-            MyCollectionReqDTO myCollectionReqDTO) {
+            MyCollectionReqDTO myCollectionReqDTO) throws FileNotFoundException, UnsupportedEncodingException {
 
-        try {
-            MyCollection myCollection = myCollectionService.editMyCollection(myCollectionReqDTO, collectionId);
+        MyCollection myCollection = myCollectionService.editMyCollection(myCollectionReqDTO, collectionId, memberDetails.getMember().getUuid());
 
-            MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
+        MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
 
-            return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(myCollectionResDTO);
-        }
-        catch (IllegalArgumentException e) { return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);}
-        catch (FileNotFoundException | UnsupportedEncodingException e) { return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); }
+        return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(myCollectionResDTO);
     }
 
     @GetMapping
-    public ResponseEntity<List<MyCollectionResDTO>> getMyCollections(){
-        try {
-            List<MyCollection> myCollections = myCollectionService.getMyCollections(userUuid);
-            List<MyCollectionResDTO> myCollectionResDTOList = myCollections.stream().map(MyCollectionResDTO::new).collect(Collectors.toList());
-            return ResponseEntity.status(HttpStatus.OK).body(myCollectionResDTOList);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public ResponseEntity<List<MyCollectionResDTO>> getMyCollections(
+            @AuthenticationPrincipal MemberDetails memberDetails
+    ){
+        List<MyCollection> myCollections = myCollectionService.getMyCollections(memberDetails.getMember().getId());
+        List<MyCollectionResDTO> myCollectionResDTOList = myCollections.stream().map(MyCollectionResDTO::new).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(myCollectionResDTOList);
     }
 
     @GetMapping("/{collectionId}")
     public ResponseEntity<Object> getMyCollection(@PathVariable String collectionId){
-        try {
-            MyCollection myCollection = myCollectionService.getMyCollection(collectionId);
-            MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
+        MyCollection myCollection = myCollectionService.getMyCollection(collectionId);
+        MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
 
-            return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(myCollectionResDTO);
-        }
-        catch (IllegalArgumentException e){ return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);}
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
+
+        return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(myCollectionResDTO);
+
     }
 
     @DeleteMapping("/{collectionId}")
-    public ResponseEntity<Object> deleteCollection(@PathVariable String collectionId) {
-        try {
-            myCollectionService.deleteMyCollection(collectionId);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        } catch (FileNotFoundException e) { return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null); }
+    public ResponseEntity<Object> deleteCollection(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @PathVariable String collectionId) throws FileNotFoundException {
+
+        myCollectionService.deleteMyCollection(collectionId, memberDetails.getMember().getUuid());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
     }
 }
