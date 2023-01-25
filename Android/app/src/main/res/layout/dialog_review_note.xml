@@ -41,6 +41,7 @@
             android:layout_height="28dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="13dp"
+            android:contentDescription="@string/img_user_profile"
             android:src="@drawable/ic_profile_default"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_review_title" />
@@ -74,6 +75,7 @@
             android:layout_marginTop="13dp"
             android:layout_marginEnd="23dp"
             android:background="@drawable/bg_rect_bilbao_radius10"
+            android:contentDescription="@string/img_review_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/iv_user_profile" />
