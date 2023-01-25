@@ -3,6 +3,7 @@ package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.core.dto.ReviewReqDTO;
+import com.ssafy.campinity.core.dto.ReviewResDTO;
 import com.ssafy.campinity.core.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

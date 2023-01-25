@@ -12,8 +12,8 @@ public interface CampsiteService {
     List<Campsite> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO);
 
     List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
-                                                        String[] fclties, String[] amenities, String[] induties,
-                                                        String[] themas, String[] allowAnimals, String[] operSeasons, int memberId);
+                                                        String[] fclties, String[] amenities, String[] industries,
+                                                        String[] themes, String[] allowAnimals, String[] openSeasons, int memberId);
 
     CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId);
 

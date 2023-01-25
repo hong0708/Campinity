@@ -2,6 +2,7 @@ package com.ssafy.campinity.core.dto;
 
 import com.ssafy.campinity.core.entity.campsite.*;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.entity.review.Review;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -61,13 +62,12 @@ public class CampsiteDetailResDTO {
 
     private String allowAnimal;
 
-//    추후에 추가하기
-//    private List<String> images;
-//    private List<Review> reviews;
-//    private double total_rate;
+    private List<String> images;
+    private List<ReviewResDTO> reviews;
+    private double total_rate;
 
     @Builder
-    public CampsiteDetailResDTO(Campsite camp, Member member) {
+    public CampsiteDetailResDTO(Campsite camp, Member member, List<ReviewResDTO> reviews) {
         boolean isScraped = false;
         for (CampsiteScrap cs: camp.getScraps()) {
             if (cs.getMember().equals(member)){
@@ -105,6 +105,15 @@ public class CampsiteDetailResDTO {
         for (CampsiteAndIndustry item: camp.getIndustries()) {
             industies.add(item.getIndustry().getIndustryName());
         }
+
+        double total_rate = 0.0;
+        for (ReviewResDTO item: reviews) {
+            total_rate += item.getRate();
+        }
+        if (!reviews.isEmpty()) {
+            total_rate /= reviews.size();
+        }
+
         this.campsiteId = camp.getUuid().toString();
         this.amenities = amenities;
         this.caravanfclties = caravanfclties;
@@ -128,6 +137,9 @@ public class CampsiteDetailResDTO {
         this.subFacilityEtc = camp.getSubFacilityEtc();
         this.dayOperation = camp.getDayOperation();
         this.allowAnimal = camp.getAllowAnimal();
+        this.reviews = reviews;
+        this.total_rate = total_rate;
+        this.images = new ArrayList<>();
     }
 
 

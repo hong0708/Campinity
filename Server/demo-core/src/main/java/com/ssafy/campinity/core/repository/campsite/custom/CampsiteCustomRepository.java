@@ -5,6 +5,8 @@ import com.ssafy.campinity.core.entity.campsite.*;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
+import com.ssafy.campinity.core.repository.message.MessageRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -13,22 +15,20 @@ import javax.persistence.PersistenceContext;
 import java.util.*;
 
 @Repository
+@RequiredArgsConstructor
 public class CampsiteCustomRepository {
 
-    @PersistenceContext
-    EntityManager em;
 
-    @Autowired
-    MemberRepository memberRepository;
+    private final EntityManager em;
+    private final MemberRepository memberRepository;
+    private final CampsiteScrapRepository campsiteScrapRepository;
+    private final MessageRepository messageRepository;
 
-    @Autowired
-    CampsiteScrapRepository campsiteScrapRepository;
 
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
-                                                     String[] fclties, String[] amenities, String[] induties,
-                                                     String[] themas, String[] allowAnimals, String[] operSeasons,
-                                                            int memberId) {
-        Member member = memberRepository.findMemberByidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
+                                                               String[] fclties, String[] amenities, String[] industries,
+                                                               String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
 
         String query = "Select c From Campsite c ";
 
@@ -99,14 +99,14 @@ public class CampsiteCustomRepository {
         List<CampsiteListResDTO> completedResult = new ArrayList<>();
 
         boolean[] isInduties = new boolean[5];
-        for (String item: induties) {
+        for (String item: industries) {
             isInduties[Integer.parseInt(item)] = true;
         }
 
         for (Campsite camp: result) {
             // 사업
             boolean[] isIndustriesCampsite = new boolean[5];
-            if (0 < induties.length && induties.length < 4) {
+            if (0 < industries.length && industries.length < 4) {
                 for (CampsiteAndIndustry item: camp.getIndustries()) {
                     isIndustriesCampsite[item.getIndustry().getId()] = true;
                 }
@@ -163,14 +163,14 @@ public class CampsiteCustomRepository {
             }
 
             // themas
-            if (0 < themas.length && themas.length < 12) {
+            if (0 < themes.length && themes.length < 12) {
                 boolean[] isThemasCampsite = new boolean[13];
                 for (CampsiteAndTheme item: camp.getThemes()) {
                     isThemasCampsite[item.getTheme().getId()] = true;
                 }
 
                 boolean passThemas = false;
-                for (String thema: themas) {
+                for (String thema: themes) {
                     if (isThemasCampsite[Integer.parseInt(thema)]) {
                         passThemas = true;
                         break;
@@ -183,14 +183,14 @@ public class CampsiteCustomRepository {
             }
 
             // openSeason
-            if (0 < operSeasons.length && operSeasons.length < 4) {
+            if (0 < openSeasons.length && openSeasons.length < 4) {
                 boolean[] isOpenSeasonCampsite = new boolean[5];
                 for (CampsiteAndOpenSeason item: camp.getOpenSeasons()) {
                     isOpenSeasonCampsite[item.getOpenSeason().getId()] = true;
                 }
 
                 boolean passOpenSeason = false;
-                for (String season: operSeasons) {
+                for (String season: openSeasons) {
                     if (isOpenSeasonCampsite[Integer.parseInt(season)]) {
                         passOpenSeason = true;
                         break;
@@ -209,7 +209,9 @@ public class CampsiteCustomRepository {
                 isScraped = true;
             }
 
-            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).build());
+            int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+
+            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).build());
         }
         return completedResult;
     }

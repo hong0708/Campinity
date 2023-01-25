@@ -23,17 +23,9 @@ public class CampsiteScrap extends BaseEntity {
     @ManyToOne
     private Member member;
 
-    private Boolean scrapType;
-
     @Builder
-    public CampsiteScrap(Campsite campsite, Member member, Boolean scrapType) {
+    public CampsiteScrap(Campsite campsite, Member member) {
         this.campsite = campsite;
         this.member = member;
-        this.scrapType = scrapType;
     }
-
-
-//    public void changeScrapType() {
-//        this.scrapType = !this.scrapType;
-//    }
 }

@@ -1,6 +1,7 @@
 package com.ssafy.campinity.core.service.impl;
 
 import com.ssafy.campinity.core.dto.ReviewReqDTO;
+import com.ssafy.campinity.core.dto.ReviewResDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.review.Review;
@@ -27,7 +28,7 @@ public class ReviewServiceImpl implements ReviewService {
     ReviewRepository reviewRepository;
 
     @Override
-    public void createReview(ReviewReqDTO reviewReqDTO, int memberId) {
+    public ReviewResDTO createReview(ReviewReqDTO reviewReqDTO, int memberId) {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
         Campsite campsite = campsiteRepository.findByUuid(reviewReqDTO.getCampsiteId())
@@ -37,7 +38,9 @@ public class ReviewServiceImpl implements ReviewService {
                 content(reviewReqDTO.getContent()).rate(reviewReqDTO.getRate()).campsite(campsite).
                 member(member).build();
 
-        reviewRepository.save(review);
+        Review savedReview = reviewRepository.save(review);
+        return ReviewResDTO.builder().review(savedReview).build();
+
     }
 
     @Override

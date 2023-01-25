@@ -20,11 +20,11 @@ public class CampsiteDetailTest {
     @Test
     @DisplayName("campsite detail 조회 exception 테스트")
     public void scrapErrorTest (){
-//        UUID userId = UUID.randomUUID();
-//        UUID campsiteId = UUID.randomUUID();
-//
-//        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
-//            campsiteService.getCampsiteDetail(userId, campsiteId);
-//        });
+        int memberId = 10;
+        UUID campsiteId = UUID.randomUUID();
+
+        org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            campsiteService.getCampsiteDetail(campsiteId, memberId);
+        });
     }
 }

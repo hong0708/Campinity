@@ -12,14 +12,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 
-@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/campsites")
+@RequiredArgsConstructor
 public class CampsiteController {
 
     private final CampsiteService campsiteService;
@@ -56,12 +58,11 @@ public class CampsiteController {
                                                                                @RequestParam(name = "sigunguName", defaultValue = "") String sigunguName,
                                                                                @RequestParam(name = "fclty", defaultValue = "") String fclty,
                                                                                @RequestParam(name = "amenity", defaultValue = "") String amenity,
-                                                                               @RequestParam(name = "industy", defaultValue = "") String induty,
-                                                                               @RequestParam(name = "theme", defaultValue = "") String thema,
+                                                                               @RequestParam(name = "industry", defaultValue = "") String industry,
+                                                                               @RequestParam(name = "theme", defaultValue = "") String theme,
                                                                                @RequestParam(name = "allowAnimal", defaultValue = "") String allowAnimal,
-                                                                               @RequestParam(name = "operSeason", defaultValue = "") String operSeason,
-                                                                               @AuthenticationPrincipal MemberDetails memberDetails
-    ) {
+                                                                               @RequestParam(name = "openSeason", defaultValue = "") String openSeason,
+                                                                               @AuthenticationPrincipal MemberDetails memberDetails) {
 
         String[] fclties = new String[0];
         if (!fclty.trim().isEmpty()) {
@@ -73,22 +74,20 @@ public class CampsiteController {
             amenities = amenity.split(" ");
         }
 
-
-        String[] induties = new String[0];
-        if (!induty.trim().isEmpty()) {
-            induties = induty.split(" ");
+        String[] industries = new String[0];
+        if (!industry.trim().isEmpty()) {
+            industries = industry.split(" ");
         }
 
-
-        String[] themas = new String[0];
-        if (!thema.trim().isEmpty()) {
-            themas = thema.split(" ");
+        String[] themes = new String[0];
+        if (!theme.trim().isEmpty()) {
+            themes = theme.split(" ");
         }
 
 
         String[] operSeasons = new String[0];
-        if (!operSeason.trim().isEmpty()) {
-            operSeasons = operSeason.split(" ");
+        if (!openSeason.trim().isEmpty()) {
+            operSeasons = openSeason.split(" ");
         }
 
         String[] allowAnimals = new String[0];
@@ -97,25 +96,32 @@ public class CampsiteController {
         }
 
         List<CampsiteListResDTO> result = campsiteService.getCampsiteListByFiltering(keyword.trim(), doName.trim(),
-                sigunguName.trim(), fclties, amenities, induties, themas, allowAnimals, operSeasons, memberDetails.getMember().getId());
+                sigunguName.trim(), fclties, amenities, industries, themes, allowAnimals, operSeasons, memberDetails.getMember().getId());
 
-        return new ResponseEntity<List<CampsiteListResDTO>>(result, HttpStatus.OK);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/metadata/{campsiteId}")
     public ResponseEntity<CampsiteMetaResDTO> getCampsiteMetaData(@PathVariable("campsiteId") UUID campsiteId){
-        return new ResponseEntity<CampsiteMetaResDTO>(campsiteService.getCampsiteMetaData(campsiteId), HttpStatus.OK);
+        return new ResponseEntity<>(campsiteService.getCampsiteMetaData(campsiteId), HttpStatus.OK);
     }
 
     @GetMapping("/detail/{campsiteId}")
-    public ResponseEntity<CampsiteDetailResDTO> getCampsiteDetail(@PathVariable UUID campsiteId, @AuthenticationPrincipal MemberDetails memberDetails) {
+    public ResponseEntity<CampsiteDetailResDTO> getCampsiteDetail(
+            @PathVariable UUID campsiteId,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
         return new ResponseEntity<>(campsiteService.getCampsiteDetail(campsiteId, memberDetails.getMember().getId()), HttpStatus.OK);
     }
 
-    @PutMapping("/{memberId}/scrap/{campsiteId}")
-    public ResponseEntity<Object> campsiteScrap(@AuthenticationPrincipal MemberDetails memberDetails,
-                                                @PathVariable UUID campsiteId) {
-        campsiteService.scrap(memberDetails.getMember().getId(), campsiteId);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PutMapping("/scrap/{campsiteId}")
+    public ResponseEntity<Object> campsiteScrap(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @PathVariable UUID campsiteId) {
+
+        Boolean isScraped = campsiteService.scrap(memberDetails.getMember().getId(), campsiteId);
+        Map<String, Boolean> result = new HashMap<>();
+        result.put("isScraped", isScraped);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
