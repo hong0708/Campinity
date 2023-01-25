@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.permissionFragment,
-                R.id.onboardingFragment,
+                R.id.onBoardingFragment,
                 R.id.homeFragment
             )
         )
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.permissionFragment
             }
             ApplicationClass.preferences.accessToken == null -> {
-                R.id.onboardingFragment
+                R.id.onBoardingFragment
             }
             else -> R.id.permissionFragment
         }

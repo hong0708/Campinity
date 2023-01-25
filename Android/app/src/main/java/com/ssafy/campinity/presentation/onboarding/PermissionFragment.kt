@@ -13,10 +13,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.fragment_permission) {
 
     // 로그인 스킵하는 액션 로그인 제외하고 테스트 시 이용
-    private val action: NavDirections =
-        PermissionFragmentDirections.actionPermissionFragmentToHomeFragment()
 //    private val action: NavDirections =
-//        PermissionFragmentDirections.actionPermissionFragmentToOnboardingFragment()
+//        PermissionFragmentDirections.actionPermissionFragmentToHomeFragment()
+    private val action: NavDirections =
+        PermissionFragmentDirections.actionPermissionFragmentToOnboardingFragment()
 
     override fun initView() {
         setButtonClickListener()

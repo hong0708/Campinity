@@ -12,20 +12,26 @@
         tools:layout="@layout/fragment_permission">
         <action
             android:id="@+id/action_permissionFragment_to_onboardingFragment"
-            app:destination="@id/onboardingFragment" />
+            app:destination="@id/onBoardingFragment" />
         <action
             android:id="@+id/action_permissionFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/onboardingFragment"
-        android:name="com.ssafy.campinity.presentation.onboarding.OnboardingFragment"
+        android:id="@+id/onBoardingFragment"
+        android:name="com.ssafy.campinity.presentation.onboarding.OnBoardingFragment"
         android:label="OnboardingFragment"
         tools:layout="@layout/fragment_onboarding">
         <action
-            android:id="@+id/action_onboardingFragment_to_homeFragment"
+            android:id="@+id/action_onBoardingFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_onBoardingFragment_to_existingUserFragment"
+            app:destination="@id/existingUserFragment" />
+        <action
+            android:id="@+id/action_onBoardingFragment_to_joinFragment"
+            app:destination="@id/joinFragment" />
     </fragment>
 
     <fragment
@@ -88,6 +94,26 @@
         <argument
             android:name="curationId"
             app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/existingUserFragment"
+        android:name="com.ssafy.campinity.presentation.onboarding.ExistingUserFragment"
+        android:label="ExistingUserFragment"
+        tools:layout="@layout/fragment_existing_user">
+        <action
+            android:id="@+id/action_existingUserFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/joinFragment"
+        android:name="com.ssafy.campinity.presentation.onboarding.JoinFragment"
+        android:label="JoinFragment"
+        tools:layout="@layout/fragment_join">
+        <action
+            android:id="@+id/action_joinFragment_to_existingUserFragment"
+            app:destination="@id/existingUserFragment" />
     </fragment>
 
     <activity
