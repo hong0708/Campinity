@@ -24,11 +24,7 @@ public class AnswerController {
 
     @PostMapping("")
     public ResponseEntity<Object> createAnswer(AnswerReqDTO answerReqDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
-        try {
-            AnswerResDTO result = answerService.createAnswer(answerReqDTO, memberDetails.getMember().getId());
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        AnswerResDTO result = answerService.createAnswer(answerReqDTO, memberDetails.getMember().getId());
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 }

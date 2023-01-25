@@ -22,23 +22,13 @@ public class ReviewController {
 
     @PostMapping("")
     public ResponseEntity<Object> createReview(ReviewReqDTO reviewReqDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
-        try {
             ReviewResDTO result = reviewService.createReview(reviewReqDTO, memberDetails.getMember().getId());
             return new ResponseEntity<>(result, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
     }
 
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Object> deleteReview(@PathVariable UUID reviewId, @AuthenticationPrincipal MemberDetails memberDetails) {
-        try {
+    public ResponseEntity<Object> deleteReview(@PathVariable UUID reviewId, @AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
             reviewService.deleteReview(reviewId, memberDetails.getMember().getUuid());
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        } catch (Exception  e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
     }
 }
