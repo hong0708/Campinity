@@ -10,13 +10,13 @@ import java.util.UUID;
 
 @Service
 public interface QuestionService {
-    QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO, int requestMemberId);
+    QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO, int memberId);
 
     List<QuestionResDTO> getQuestionListByCampsite(UUID campsiteId);
 
-    List<QuestionResDTO> getQuestionListByCampsiteAndUser(UUID campsiteId, UUID userId);
+    List<QuestionResDTO> getQuestionListByCampsiteAndMember(UUID campsiteId, int memeberId);
 
     QuestionDetailResDTO getQuestionDetail(UUID questionId);
 
-    void deleteQuestion(UUID questionId, UUID requestMemberId) throws Exception;
+    void deleteQuestion(UUID questionId, UUID memberId) throws Exception;
 }

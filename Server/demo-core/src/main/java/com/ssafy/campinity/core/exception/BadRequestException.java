@@ -1,4 +1,4 @@
-package com.ssafy.campinity.api.exception;
+package com.ssafy.campinity.core.exception;
 
 import lombok.Getter;
 

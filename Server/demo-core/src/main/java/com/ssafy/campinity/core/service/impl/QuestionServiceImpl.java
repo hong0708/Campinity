@@ -7,6 +7,7 @@ import com.ssafy.campinity.core.dto.QuestionResDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.question.Question;
+import com.ssafy.campinity.core.exception.BadRequestException;
 import com.ssafy.campinity.core.repository.answer.AnswerRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.naming.NoPermissionException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -34,8 +36,8 @@ public class QuestionServiceImpl implements QuestionService {
 
 
     @Override
-    public QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO, int requestMemberId) {
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
+    public QuestionResDTO createQuestion(QuestionReqDTO questionReqDTO, int memberId) {
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
         Campsite campsite = campsiteRepository.findByUuid(questionReqDTO.getCampsiteId()).orElseThrow(IllegalArgumentException::new);
 
         Question question = Question.builder().member(member).campsite(campsite).
@@ -56,9 +58,9 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public List<QuestionResDTO> getQuestionListByCampsiteAndUser(UUID campsiteId, UUID memberId) {
+    public List<QuestionResDTO> getQuestionListByCampsiteAndMember(UUID campsiteId, int memberId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByUuidAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         return questionRepository.findAllByCampsite_idAndMember_idAndExpiredIsFalse(campsite.getId(), member.getId()).
                 stream().map(question -> {return QuestionResDTO.builder().question(question).build();})
@@ -78,15 +80,15 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public void deleteQuestion(UUID questionId, UUID requestMemberId) throws Exception {
+    public void deleteQuestion(UUID questionId, UUID memberUuid) {
         Question question = questionRepository.findByUuidAndExpiredIsFalse(questionId).orElseThrow(IllegalArgumentException::new);
 
-        if (question.getMember().getUuid().equals(requestMemberId)) {
+        if (question.getMember().getUuid().equals(memberUuid)) {
             answerRepository.deleteByQuestion_id(question.getId());
             questionRepository.deleteById(question.getId());
         }
         else {
-            throw new Exception("삭제 권한이 없습니다.");
+            throw new BadRequestException("삭제 권한이 없습니다.");
         }
     }
 }

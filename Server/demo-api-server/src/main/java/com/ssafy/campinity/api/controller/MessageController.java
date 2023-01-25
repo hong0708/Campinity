@@ -1,5 +1,6 @@
 package com.ssafy.campinity.api.controller;
 
+import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.core.dto.LatLngDTO;
 import com.ssafy.campinity.core.dto.MessageLikeDTO;
 import com.ssafy.campinity.core.dto.MessageReqDTO;
@@ -10,7 +11,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,76 +24,67 @@ import java.util.stream.Collectors;
 public class MessageController {
 
     private final MessageService messageService;
-    private final String userUuid = "ae7766ef-a63c-4be3-ae7b-352112813328"; // 임시 테스트용 member uuid
-
 
     @PostMapping
-    public ResponseEntity<MessageResDTO> createMessage(MessageReqDTO messageReqDTO){
+    public ResponseEntity<MessageResDTO> createMessage(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            MessageReqDTO messageReqDTO){
 
-        try {
-            Message message = messageService.createMessage(messageReqDTO, userUuid);
+        Message message = messageService.createMessage(messageReqDTO, memberDetails.getMember().getId());
 
-            MessageResDTO messageResDTO = new MessageResDTO(message, userUuid);
+        MessageResDTO messageResDTO = new MessageResDTO(message, memberDetails.getMember().getUuid());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
+        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(messageResDTO);
 
-            return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(messageResDTO);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
     }
 
     @GetMapping("/{campsiteId}/scope")
     public ResponseEntity<List<MessageResDTO>> getMessagesByCampsiteIdLatLngBetweenScope(
+            @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable String campsiteId,
             LatLngDTO latLngDTO){
-        try {
-            List<Message> messages = messageService.getMessagesByCampsiteUuidBetweenLatLng(campsiteId, latLngDTO);
-            List<MessageResDTO> messageResDTOList = messages.stream().map(message -> new MessageResDTO(message, userUuid)).collect(Collectors.toList());
-            return ResponseEntity.status(HttpStatus.OK).body(messageResDTOList);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+
+        List<Message> messages = messageService.getMessagesByCampsiteUuidBetweenLatLng(campsiteId, latLngDTO);
+        List<MessageResDTO> messageResDTOList = messages.stream().map(message -> new MessageResDTO(message, memberDetails.getMember().getUuid())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(messageResDTOList);
+
     }
 
     @GetMapping("/{messageId}")
-    public ResponseEntity<Object> getMessage(@PathVariable String messageId){
-        try {
-            Message message = messageService.getMessage(messageId);
-            MessageResDTO messageResDTO = new MessageResDTO(message, userUuid);
+    public ResponseEntity<Object> getMessage(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @PathVariable String messageId){
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
+        Message message = messageService.getMessage(messageId);
+        MessageResDTO messageResDTO = new MessageResDTO(message, memberDetails.getMember().getUuid());
 
-            return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(messageResDTO);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
+
+        return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(messageResDTO);
+
     }
 
     @DeleteMapping("/{messageId}")
-    public ResponseEntity<Object> deleteMessage(@PathVariable String messageId) {
-        try {
-            messageService.deleteMessage(messageId);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+    public ResponseEntity<Object> deleteMessage(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @PathVariable String messageId) throws FileNotFoundException {
+
+        messageService.deleteMessage(messageId, memberDetails.getMember().getUuid());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
     }
 
 
-    @PutMapping("/{memberId}/like/{messageId}")
+    @PutMapping("/like/{messageId}")
     public ResponseEntity<MessageLikeDTO> likeMessage(
-            @PathVariable String memberId,
+            @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable String messageId){
 
         try {
-            boolean likeCheck = messageService.likeMessage(userUuid, messageId);
+            boolean likeCheck = messageService.likeMessage(memberDetails.getMember().getId(), messageId);
             MessageLikeDTO messageLikeDTO = MessageLikeDTO.builder().likeCheck(likeCheck).build();
             return ResponseEntity.status(HttpStatus.OK).body(messageLikeDTO);
         }
