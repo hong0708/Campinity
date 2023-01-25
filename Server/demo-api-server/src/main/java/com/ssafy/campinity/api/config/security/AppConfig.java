@@ -34,7 +34,7 @@ public class AppConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v4/members/kakao/callback").permitAll()
+                .antMatchers("/api/v4/members/login-kakao").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider,  memberDetailService),

@@ -38,7 +38,7 @@ public class MemberController {
      * @return 멤버의 기본정보(email, nickname, profileImg, UUID)와 함께 refresh token, access token 둘다 제공해야함.
      * @throws JsonProcessingException
      */
-    @GetMapping("/kakao/callback")
+    @GetMapping("/login-kakao")
     public ResponseEntity<TokenResponse> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         TokenResponse tokenResponse = kakaoUserService.kakaoLogin(code);
         return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
