@@ -1,4 +1,4 @@
-package com.ssafy.campinity.domain.usecase
+package com.ssafy.campinity.domain.usecase.auth
 
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRequest

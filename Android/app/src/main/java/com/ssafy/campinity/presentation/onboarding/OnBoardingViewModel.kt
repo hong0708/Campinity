@@ -7,7 +7,7 @@ import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRequest
 import com.ssafy.campinity.domain.entity.auth.Token
-import com.ssafy.campinity.domain.usecase.LoginUseCase
+import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.AuthRepository
-import com.ssafy.campinity.domain.usecase.LoginUseCase
+import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
