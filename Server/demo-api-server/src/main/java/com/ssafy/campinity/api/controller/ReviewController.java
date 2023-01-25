@@ -27,8 +27,8 @@ public class ReviewController {
             @AuthenticationPrincipal MemberDetails memberDetails,
             ReviewReqDTO reviewReqDTO) {
 
-        reviewService.createReview(reviewReqDTO, memberDetails.getMember().getId());
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        ReviewResDTO result = reviewService.createReview(reviewReqDTO, memberDetails.getMember().getId());
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{reviewId}")

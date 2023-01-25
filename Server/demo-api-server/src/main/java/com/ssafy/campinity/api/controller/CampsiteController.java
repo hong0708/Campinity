@@ -2,11 +2,13 @@ package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
-import com.ssafy.campinity.core.dto.*;
+import com.ssafy.campinity.core.dto.CampsiteDetailResDTO;
+import com.ssafy.campinity.core.dto.CampsiteListResDTO;
+import com.ssafy.campinity.core.dto.CampsiteMetaResDTO;
+import com.ssafy.campinity.core.dto.LocationInfoDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 
 @RestController
 @RequestMapping("/api/v1/campsites")
