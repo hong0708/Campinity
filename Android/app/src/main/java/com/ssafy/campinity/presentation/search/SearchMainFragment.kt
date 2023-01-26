@@ -10,6 +10,12 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.fragment_search_main) {
     override fun initView() {
         Log.e("SearchMainFragment", "create fragment")
+//        initListener()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("SearchMainFragment", "resume fragment")
         initListener()
     }
 
