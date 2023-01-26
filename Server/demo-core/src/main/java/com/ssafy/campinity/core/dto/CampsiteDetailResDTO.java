@@ -36,14 +36,6 @@ public class CampsiteDetailResDTO {
 
     private String address;
 
-    private String doName;
-
-    private String sigunguName;
-
-    private Double latitude;
-
-    private Double longitude;
-
     private String phoneNumber;
 
     private String homepage;
@@ -67,7 +59,7 @@ public class CampsiteDetailResDTO {
     private double total_rate;
 
     @Builder
-    public CampsiteDetailResDTO(Campsite camp, Member member, List<ReviewResDTO> reviews) {
+    public CampsiteDetailResDTO(Campsite camp, Member member, List<ReviewResDTO> reviews, List<String> images) {
         boolean isScraped = false;
         for (CampsiteScrap cs: camp.getScraps()) {
             if (cs.getMember().equals(member)){
@@ -124,10 +116,6 @@ public class CampsiteDetailResDTO {
         this.isScraped = isScraped;
         this.campName = camp.getCampName();
         this.address = camp.getAddress();
-        this.doName = camp.getDoName();
-        this.sigunguName = camp.getSigunguName();
-        this.latitude = camp.getLatitude();
-        this.longitude = camp.getLongitude();
         this.phoneNumber = camp.getPhoneNumber();
         this.homepage = camp.getHomepage();
         this.reserveType = camp.getReserveType();
@@ -139,8 +127,6 @@ public class CampsiteDetailResDTO {
         this.allowAnimal = camp.getAllowAnimal();
         this.reviews = reviews;
         this.total_rate = total_rate;
-        this.images = new ArrayList<>();
+        this.images = images;
     }
-
-
 }
