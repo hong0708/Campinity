@@ -8,30 +8,17 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class QuestionResDTO {
-    @ApiModelProperty(
-            value = "질문 식별 아이디",
-            required = true,
-            dataType = "String"
-    )
+
+    @ApiModelProperty(example = "질문 식별 아이디")
     private String questionId;
 
-    @ApiModelProperty(
-            value = "질문 내용",
-            required = true,
-            dataType = "String"
-    )
+    @ApiModelProperty(example = "질문 내용")
     private String content;
 
-    @ApiModelProperty(
-            value = "질문 생성 시간",
-            required = true,
-            dataType = "String"
-    )
+    @ApiModelProperty(example = "질문 작성일")
     private String createdAt;
 
     @Builder
