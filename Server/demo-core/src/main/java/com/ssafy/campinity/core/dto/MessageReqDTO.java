@@ -13,7 +13,6 @@ import java.util.UUID;
 
     @ApiModelProperty(
             value = "캠핑장 식별 아이디",
-            example = "예시 68c156cf-3db2-41dd-8e4e-2e3b44d15179",
             required = true,
             dataType = "String"
     )

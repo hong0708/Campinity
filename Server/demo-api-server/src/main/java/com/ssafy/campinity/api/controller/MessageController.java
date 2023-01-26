@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2/messages")
-@Validated
 public class MessageController {
 
     private final MessageService messageService;
@@ -60,6 +59,7 @@ public class MessageController {
     @GetMapping("/{campsiteId}/scope")
     public ResponseEntity<List<MessageResDTO>> getMessagesByCampsiteIdLatLngBetweenScope(
             @AuthenticationPrincipal MemberDetails memberDetails,
+            @ApiParam(value = "캠핑장 식별 아이디", required = true, type = "String")
             @PathVariable String campsiteId,
             LatLngDTO latLngDTO){
 
@@ -110,7 +110,7 @@ public class MessageController {
 
     @ApiResponses({
             @ApiResponse(code = 200, message = "쪽지 좋아요 성공 시 응답"),
-            @ApiResponse(code = 400, message = "쪽지 식별아이디 값 부적절 시 응답"),
+            @ApiResponse(code = 400, message = "쪽지 식별 아이디 값 부적절 시 응답"),
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
     @ApiOperation(value = "쪽지 좋아요/좋아요 취소 API")
