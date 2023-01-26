@@ -28,7 +28,7 @@ public class QuestionController {
 
         QuestionResDTO questionResDTO = questionService.createQuestion(questionReqDTO, memberDetails.getMember().getId());
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", "/api/v1/questions/" + questionResDTO.getQuestionId());
+        headers.add("Location", "/api/v6/questions/" + questionResDTO.getQuestionId());
         return new ResponseEntity<>(questionResDTO, headers, HttpStatus.CREATED);
 
     }
