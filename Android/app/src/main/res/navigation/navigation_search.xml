@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_search"
-    app:startDestination="@id/searchActivity">
+    app:startDestination="@id/searchMainFragment">
 
-    <action
-        android:id="@+id/action_searchActivity_to_campsiteDetailFragment"
-        app:destination="@id/campsiteDetailFragment" />
-
-    <activity
-        android:id="@+id/searchActivity"
-        android:name="com.ssafy.campinity.presentation.search.SearchActivity"
-        android:label="activity_search"
-        tools:layout="@layout/activity_search" />
+    <fragment
+        android:id="@+id/searchMainFragment"
+        android:name="com.ssafy.campinity.presentation.search.SearchMainFragment"
+        android:label="fragment_search_main"
+        tools:layout="@layout/fragment_search_main">
+        <action
+            android:id="@+id/action_searchMainFragment_to_campsiteDetailFragment"
+            app:destination="@id/campsiteDetailFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/campsiteDetailFragment"

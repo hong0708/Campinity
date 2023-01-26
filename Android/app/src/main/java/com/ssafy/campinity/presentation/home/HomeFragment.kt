@@ -31,7 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment())
         }
         binding.clSearch.setOnClickListener {
-            navigate(HomeFragmentDirections.actionHomeFragmentToSearchFragment())
+            navigate(HomeFragmentDirections.actionHomeFragmentToSearchActivity())
         }
         binding.clCommunity.setOnClickListener {
             navigate(HomeFragmentDirections.actionHomeFragmentToCommunityActivity())
