@@ -1,5 +1,7 @@
 package com.ssafy.campinity.presentation.search
 
+import android.util.Log
+import androidx.navigation.fragment.navArgs
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.getDeviceWidthPx
@@ -13,9 +15,11 @@ class CampsiteDetailFragment() :
     private var campsiteId: String = ""
 
     override fun initView() {
-//        val args: CampsiteDetailFragmentArgs by navArgs()
-//        campsiteId = args.campsiteId
-//        createDummy()
+        val args: CampsiteDetailFragmentArgs by navArgs()
+        campsiteId = args.campsiteId
+        Log.d("CampsiteDetailFragment", campsiteId)
+
+        createDummy()
 
         binding.vpCampsiteImage.apply {
             adapter = CampsiteDetailImageAdapter(images)

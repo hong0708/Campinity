@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.dp
+import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.ItemCampsiteBriefImageBinding
 
 class CampsiteBriefImageAdapter(private val images: List<String>) :
@@ -32,8 +32,8 @@ class CampsiteBriefImageAdapter(private val images: List<String>) :
             Glide.with(binding.ivCampsiteImage.context)
                 .load(url)
                 .override(
-                    220.dp(binding.ivCampsiteImage.context),
-                    250.dp(binding.ivCampsiteImage.context)
+                    120.px(binding.ivCampsiteImage.context),
+                    150.px(binding.ivCampsiteImage.context)
                 )
                 .centerCrop()
                 .placeholder(R.drawable.bg_image_not_found)

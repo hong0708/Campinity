@@ -15,8 +15,18 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
 
         binding.rvCampsiteList.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = SearchListAdapter(campsiteList)
+            adapter = SearchListAdapter(campsiteList) { campsiteId: String ->
+                navigationToCampsiteDetailFragment(campsiteId)
+            }
         }
+    }
+
+    private fun navigationToCampsiteDetailFragment(campsiteId: String) {
+        navigate(
+            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(
+                campsiteId
+            )
+        )
     }
 
     private fun createDummy() {
@@ -58,7 +68,7 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                     "https://www.collinsdictionary.com/images/full/dog_230497594.jpg"
                 )
             ), CampsiteBriefInfo(
-                "uuid1", "캠핑장1", "경상북도 구미시", 5, listOf(
+                "uuid11", "캠핑장1", "경상북도 구미시", 5, listOf(
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*",
                     "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg",
@@ -67,7 +77,7 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                     "https://www.collinsdictionary.com/images/full/dog_230497594.jpg"
                 )
             ), CampsiteBriefInfo(
-                "uuid2", "캠핑장2", "경상북도 구미시", 50, listOf(
+                "uuid12", "캠핑장2", "경상북도 구미시", 50, listOf(
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*",
                     "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg",
@@ -76,7 +86,7 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                     "https://www.collinsdictionary.com/images/full/dog_230497594.jpg"
                 )
             ), CampsiteBriefInfo(
-                "uuid3", "캠핑장3", "경상북도 구미시", 500, listOf(
+                "uuid13", "캠핑장3", "경상북도 구미시", 500, listOf(
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*",
                     "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg",
@@ -85,7 +95,7 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                     "https://www.collinsdictionary.com/images/full/dog_230497594.jpg"
                 )
             ), CampsiteBriefInfo(
-                "uuid4", "캠핑장4", "경상북도 구미시", 5000, listOf(
+                "uuid14", "캠핑장4", "경상북도 구미시", 5000, listOf(
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*",
                     "https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/golden-retriever-royalty-free-image-506756303-1560962726.jpg?crop=0.672xw:1.00xh;0.166xw,0&resize=640:*",
                     "https://media-cldnry.s-nbcnews.com/image/upload/rockcms/2022-08/220805-border-collie-play-mn-1100-82d2f1.jpg",
