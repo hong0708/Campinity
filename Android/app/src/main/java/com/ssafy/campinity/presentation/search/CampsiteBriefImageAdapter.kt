@@ -6,14 +6,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.dp
-import com.ssafy.campinity.databinding.ItemCampsiteImageBinding
+import com.ssafy.campinity.databinding.ItemCampsiteBriefImageBinding
 
 class CampsiteBriefImageAdapter(private val images: List<String>) :
     RecyclerView.Adapter<CampsiteBriefImageAdapter.SearchImageViewHolder>() {
-    private lateinit var binding: ItemCampsiteImageBinding
+    private lateinit var binding: ItemCampsiteBriefImageBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchImageViewHolder {
-        binding = ItemCampsiteImageBinding.inflate(
+        binding = ItemCampsiteBriefImageBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
 
@@ -26,7 +26,7 @@ class CampsiteBriefImageAdapter(private val images: List<String>) :
 
     override fun getItemCount(): Int = images.size
 
-    inner class SearchImageViewHolder(private val binding: ItemCampsiteImageBinding) :
+    inner class SearchImageViewHolder(private val binding: ItemCampsiteBriefImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(url: String) {
             Glide.with(binding.ivCampsiteImage.context)

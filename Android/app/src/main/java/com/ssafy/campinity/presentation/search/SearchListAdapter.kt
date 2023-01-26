@@ -39,7 +39,7 @@ class SearchListAdapter(private val campsites: List<CampsiteBriefInfo>) :
         fun bind(item: CampsiteBriefInfo) {
             binding.item = item
             binding.root.setOnClickListener {
-
+                
             }
         }
     }

@@ -1,22 +1,30 @@
 package com.ssafy.campinity.common.util
 
 import android.content.Context
-import android.util.DisplayMetrics
-import android.util.TypedValue
 
 fun Int.dp(context: Context): Int {
-    val metrics = context.resources.displayMetrics
-    return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), metrics).toInt()
+    return (this / context.resources.displayMetrics.density).toInt()
 }
 
-fun getDeviceWidthDp(context: Context): Float {
-    with(context.resources.displayMetrics) {
-        return this.widthPixels / (this.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-    }
+fun Int.px(context: Context): Int {
+    return (this * context.resources.displayMetrics.density).toInt()
 }
 
-fun getDeviceHeightDp(context: Context): Float {
-    with(context.resources.displayMetrics) {
-        return this.heightPixels / (this.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
-    }
+fun getDeviceWidthPx(context: Context): Int {
+    return context.resources.displayMetrics.widthPixels
 }
+
+fun getDeviceHeightPx(context: Context): Int {
+    return context.resources.displayMetrics.heightPixels
+}
+
+
+
+
+
+
+
+
+
+
+

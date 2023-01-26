@@ -24,8 +24,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <RelativeLayout
-                    android:id="@+id/rl_view_pager"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_view_pager"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
@@ -33,33 +33,33 @@
                         android:id="@+id/btn_go_back"
                         android:layout_width="26dp"
                         android:layout_height="26dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:background="@drawable/ic_arrow_left" />
+                        android:background="@drawable/ic_arrow_left"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <androidx.viewpager2.widget.ViewPager2
                         android:id="@+id/vp_campsite_image"
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="350dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_alignParentEnd="true" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <com.zhpan.indicator.IndicatorView
                         android:id="@+id/iv_indicator"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_below="@id/vp_campsite_image"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/vp_campsite_image"
                         app:vpi_orientation="horizontal"
                         app:vpi_slide_mode="smooth"
                         app:vpi_slider_checked_color="@color/black"
                         app:vpi_slider_normal_color="@color/silver"
                         app:vpi_style="dash" />
-                </RelativeLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_campsite_brief_info"
@@ -258,7 +258,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        app:layout_constraintGuide_end="391dp" />
+                        app:layout_constraintGuide_begin="20dp" />
 
                     <androidx.constraintlayout.widget.Guideline
                         android:id="@+id/gl_content"
