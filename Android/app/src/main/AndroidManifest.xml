@@ -35,8 +35,8 @@
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:launchMode="singleTask"
-            android:exported="true">
+            android:exported="true"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -67,7 +67,9 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".presentation.community.CommunityActivity" />
+        <activity
+            android:name=".presentation.community.CommunityActivity"
+            android:exported="true" />
 
         <meta-data
             android:name="com.kakao.sdk.AppKey"
