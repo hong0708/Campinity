@@ -1,6 +1,5 @@
 package com.ssafy.campinity.core.dto;
 
-import com.ssafy.campinity.core.entity.message.MessageCategory;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +12,6 @@ import java.util.UUID;
 
     @ApiModelProperty(
             value = "캠핑장 식별 아이디",
-            example = "예시 68c156cf-3db2-41dd-8e4e-2e3b44d15179",
             required = true,
             dataType = "String"
     )
@@ -38,16 +36,18 @@ import java.util.UUID;
     @ApiModelProperty(
             value = "쪽지 위도",
             required = true,
-            dataType = "Double"
+            dataType = "Double",
+            example = "38.1234"
     )
-    private double latitude;
+    private Double latitude;
 
     @ApiModelProperty(
             value = "쪽지 경도",
             required = true,
-            dataType = "Double"
+            dataType = "Double",
+            example = "128.2324"
     )
-    private double longitude;
+    private Double longitude;
 
     @ApiModelProperty(
             value = "쪽지 이미지(max-file-size: 10MB / max-request-size: 10MB)",
