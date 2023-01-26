@@ -10,30 +10,34 @@ public class LatLngDTO {
     @ApiModelProperty(
             value = "좌상단 위도",
             required = true,
-            dataType = "Double"
+            dataType = "Double",
+            example = "37.1234"
     )
-    private double topLeftLat;
+    private Double topLeftLat;
 
     @ApiModelProperty(
             value = "좌상단 경도",
             required = true,
-            dataType = "Double"
+            dataType = "Double",
+            example = "128.23245"
     )
-    private  double topLeftLng;
+    private Double topLeftLng;
 
     @ApiModelProperty(
             value = "우하단 위도",
             required = true,
-            dataType = "Double"
+            dataType = "Double",
+            example = "37.5678"
     )
-    private  double bottomRightLat;
+    private Double bottomRightLat;
 
     @ApiModelProperty(
             value = "우하단 경도",
             required = true,
-            dataType = "Double"
+            dataType = "Double",
+            example = "128.3457"
     )
-    private double bottomRightLng;
+    private Double bottomRightLng;
 
     @Builder
     public LatLngDTO(String topLeftLat, String topLeftLng, String bottomRightLat, String bottomRightLng) {

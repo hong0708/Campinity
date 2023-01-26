@@ -28,7 +28,7 @@ public class GetCocampImagesJsonTest {
     @Autowired
     CampsiteImageRepository campsiteImageRepository;
 
-    @Test
+
     @DisplayName("gocamp images json crawling")
     public void getImagesData () throws UnsupportedEncodingException, JsonProcessingException {
 
