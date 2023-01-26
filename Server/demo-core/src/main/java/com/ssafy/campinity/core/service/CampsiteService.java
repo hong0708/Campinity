@@ -15,7 +15,7 @@ public interface CampsiteService {
                                                         String[] fclties, String[] amenities, String[] industries,
                                                         String[] themes, String[] allowAnimals, String[] openSeasons, int memberId);
 
-    CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId);
+    CampsiteListResDTO getCampsiteMetaData(UUID campsiteId, int memberId);
 
     Boolean scrap(int userId, UUID campsiteId);
 

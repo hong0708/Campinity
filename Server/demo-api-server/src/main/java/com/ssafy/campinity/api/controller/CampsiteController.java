@@ -103,8 +103,9 @@ public class CampsiteController {
     }
 
     @GetMapping("/metadata/{campsiteId}")
-    public ResponseEntity<CampsiteMetaResDTO> getCampsiteMetaData(@PathVariable("campsiteId") UUID campsiteId){
-        return new ResponseEntity<>(campsiteService.getCampsiteMetaData(campsiteId), HttpStatus.OK);
+    public ResponseEntity<CampsiteListResDTO> getCampsiteMetaData(@PathVariable("campsiteId") UUID campsiteId,
+                                                                  @AuthenticationPrincipal MemberDetails memberDetails){
+        return new ResponseEntity<>(campsiteService.getCampsiteMetaData(campsiteId, memberDetails.getMember().getId()), HttpStatus.OK);
     }
 
     @GetMapping("/detail/{campsiteId}")
@@ -114,7 +115,7 @@ public class CampsiteController {
         return new ResponseEntity<>(campsiteService.getCampsiteDetail(campsiteId, memberDetails.getMember().getId()), HttpStatus.OK);
     }
 
-    @PutMapping("/scrap/{campsiteId}")
+    @PutMapping("/scraps/{campsiteId}")
     public ResponseEntity<Object> campsiteScrap(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable UUID campsiteId) {
