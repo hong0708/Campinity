@@ -79,7 +79,6 @@ public class Swagger2Config {
         return SecurityContext.builder()
                 .securityReferences(defaultAuth())
                 .build();
-//        return springfox.documentation.spi.service.contexts.SecurityContext.builder().securityReferences(defaultAuth()).forPaths(PathSelectors.any()).build();
     }
 
     private List<SecurityReference> defaultAuth() {
