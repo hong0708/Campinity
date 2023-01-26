@@ -99,8 +99,8 @@
     <string name="content_write_question">확인</string>
     <string name="content_cancel_question">취소</string>
     <string name="title_write_free_note">자유 쪽지</string>
-    <string name="img_user_profile">img_user_profile</string>
-    <string name="img_review_content">img_review_content</string>
+    <string name="image_user_profile">image_user_profile</string>
+    <string name="image_review_content">image_review_content</string>
 
     <!-- Community campsite-->
     <string name="image_back_to_main">image_back_to_main</string>
