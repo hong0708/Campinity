@@ -30,12 +30,12 @@ class CommunityCampsiteFragment :
     override fun onResume() {
         super.onResume()
         mapView = MapView(activity)
-        binding.mvCommunityMap.addView(mapView)
+        binding.clCommunityMap.addView(mapView)
     }
 
     override fun onPause() {
         super.onPause()
-        binding.mvCommunityMap.removeView(mapView)
+        binding.clCommunityMap.removeView(mapView)
     }
 
     override fun onFinishButton() {
