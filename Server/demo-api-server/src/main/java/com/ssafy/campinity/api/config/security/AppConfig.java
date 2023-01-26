@@ -18,6 +18,13 @@ public class AppConfig {
     private final JwtProvider jwtProvider;
     private final MemberDetailService memberDetailService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private static final String[] AUTH_ARR = {
+            "/v2/api-docs",
+            "/swagger/**",
+            "/swagger-ui/**",
+            "/swagger-resources/**",
+            "/api/v4/members/login-kakao"
+    };
 
     public AppConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {
         this.jwtProvider = jwtProvider;
@@ -34,7 +41,7 @@ public class AppConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v4/members/login-kakao").permitAll()
+                .antMatchers(AUTH_ARR).permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(new JwtAuthenticationFilter(jwtProvider,  memberDetailService),

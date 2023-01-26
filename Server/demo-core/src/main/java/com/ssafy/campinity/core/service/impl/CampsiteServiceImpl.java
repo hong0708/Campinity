@@ -6,14 +6,15 @@ import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.review.Review;
+import com.ssafy.campinity.core.repository.campsite.CampsiteImageRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
+import com.ssafy.campinity.core.repository.message.MessageRepository;
 import com.ssafy.campinity.core.repository.review.ReviewRepository;
 import com.ssafy.campinity.core.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,6 +32,8 @@ public class CampsiteServiceImpl implements CampsiteService {
     private final CampsiteScrapRepository campsiteScrapRepository;
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
+    private final CampsiteImageRepository campsiteImageRepository;
+    private final MessageRepository messageRepository;
 
     @Override
     @Transactional
@@ -40,7 +43,7 @@ public class CampsiteServiceImpl implements CampsiteService {
         Double bottomRightLat = locationInfoDTO.getBottomRightLat();
         Double bottomRightLng = locationInfoDTO.getBottomRightLng();
 
-        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(topLeftLat, bottomRightLat,
+        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat, topLeftLat,
                 topLeftLng, bottomRightLng);
     }
 
@@ -48,29 +51,38 @@ public class CampsiteServiceImpl implements CampsiteService {
     @Override
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
                                                                String[] fclties, String[] amenities, String[] industries,
-                                                               String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
+                                                               String[] themes, String[] allowAnimals, String[] openSeasons,
+                                                               int memberId) {
 
-        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, industries, themes, allowAnimals, openSeasons, requestMemberId);
+        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, industries, themes, allowAnimals, openSeasons, memberId);
     }
 
     @Transactional
     @Override
-    public CampsiteMetaResDTO getCampsiteMetaData(UUID campsiteId) {
+    public CampsiteListResDTO getCampsiteMetaData(UUID campsiteId, int memberId) {
         Campsite camp = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalAccessError::new);
 
-        return CampsiteMetaResDTO.builder().
-                campsiteId(camp.getUuid()).
-                campName(camp.getCampName()).
-                address(camp.getAddress()).
-                firstImageUrl(camp.getFirstImageUrl()).
-                build();
+        List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
+            return image.getImagePath();
+        }).collect(Collectors.toList());
+
+        Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(memberId, camp.getId());
+
+        Boolean isScraped = false;
+        if (campsiteScrap.isPresent()) {
+            isScraped = true;
+        }
+
+        int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+
+        return CampsiteListResDTO.builder().camp(camp).images(images).isScraped(isScraped).messageCnt(messageCnt).build();
     }
 
     @Override
     @Transactional
-    public Boolean scrap(int requestMemberId, UUID campsiteId) {
+    public Boolean scrap(int memberId, UUID campsiteId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(member.getId(), campsite.getId());
 
@@ -85,16 +97,18 @@ public class CampsiteServiceImpl implements CampsiteService {
 
     @Override
     @Transactional
-    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int requestMemberId) {
+    public CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int memberId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
         List<Review> reviews = reviewRepository.findByCampsite_idAndExpiredIsFalse(campsite.getId());
 
-        List<ReviewResDTO> reviewDTOLists = reviews.stream().map(review -> {
-            return ReviewResDTO.builder().review(review).build();
+        List<ReviewResDTO> reviewDTOLists = reviews.stream().map(review -> ReviewResDTO.builder().review(review).build()).collect(Collectors.toList());
+
+        List<String> images = campsiteImageRepository.findByCampsite_id(campsite.getId()).stream().map(image -> {
+            return image.getImagePath();
         }).collect(Collectors.toList());
 
-        return CampsiteDetailResDTO.builder().camp(campsite).member(member).reviews(reviewDTOLists).build();
+        return CampsiteDetailResDTO.builder().camp(campsite).member(member).images(images).reviews(reviewDTOLists).build();
     }
 }

@@ -43,6 +43,11 @@ spring:
     live:
       atk : 1800000 # 30분
       rtk : 12096000000  #2주
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
 logging:
   level:
     org.hibernate:

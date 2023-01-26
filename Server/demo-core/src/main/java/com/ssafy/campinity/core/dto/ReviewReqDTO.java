@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.dto;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.util.UUID;
@@ -8,11 +9,26 @@ import java.util.UUID;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ReviewReqDTO {
-    UUID campsiteId;
+    @ApiModelProperty(
+            value = "캠핑장 식별 아이디",
+            required = true,
+            dataType = "String"
+    )
+    private UUID campsiteId;
 
-    String content;
+    @ApiModelProperty(
+            value = "리뷰 내용",
+            required = true,
+            dataType = "String"
+    )
+    private String content;
 
-    int rate;
+    @ApiModelProperty(
+            value = "리뷰 점수",
+            required = true,
+            dataType = "Integer"
+    )
+    private Integer rate;
 
     @Builder
     public ReviewReqDTO(UUID campsiteId, String content, int rate) {

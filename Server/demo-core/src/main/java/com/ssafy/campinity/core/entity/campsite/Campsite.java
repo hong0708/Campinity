@@ -81,6 +81,11 @@ public class Campsite extends BaseEntity {
     @ToString.Exclude
     private List<Question> questions = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "campsite_id")
+    @ToString.Exclude
+    private List<CampsiteImage> images = new ArrayList<>();
+
 
     private int contentId;
 

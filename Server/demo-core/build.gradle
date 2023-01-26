@@ -1,4 +1,5 @@
 plugins {
+
     id 'java'
 }
 
@@ -32,6 +33,15 @@ dependencies {
 
     //Redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+    //fcm
+    implementation 'com.google.firebase:firebase-admin:7.1.1'
+
+    //swagger
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+
+
 }
 
 test {

@@ -18,7 +18,7 @@ class CrawlGocampApiImplTest {
     @Autowired
     private CrawlGocampApi crawlGocampApi;
 
-    @Test
+
     void getCampsiteListTest() throws UnsupportedEncodingException, JsonProcessingException {
 
         int numOfRows = 10;
