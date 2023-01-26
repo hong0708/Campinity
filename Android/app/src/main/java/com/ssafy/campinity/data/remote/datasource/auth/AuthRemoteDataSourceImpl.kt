@@ -6,7 +6,7 @@ import javax.inject.Inject
 class AuthRemoteDataSourceImpl @Inject constructor(
     private val authApiService: AuthApiService
 ) : AuthRemoteDataSource {
-    override suspend fun loginRequest(body: AuthRequest): AuthResponse {
-        return authApiService.loginRequest(body)
+    override suspend fun loginRequest(code: String): AuthResponse {
+        return authApiService.loginRequest(code)
     }
 }

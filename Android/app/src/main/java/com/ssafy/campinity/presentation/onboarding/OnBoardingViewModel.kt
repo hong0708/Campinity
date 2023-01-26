@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.onboarding
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +29,7 @@ class OnBoardingViewModel @Inject constructor(
                 _accessToken.value = token
             }
             is Resource.Error -> {
+                Log.d("requestLogin", "requestLogin: ${value.errorMessage}")
                 _accessToken.value = ""
             }
         }
