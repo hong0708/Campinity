@@ -1,10 +1,7 @@
 package com.ssafy.campinity.presentation.community
 
 import android.animation.ObjectAnimator
-import android.graphics.Color
-import android.graphics.Paint
 import android.view.View
-import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.R
@@ -20,10 +17,9 @@ class CommunityCampsiteFragment :
     BaseFragment<FragmentCommunityCampsiteBinding>(R.layout.fragment_community_campsite),
     CustomDialogInterface {
 
-    private lateinit var textViewList: List<TextView>
+    private lateinit var viewList: List<View>
     private lateinit var fabList: List<ConstraintLayout>
     private lateinit var mapView: MapView
-    private val darkBackground = Paint()
     private val moveValues: List<Float> = listOf(800f, 600f, 400f, 200f)
     private var isFabOpen = false
 
@@ -86,7 +82,7 @@ class CommunityCampsiteFragment :
         slidePanel.addPanelSlideListener(PanelEventListener())
 
         // 패널 열고 닫기
-        binding.ibSelectCampsiteCondition.setOnClickListener {
+        binding.clCampsiteCondition.setOnClickListener {
             val state = slidePanel.panelState
             // 닫힌 상태일 경우 열기
             if (state == SlidingUpPanelLayout.PanelState.COLLAPSED) {
@@ -94,28 +90,32 @@ class CommunityCampsiteFragment :
             }
         }
 
-        darkBackground.color = Color.BLACK
-        darkBackground.alpha = 100
-
         binding.apply {
-            textViewList = listOf(tvFabHelp, tvFabGetHelp, tvFabReview, tvFabFreeNote)
+            viewList = listOf(tvFabHelp, tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
             fabList = listOf(clFabHelp, clFabGetHelp, clFabReview, clFabFreeNote)
+
+            clMapBackSite.setOnClickListener {
+                for (i in fabList) {
+                    returnFab(i)
+                }
+                for (i in viewList) {
+                    eraseTv(i)
+                }
+            }
 
             fabMain.setOnClickListener {
                 if (isFabOpen) {
                     for (i in fabList) {
                         returnFab(i)
                     }
-                    clMapBackSite.setBackgroundColor(Color.TRANSPARENT)
-                    for (i in textViewList) {
+                    for (i in viewList) {
                         eraseTv(i)
                     }
                 } else {
                     for (i in 0..3) {
                         moveFab(fabList[i], moveValues[i])
                     }
-                    clMapBackSite.setBackgroundColor(darkBackground.color)
-                    for (i in textViewList) {
+                    for (i in viewList) {
                         writeTv(i)
                     }
                 }
@@ -124,12 +124,12 @@ class CommunityCampsiteFragment :
         }
     }
 
-    private fun eraseTv(textView: TextView) {
-        textView.visibility = View.GONE
+    private fun eraseTv(view: View) {
+        view.visibility = View.GONE
     }
 
-    private fun writeTv(textView: TextView) {
-        textView.visibility = View.VISIBLE
+    private fun writeTv(view: View) {
+        view.visibility = View.VISIBLE
     }
 
     private fun returnFab(clFab: ConstraintLayout) {
