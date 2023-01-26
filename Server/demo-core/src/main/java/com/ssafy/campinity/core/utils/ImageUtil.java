@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.utils;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,9 +43,7 @@ public class ImageUtil {
             else if (contentType.contains("image/png"))
                 originalFileExtension = ".png";
             else {
-                System.out.println("contentType is not vaild");
-                return "";
-
+                throw new FileUploadException("해당 파일 확장자는 지원하지 않습니다.");
             }
         }
 

@@ -1,6 +1,7 @@
 package com.ssafy.campinity.core.dto;
 
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 @Getter
@@ -8,6 +9,9 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MessageLikeDTO {
 
+    @ApiModelProperty(
+            example = "true"
+    )
     private boolean likeCheck;
 
     @Builder
