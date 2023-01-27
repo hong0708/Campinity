@@ -2,16 +2,19 @@ package com.ssafy.campinity.presentation.search
 
 import android.util.Log
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.FragmentCampsiteDetailBinding
+import com.ssafy.campinity.domain.entity.search.FacilityAndLeisureItem
 import com.ssafy.campinity.presentation.base.BaseFragment
 
 class CampsiteDetailFragment() :
     BaseFragment<FragmentCampsiteDetailBinding>(R.layout.fragment_campsite_detail) {
     private var images: List<String> = listOf()
+    private var facilityAndLeisure: List<FacilityAndLeisureItem> = listOf()
     private var campsiteId: String = ""
 
     override fun initView() {
@@ -21,10 +24,17 @@ class CampsiteDetailFragment() :
 
         createDummy()
 
+        initViewPager()
+
+        initRecyclerView()
+    }
+
+    private fun initViewPager() {
         binding.vpCampsiteImage.apply {
             adapter = CampsiteDetailImageAdapter(images)
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
+
         binding.ivIndicator.apply {
             setSliderHeight(5.px(requireContext()).toFloat())
             setSliderGap(0F)
@@ -33,6 +43,36 @@ class CampsiteDetailFragment() :
             setSliderWidth(
                 getDeviceWidthPx(requireContext()).toFloat() / images.size
             )
+        }
+    }
+
+    private fun initRecyclerView() {
+        binding.rvTheme.apply {
+            layoutManager =
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            adapter = CampsiteFacilityAndLeisureAdapter(listOf())
+        }
+        binding.rvFacility.apply {
+            layoutManager =
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            adapter = CampsiteFacilityAndLeisureAdapter(listOf())
+        }
+        binding.rvAmenity.apply {
+            layoutManager =
+                LinearLayoutManager(
+                    requireContext(),
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
+            adapter = CampsiteFacilityAndLeisureAdapter(listOf())
         }
     }
 
@@ -45,5 +85,12 @@ class CampsiteDetailFragment() :
             "https://www.scotsman.com/webimg/b25lY21zOmFkZjJiZWQxLThjMTctNDEwMC1iMTgxLTgzZjM0ZmRlNWYzOTpjYWQyZWYzOS1kMGY3LTQ0ZDctOWJhYS1kMGYxNjkwMDFhZDM=.jpg?width=1200&enable=upscale",
             "https://www.collinsdictionary.com/images/full/dog_230497594.jpg"
         )
+
+//        facilityAndLeisure = listOf(
+//            FacilityAndLeisureItem(
+//                R.drawable.ic_content_campsite_amenity_1,
+//                R.string.content_campsit
+//            )
+//        )
     }
 }
