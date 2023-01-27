@@ -39,8 +39,8 @@ public class MemberController {
      * @throws JsonProcessingException
      */
     @GetMapping("/login-kakao")
-    public ResponseEntity<TokenResponse> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
-        TokenResponse tokenResponse = kakaoUserService.kakaoLogin(code);
+    public ResponseEntity<TokenResponse> kakaoLogin(@RequestParam String accessToken) throws JsonProcessingException {
+        TokenResponse tokenResponse = kakaoUserService.kakaoLogin(accessToken);
         return new ResponseEntity<>(tokenResponse, HttpStatus.OK);
     }
 

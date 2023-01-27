@@ -30,9 +30,9 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
 
-    public TokenResponse kakaoLogin(String code) throws JsonProcessingException {
-        // 1. "인가 코드"로 "액세스 토큰" 요청
-        String accessToken = getAccessToken(code);
+    public TokenResponse kakaoLogin(String accessToken) throws JsonProcessingException {
+        // 1. "인가 코드"로 "액세스 토큰" 요청 -> 안드로이드 앱에서 엑세스토큰을 전송해주기때문에 필요x
+        //String accessToken = getAccessToken(code);
 
         // 2. 토큰으로 카카오 API 호출
         SocialUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
