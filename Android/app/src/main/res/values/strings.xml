@@ -117,6 +117,10 @@
     <string name="image_aim">image_aim</string>
     <string name="image_search_now_location">image_search_now_location</string>
     <string name="content_search_campsite_name">캠핑장 이름으로 검색</string>
+    <string name="content_campsite_help">도움 받기</string>
+    <string name="content_campsite_get_help">도움 주기</string>
+    <string name="content_campsite_review">리뷰 쪽지</string>
+    <string name="content_campsite_free">자유 쪽지</string>
 
     <!-- Collection -->
     <string name="title_collection">My Collection</string>
