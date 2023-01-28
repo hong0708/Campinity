@@ -82,6 +82,9 @@ dependencies {
 
     // kakao login
     implementation libs.kakao.sdk.user
+
+    // tool tip indicator
+    implementation libs.viewpager.indicator
 }
 
 kapt {

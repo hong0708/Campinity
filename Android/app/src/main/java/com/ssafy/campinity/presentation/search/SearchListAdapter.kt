@@ -7,15 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.databinding.ItemSearchListBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 
-class SearchListAdapter(private val campsites: ArrayList<CampsiteBriefInfo>) :
-    RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
+class SearchListAdapter(
+    private val campsites: List<CampsiteBriefInfo>,
+    private val onClickMethod: (String) -> Unit
+) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
     private lateinit var binding: ItemSearchListBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchListViewHolder {
         binding = ItemSearchListBinding.inflate(
-            LayoutInflater.from(parent.context), parent, false
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
-
         return SearchListViewHolder(binding)
     }
 
@@ -28,16 +31,19 @@ class SearchListAdapter(private val campsites: ArrayList<CampsiteBriefInfo>) :
                 RecyclerView.HORIZONTAL,
                 false
             )
-            adapter = SearchImageAdapter(campsites[position].images)
+            adapter = CampsiteBriefImageAdapter(campsites[position].images)
         }
     }
 
     override fun getItemCount(): Int = campsites.size
 
-    class SearchListViewHolder(private val binding: ItemSearchListBinding) :
+    inner class SearchListViewHolder(private val binding: ItemSearchListBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: CampsiteBriefInfo) {
             binding.item = item
+            binding.root.setOnClickListener {
+                onClickMethod(item.campsiteId)
+            }
         }
     }
 }

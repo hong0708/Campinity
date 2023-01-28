@@ -1,0 +1,10 @@
+package com.ssafy.campinity.domain.entity.search
+
+data class ReviewItem(
+    val reviewId: String,
+    val content: String,
+    val createAt: String,
+    val rate: Int,
+    val authorName: String,
+    val profileImage: String
+)

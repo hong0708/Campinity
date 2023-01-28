@@ -46,7 +46,7 @@
             android:id="@+id/action_homeFragment_to_communityActivity"
             app:destination="@id/communityActivity" />
         <action
-            android:id="@+id/action_homeFragment_to_searchFragment"
+            android:id="@+id/action_homeFragment_to_searchActivity"
             app:destination="@id/searchActivity" />
         <action
             android:id="@+id/action_homeFragment_to_curationFragment"
@@ -125,7 +125,7 @@
     <activity
         android:id="@+id/searchActivity"
         android:name="com.ssafy.campinity.presentation.search.SearchActivity"
-        android:label="SearchFragment"
+        android:label="SearchActivity"
         tools:layout="@layout/activity_search" />
 
 </navigation>

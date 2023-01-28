@@ -5,15 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.dp
-import com.ssafy.campinity.databinding.ItemCampsiteImageBinding
+import com.ssafy.campinity.common.util.px
+import com.ssafy.campinity.databinding.ItemCampsiteBriefImageBinding
 
-class SearchImageAdapter(private val images: ArrayList<String>) :
-    RecyclerView.Adapter<SearchImageAdapter.SearchImageViewHolder>() {
-    private lateinit var binding: ItemCampsiteImageBinding
+class CampsiteBriefImageAdapter(private val images: List<String>) :
+    RecyclerView.Adapter<CampsiteBriefImageAdapter.SearchImageViewHolder>() {
+    private lateinit var binding: ItemCampsiteBriefImageBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchImageViewHolder {
-        binding = ItemCampsiteImageBinding.inflate(
+        binding = ItemCampsiteBriefImageBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
 
@@ -26,14 +26,14 @@ class SearchImageAdapter(private val images: ArrayList<String>) :
 
     override fun getItemCount(): Int = images.size
 
-    inner class SearchImageViewHolder(private val binding: ItemCampsiteImageBinding) :
+    inner class SearchImageViewHolder(private val binding: ItemCampsiteBriefImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(url: String) {
             Glide.with(binding.ivCampsiteImage.context)
                 .load(url)
                 .override(
-                    220.dp(binding.ivCampsiteImage.context),
-                    250.dp(binding.ivCampsiteImage.context)
+                    120.px(binding.ivCampsiteImage.context),
+                    150.px(binding.ivCampsiteImage.context)
                 )
                 .centerCrop()
                 .placeholder(R.drawable.bg_image_not_found)
