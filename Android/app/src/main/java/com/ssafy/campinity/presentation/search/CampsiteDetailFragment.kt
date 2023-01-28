@@ -1,6 +1,5 @@
 package com.ssafy.campinity.presentation.search
 
-import android.util.Log
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,7 +24,6 @@ class CampsiteDetailFragment() :
     override fun initView() {
         val args: CampsiteDetailFragmentArgs by navArgs()
         campsiteId = args.campsiteId
-        Log.d("CampsiteDetailFragment", campsiteId)
 
         initStringArray()
 
@@ -119,27 +117,27 @@ class CampsiteDetailFragment() :
 
         facilityAndLeisure = listOf(
             FacilityAndLeisureItem(
-                R.drawable.ic_content_campsite_amenity_1,
+                R.drawable.ic_campsite_amenity_1,
                 contentAmenity[0]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_content_campsite_amenity_2,
+                R.drawable.ic_campsite_amenity_2,
                 contentAmenity[1]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_content_campsite_amenity_3,
+                R.drawable.ic_campsite_amenity_3,
                 contentAmenity[2]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_content_campsite_amenity_4,
+                R.drawable.ic_campsite_amenity_4,
                 contentAmenity[3]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_content_campsite_amenity_5,
+                R.drawable.ic_campsite_amenity_5,
                 contentAmenity[4]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_content_campsite_amenity_6,
+                R.drawable.ic_campsite_amenity_6,
                 contentAmenity[5]
             ),
         )

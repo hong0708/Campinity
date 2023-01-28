@@ -1,6 +1,5 @@
 package com.ssafy.campinity.presentation.search
 
-import android.util.Log
 import android.view.View
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.R
@@ -8,14 +7,10 @@ import com.ssafy.campinity.databinding.FragmentSearchMainBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 
 class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.fragment_search_main) {
-    override fun initView() {
-        Log.e("SearchMainFragment", "create fragment")
-//        initListener()
-    }
+    override fun initView() {}
 
     override fun onResume() {
         super.onResume()
-        Log.e("SearchMainFragment", "resume fragment")
         initListener()
     }
 

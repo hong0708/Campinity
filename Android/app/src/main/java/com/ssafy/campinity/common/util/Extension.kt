@@ -17,14 +17,3 @@ fun getDeviceWidthPx(context: Context): Int {
 fun getDeviceHeightPx(context: Context): Int {
     return context.resources.displayMetrics.heightPixels
 }
-
-
-
-
-
-
-
-
-
-
-
