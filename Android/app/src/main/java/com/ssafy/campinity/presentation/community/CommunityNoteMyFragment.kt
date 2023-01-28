@@ -1,6 +1,7 @@
 package com.ssafy.campinity.presentation.community
 
-import android.util.Log
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentCommunityNoteMyBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -12,8 +13,14 @@ class CommunityNoteMyFragment :
 
     override fun initView() {
         initListener()
-        Log.d("왜?", "initView: ")
-        binding.rvCommunityMyNote.adapter = CommunityNoteListAdapter(impl)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.rvCommunityMyNote.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = CommunityNoteListAdapter(impl)
+        }
     }
 
     private fun initListener() {

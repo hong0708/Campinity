@@ -1,6 +1,7 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.repository.AuthRepositoryImpl
 import com.ssafy.campinity.domain.repository.AuthRepository
 import dagger.Module
@@ -18,5 +19,13 @@ object RepositoryModule {
         authRemoteDataSourceImpl: AuthRemoteDataSourceImpl
     ) : AuthRepository {
         return AuthRepositoryImpl(authRemoteDataSourceImpl)
+    }
+
+    @Provides
+    @Singleton
+    fun provideNoteRepository(
+        noteRemoteDataSourceImpl: NoteRemoteDataSourceImpl
+    ) /*: NoteRepository*/ {
+        /*return NoteRepositoryImpl(*//*noteRemoteDataSourceImpl*//*)*/
     }
 }
