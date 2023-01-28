@@ -14,7 +14,10 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 class CampsiteDetailFragment() :
     BaseFragment<FragmentCampsiteDetailBinding>(R.layout.fragment_campsite_detail) {
     private var images: List<String> = listOf()
-    private var facilityAndLeisure: List<FacilityAndLeisureItem> = listOf()
+    private lateinit var contentTheme: Array<String>
+    private lateinit var contentFacility: Array<String>
+    private lateinit var contentAmenity: Array<String>
+    private var facilityAndLeisure = listOf<FacilityAndLeisureItem>()
     private var campsiteId: String = ""
 
     override fun initView() {
@@ -22,11 +25,19 @@ class CampsiteDetailFragment() :
         campsiteId = args.campsiteId
         Log.d("CampsiteDetailFragment", campsiteId)
 
+        initStringArray()
+
         createDummy()
 
         initViewPager()
 
         initRecyclerView()
+    }
+
+    private fun initStringArray() {
+        contentTheme = resources.getStringArray(R.array.content_campsite_theme)
+        contentFacility = resources.getStringArray(R.array.content_campsite_facility)
+        contentAmenity = resources.getStringArray(R.array.content_campsite_amenity)
     }
 
     private fun initViewPager() {
@@ -54,7 +65,7 @@ class CampsiteDetailFragment() :
                     LinearLayoutManager.HORIZONTAL,
                     false
                 )
-            adapter = CampsiteFacilityAndLeisureAdapter(listOf())
+            adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
         }
         binding.rvFacility.apply {
             layoutManager =
@@ -63,7 +74,7 @@ class CampsiteDetailFragment() :
                     LinearLayoutManager.HORIZONTAL,
                     false
                 )
-            adapter = CampsiteFacilityAndLeisureAdapter(listOf())
+            adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
         }
         binding.rvAmenity.apply {
             layoutManager =
@@ -72,7 +83,7 @@ class CampsiteDetailFragment() :
                     LinearLayoutManager.HORIZONTAL,
                     false
                 )
-            adapter = CampsiteFacilityAndLeisureAdapter(listOf())
+            adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
         }
     }
 
@@ -86,11 +97,31 @@ class CampsiteDetailFragment() :
             "https://www.collinsdictionary.com/images/full/dog_230497594.jpg"
         )
 
-//        facilityAndLeisure = listOf(
-//            FacilityAndLeisureItem(
-//                R.drawable.ic_content_campsite_amenity_1,
-//                R.string.content_campsit
-//            )
-//        )
+        facilityAndLeisure = listOf(
+            FacilityAndLeisureItem(
+                R.drawable.ic_content_campsite_amenity_1,
+                contentAmenity[0]
+            ),
+            FacilityAndLeisureItem(
+                R.drawable.ic_content_campsite_amenity_2,
+                contentAmenity[1]
+            ),
+            FacilityAndLeisureItem(
+                R.drawable.ic_content_campsite_amenity_3,
+                contentAmenity[2]
+            ),
+            FacilityAndLeisureItem(
+                R.drawable.ic_content_campsite_amenity_4,
+                contentAmenity[3]
+            ),
+            FacilityAndLeisureItem(
+                R.drawable.ic_content_campsite_amenity_5,
+                contentAmenity[4]
+            ),
+            FacilityAndLeisureItem(
+                R.drawable.ic_content_campsite_amenity_6,
+                contentAmenity[5]
+            ),
+        )
     }
 }
