@@ -22,7 +22,7 @@ import java.util.UUID;
 @Api(tags = "답변 관련 API")
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v6/answer")
+@RequestMapping("/api/v6/answers")
 public class AnswerController {
 
     private final AnswerService answerService;
