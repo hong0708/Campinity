@@ -41,7 +41,7 @@ spring:
   jwt:
     key: service-key
     live:
-      atk : 1800000 # 30분
+      atk : 18000000 # 30분
       rtk : 12096000000  #2주
 
   mvc:

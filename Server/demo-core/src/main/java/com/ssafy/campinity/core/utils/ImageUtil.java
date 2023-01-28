@@ -20,7 +20,8 @@ public class ImageUtil {
             return imagePath;
         }
 
-        String absolutePath = new File("demo-core/src/main/resources/static").getAbsolutePath() + File.separator;
+        String absolutePath = new File("demo-core" + File.separator + "src" + File.separator +
+                "main" + File.separator + "resources" + File.separator + "static").getAbsolutePath() + File.separator;
         String path = "images" + File.separator + table;
         File file = new File(absolutePath + path);
 
@@ -55,16 +56,16 @@ public class ImageUtil {
         file.setWritable(true);
         file.setReadable(true);
 
-        return "\\" + path + File.separator + newFileName;
+        return File.separator + path + File.separator + newFileName;
     }
 
     public boolean removeImage(String imagePath){
 
         boolean result;
-        String absolutePath = new File("demo-core\\src\\main\\resources\\static").getAbsolutePath();
+        String absolutePath = new File("demo-core" + File.separator + "src" + File.separator +
+                "main" + File.separator + "resources" + File.separator + "static").getAbsolutePath();
         File file = new File(absolutePath + imagePath);
         result = file.delete();
         return result;
-
     }
 }

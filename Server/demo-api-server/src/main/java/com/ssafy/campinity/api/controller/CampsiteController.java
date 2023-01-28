@@ -116,7 +116,7 @@ public class CampsiteController {
     }
 
     @PutMapping("/scraps/{campsiteId}")
-    public ResponseEntity<Object> campsiteScrap(
+    public ResponseEntity<Map<String, Boolean>> campsiteScrap(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable UUID campsiteId) {
 
