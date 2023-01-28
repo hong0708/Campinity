@@ -29,6 +29,7 @@ class CampsiteFacilityAndLeisureAdapter(private val items: List<FacilityAndLeisu
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: FacilityAndLeisureItem) {
             binding.ivFacilityAndLeisure.setImageResource(item.imageId)
+            binding.tvFacilityAndLeisure.text = item.content
         }
     }
 }

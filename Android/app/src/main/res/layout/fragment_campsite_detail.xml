@@ -379,34 +379,17 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
-                    <LinearLayout
-                        android:id="@+id/ll_container_campsite_facility_and_leisure"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_campsite_facility_and_leisure"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="24dp"
                         android:layout_marginTop="27dp"
                         android:layout_marginBottom="32dp"
-                        android:orientation="horizontal"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_amenity">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_theme"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_facility"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/rv_amenity"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content" />
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@id/tv_title_campsite_amenity" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
@@ -535,8 +518,8 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_content_campsite_review_score" />
 
-                    <FrameLayout
-                        android:id="@+id/fl_container_campsite_review"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_campsite_review"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
@@ -558,7 +541,7 @@
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fl_container_campsite_review" />
+                        app:layout_constraintTop_toBottomOf="@id/rv_campsite_review" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </ScrollView>

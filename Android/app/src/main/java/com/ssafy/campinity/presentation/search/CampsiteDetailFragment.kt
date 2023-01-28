@@ -1,7 +1,9 @@
 package com.ssafy.campinity.presentation.search
 
 import android.util.Log
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
@@ -58,7 +60,7 @@ class CampsiteDetailFragment() :
     }
 
     private fun initRecyclerView() {
-        binding.rvTheme.apply {
+        binding.rvCampsiteFacilityAndLeisure.apply {
             layoutManager =
                 LinearLayoutManager(
                     requireContext(),
@@ -66,24 +68,42 @@ class CampsiteDetailFragment() :
                     false
                 )
             adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
+            addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.HORIZONTAL
+                ).apply {
+                    setDrawable(
+                        AppCompatResources.getDrawable(
+                            context,
+                            R.drawable.bg_rect_invisible_width20
+                        )!!
+                    )
+                }
+            )
         }
-        binding.rvFacility.apply {
+
+        binding.rvCampsiteReview.apply {
             layoutManager =
                 LinearLayoutManager(
                     requireContext(),
-                    LinearLayoutManager.HORIZONTAL,
+                    LinearLayoutManager.VERTICAL,
                     false
                 )
-            adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
-        }
-        binding.rvAmenity.apply {
-            layoutManager =
-                LinearLayoutManager(
-                    requireContext(),
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-                )
-            adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
+            adapter = CampsiteReviewAdapter(listOf())
+            addItemDecoration(
+                DividerItemDecoration(
+                    context,
+                    DividerItemDecoration.VERTICAL
+                ).apply {
+                    setDrawable(
+                        AppCompatResources.getDrawable(
+                            context,
+                            R.drawable.bg_rect_invisible_height20
+                        )!!
+                    )
+                }
+            )
         }
     }
 
