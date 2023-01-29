@@ -168,6 +168,7 @@
     <string name="content_note_count">쪽지</string>
     <string name="image_review_profile">프로필 사진입니다.</string>
     <string name="image_review_star">캠핑장 리뷰 별점 이미지입니다.</string>
+    <string name="image_campsite_facility_and_leisure">캠핑장의 시설 및 레저 이미지입니다.</string>
     <array name="content_campsite_theme">
         <item name="content_campsite_theme_1">걷기길</item>
         <item name="content_campsite_theme_2">수상레저</item>
@@ -214,6 +215,11 @@
     <!-- Curation -->
     <string name="image_book_mark">image_book_mark</string>
     <string name="title_curation">Curation</string>
-    <string name="image_campsite_facility_and_leisure">캠핑장의 시설 및 레저 이미지입니다.</string>
+
+    <!-- Search area -->
+    <string name="title_select_area">지역 설정</string>
+    <string name="content_submit">저장하기</string>
+    <string name="content_reset">초기화</string>
+    <string name="content_select_all">전체</string>
 
 </resources>

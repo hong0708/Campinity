@@ -6,6 +6,8 @@ import androidx.fragment.app.FragmentContainerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.getDeviceHeightPx
+import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.FragmentSearchMainBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 
@@ -21,6 +23,7 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
 
         initListener()
         initBehaviorList()
+        initBehaviorArea()
     }
 
     private fun initListener() {
@@ -39,6 +42,11 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             binding.rlSearchAgain.visibility = View.VISIBLE
             binding.rlShowList.visibility = View.VISIBLE
             binding.rlShowMap.visibility = View.GONE
+        }
+
+        binding.rlArea.setOnClickListener {
+            binding.clSearch.visibility = View.GONE
+            behaviorArea.state = BottomSheetBehavior.STATE_EXPANDED
         }
     }
 
@@ -67,6 +75,44 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+        })
+    }
+
+    private fun initBehaviorArea() {
+        var isDragging = false
+
+        behaviorArea.addBottomSheetCallback(object : BottomSheetCallback() {
+            override fun onStateChanged(bottomSheet: View, newState: Int) {
+                when (newState) {
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        isDragging = false
+                    }
+                    BottomSheetBehavior.STATE_EXPANDED -> {
+                        isDragging = false
+                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> {
+                        isDragging = true
+                    }
+                    BottomSheetBehavior.STATE_SETTLING -> {}
+                    BottomSheetBehavior.STATE_HIDDEN -> {}
+                    BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
+                }
+            }
+
+            override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (isDragging)
+                    if (slideOffset <=
+                        (getDeviceHeightPx(requireContext()) - 115.px(requireContext())).toFloat()
+                        / getDeviceHeightPx(requireContext())
+                    ) {
+                        binding.clSearch.apply {
+                            visibility = View.VISIBLE
+                            alpha = 1 - 1.2F * slideOffset
+                        }
+                    } else {
+                        binding.clSearch.visibility = View.GONE
+                    }
+            }
         })
     }
 }

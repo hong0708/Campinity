@@ -27,9 +27,9 @@
             <View
                 android:id="@+id/view_empty_space"
                 android:layout_width="match_parent"
-                android:visibility="invisible"
+                android:layout_height="115dp"
                 android:background="@color/white"
-                android:layout_height="115dp" />
+                android:visibility="invisible" />
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fcv_list"
@@ -41,12 +41,13 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_area"
+            android:name="com.ssafy.campinity.presentation.search.SearchAreaFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:behavior_hideable="true"
             app:behavior_peekHeight="0dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            tools:layout="@layout/fragment_search_list" />
+            tools:layout="@layout/fragment_search_area" />
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_filter"

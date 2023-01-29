@@ -1,6 +1,6 @@
 package com.ssafy.campinity.presentation.search
 
-import androidx.appcompat.content.res.AppCompatResources
+import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,17 +67,15 @@ class CampsiteDetailFragment() :
                 )
             adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
             addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.HORIZONTAL
-                ).apply {
-                    setDrawable(
-                        AppCompatResources.getDrawable(
-                            context,
-                            R.drawable.bg_rect_invisible_width20
-                        )!!
-                    )
-                }
+                DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
+                    .apply {
+                        setDrawable(
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.bg_rect_transparent_width20
+                            )!!
+                        )
+                    }
             )
         }
 
@@ -90,17 +88,15 @@ class CampsiteDetailFragment() :
                 )
             adapter = CampsiteReviewAdapter(listOf())
             addItemDecoration(
-                DividerItemDecoration(
-                    context,
-                    DividerItemDecoration.VERTICAL
-                ).apply {
-                    setDrawable(
-                        AppCompatResources.getDrawable(
-                            context,
-                            R.drawable.bg_rect_invisible_height20
-                        )!!
-                    )
-                }
+                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
+                    .apply {
+                        setDrawable(
+                            ContextCompat.getDrawable(
+                                context,
+                                R.drawable.bg_rect_transparent_height20
+                            )!!
+                        )
+                    }
             )
         }
     }
