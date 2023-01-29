@@ -108,12 +108,15 @@
 
     <fragment
         android:id="@+id/joinFragment"
-        android:name="com.ssafy.campinity.presentation.onboarding.JoinFragment"
+        android:name="com.ssafy.campinity.presentation.join.JoinFragment"
         android:label="JoinFragment"
         tools:layout="@layout/fragment_join">
         <action
             android:id="@+id/action_joinFragment_to_existingUserFragment"
             app:destination="@id/existingUserFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
     </fragment>
 
     <activity
