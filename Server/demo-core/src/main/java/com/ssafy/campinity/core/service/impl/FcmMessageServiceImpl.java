@@ -6,7 +6,7 @@ import com.google.auth.oauth2.GoogleCredentials;
 import com.squareup.okhttp.*;
 import com.ssafy.campinity.core.dto.FcmMessageToManyDTO;
 import com.ssafy.campinity.core.dto.FcmMessageToOneDTO;
-import com.ssafy.campinity.core.service.FcmService;
+import com.ssafy.campinity.core.service.FcmMessageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpHeaders;
@@ -20,12 +20,14 @@ import java.util.Arrays;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FcmServiceImpl implements FcmService {
+public class FcmMessageServiceImpl implements FcmMessageService {
 
     @Value("${fcm.certification}")
-    private static String FIREBASE_CERTIFICATION_KEY_PATH;
+    private static String GOOGLE_APPLICATION_CREDENTIALS;
     @Value("${fcm.url}")
     private static String FCM_URL;
+    @Value("${fcm.scope}")
+    private static String FIREBASE_SCOPE;
 
     private final ObjectMapper objectMapper;
 
@@ -108,11 +110,11 @@ public class FcmServiceImpl implements FcmService {
         return objectMapper.writeValueAsString(fcmMessageToManyDTO);
     }
 
-    // FCM에 요청 시 header 담을 accessToken
+    // 자격 증명을 사용하여  FCM에 요청 시 header 담을 액세스 토큰 생성
     private static String getAccessToken() throws IOException {
         GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(new FileInputStream(FIREBASE_CERTIFICATION_KEY_PATH))
-                .createScoped(Arrays.asList("https://www.googleapis.com/auth/cloud-platform"));
+                .fromStream(new FileInputStream(GOOGLE_APPLICATION_CREDENTIALS))
+                .createScoped(Arrays.asList(FIREBASE_SCOPE));
 
         // FCM accessToken 생성
         googleCredentials.refreshIfExpired();

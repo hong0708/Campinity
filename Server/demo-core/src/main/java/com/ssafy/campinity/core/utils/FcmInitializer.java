@@ -18,13 +18,13 @@ import java.util.List;
 @Component
 public class FcmInitializer {
     @Value("${fcm.certification}")
-    private String googleApplicationCredentials;
+    private String GOOGLE_APPLICATION_CREDENTIALS;
     @Value("${fcm.scope}")
     private String FIREBASE_SCOPE;
 
     @PostConstruct
     public void initialize() throws IOException {
-        ClassPathResource resource = new ClassPathResource(googleApplicationCredentials);
+        ClassPathResource resource = new ClassPathResource(GOOGLE_APPLICATION_CREDENTIALS);
 
         try (InputStream is = resource.getInputStream()) {
             FirebaseOptions options = FirebaseOptions.builder()

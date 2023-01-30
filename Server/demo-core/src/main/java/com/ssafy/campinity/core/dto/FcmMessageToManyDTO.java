@@ -56,6 +56,7 @@ public class FcmMessageToManyDTO {
     @AllArgsConstructor
     @Getter
     public static class AndroidNotification {
+        @JsonProperty("click_action")
         private String clickAction = "android_indent_filter"; // 클릭 시 연결할 android 인텐트 필터
 
     }

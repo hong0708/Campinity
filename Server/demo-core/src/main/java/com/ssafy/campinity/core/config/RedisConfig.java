@@ -9,6 +9,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
+import java.util.Map;
+
 @Configuration
 @EnableRedisRepositories
 public class RedisConfig {
@@ -27,6 +29,14 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, String> stringRedisTemplate() {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        return redisTemplate;
+    }
+    @Bean
+    public RedisTemplate<String, Map<String, String>> RedisTemplate() {
+        RedisTemplate<String, Map<String, String>> redisTemplate = new RedisTemplate<>();
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new StringRedisSerializer());
         redisTemplate.setConnectionFactory(redisConnectionFactory());
