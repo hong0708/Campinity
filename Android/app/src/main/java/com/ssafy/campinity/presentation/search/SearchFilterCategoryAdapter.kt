@@ -1,6 +1,5 @@
 package com.ssafy.campinity.presentation.search
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -12,9 +11,7 @@ import com.ssafy.campinity.databinding.ItemSearchFilterCateforyBinding
 import com.ssafy.campinity.domain.entity.search.FilterCategory
 
 class SearchFilterCategoryAdapter(
-    private val context: Context,
-    private val categories: List<FilterCategory>,
-    private val toggleBtnSubmit: (Boolean) -> Unit
+    private val categories: List<FilterCategory>, private val toggleBtnSubmit: (Boolean) -> Unit
 ) : RecyclerView.Adapter<SearchFilterCategoryAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemSearchFilterCateforyBinding
@@ -49,13 +46,16 @@ class SearchFilterCategoryAdapter(
         fun bind(item: FilterCategory) {
             binding.titleCatefory.text = item.category
 
+            initListener(item)
+        }
+
+        fun initListener(item: FilterCategory) {
             binding.rvCategory.apply {
                 layoutManager = LinearLayoutManager(
                     context, LinearLayoutManager.HORIZONTAL, false
                 )
 
                 searchFilterOptionAdapter = SearchFilterOptionAdapter(
-                    context,
                     item.options,
                     this@SearchFilterCategoryAdapter::addSelectedItemCount,
                     this@SearchFilterCategoryAdapter::toggleSubmit

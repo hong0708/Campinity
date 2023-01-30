@@ -26,10 +26,9 @@ class SearchFilterFragment :
                 context, LinearLayoutManager.VERTICAL, false
             )
 
-            searchFilterCategoryAdapter =
-                SearchFilterCategoryAdapter(requireContext(), filters) { flag: Boolean ->
-                    toggleBtnSubmit(flag)
-                }
+            searchFilterCategoryAdapter = SearchFilterCategoryAdapter(
+                filters, this@SearchFilterFragment::toggleBtnSubmit
+            )
             adapter = searchFilterCategoryAdapter
 
             addItemDecoration(DividerItemDecoration(
