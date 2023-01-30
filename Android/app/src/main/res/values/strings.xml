@@ -218,7 +218,7 @@
 
     <!-- Search area -->
     <string name="title_select_area">지역 설정</string>
-    <string name="content_submit">저장하기</string>
+    <string name="content_submit">적용하기</string>
     <string name="content_reset">초기화</string>
     <string name="content_select_all">전체</string>
     <string name="content_campsite_count">(%1$d)</string>
