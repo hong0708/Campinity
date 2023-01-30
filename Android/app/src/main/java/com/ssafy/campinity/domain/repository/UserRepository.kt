@@ -5,6 +5,7 @@ import com.ssafy.campinity.domain.entity.user.User
 import okhttp3.MultipartBody
 
 interface UserRepository {
-
     suspend fun editUserInfo(nickName: String, profileImg: MultipartBody.Part?): Resource<User>
+
+    suspend fun checkDuplication(nickName: String): Resource<Boolean>
 }

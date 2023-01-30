@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -38,10 +39,11 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
     override fun initView() {
         binding.vm = viewModel
         initListener()
+        setTextWatcher()
+        observeState()
     }
 
     private fun initListener() {
-
         binding.apply {
             ivProfileImage.setOnClickListener { setAlbumView() }
             etNickname.addTextChangedListener {
@@ -49,6 +51,31 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
             }
             btnBack.setOnClickListener { navigate(JoinFragmentDirections.actionJoinFragmentToOnBoardingFragment()) }
             btnConfirm.setOnClickListener { viewModel.updateProfile() }
+            btnCheckDuplication.setOnClickListener { viewModel.checkDuplication() }
+        }
+    }
+
+    private fun observeState() {
+        viewModel.isDuplicate.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> Toast.makeText(requireContext(), "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show()
+                false -> Toast.makeText(requireContext(), "사용할 수 있는 닉네임입니다.", Toast.LENGTH_SHORT)
+                    .show()
+                else -> {}
+            }
+        }
+
+        viewModel.isSuccess.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> navigate(JoinFragmentDirections.actionJoinFragmentToExistingUserFragment())
+                else -> {}
+            }
+        }
+    }
+
+    private fun setTextWatcher() {
+        binding.etNickname.addTextChangedListener {
+            viewModel.nickname.value = binding.etNickname.text.toString()
         }
     }
 

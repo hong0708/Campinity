@@ -10,7 +10,6 @@ import javax.inject.Inject
 class UserRemoteDataSourceImpl @Inject constructor(
     private val userApiService: UserApiService
 ) : UserRemoteDataSource {
-
     override suspend fun editUserInfo(
         nickName: String,
         profileImg: MultipartBody.Part?
@@ -18,5 +17,9 @@ class UserRemoteDataSourceImpl @Inject constructor(
         val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
         map["nickName"] = nickName.toRequestBody("text/plain".toMediaTypeOrNull())
         return userApiService.editUserInfo(map, profileImg)
+    }
+
+    override suspend fun checkDuplication(nickName: String): Boolean {
+        return userApiService.checkDuplication(nickName)
     }
 }

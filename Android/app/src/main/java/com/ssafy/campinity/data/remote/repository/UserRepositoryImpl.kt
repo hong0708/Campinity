@@ -12,12 +12,16 @@ import javax.inject.Inject
 class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource
 ) : UserRepository {
-
     override suspend fun editUserInfo(
         nickName: String,
         profileImg: MultipartBody.Part?
     ): Resource<User> =
         wrapToResource(Dispatchers.IO) {
             userRemoteDataSource.editUserInfo(nickName, profileImg).toDomainModel()
+        }
+
+    override suspend fun checkDuplication(nickName: String): Resource<Boolean> =
+        wrapToResource(Dispatchers.IO) {
+            userRemoteDataSource.checkDuplication(nickName)
         }
 }
