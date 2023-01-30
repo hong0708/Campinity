@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.dto;
 
+import com.ssafy.campinity.core.entity.campsite.Campsite;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,15 +16,21 @@ public class CampsiteMetaResDTO {
 
     private String campName;
 
-    private String address;
+    private String doName;
+
+    private String sigunguName;
 
     private String firstImageUrl;
 
+    private Boolean isScraped;
+
     @Builder
-    public CampsiteMetaResDTO(UUID campsiteId, String campName, String address, String firstImageUrl) {
-        this.campsiteId = campsiteId.toString();
-        this.campName = campName;
-        this.address = address;
-        this.firstImageUrl = firstImageUrl;
+    public CampsiteMetaResDTO(Campsite campsite, Boolean isScraped) {
+        this.campsiteId = campsite.getUuid().toString();
+        this.campName = campsite.getCampName();
+        this.firstImageUrl = campsite.getFirstImageUrl();
+        this.doName = campsite.getDoName();
+        this.sigunguName = campsite.getSigunguName();
+        this.isScraped = isScraped;
     }
 }
