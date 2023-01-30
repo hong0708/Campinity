@@ -1,9 +1,9 @@
 package com.ssafy.campinity.domain.entity.collection
 
 data class CollectionItem(
-    val collectionId: String = "",
-    val img: Int,
-    val title: String,
+    val campsiteName: String,
+    val collectionId: String,
+    val content: String,
     val date: String,
-    val content: String
+    val imagePath: String
 )

@@ -2,6 +2,7 @@ package com.ssafy.campinity.presentation.collection
 
 import android.view.View
 import android.view.animation.LinearInterpolator
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
@@ -16,13 +17,29 @@ import dagger.hilt.android.AndroidEntryPoint
 class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.fragment_collection),
     CardStackListener {
 
+    private val collectionViewModel by viewModels<CollectionViewModel>()
     private val cardStackAdapter by lazy { CardStackAdapter(createItems(), this::getCollection) }
     private val gridAdapter by lazy { GridAdapter(this::getCollection) }
     private val manager by lazy { CardStackLayoutManager(context, this) }
+    private var pageState = true
 
     override fun initView() {
+        initListener()
         initRecyclerView()
         initCardStackView()
+    }
+
+    private fun initListener() {
+        binding.fabCollectionMode.setOnClickListener {
+            if (pageState) {
+                binding.clCardView.visibility = View.VISIBLE
+                binding.clRecyclerView.visibility = View.GONE
+            } else {
+                binding.clCardView.visibility = View.GONE
+                binding.clRecyclerView.visibility = View.VISIBLE
+            }
+            pageState = !pageState
+        }
     }
 
     override fun onCardSwiped(direction: Direction?) {
@@ -45,6 +62,11 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
     override fun onCardDisappeared(view: View?, position: Int) {}
 
     override fun onCardDragging(direction: Direction?, ratio: Float) {}
+
+    override fun onResume() {
+        super.onResume()
+        collectionViewModel.getCollections()
+    }
 
     private fun paginate() {
         val old = cardStackAdapter.getSpots()
@@ -85,6 +107,10 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
         binding.rvCollection.adapter = gridAdapter
         binding.rvCollection.layoutManager =
             GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+        collectionViewModel.collectionListData.observe(viewLifecycleOwner) { response ->
+            response?.let { gridAdapter.setCollection(it) }
+        }
+        collectionViewModel.getCollections()
     }
 
     private fun getCollection(collectionId: String) {
@@ -101,16 +127,16 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
             add(
                 CollectionItem(
                     "1",
-                    R.drawable.bg_collection_dummy_1,
+                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
                     "캠핑장",
                     "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
+                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#"
                 )
             )
             add(
                 CollectionItem(
                     "1",
-                    R.drawable.bg_collection_dummy_2,
+                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
                     "캠핑장",
                     "2023/01/19",
                     "내용을 입력해주세요ㅇㅇㅇㅇ"
@@ -119,7 +145,7 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
             items.add(
                 CollectionItem(
                     "1",
-                    R.drawable.bg_collection_dummy_3,
+                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
                     "캠핑장",
                     "2023/01/19",
                     "내용을 입력해주세요ㅇㅇㅇㅇ"
@@ -128,7 +154,7 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
             add(
                 CollectionItem(
                     "1",
-                    R.drawable.bg_collection_dummy_1,
+                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
                     "캠핑장",
                     "2023/01/19",
                     "내용을 입력해주세요ㅇㅇㅇㅇ"
@@ -137,7 +163,7 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
             add(
                 CollectionItem(
                     "1",
-                    R.drawable.bg_collection_dummy_3,
+                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
                     "캠핑장",
                     "2023/01/19",
                     "내용을 입력해주세요ㅇㅇㅇㅇ"
