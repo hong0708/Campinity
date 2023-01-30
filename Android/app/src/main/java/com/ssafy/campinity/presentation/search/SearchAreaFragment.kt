@@ -1,6 +1,5 @@
 package com.ssafy.campinity.presentation.search
 
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -123,11 +122,9 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     private fun toggleBtnSubmit(isSelected: Boolean) {
         binding.btnSubmit.apply {
             if (isSelected) {
-                Log.i("SearchAreaFragment", "submit btn Toggle")
                 this.setBackgroundResource(R.drawable.bg_rect_bilbao_radius10)
                 this.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             } else {
-                Log.i("SearchAreaFragment", "submit btn Untoggle")
                 this.setBackgroundResource(R.drawable.bg_rect_white_smoke_radius10)
                 this.setTextColor(ContextCompat.getColor(requireContext(), R.color.zambezi))
             }
