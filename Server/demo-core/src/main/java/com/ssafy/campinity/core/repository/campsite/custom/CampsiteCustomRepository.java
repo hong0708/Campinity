@@ -28,7 +28,7 @@ public class CampsiteCustomRepository {
     private final CampsiteImageRepository campsiteImageRepository;
 
 
-    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
+    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
                                                                String[] fclties, String[] amenities, String[] industries,
                                                                String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
@@ -66,11 +66,18 @@ public class CampsiteCustomRepository {
             before = true;
         }
 
-        if (sigunguName != null && !sigunguName.trim().isEmpty()) { // 시군구
+        if (sigunguNames.length > 0) { // 시군구
             if (before) {
                 whereClause += " And";
             }
-            whereClause += " c.sigunguName = '" + sigunguName + "'";
+            whereClause += " c.sigunguName IN (";
+            for (int i = 0; i < sigunguNames.length; i++) {
+                whereClause = whereClause + "'" + sigunguNames[i] + "'";
+                if (i < sigunguNames.length - 1) {
+                    whereClause = whereClause + " , ";
+                }
+            }
+            whereClause += ")";
             before = true;
         }
 
