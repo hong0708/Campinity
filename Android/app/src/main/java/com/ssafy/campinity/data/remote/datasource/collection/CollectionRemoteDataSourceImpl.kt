@@ -9,4 +9,12 @@ class CollectionRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getCollections(): List<CollectionResponse> =
         collectionApiService.getCollections()
+
+    override suspend fun createCollection(body: CollectionRequest): CollectionResponse =
+        collectionApiService.collectionCollection(
+            body.campsiteName,
+            body.content,
+            body.date,
+            body.file
+        )
 }
