@@ -162,11 +162,12 @@
                 android:layout_marginStart="7dp"
                 android:layout_marginEnd="28dp"
                 android:layout_weight="3"
-                android:background="@drawable/bg_rect_bilbao_radius10"
+                android:background="@drawable/bg_rect_white_smoke_radius10"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
+                android:stateListAnimator="@null"
                 android:text="@string/content_submit"
-                android:textColor="@color/white"
+                android:textColor="@color/zambezi"
                 android:textSize="16sp" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

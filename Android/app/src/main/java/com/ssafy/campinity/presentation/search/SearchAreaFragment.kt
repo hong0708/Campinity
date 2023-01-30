@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.search
 
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
@@ -13,6 +14,7 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 
 class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.fragment_search_area) {
     private lateinit var searchAreaGuGunAdapter: SearchAreaGuGunAdapter
+    private var isAllSelected = false
 
     override fun initView() {
         initSido()
@@ -34,6 +36,8 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     }
 
     private fun initGugun() {
+        binding.tvCampsiteCount.text =
+            requireContext().getString(R.string.content_campsite_count, 0)
         binding.rvGugun.apply {
             layoutManager = GridLayoutManager(
                 context,
@@ -42,6 +46,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                 false
             )
             searchAreaGuGunAdapter = SearchAreaGuGunAdapter(
+                requireContext(),
                 listOf(
                     AreaGugun("가평군", 16),
                     AreaGugun("가평군", 16),
@@ -60,7 +65,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                     AreaGugun("가평군", 16),
                     AreaGugun("가평군", 16)
                 )
-            )
+            ) { method: String, flag: Boolean -> toggleBtn(method, flag) }
             adapter = searchAreaGuGunAdapter
             addItemDecoration(
                 DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
@@ -78,14 +83,54 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
     private fun initListener() {
         binding.llSelectAll.setOnClickListener {
-            searchAreaGuGunAdapter.selectAll()
-            // submit button toggle
+            if (isAllSelected) {
+                searchAreaGuGunAdapter.unselectAll()
+            } else {
+                searchAreaGuGunAdapter.selectAll()
+            }
+            toggleBtn("selectAll", !isAllSelected)
+            toggleBtn("submit", isAllSelected)
         }
 
         binding.llReset.setOnClickListener {
             searchAreaGuGunAdapter.unselectAll()
-            // Don't submit button toggle
+            toggleBtn("selectAll", false)
+            toggleBtn("submit", false)
         }
+    }
 
+    private fun toggleBtn(method: String, flag: Boolean) {
+        when (method) {
+            "selectAll" -> toggleBtnSelectedAll(flag)
+            "submit" -> toggleBtnSubmit(flag)
+        }
+    }
+
+    private fun toggleBtnSelectedAll(isAllSelected: Boolean) {
+        if (isAllSelected) {
+            binding.llSelectAll.setBackgroundResource(
+                R.drawable.bg_rect_primrose_grey_alpha30_radius5_stroke1
+            )
+            this.isAllSelected = true
+        } else {
+            binding.llSelectAll.setBackgroundResource(
+                R.drawable.bg_rect_white_grey_alpha30_radius5_stroke1
+            )
+            this.isAllSelected = false
+        }
+    }
+
+    private fun toggleBtnSubmit(isSelected: Boolean) {
+        binding.btnSubmit.apply {
+            if (isSelected) {
+                Log.i("SearchAreaFragment", "submit btn Toggle")
+                this.setBackgroundResource(R.drawable.bg_rect_bilbao_radius10)
+                this.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+            } else {
+                Log.i("SearchAreaFragment", "submit btn Untoggle")
+                this.setBackgroundResource(R.drawable.bg_rect_white_smoke_radius10)
+                this.setTextColor(ContextCompat.getColor(requireContext(), R.color.zambezi))
+            }
+        }
     }
 }
