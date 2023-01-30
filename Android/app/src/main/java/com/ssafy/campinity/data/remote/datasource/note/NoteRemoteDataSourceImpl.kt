@@ -12,4 +12,11 @@ class NoteRemoteDataSourceImpl @Inject constructor(
     /*override suspend fun loginRequest(code: String): AuthResponse {
         return authApiService.loginRequest(code)
     }*/
+    override suspend fun noteQuestionRequest(campsiteId: String): List<NoteQuestionResponse> {
+        return noteApiService.noteQuestionRequest(campsiteId)
+    }
+
+    override suspend fun noteMyQuestionRequest(campsiteId: String): List<NoteQuestionResponse> {
+        return noteApiService.noteQuestionRequest(campsiteId)
+    }
 }

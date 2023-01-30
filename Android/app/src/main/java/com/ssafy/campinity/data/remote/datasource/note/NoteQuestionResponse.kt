@@ -12,7 +12,11 @@ data class NoteQuestionResponse(
     @SerializedName("questionId")
     val questionId: String
 ) : DataToDomainMapper<NoteQuestionTitle> {
-    /*override fun toDomainModel(): NoteQuestionTitle {
-        return NoteQuestionTitle
-    }*/
+    override fun toDomainModel(): NoteQuestionTitle {
+        return NoteQuestionTitle(
+            content,
+            createdAt,
+            questionId
+        )
+    }
 }

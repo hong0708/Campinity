@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.community
 
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
@@ -11,8 +12,11 @@ class CommunityNoteQuestionFragment :
 
     private val impl = arrayListOf<String>("1", "2", "3")
 
+    private val communityNoteViewModel by activityViewModels<CommunityNoteViewModel>()
+
     override fun initView() {
         initListener()
+        observeCommunityNoteViewModel()
     }
 
     override fun onResume() {
@@ -25,5 +29,11 @@ class CommunityNoteQuestionFragment :
 
     private fun initListener() {
 
+    }
+
+    private fun observeCommunityNoteViewModel() {
+        communityNoteViewModel.noteMyQuestions.observe(viewLifecycleOwner) {
+
+        }
     }
 }

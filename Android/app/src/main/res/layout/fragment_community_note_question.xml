@@ -3,6 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <variable
+            name="communityNoteViewModel"
+            type="com.ssafy.campinity.presentation.community.CommunityNoteViewModel" />
 
     </data>
 
