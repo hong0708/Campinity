@@ -17,9 +17,6 @@ class CollectionViewModel @Inject constructor(
     private val getCollectionsUseCase: GetCollectionsUseCase
 ) : ViewModel() {
 
-    private val _pageState:MutableLiveData<Boolean?> = MutableLiveData(true)
-    val pageState: LiveData<Boolean?> = _pageState
-
     private val _collectionListData: MutableLiveData<List<CollectionItem>?> = MutableLiveData()
     val collectionListData: LiveData<List<CollectionItem>?> = _collectionListData
 
@@ -32,12 +29,5 @@ class CollectionViewModel @Inject constructor(
                 Log.e("getCollections", "getCollections: ${value.errorMessage}", )
             }
         }
-    }
-
-    fun switchPageState() {
-        _pageState.value?.let {
-            _pageState.value = !it
-        }
-        Log.d("switchPageState", "switchPageState: ${pageState.value}")
     }
 }

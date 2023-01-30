@@ -20,7 +20,6 @@ data class CollectionResponse(
     @SerializedName("updatedAt")
     val updatedAt: String
 ) : DataToDomainMapper<CollectionItem> {
-    override fun toDomainModel(): CollectionItem {
-        return CollectionItem(campsiteName, collectionId, content, date, imagePath)
-    }
+    override fun toDomainModel(): CollectionItem =
+        CollectionItem(campsiteName, collectionId, content, date, imagePath)
 }

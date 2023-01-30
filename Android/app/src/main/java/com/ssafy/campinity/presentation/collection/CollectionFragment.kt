@@ -21,23 +21,24 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
     private val cardStackAdapter by lazy { CardStackAdapter(createItems(), this::getCollection) }
     private val gridAdapter by lazy { GridAdapter(this::getCollection) }
     private val manager by lazy { CardStackLayoutManager(context, this) }
+    private var pageState = true
 
     override fun initView() {
         initListener()
-        setPageState()
+        initRecyclerView()
+        initCardStackView()
     }
 
     private fun initListener() {
-        binding.fabCollectionMode.setOnClickListener { collectionViewModel.switchPageState() }
-    }
-
-    private fun setPageState() {
-        collectionViewModel.pageState.observe(viewLifecycleOwner) {
-            when(it) {
-                true -> initRecyclerView()
-                false -> initCardStackView()
-                else -> {}
+        binding.fabCollectionMode.setOnClickListener {
+            if (pageState) {
+                binding.clCardView.visibility = View.VISIBLE
+                binding.clRecyclerView.visibility = View.GONE
+            } else {
+                binding.clCardView.visibility = View.GONE
+                binding.clRecyclerView.visibility = View.VISIBLE
             }
+            pageState = !pageState
         }
     }
 
