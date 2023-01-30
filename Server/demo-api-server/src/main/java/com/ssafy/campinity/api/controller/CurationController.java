@@ -3,9 +3,13 @@ package com.ssafy.campinity.api.controller;
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.service.CurationService;
+import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
+@Api(tags = "큐레이션 관련 API")
 @RestController
 @RequestMapping("/api/v7/curations")
 @RequiredArgsConstructor
@@ -21,8 +26,10 @@ public class CurationController {
 
     private final CurationService curationService;
 
-    @PostMapping("")
-    public ResponseEntity<CurationMetaResDTO> createCuration(CurationReqDTO curationReqDTO) {
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<CurationMetaResDTO> createCuration(
+            @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
+            CurationReqDTO curationReqDTO) {
         CurationMetaResDTO result = curationService.createCuration(curationReqDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v7/curations/" + result.getCurationId());

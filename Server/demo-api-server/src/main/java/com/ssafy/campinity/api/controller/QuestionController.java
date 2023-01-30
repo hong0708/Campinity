@@ -6,6 +6,7 @@ import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
 import com.ssafy.campinity.core.service.QuestionService;
 import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +33,9 @@ public class QuestionController {
     })
     @ApiOperation(value = "질문 생성 및 생성된 질문 객체 반환 API")
     @PostMapping("")
-    public ResponseEntity<QuestionResDTO> createQuestion(QuestionReqDTO questionReqDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
+    public ResponseEntity<QuestionResDTO> createQuestion(
+            @RequestBody QuestionReqDTO questionReqDTO,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
 
         QuestionResDTO questionResDTO = questionService.createQuestion(questionReqDTO, memberDetails.getMember().getId());
         HttpHeaders headers = new HttpHeaders();

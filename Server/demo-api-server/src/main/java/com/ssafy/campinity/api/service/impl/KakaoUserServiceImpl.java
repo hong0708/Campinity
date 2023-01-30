@@ -59,8 +59,8 @@ public class KakaoUserServiceImpl implements KakaoUserService {
         // HTTP Body 생성
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
-        body.add("client_id", "7cf136f28bb6dcd99e9ece236e3ac94b");
-        body.add("redirect_uri", "http://localhost:8003/api/v4/members/kakao/callback");
+        body.add("client_id", "7b67ff80038831c2283545ae61432e6c");
+        body.add("redirect_uri", "http://localhost:8003/api/v4/members/login-kakao");
         body.add("code", code);
 
         // HTTP 요청 보내기

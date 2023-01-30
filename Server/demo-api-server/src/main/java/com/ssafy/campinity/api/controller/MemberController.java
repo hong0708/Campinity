@@ -9,6 +9,7 @@ import com.ssafy.campinity.core.dto.MemberResDTO;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.service.MemberService;
 import com.ssafy.campinity.core.utils.ImageUtil;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.NoSuchElementException;
-
+@Api(tags = "유저 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v4/members")
@@ -38,7 +39,7 @@ public class MemberController {
      * @return 멤버의 기본정보(email, nickname, profileImg, UUID)와 함께 refresh token, access token 둘다 제공해야함.
      * @throws JsonProcessingException
      */
-    @GetMapping("/kakao/callback")
+    @GetMapping("/login-kakao")
     public ResponseEntity<TokenResponse> kakaoLogin(@RequestParam String code) throws JsonProcessingException {
         TokenResponse tokenResponse = kakaoUserService.kakaoLogin(code);
         return new ResponseEntity<>(tokenResponse, HttpStatus.OK);

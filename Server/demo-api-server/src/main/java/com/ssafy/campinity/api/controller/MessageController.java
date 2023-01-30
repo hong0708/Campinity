@@ -8,9 +8,12 @@ import com.ssafy.campinity.core.dto.MessageResDTO;
 import com.ssafy.campinity.core.entity.message.Message;
 import com.ssafy.campinity.core.service.MessageService;
 import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.annotation.Validated;
@@ -35,9 +38,10 @@ public class MessageController {
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
     @ApiOperation(value = "쪽지를 생성 및 쪽지 객체 반환하는 API")
-    @PostMapping
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MessageResDTO> createMessage(
             @AuthenticationPrincipal MemberDetails memberDetails,
+            @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
             MessageReqDTO messageReqDTO){
 
         Message message = messageService.createMessage(messageReqDTO, memberDetails.getMember().getId());

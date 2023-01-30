@@ -8,14 +8,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -34,9 +33,11 @@ public class AnswerController {
     })
     @ApiOperation(value = "답변 생성 및 답변 객체 반환하는 API")
     @PostMapping("")
-    public ResponseEntity<AnswerResDTO> createAnswer(AnswerReqDTO answerReqDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
+    public ResponseEntity<AnswerResDTO> createAnswer(
+            @RequestBody AnswerReqDTO answerReqDTO,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
+
         AnswerResDTO result = answerService.createAnswer(answerReqDTO, memberDetails.getMember().getId());
         return new ResponseEntity<>(result, HttpStatus.CREATED);
-
     }
 }
