@@ -1,8 +1,10 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.AuthRepository
+import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
+import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -28,4 +30,9 @@ object UseCaseModule {
     @Provides
     fun provideCheckDuplicationUseCase(userRepository: UserRepository): CheckDuplicationUseCase =
         CheckDuplicationUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCollectionsUseCase(collectionRepository: CollectionRepository): GetCollectionsUseCase =
+        GetCollectionsUseCase(collectionRepository)
 }
