@@ -29,15 +29,11 @@ object RepositoryModule {
     fun provideUserRepository(
         userRemoteDataSourceImpl: UserRemoteDataSourceImpl
     ): UserRepository = UserRepositoryImpl(userRemoteDataSourceImpl)
-    ) : AuthRepository {
-        return AuthRepositoryImpl(authRemoteDataSourceImpl)
-    }
 
     @Provides
     @Singleton
     fun provideNoteRepository(
         noteRemoteDataSourceImpl: NoteRemoteDataSourceImpl
-    ) : NoteRepository {
-        return NoteRepositoryImpl(noteRemoteDataSourceImpl)
-    }
+    ): NoteRepository = NoteRepositoryImpl(noteRemoteDataSourceImpl)
+
 }

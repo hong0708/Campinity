@@ -1,13 +1,11 @@
 package com.ssafy.campinity.presentation.community
 
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.data.remote.Resource
-import com.ssafy.campinity.data.remote.datasource.auth.AuthRequest
-import com.ssafy.campinity.domain.entity.auth.Token
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.domain.usecase.note.NoteMyQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.NoteQuestionUseCase
@@ -24,8 +22,8 @@ class CommunityNoteViewModel @Inject constructor(
     private val _noteQuestions = MutableLiveData<List<NoteQuestionTitle>>()
     private val _noteMyQuestions = MutableLiveData<List<NoteQuestionTitle>>()
 
-    val noteQuestions = _noteQuestions
-    val noteMyQuestions = _noteMyQuestions
+    val noteQuestions: LiveData<List<NoteQuestionTitle>> = _noteQuestions
+    val noteMyQuestions: LiveData<List<NoteQuestionTitle>> = _noteMyQuestions
 
     fun requestNoteQuestions(campsiteId: String) = viewModelScope.launch {
         when (val value = noteQuestionUseCase(campsiteId)) {
@@ -34,7 +32,7 @@ class CommunityNoteViewModel @Inject constructor(
                 _noteQuestions.value = noteQuestionList
             }
             is Resource.Error -> {
-                Log.d("requestNote", "requestNote: ${value.errorMessage}")
+                Log.d("requestNoteQuestions", "NoteQuestions: ${value.errorMessage}")
                 _noteQuestions.value = listOf()
             }
         }
@@ -44,11 +42,11 @@ class CommunityNoteViewModel @Inject constructor(
         when (val value = noteMyQuestionUseCase(campsiteId)) {
             is Resource.Success<List<NoteQuestionTitle>> -> {
                 val noteQuestionList = value.data
-                _noteQuestions.value = noteQuestionList
+                _noteMyQuestions.value = noteQuestionList
             }
             is Resource.Error -> {
-                Log.d("requestLogin", "requestLogin: ${value.errorMessage}")
-                _noteQuestions.value = listOf()
+                Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.errorMessage}")
+                _noteMyQuestions.value = listOf()
             }
         }
     }
