@@ -16,19 +16,16 @@ import javax.inject.Singleton
 object UseCaseModule {
     @Singleton
     @Provides
-    fun provideLoginUseCase(authRepository: AuthRepository): LoginUseCase {
-        return LoginUseCase(authRepository)
-    }
+    fun provideLoginUseCase(authRepository: AuthRepository): LoginUseCase =
+        LoginUseCase(authRepository)
 
     @Singleton
     @Provides
-    fun provideEditUserUseCase(userRepository: UserRepository): EditUserUseCase {
-        return EditUserUseCase(userRepository)
-    }
+    fun provideEditUserUseCase(userRepository: UserRepository): EditUserUseCase =
+        EditUserUseCase(userRepository)
 
     @Singleton
     @Provides
-    fun provideCheckDuplicationUseCase(userRepository: UserRepository): CheckDuplicationUseCase {
-        return CheckDuplicationUseCase(userRepository)
-    }
+    fun provideCheckDuplicationUseCase(userRepository: UserRepository): CheckDuplicationUseCase =
+        CheckDuplicationUseCase(userRepository)
 }

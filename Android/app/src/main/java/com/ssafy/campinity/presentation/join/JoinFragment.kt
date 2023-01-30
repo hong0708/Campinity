@@ -67,7 +67,7 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
 
         viewModel.isSuccess.observe(viewLifecycleOwner) {
             when (it) {
-                true -> navigate(JoinFragmentDirections.actionJoinFragmentToExistingUserFragment())
+                true -> navigate(JoinFragmentDirections.actionJoinFragmentToCompleteJoinFragment())
                 else -> {}
             }
         }

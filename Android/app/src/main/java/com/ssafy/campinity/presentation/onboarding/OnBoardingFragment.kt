@@ -82,7 +82,7 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
                     navigate(actionTrue)
                 }
                 false -> {
-                    navigate(actionTrue)
+                    navigate(actionFalse)
                 }
                 else -> {}
             }
