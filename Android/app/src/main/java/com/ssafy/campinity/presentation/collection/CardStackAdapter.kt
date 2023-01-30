@@ -43,9 +43,9 @@ class CardStackAdapter(
         private val onItemClicked: (collectionId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CollectionItem) {
-            binding.ivCollection.setImageResource(data.img)
+            //binding.ivCollection.setImageResource(data.img)
             binding.tvDateCollection.text = data.date
-            binding.tvTitleCollection.text = data.title
+            binding.tvTitleCollection.text = data.campsiteName
             binding.root.setOnClickListener {
                 onItemClicked(data.collectionId)
             }
