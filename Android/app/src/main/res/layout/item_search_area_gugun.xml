@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="item"
+            type="com.ssafy.campinity.domain.entity.search.AreaGugun" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/ll_gugun"
+        android:layout_width="110dp"
+        android:layout_height="33dp"
+        android:background="@drawable/bg_rect_white_grey_alpha30_radius5_stroke1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_gugun"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="1dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@{item.gugun}"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            tools:text="가평군" />
+
+        <TextView
+            android:id="@+id/tv_campsite_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:textColor="@color/zambezi"
+            android:textSize="12sp"
+            tools:text="(16)" />
+    </LinearLayout>
+</layout>
