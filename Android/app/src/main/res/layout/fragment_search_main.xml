@@ -51,12 +51,13 @@
 
         <androidx.fragment.app.FragmentContainerView
             android:id="@+id/fcv_filter"
+            android:name="com.ssafy.campinity.presentation.search.SearchFilterFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:behavior_hideable="true"
             app:behavior_peekHeight="0dp"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-            tools:layout="@layout/fragment_search_list" />
+            tools:layout="@layout/fragment_search_filter" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_buttons"

@@ -12,6 +12,7 @@ import com.ssafy.campinity.domain.entity.search.AreaGugun
 import com.ssafy.campinity.presentation.base.BaseFragment
 
 class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.fragment_search_area) {
+
     private lateinit var searchAreaGuGunAdapter: SearchAreaGuGunAdapter
     private var isAllSelected = false
 

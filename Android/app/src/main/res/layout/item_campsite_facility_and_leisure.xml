@@ -13,7 +13,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginBottom="6dp"
             android:contentDescription="@string/image_campsite_facility_and_leisure"
-            tools:src="@drawable/ic_content_campsite_theme_5" />
+            tools:src="@drawable/ic_campsite_theme_5" />
 
         <TextView
             android:id="@+id/tv_facility_and_leisure"

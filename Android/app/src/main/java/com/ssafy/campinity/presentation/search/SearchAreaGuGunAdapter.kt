@@ -65,6 +65,11 @@ class SearchAreaGuGunAdapter(
             binding.item = item
             binding.tvCampsiteCount.text =
                 context.getString(R.string.content_campsite_count, item.campsiteCount)
+
+            initListener()
+        }
+
+        fun initListener() {
             binding.root.apply {
                 setOnClickListener {
                     if (mSelectedItem.get(adapterPosition, false)) {
