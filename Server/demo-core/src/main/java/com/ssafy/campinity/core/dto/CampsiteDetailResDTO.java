@@ -3,6 +3,7 @@ package com.ssafy.campinity.core.dto;
 import com.ssafy.campinity.core.entity.campsite.*;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.review.Review;
+import io.swagger.models.auth.In;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,15 +19,15 @@ public class CampsiteDetailResDTO {
 
     private String campsiteId;
 
-    private List<String> amenities;
+    private List<Integer> amenities;
 
-    private List<String> caravanfclties;
+    private List<Integer> caravanfclties;
 
-    private List<String> glampfclties;
+    private List<Integer> glampfclties;
 
     private List<String> openSeasons;
 
-    private List<String> themes;
+    private List<Integer> themes;
 
     private List<String> industries;
 
@@ -35,14 +36,6 @@ public class CampsiteDetailResDTO {
     private String campName;
 
     private String address;
-
-    private String doName;
-
-    private String sigunguName;
-
-    private Double latitude;
-
-    private Double longitude;
 
     private String phoneNumber;
 
@@ -67,7 +60,7 @@ public class CampsiteDetailResDTO {
     private double total_rate;
 
     @Builder
-    public CampsiteDetailResDTO(Campsite camp, Member member, List<ReviewResDTO> reviews) {
+    public CampsiteDetailResDTO(Campsite camp, Member member, List<ReviewResDTO> reviews, List<String> images) {
         boolean isScraped = false;
         for (CampsiteScrap cs: camp.getScraps()) {
             if (cs.getMember().equals(member)){
@@ -76,19 +69,19 @@ public class CampsiteDetailResDTO {
             }
         }
 
-        List<String> amenities = new ArrayList<>();
+        List<Integer> amenities = new ArrayList<>();
         for (CampsiteAndAmenity item: camp.getAmenities()) {
-            amenities.add(item.getAmenity().getAmenityName());
+            amenities.add(item.getAmenity().getId());
         }
 
-        List<String> caravanfclties = new ArrayList<>();
+        List<Integer> caravanfclties = new ArrayList<>();
         for (CampsiteAndCaravanFclty item: camp.getCaravanFclties()) {
-            caravanfclties.add(item.getCaravanFclty().getFcltyName());
+            caravanfclties.add(item.getCaravanFclty().getId());
         }
 
-        List<String> glampfclties = new ArrayList<>();
+        List<Integer> glampfclties = new ArrayList<>();
         for (CampsiteAndGlampFclty item: camp.getGlampFclties()) {
-            glampfclties.add(item.getGlampFclty().getFcltyName());
+            glampfclties.add(item.getGlampFclty().getId());
         }
 
         List<String> openSeasons = new ArrayList<>();
@@ -96,9 +89,9 @@ public class CampsiteDetailResDTO {
             openSeasons.add(item.getOpenSeason().getSeasonName());
         }
 
-        List<String> themes = new ArrayList<>();
+        List<Integer> themes = new ArrayList<>();
         for (CampsiteAndTheme item: camp.getThemes()) {
-            themes.add(item.getTheme().getThemeName());
+            themes.add(item.getTheme().getId());
         }
 
         List<String> industies = new ArrayList<>();
@@ -124,10 +117,6 @@ public class CampsiteDetailResDTO {
         this.isScraped = isScraped;
         this.campName = camp.getCampName();
         this.address = camp.getAddress();
-        this.doName = camp.getDoName();
-        this.sigunguName = camp.getSigunguName();
-        this.latitude = camp.getLatitude();
-        this.longitude = camp.getLongitude();
         this.phoneNumber = camp.getPhoneNumber();
         this.homepage = camp.getHomepage();
         this.reserveType = camp.getReserveType();
@@ -139,8 +128,6 @@ public class CampsiteDetailResDTO {
         this.allowAnimal = camp.getAllowAnimal();
         this.reviews = reviews;
         this.total_rate = total_rate;
-        this.images = new ArrayList<>();
+        this.images = images;
     }
-
-
 }

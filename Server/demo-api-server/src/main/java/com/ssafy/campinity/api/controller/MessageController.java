@@ -1,100 +1,132 @@
 package com.ssafy.campinity.api.controller;
 
+import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.core.dto.LatLngDTO;
 import com.ssafy.campinity.core.dto.MessageLikeDTO;
 import com.ssafy.campinity.core.dto.MessageReqDTO;
 import com.ssafy.campinity.core.dto.MessageResDTO;
 import com.ssafy.campinity.core.entity.message.Message;
 import com.ssafy.campinity.core.service.MessageService;
+import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.FileNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
+@Api(tags = "쪽지(리뷰 및 자유)관련 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v2/messages")
 public class MessageController {
 
     private final MessageService messageService;
-    private final String userUuid = "ae7766ef-a63c-4be3-ae7b-352112813328"; // 임시 테스트용 member uuid
 
+    @ApiResponses({
+            @ApiResponse(code = 201, message = "쪽지 생성이 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터 부적합(파라미터 이미지 파일 확장자, 타입 및 입력값 부적절 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "쪽지를 생성 및 쪽지 객체 반환하는 API")
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MessageResDTO> createMessage(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
+            MessageReqDTO messageReqDTO){
 
-    @PostMapping
-    public ResponseEntity<MessageResDTO> createMessage(MessageReqDTO messageReqDTO){
+        Message message = messageService.createMessage(messageReqDTO, memberDetails.getMember().getId());
 
-        try {
-            Message message = messageService.createMessage(messageReqDTO, userUuid);
+        MessageResDTO messageResDTO = new MessageResDTO(message, memberDetails.getMember().getUuid());
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
 
-            MessageResDTO messageResDTO = new MessageResDTO(message, userUuid);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(messageResDTO);
 
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
-
-            return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(messageResDTO);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
     }
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장별 범위 내에 쪽지 조회 성공 시 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터 부적합(파라미터 타입 및 입력값 부적절 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장별 범위 내에 쪽지 조회 API")
     @GetMapping("/{campsiteId}/scope")
     public ResponseEntity<List<MessageResDTO>> getMessagesByCampsiteIdLatLngBetweenScope(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @ApiParam(value = "캠핑장 식별 아이디", required = true, type = "String")
             @PathVariable String campsiteId,
             LatLngDTO latLngDTO){
-        try {
-            List<Message> messages = messageService.getMessagesByCampsiteUuidBetweenLatLng(campsiteId, latLngDTO);
-            List<MessageResDTO> messageResDTOList = messages.stream().map(message -> new MessageResDTO(message, userUuid)).collect(Collectors.toList());
-            return ResponseEntity.status(HttpStatus.OK).body(messageResDTOList);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+
+        List<Message> messages = messageService.getMessagesByCampsiteUuidBetweenLatLng(campsiteId, latLngDTO);
+        List<MessageResDTO> messageResDTOList = messages.stream().map(message -> new MessageResDTO(message, memberDetails.getMember().getUuid())).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(messageResDTOList);
+
     }
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "쪽지 상세 조회 성공 시 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터 부적합(파라미터 타입 및 입력값 부적절 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "쪽지 상세 조회 API")
     @GetMapping("/{messageId}")
-    public ResponseEntity<Object> getMessage(@PathVariable String messageId){
-        try {
-            Message message = messageService.getMessage(messageId);
-            MessageResDTO messageResDTO = new MessageResDTO(message, userUuid);
-
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
-
-            return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(messageResDTO);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
-
-    @DeleteMapping("/{messageId}")
-    public ResponseEntity<Object> deleteMessage(@PathVariable String messageId) {
-        try {
-            messageService.deleteMessage(messageId);
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-    }
-
-
-    @PutMapping("/{memberId}/like/{messageId}")
-    public ResponseEntity<MessageLikeDTO> likeMessage(
-            @PathVariable String memberId,
+    public ResponseEntity<MessageResDTO> getMessage(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @ApiParam(value = "쪽지 식별 아이디", required = true, type = "String")
             @PathVariable String messageId){
 
-        try {
-            boolean likeCheck = messageService.likeMessage(userUuid, messageId);
+        Message message = messageService.getMessage(messageId);
+        MessageResDTO messageResDTO = new MessageResDTO(message, memberDetails.getMember().getUuid());
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
+
+        return ResponseEntity.status(HttpStatus.OK).headers(responseHeaders).body(messageResDTO);
+
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "쪽지 삭제 성공 시 응답"),
+            @ApiResponse(code = 400, message = "삭제권한이 없거나 쪽지 식별아이디 값 부적절 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "쪽지 삭제 API")
+    @DeleteMapping("/{messageId}")
+    public ResponseEntity<Boolean> deleteMessage(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @ApiParam(value = "쪽지 식별 아이디", required = true, type = "String")
+            @PathVariable String messageId) throws FileNotFoundException {
+
+        messageService.deleteMessage(messageId, memberDetails.getMember().getUuid());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "쪽지 좋아요 성공 시 응답"),
+            @ApiResponse(code = 400, message = "쪽지 식별 아이디 값 부적절 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "쪽지 좋아요/좋아요 취소 API")
+    @PutMapping("/like/{messageId}")
+    public ResponseEntity<MessageLikeDTO> likeMessage(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @ApiParam(value = "쪽지 식별 아이디", required = true, type = "String")
+            @PathVariable String messageId){
+
+            boolean likeCheck = messageService.likeMessage(memberDetails.getMember().getId(), messageId);
             MessageLikeDTO messageLikeDTO = MessageLikeDTO.builder().likeCheck(likeCheck).build();
             return ResponseEntity.status(HttpStatus.OK).body(messageLikeDTO);
-        }
-        catch (IllegalArgumentException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
+
     }
 }

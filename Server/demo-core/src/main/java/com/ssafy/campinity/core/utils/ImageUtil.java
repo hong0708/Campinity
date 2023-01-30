@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.utils;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,8 @@ public class ImageUtil {
             return imagePath;
         }
 
-        String absolutePath = new File("demo-core/src/main/resources/static").getAbsolutePath() + File.separator;
+        String absolutePath = new File("demo-core" + File.separator + "src" + File.separator +
+                "main" + File.separator + "resources" + File.separator + "static").getAbsolutePath() + File.separator;
         String path = "images" + File.separator + table;
         File file = new File(absolutePath + path);
 
@@ -42,9 +44,7 @@ public class ImageUtil {
             else if (contentType.contains("image/png"))
                 originalFileExtension = ".png";
             else {
-                System.out.println("contentType is not vaild");
-                return "";
-
+                throw new FileUploadException("해당 파일 확장자는 지원하지 않습니다.");
             }
         }
 
@@ -56,16 +56,16 @@ public class ImageUtil {
         file.setWritable(true);
         file.setReadable(true);
 
-        return "\\" + path + File.separator + newFileName;
+        return File.separator + path + File.separator + newFileName;
     }
 
     public boolean removeImage(String imagePath){
 
         boolean result;
-        String absolutePath = new File("demo-core\\src\\main\\resources\\static").getAbsolutePath();
+        String absolutePath = new File("demo-core" + File.separator + "src" + File.separator +
+                "main" + File.separator + "resources" + File.separator + "static").getAbsolutePath();
         File file = new File(absolutePath + imagePath);
         result = file.delete();
         return result;
-
     }
 }

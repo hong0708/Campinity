@@ -11,20 +11,18 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class CampsiteListResDTO {
-    @Autowired
-    private static CampsiteScrapRepository campsiteScrapRepository;
 
     private String campsiteId;
 
     private String campName;
 
-    private String address;
+    private String doName;
+
+    private String sigunguName;
 
     private Double latitude;
 
     private Double longitude;
-
-    private String firstImageUrl;
 
     private Boolean isScraped;
 
@@ -33,15 +31,15 @@ public class CampsiteListResDTO {
     private int messageCnt;
 
     @Builder
-    public CampsiteListResDTO(Campsite camp, Boolean isScraped, int messageCnt) {
+    public CampsiteListResDTO(Campsite camp, Boolean isScraped, int messageCnt, List<String> images) {
         this.isScraped = isScraped;
         this.campsiteId = camp.getUuid().toString();
         this.campName = camp.getCampName();
-        this.address = camp.getAddress();
         this.latitude = camp.getLatitude();
         this.longitude = camp.getLongitude();
-        this.images = new ArrayList<>();
+        this.images = images;
         this.messageCnt = messageCnt;
-        this.firstImageUrl = camp.getFirstImageUrl();
+        this.doName = camp.getDoName();
+        this.sigunguName = camp.getSigunguName();
     }
 }

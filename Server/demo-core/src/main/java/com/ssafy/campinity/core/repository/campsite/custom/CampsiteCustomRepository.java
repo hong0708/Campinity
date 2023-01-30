@@ -3,6 +3,7 @@ package com.ssafy.campinity.core.repository.campsite.custom;
 import com.ssafy.campinity.core.dto.CampsiteListResDTO;
 import com.ssafy.campinity.core.entity.campsite.*;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.repository.campsite.CampsiteImageRepository;
 import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.message.MessageRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -23,9 +25,10 @@ public class CampsiteCustomRepository {
     private final MemberRepository memberRepository;
     private final CampsiteScrapRepository campsiteScrapRepository;
     private final MessageRepository messageRepository;
+    private final CampsiteImageRepository campsiteImageRepository;
 
 
-    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
+    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
                                                                String[] fclties, String[] amenities, String[] industries,
                                                                String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
@@ -63,11 +66,18 @@ public class CampsiteCustomRepository {
             before = true;
         }
 
-        if (sigunguName != null && !sigunguName.trim().isEmpty()) { // 시군구
+        if (sigunguNames.length > 0) { // 시군구
             if (before) {
                 whereClause += " And";
             }
-            whereClause += " c.sigunguName = '" + sigunguName + "'";
+            whereClause += " c.sigunguName IN (";
+            for (int i = 0; i < sigunguNames.length; i++) {
+                whereClause = whereClause + "'" + sigunguNames[i] + "'";
+                if (i < sigunguNames.length - 1) {
+                    whereClause = whereClause + " , ";
+                }
+            }
+            whereClause += ")";
             before = true;
         }
 
@@ -211,7 +221,11 @@ public class CampsiteCustomRepository {
 
             int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
 
-            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).build());
+            List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
+                return image.getImagePath();
+            }).collect(Collectors.toList());
+
+            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).images(images).messageCnt(messageCnt).build());
         }
         return completedResult;
     }

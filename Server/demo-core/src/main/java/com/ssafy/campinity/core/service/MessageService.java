@@ -5,18 +5,20 @@ import com.ssafy.campinity.core.entity.message.Message;
 import org.springframework.stereotype.Service;
 import com.ssafy.campinity.core.dto.MessageReqDTO;
 
+import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public interface MessageService {
 
-    Message createMessage(MessageReqDTO messageReqDTO, String memberUuid);
+    Message createMessage(MessageReqDTO messageReqDTO, int memberId);
 
     List<Message> getMessagesByCampsiteUuidBetweenLatLng(String campsiteUuid, LatLngDTO latLngDTO);
 
     Message getMessage(String messageId);
 
-    void deleteMessage(String messageId);
+    void deleteMessage(String messageId, UUID memberUuid) throws FileNotFoundException;
 
-    boolean likeMessage(String userUuid, String messageUuid);
+    boolean likeMessage(int memberId, String messageUuid);
 }

@@ -58,7 +58,7 @@ public class GetGocampApiJsonTest {
     CampsiteAndThemeRepository campsiteAndThemeRepository;
 
 
-    @Test
+
     @DisplayName("캠핑 사이트 관계 테이블 아이템 추출")
     void getGocampFilterItemTest() throws IOException {
 

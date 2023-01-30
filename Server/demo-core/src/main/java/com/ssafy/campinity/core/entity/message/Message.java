@@ -28,6 +28,7 @@ public class Message extends BaseEntity {
     @Column(columnDefinition = "char(36)")
     @Type(type = "uuid-char")
     private UUID uuid;
+
     @ManyToOne
     private Campsite campsite;
 
@@ -53,11 +54,11 @@ public class Message extends BaseEntity {
     private Boolean expired;
 
     @Builder
-    public Message(UUID uuid, Campsite campsite, Member member, MessageCategory messageCategory, List<LikeMessage> likeMessages, String content, String imagePath, Double longitude, Double latitude) {
+    public Message(UUID uuid, Campsite campsite, Member member, String messageCategory, List<LikeMessage> likeMessages, String content, String imagePath, Double longitude, Double latitude) {
         this.uuid = uuid;
         this.campsite = campsite;
         this.member = member;
-        this.messageCategory = messageCategory;
+        this.messageCategory = MessageCategory.fromParam(messageCategory);
         this.likeMessages = likeMessages;
         this.content = content;
         this.imagePath = imagePath;
