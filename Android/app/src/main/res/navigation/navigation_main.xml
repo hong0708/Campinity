@@ -98,7 +98,7 @@
 
     <fragment
         android:id="@+id/existingUserFragment"
-        android:name="com.ssafy.campinity.presentation.onboarding.ExistingUserFragment"
+        android:name="com.ssafy.campinity.presentation.join.ExistingUserFragment"
         android:label="ExistingUserFragment"
         tools:layout="@layout/fragment_existing_user">
         <action
@@ -108,12 +108,28 @@
 
     <fragment
         android:id="@+id/joinFragment"
-        android:name="com.ssafy.campinity.presentation.onboarding.JoinFragment"
+        android:name="com.ssafy.campinity.presentation.join.JoinFragment"
         android:label="JoinFragment"
         tools:layout="@layout/fragment_join">
         <action
             android:id="@+id/action_joinFragment_to_existingUserFragment"
             app:destination="@id/existingUserFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_completeJoinFragment"
+            app:destination="@id/completeJoinFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/completeJoinFragment"
+        android:name="com.ssafy.campinity.presentation.join.CompleteJoinFragment"
+        android:label="CompleteJoinFragment"
+        tools:layout="@layout/fragment_complete_join">
+        <action
+            android:id="@+id/action_completeJoinFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
 
     <activity

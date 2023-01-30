@@ -1,4 +1,20 @@
 package com.ssafy.campinity.presentation.join
 
-class CompleteJoinFragment {
+import androidx.lifecycle.lifecycleScope
+import com.ssafy.campinity.R
+import com.ssafy.campinity.databinding.FragmentJoinBinding
+import com.ssafy.campinity.presentation.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+
+@AndroidEntryPoint
+class CompleteJoinFragment :
+    BaseFragment<FragmentJoinBinding>(R.layout.fragment_complete_join) {
+    override fun initView() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            delay(1000)
+            navigate(CompleteJoinFragmentDirections.actionCompleteJoinFragmentToHomeFragment())
+        }
+    }
 }
