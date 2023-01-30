@@ -5,6 +5,7 @@ import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Api(tags = "캠핑장 관련 API")
 @RestController
 @RequestMapping("/api/v1/campsites")
 @RequiredArgsConstructor

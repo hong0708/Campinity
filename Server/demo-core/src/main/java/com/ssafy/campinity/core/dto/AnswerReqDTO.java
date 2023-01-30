@@ -1,6 +1,7 @@
 package com.ssafy.campinity.core.dto;
 
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;

@@ -28,6 +28,7 @@ public class Message extends BaseEntity {
     @Column(columnDefinition = "char(36)")
     @Type(type = "uuid-char")
     private UUID uuid;
+
     @ManyToOne
     private Campsite campsite;
 
