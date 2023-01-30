@@ -5,4 +5,6 @@ interface NoteRemoteDataSource {
     suspend fun noteQuestionRequest(campsiteId: String): List<NoteQuestionResponse>
 
     suspend fun noteMyQuestionRequest(campsiteId: String): List<NoteQuestionResponse>
+
+    suspend fun getPostQuestionRequest(body: NoteQuestionRequest): NoteQuestionResponse
 }
