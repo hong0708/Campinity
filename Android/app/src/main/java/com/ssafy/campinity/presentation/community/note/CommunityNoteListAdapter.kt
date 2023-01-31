@@ -1,4 +1,4 @@
-package com.ssafy.campinity.presentation.community
+package com.ssafy.campinity.presentation.community.note
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
@@ -49,7 +49,7 @@ class CommunityNoteListAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setCuration(noteQuestionTitle: List<NoteQuestionTitle>) {
+    fun setNote(noteQuestionTitle: List<NoteQuestionTitle>) {
         this.noteList = noteQuestionTitle
         notifyDataSetChanged()
     }

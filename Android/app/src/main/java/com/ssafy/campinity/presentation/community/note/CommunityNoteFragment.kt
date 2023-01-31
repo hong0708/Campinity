@@ -1,4 +1,4 @@
-package com.ssafy.campinity.presentation.community
+package com.ssafy.campinity.presentation.community.note
 
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayout
@@ -32,7 +32,7 @@ class CommunityNoteFragment :
             })
 
             vpNote.adapter = CommunityNoteVPAdapter(this@CommunityNoteFragment)
-            val tabTitles = listOf("질문함", "내 쪽지함")
+            val tabTitles = listOf("질문함", "내 편지함")
             TabLayoutMediator(
                 tlNote,
                 vpNote

@@ -1,5 +1,6 @@
 package com.ssafy.campinity.data.remote.service
 
+import com.ssafy.campinity.data.remote.datasource.note.NoteDetailResponse
 import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionResponse
 import retrofit2.http.*
 
@@ -16,4 +17,7 @@ interface NoteApiService {
         @Query("campsiteId") campsiteId: String,
         @Query("content") content: String
     ): NoteQuestionResponse
+
+    @GET("/api/v6/questions/{questionId}")
+    suspend fun noteQuestionDetailRequest(@Path("questionId") uuid: String): NoteDetailResponse
 }

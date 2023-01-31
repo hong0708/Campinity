@@ -1,4 +1,4 @@
-package com.ssafy.campinity.presentation.community
+package com.ssafy.campinity.presentation.community.note
 
 import android.app.Dialog
 import android.content.Context

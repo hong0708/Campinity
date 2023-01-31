@@ -5,7 +5,7 @@
     <data>
         <variable
             name="communityNoteViewModel"
-            type="com.ssafy.campinity.presentation.community.CommunityNoteViewModel" />
+            type="com.ssafy.campinity.presentation.community.note.CommunityNoteViewModel" />
 
     </data>
 

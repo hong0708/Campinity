@@ -1,4 +1,4 @@
-package com.ssafy.campinity.presentation.community
+package com.ssafy.campinity.presentation.community.campsite
 
 import android.animation.ObjectAnimator
 import android.view.View

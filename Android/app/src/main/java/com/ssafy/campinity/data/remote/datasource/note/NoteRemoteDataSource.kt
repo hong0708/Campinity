@@ -10,4 +10,6 @@ interface NoteRemoteDataSource {
         campsiteId: String,
         content: String
     ): NoteQuestionResponse
+
+    suspend fun noteQuestionDetailRequest(questionId: String): NoteDetailResponse
 }
