@@ -222,6 +222,9 @@
     <string name="content_reset">초기화</string>
     <string name="content_select_all">전체</string>
     <string name="content_campsite_count">(%1$d)</string>
+
+    <!-- Search filter -->
     <string name="title_filter">관심 필터 설정</string>
+    <string name="title_filter_industry">사업</string>
 
 </resources>
