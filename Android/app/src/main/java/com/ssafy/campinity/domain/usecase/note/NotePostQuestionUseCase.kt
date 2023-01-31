@@ -1,7 +1,6 @@
 package com.ssafy.campinity.domain.usecase.note
 
 import com.ssafy.campinity.data.remote.Resource
-import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.domain.repository.NoteRepository
 import kotlinx.coroutines.Dispatchers
@@ -11,8 +10,11 @@ import javax.inject.Inject
 class NotePostQuestionUseCase @Inject constructor(
     private val noteRepository: NoteRepository
 ) {
-    suspend operator fun invoke(body: NoteQuestionRequest): Resource<NoteQuestionTitle> =
+    suspend operator fun invoke(
+        campsiteId: String,
+        content: String
+    ): Resource<NoteQuestionTitle> =
         withContext(Dispatchers.IO) {
-            noteRepository.getPostQuestion(body)
+            noteRepository.getPostQuestion(campsiteId, content)
         }
 }

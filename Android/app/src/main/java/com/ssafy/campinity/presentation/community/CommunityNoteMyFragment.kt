@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.community
 
+import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,6 +23,12 @@ class CommunityNoteMyFragment :
         initNote()
     }
 
+    override fun onResume() {
+        super.onResume()
+        //initNote()
+        //Log.d("dialog", "onResume: ")
+    }
+
     private fun initListener() {
 
     }
@@ -32,13 +39,19 @@ class CommunityNoteMyFragment :
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
         communityNoteViewModel.noteMyQuestions.observe(viewLifecycleOwner) { response ->
-            val result = response
-            result.let { communityNoteListAdapter.setCuration(it) }
+            response?.let {
+                communityNoteListAdapter.setCuration(it)
+                Log.d("dialog", "initNote: ${it}")
+            }
         }
         communityNoteViewModel.requestNoteMyQuestions("68c156cf-3db2-41dd-8e4e-2e3b44d15179")
     }
 
-    private fun getPost(noteQuestionId: String) {
-
+    private fun getPost(questionId: String) {
+        navigate(
+            CommunityNoteFragmentDirections.actionCommunityNoteFragmentToCommunityNoteDetailFragment(
+                questionId
+            )
+        )
     }
 }

@@ -19,11 +19,17 @@ class CommunityNoteQuestionFragment :
 
     override fun initView() {
         initListener()
-        initNote()
+
     }
 
     private fun initListener() {
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        //communityNoteViewModel.requestNoteQuestions("68c156cf-3db2-41dd-8e4e-2e3b44d15179")
+        initNote()
     }
 
     private fun initNote() {
@@ -38,6 +44,5 @@ class CommunityNoteQuestionFragment :
     }
 
     private fun getPost(noteQuestionId: String) {
-
     }
 }

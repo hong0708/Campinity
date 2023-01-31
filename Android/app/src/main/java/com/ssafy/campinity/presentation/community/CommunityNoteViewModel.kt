@@ -54,8 +54,8 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    /*fun requestNotePostQuestion(body: NoteQuestionRequest) = viewModelScope.launch {
-        when (val value = notePostQuestionUseCase(body)) {
+    fun requestNotePostQuestion(body: NoteQuestionRequest) = viewModelScope.launch {
+        when (val value = notePostQuestionUseCase(body.campsiteId, body.content)) {
             is Resource.Success<NoteQuestionTitle> -> {
                 Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.data}")
             }
@@ -63,5 +63,5 @@ class CommunityNoteViewModel @Inject constructor(
                 Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.errorMessage}")
             }
         }
-    }*/
+    }
 }

@@ -44,7 +44,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_rect_white_radius30"
+            android:background="@drawable/bg_rect_white_radius30_top"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView

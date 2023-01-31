@@ -1,6 +1,6 @@
 package com.ssafy.campinity.presentation.community
 
-import android.util.Log
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -9,8 +9,9 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemNoteListBinding
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 
-class CommunityNoteListAdapter(private val onNoteQuestionClicked: (noteQuestionId: String) -> Unit) :
-    RecyclerView.Adapter<CommunityNoteListAdapter.CommunityNoteListViewHolder>() {
+class CommunityNoteListAdapter(
+    private val onNoteQuestionClicked: (noteQuestionId: String) -> Unit
+) : RecyclerView.Adapter<CommunityNoteListAdapter.CommunityNoteListViewHolder>() {
 
     private var noteList = listOf<NoteQuestionTitle>()
     lateinit var binding: ItemNoteListBinding
@@ -22,8 +23,7 @@ class CommunityNoteListAdapter(private val onNoteQuestionClicked: (noteQuestionI
             parent,
             false
         )
-        Log.d("왜?", "onCreateViewHolder: ")
-        return CommunityNoteListViewHolder(binding)
+        return CommunityNoteListViewHolder(binding, onNoteQuestionClicked)
     }
 
     override fun onBindViewHolder(holder: CommunityNoteListViewHolder, position: Int) {
@@ -33,14 +33,22 @@ class CommunityNoteListAdapter(private val onNoteQuestionClicked: (noteQuestionI
 
     override fun getItemCount(): Int = noteList.size
 
-
-    class CommunityNoteListViewHolder(val binding: ItemNoteListBinding) :
+    class CommunityNoteListViewHolder(
+        val binding: ItemNoteListBinding,
+        private val onNoteQuestionClicked: (noteQuestionId: String) -> Unit
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: NoteQuestionTitle) {
-            binding.tvNoteTitle.text = data.content
+            binding.apply {
+                tvNoteTitle.text = data.content
+                root.setOnClickListener {
+                    onNoteQuestionClicked(data.questionId)
+                }
+            }
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setCuration(noteQuestionTitle: List<NoteQuestionTitle>) {
         this.noteList = noteQuestionTitle
         notifyDataSetChanged()

@@ -2,7 +2,6 @@ package com.ssafy.campinity.data.remote.repository
 
 import com.ssafy.campinity.common.util.wrapToResource
 import com.ssafy.campinity.data.remote.Resource
-import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSource
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.domain.repository.NoteRepository
@@ -23,8 +22,11 @@ class NoteRepositoryImpl @Inject constructor(
             noteRemoteDataSource.noteMyQuestionRequest(campsiteId).map { it.toDomainModel() }
         }
 
-    override suspend fun getPostQuestion(body: NoteQuestionRequest): Resource<NoteQuestionTitle> =
+    override suspend fun getPostQuestion(
+        campsiteId: String,
+        content: String
+    ): Resource<NoteQuestionTitle> =
         wrapToResource(Dispatchers.IO) {
-            noteRemoteDataSource.getPostQuestionRequest(body).toDomainModel()
+            noteRemoteDataSource.getPostQuestionRequest(campsiteId, content).toDomainModel()
         }
 }

@@ -13,6 +13,9 @@ class NoteRemoteDataSourceImpl @Inject constructor(
     override suspend fun noteMyQuestionRequest(campsiteId: String): List<NoteQuestionResponse> =
         noteApiService.noteMyQuestionRequest(campsiteId)
 
-    override suspend fun getPostQuestionRequest(body: NoteQuestionRequest): NoteQuestionResponse =
-        noteApiService.postQuestionRequest(body)
+    override suspend fun getPostQuestionRequest(
+        campsiteId: String,
+        content: String
+    ): NoteQuestionResponse =
+        noteApiService.postQuestionRequest(campsiteId, content)
 }

@@ -53,12 +53,13 @@
 
             <TextView
                 android:id="@+id/tv_make_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="24dp"
-                android:layout_marginBottom="24dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="20dp"
                 android:textColor="@color/bilbao"
                 android:text="@string/content_make_note"
+                android:gravity="center"
                 android:textSize="14sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

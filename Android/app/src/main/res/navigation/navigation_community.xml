@@ -23,6 +23,20 @@
         <action
             android:id="@+id/action_communityNoteFragment_to_communityCampsiteFragment"
             app:destination="@id/communityCampsiteFragment" />
+        <action
+            android:id="@+id/action_communityNoteFragment_to_communityNoteDetailFragment"
+            app:destination="@id/communityNoteDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/communityNoteDetailFragment"
+        android:name="com.ssafy.campinity.presentation.community.CommunityNoteDetailFragment"
+        android:label="fragment_community_note_detail"
+        tools:layout="@layout/fragment_community_note_detail">
+        <argument
+            android:name="question_id"
+            app:argType="string" />
+
     </fragment>
 
 </navigation>
