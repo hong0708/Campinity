@@ -6,6 +6,7 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 import net.daum.mf.map.api.MapView
 
 class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragment_search_map) {
+
     private lateinit var mapView: MapView
 
     override fun initView() {}

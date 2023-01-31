@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SearchActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivitySearchBinding
     private lateinit var navController: NavController
 

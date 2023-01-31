@@ -8,14 +8,15 @@ import com.ssafy.campinity.domain.entity.search.FacilityAndLeisureItem
 
 class CampsiteFacilityAndLeisureAdapter(private val items: List<FacilityAndLeisureItem>) :
     RecyclerView.Adapter<CampsiteFacilityAndLeisureAdapter.ViewHolder>() {
+
     private lateinit var binding: ItemCampsiteFacilityAndLeisureBinding
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemCampsiteFacilityAndLeisureBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
             false
         )
-
         return ViewHolder(binding)
     }
 
@@ -27,6 +28,7 @@ class CampsiteFacilityAndLeisureAdapter(private val items: List<FacilityAndLeisu
 
     inner class ViewHolder(private val binding: ItemCampsiteFacilityAndLeisureBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: FacilityAndLeisureItem) {
             binding.ivFacilityAndLeisure.setImageResource(item.imageId)
             binding.tvFacilityAndLeisure.text = item.content

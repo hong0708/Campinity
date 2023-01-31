@@ -8,6 +8,7 @@ import com.ssafy.campinity.databinding.ItemSearchAreaSidoBinding
 
 class SearchAreaSidoAdapter(private val sido: List<String>) :
     RecyclerView.Adapter<SearchAreaSidoAdapter.ViewHolder>() {
+
     private lateinit var binding: ItemSearchAreaSidoBinding
     private var selectedPosition = 0
 
@@ -22,26 +23,29 @@ class SearchAreaSidoAdapter(private val sido: List<String>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(sido[position])
+        holder.initListener()
     }
 
     override fun getItemCount(): Int = sido.size
 
     inner class ViewHolder(private val binding: ItemSearchAreaSidoBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: String) {
             binding.item = item
             binding.root.apply {
-                setOnClickListener {
-                    notifyItemChanged(selectedPosition)
-                    selectedPosition = adapterPosition
-                    notifyItemChanged(selectedPosition)
-                }
-
-                if (selectedPosition == adapterPosition) {
+                if (selectedPosition == adapterPosition)
                     this.setBackgroundResource(R.drawable.bg_rect_white_smoke_white_stroke1)
-                } else {
+                else
                     this.setBackgroundResource(R.drawable.bg_rect_gainsboro_smoke_white_stroke1)
-                }
+            }
+        }
+
+        fun initListener() {
+            binding.root.setOnClickListener {
+                notifyItemChanged(selectedPosition)
+                selectedPosition = adapterPosition
+                notifyItemChanged(selectedPosition)
             }
         }
     }

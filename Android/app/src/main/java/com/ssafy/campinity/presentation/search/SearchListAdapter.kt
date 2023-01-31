@@ -11,6 +11,7 @@ class SearchListAdapter(
     private val campsites: List<CampsiteBriefInfo>,
     private val onClickMethod: (String) -> Unit
 ) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
+
     private lateinit var binding: ItemSearchListBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchListViewHolder {
@@ -39,6 +40,7 @@ class SearchListAdapter(
 
     inner class SearchListViewHolder(private val binding: ItemSearchListBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: CampsiteBriefInfo) {
             binding.item = item
             binding.root.setOnClickListener {

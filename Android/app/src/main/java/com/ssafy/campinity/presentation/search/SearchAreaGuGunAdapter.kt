@@ -16,6 +16,7 @@ class SearchAreaGuGunAdapter(
     private val toggleBtn: (String, Boolean) -> Unit
 ) :
     RecyclerView.Adapter<SearchAreaGuGunAdapter.ViewHolder>() {
+
     private lateinit var binding: ItemSearchAreaGugunBinding
     private var mSelectedItem = SparseBooleanArray(0)
     private val selectedItemCount: Int
@@ -36,6 +37,7 @@ class SearchAreaGuGunAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(gugun[position])
+        holder.initListener()
     }
 
     override fun getItemCount(): Int = gugun.size
@@ -56,40 +58,17 @@ class SearchAreaGuGunAdapter(
                 notifyItemChanged(position)
             }
         }
-        notifyItemRangeChanged(0, itemCount)
     }
 
     inner class ViewHolder(private val binding: ItemSearchAreaGugunBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(item: AreaGugun) {
             binding.item = item
             binding.tvCampsiteCount.text =
                 context.getString(R.string.content_campsite_count, item.campsiteCount)
+
             binding.root.apply {
-                setOnClickListener {
-                    if (mSelectedItem.get(adapterPosition, false)) {
-                        mSelectedItem.put(adapterPosition, false)
-                        this.setBackgroundResource(
-                            R.drawable.bg_rect_white_grey_alpha30_radius5_stroke1
-                        )
-                    } else {
-                        mSelectedItem.put(adapterPosition, true)
-                        this.setBackgroundResource(
-                            R.drawable.bg_rect_primrose_grey_alpha30_radius5_stroke1
-                        )
-                    }
-
-                    if (selectedItemCount == itemCount)
-                        toggleBtn("selectAll", true)
-                    else
-                        toggleBtn("selectAll", false)
-
-                    if (selectedItemCount > 0)
-                        toggleBtn("submit", true)
-                    else
-                        toggleBtn("submit", false)
-                }
-
                 if (mSelectedItem.get(adapterPosition, false))
                     this.setBackgroundResource(
                         R.drawable.bg_rect_primrose_grey_alpha30_radius5_stroke1
@@ -99,6 +78,33 @@ class SearchAreaGuGunAdapter(
                         R.drawable.bg_rect_white_grey_alpha30_radius5_stroke1
                     )
             }
+        }
+
+        fun initListener() {
+            binding.root.setOnClickListener {
+                if (mSelectedItem.get(adapterPosition, false)) {
+                    mSelectedItem.put(adapterPosition, false)
+                    it.setBackgroundResource(
+                        R.drawable.bg_rect_white_grey_alpha30_radius5_stroke1
+                    )
+                } else {
+                    mSelectedItem.put(adapterPosition, true)
+                    it.setBackgroundResource(
+                        R.drawable.bg_rect_primrose_grey_alpha30_radius5_stroke1
+                    )
+                }
+
+                if (selectedItemCount == itemCount)
+                    toggleBtn("selectAll", true)
+                else
+                    toggleBtn("selectAll", false)
+
+                if (selectedItemCount > 0)
+                    toggleBtn("submit", true)
+                else
+                    toggleBtn("submit", false)
+            }
+
         }
     }
 }
