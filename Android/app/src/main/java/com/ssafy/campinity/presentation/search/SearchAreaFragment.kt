@@ -1,10 +1,11 @@
 package com.ssafy.campinity.presentation.search
 
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.databinding.FragmentSearchAreaBinding
@@ -71,13 +72,9 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
             adapter = searchAreaGuGunAdapter
 
-            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
-                setDrawable(
-                    ContextCompat.getDrawable(
-                        context, R.drawable.bg_rect_transparent_height6
-                    )!!
-                )
-            })
+            addItemDecoration(
+                RecyclerviewItemDecoration(context, RecyclerView.VERTICAL, 6)
+            )
         }
     }
 

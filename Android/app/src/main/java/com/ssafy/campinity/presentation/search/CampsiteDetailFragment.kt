@@ -1,11 +1,11 @@
 package com.ssafy.campinity.presentation.search
 
-import androidx.core.content.ContextCompat
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.FragmentCampsiteDetailBinding
@@ -54,48 +54,24 @@ class CampsiteDetailFragment() :
 
     private fun initRecyclerView() {
         binding.rvCampsiteFacilityAndLeisure.apply {
-            layoutManager =
-                LinearLayoutManager(
-                    requireContext(),
-                    LinearLayoutManager.HORIZONTAL,
-                    false
-                )
-
+            layoutManager = LinearLayoutManager(
+                requireContext(), LinearLayoutManager.HORIZONTAL, false
+            )
             adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
 
             addItemDecoration(
-                DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
-                    .apply {
-                        setDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.bg_rect_transparent_width20
-                            )!!
-                        )
-                    }
+                RecyclerviewItemDecoration(context, RecyclerView.HORIZONTAL, 20)
             )
         }
 
         binding.rvCampsiteReview.apply {
-            layoutManager =
-                LinearLayoutManager(
-                    requireContext(),
-                    LinearLayoutManager.VERTICAL,
-                    false
-                )
-
+            layoutManager = LinearLayoutManager(
+                requireContext(), LinearLayoutManager.VERTICAL, false
+            )
             adapter = CampsiteReviewAdapter(listOf())
 
             addItemDecoration(
-                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-                    .apply {
-                        setDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.bg_rect_transparent_height20
-                            )!!
-                        )
-                    }
+                RecyclerviewItemDecoration(context, RecyclerView.VERTICAL, 20)
             )
         }
     }
@@ -112,28 +88,22 @@ class CampsiteDetailFragment() :
 
         facilityAndLeisure = listOf(
             FacilityAndLeisureItem(
-                R.drawable.ic_campsite_amenity_1,
-                contentAmenity[0]
+                R.drawable.ic_campsite_amenity_1, contentAmenity[0]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_campsite_amenity_2,
-                contentAmenity[1]
+                R.drawable.ic_campsite_amenity_2, contentAmenity[1]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_campsite_amenity_3,
-                contentAmenity[2]
+                R.drawable.ic_campsite_amenity_3, contentAmenity[2]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_campsite_amenity_4,
-                contentAmenity[3]
+                R.drawable.ic_campsite_amenity_4, contentAmenity[3]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_campsite_amenity_5,
-                contentAmenity[4]
+                R.drawable.ic_campsite_amenity_5, contentAmenity[4]
             ),
             FacilityAndLeisureItem(
-                R.drawable.ic_campsite_amenity_6,
-                contentAmenity[5]
+                R.drawable.ic_campsite_amenity_6, contentAmenity[5]
             ),
         )
     }
