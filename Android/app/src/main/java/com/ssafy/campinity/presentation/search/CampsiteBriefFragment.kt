@@ -7,5 +7,13 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 class CampsiteBriefFragment :
     BaseFragment<FragmentCampsiteBriefBinding>(R.layout.fragment_campsite_brief) {
 
-    override fun initView() {}
+    override fun initView() {
+        initListener()
+    }
+
+    private fun initListener() {
+        binding.btnPostbox.setOnClickListener {
+            navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment())
+        }
+    }
 }

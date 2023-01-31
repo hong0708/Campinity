@@ -19,9 +19,10 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
     private fun initCampsiteList() {
         binding.rvCampsiteList.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-            adapter = SearchListAdapter(campsiteList) { campsiteId: String ->
-                navigationToCampsiteDetailFragment(campsiteId)
-            }
+            adapter = SearchListAdapter(campsiteList,
+            this@SearchListFragment::navigationToCampsiteDetailFragment,
+                this@SearchListFragment::navigationToSearchPostboxFragment
+                )
         }
     }
 
@@ -31,6 +32,10 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                 campsiteId
             )
         )
+    }
+
+    private fun navigationToSearchPostboxFragment() {
+        navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment())
     }
 
     private fun createDummy() {
