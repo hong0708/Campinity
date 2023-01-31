@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface CampsiteService {
     List<Campsite> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO);
 
-    List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
+    List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
                                                         String[] fclties, String[] amenities, String[] industries,
                                                         String[] themes, String[] allowAnimals, String[] openSeasons, int memberId);
 
@@ -20,4 +20,6 @@ public interface CampsiteService {
     Boolean scrap(int userId, UUID campsiteId);
 
     CampsiteDetailResDTO getCampsiteDetail(UUID campsiteId, int userId);
+
+    List<CampsiteMetaResDTO> getCampsiteScrapList(int memberId);
 }

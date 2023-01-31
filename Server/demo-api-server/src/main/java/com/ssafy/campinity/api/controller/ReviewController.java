@@ -32,7 +32,7 @@ public class ReviewController {
     @PostMapping("")
     public ResponseEntity<ReviewResDTO> createReview(
             @AuthenticationPrincipal MemberDetails memberDetails,
-            ReviewReqDTO reviewReqDTO) {
+            @RequestBody ReviewReqDTO reviewReqDTO) {
 
         ReviewResDTO result = reviewService.createReview(reviewReqDTO, memberDetails.getMember().getId());
         return new ResponseEntity<>(result, HttpStatus.CREATED);

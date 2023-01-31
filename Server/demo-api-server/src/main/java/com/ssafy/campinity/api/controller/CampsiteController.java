@@ -2,12 +2,10 @@ package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
-import com.ssafy.campinity.core.dto.CampsiteDetailResDTO;
-import com.ssafy.campinity.core.dto.CampsiteListResDTO;
-import com.ssafy.campinity.core.dto.CampsiteMetaResDTO;
-import com.ssafy.campinity.core.dto.LocationInfoDTO;
+import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Api(tags = "캠핑장 관련 API")
 @RestController
 @RequestMapping("/api/v1/campsites")
 @RequiredArgsConstructor
@@ -65,6 +64,11 @@ public class CampsiteController {
                                                                                @RequestParam(name = "openSeason", defaultValue = "") String openSeason,
                                                                                @AuthenticationPrincipal MemberDetails memberDetails) {
 
+        String[] sigunguNames = new String[0];
+        if (!sigunguName.trim().isEmpty()) {
+            sigunguNames = sigunguName.split(" ");
+        }
+
         String[] fclties = new String[0];
         if (!fclty.trim().isEmpty()) {
             fclties = fclty.split(" ");
@@ -97,7 +101,7 @@ public class CampsiteController {
         }
 
         List<CampsiteListResDTO> result = campsiteService.getCampsiteListByFiltering(keyword.trim(), doName.trim(),
-                sigunguName.trim(), fclties, amenities, industries, themes, allowAnimals, operSeasons, memberDetails.getMember().getId());
+                sigunguNames, fclties, amenities, industries, themes, allowAnimals, operSeasons, memberDetails.getMember().getId());
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -116,14 +120,18 @@ public class CampsiteController {
     }
 
     @PutMapping("/scraps/{campsiteId}")
-    public ResponseEntity<Object> campsiteScrap(
+    public ResponseEntity<IsScrapResDTO> campsiteScrap(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable UUID campsiteId) {
 
         Boolean isScraped = campsiteService.scrap(memberDetails.getMember().getId(), campsiteId);
-        Map<String, Boolean> result = new HashMap<>();
-        result.put("isScraped", isScraped);
 
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(IsScrapResDTO.builder().isScraped(isScraped).build(), HttpStatus.OK);
+    }
+
+    @GetMapping("/scrap-lists")
+    public ResponseEntity<List<CampsiteMetaResDTO>> getCampsiteScrapList(@AuthenticationPrincipal MemberDetails memberDetails) {
+        List<CampsiteMetaResDTO> results = campsiteService.getCampsiteScrapList(memberDetails.getMember().getId());
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 }

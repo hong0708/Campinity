@@ -9,8 +9,6 @@ import java.util.UUID;
 public interface MemberRepository extends JpaRepository<Member, Integer> {
     Optional<Member> findMemberByUuidAndExpiredIsFalse(UUID memberId);
 
-    Optional<Member> findMemberByidAndExpiredIsFalse(int memberId);
-
     Optional<Member> findMemberByIdAndExpiredIsFalse(int memberId);
 
     Optional<Member> findMemberByEmail(String email);

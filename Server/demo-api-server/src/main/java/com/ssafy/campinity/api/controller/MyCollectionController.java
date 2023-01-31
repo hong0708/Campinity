@@ -6,10 +6,15 @@ import com.ssafy.campinity.core.dto.MyCollectionResDTO;
 import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
 import com.ssafy.campinity.core.service.MyCollectionService;
 import io.swagger.annotations.*;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterStyle;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -35,10 +40,11 @@ public class MyCollectionController {
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
     @ApiOperation(value = "컬렉션 생성 및 컬렉션 객체 반환하는 API")
-    @PostMapping
+    @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MyCollectionResDTO> createMyCollection(
             @AuthenticationPrincipal MemberDetails memberDetails,
-            MyCollectionReqDTO myCollectionReqDTO, HttpServletRequest request) {
+            @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
+            MyCollectionReqDTO myCollectionReqDTO) {
 
         String resourceSrc = request.getServletContext().getRealPath("/"); // 절대경로
 
@@ -63,11 +69,12 @@ public class MyCollectionController {
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
     @ApiOperation(value = "컬렉션 생성 및 컬렉션 객체 반환하는 API")
-    @PutMapping("/{collectionId}")
+    @PostMapping(value = "/{collectionId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MyCollectionResDTO> editMyCollection(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "컬렉션 식별 아이디", required = true, type = "String")
             @PathVariable String collectionId,
+            @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
             MyCollectionReqDTO myCollectionReqDTO) throws FileNotFoundException, UnsupportedEncodingException {
 
         MyCollection myCollection = myCollectionService.editMyCollection(myCollectionReqDTO, collectionId, memberDetails.getMember().getUuid());

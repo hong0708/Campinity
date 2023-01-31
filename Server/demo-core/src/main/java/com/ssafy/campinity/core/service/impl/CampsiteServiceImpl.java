@@ -49,12 +49,12 @@ public class CampsiteServiceImpl implements CampsiteService {
 
     @Transactional
     @Override
-    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String sigunguName,
+    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
                                                                String[] fclties, String[] amenities, String[] industries,
                                                                String[] themes, String[] allowAnimals, String[] openSeasons,
                                                                int memberId) {
 
-        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguName, fclties, amenities, industries, themes, allowAnimals, openSeasons, memberId);
+        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames, fclties, amenities, industries, themes, allowAnimals, openSeasons, memberId);
     }
 
     @Transactional
@@ -110,5 +110,13 @@ public class CampsiteServiceImpl implements CampsiteService {
         }).collect(Collectors.toList());
 
         return CampsiteDetailResDTO.builder().camp(campsite).member(member).images(images).reviews(reviewDTOLists).build();
+    }
+
+    @Override
+    public List<CampsiteMetaResDTO> getCampsiteScrapList(int memberId) {
+        List<Campsite> campsites = campsiteRepository.findCampsiteScrapList(memberId);
+        return campsites.stream().map(campsite -> {
+            return CampsiteMetaResDTO.builder().campsite(campsite).isScraped(true).build();
+        }).collect(Collectors.toList());
     }
 }

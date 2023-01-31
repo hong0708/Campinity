@@ -23,7 +23,8 @@ public class AppConfig {
             "/swagger/**",
             "/swagger-ui/**",
             "/swagger-resources/**",
-            "/api/v4/members/login-kakao"
+            "/api/v4/members/login-kakao",
+            "/images/**/**"
     };
 
     public AppConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint) {

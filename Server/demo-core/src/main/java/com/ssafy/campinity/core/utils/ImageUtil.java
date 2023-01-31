@@ -14,7 +14,6 @@ import java.util.UUID;
 @Slf4j
 public class ImageUtil {
 
-
     public String uploadImage(MultipartFile multipartFile, String table) throws IOException {
 
         String imagePath = "";

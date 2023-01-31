@@ -6,6 +6,8 @@ import java.util.List;
 import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.answer.Answer;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
+import com.ssafy.campinity.core.entity.curation.CurationScrap;
+import com.ssafy.campinity.core.entity.fcmToken.FcmToken;
 import com.ssafy.campinity.core.entity.message.LikeMessage;
 import com.ssafy.campinity.core.entity.message.Message;
 import com.ssafy.campinity.core.entity.question.Question;
@@ -45,7 +47,7 @@ public class Member extends BaseEntity {
 
     @OneToMany
     @JoinColumn(name = "member_id")
-    private List<CampsiteScrap> scraps = new ArrayList<>();
+    private List<CampsiteScrap> campsiteScraps = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "member_id")
@@ -59,7 +61,13 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "member_id")
     private List<Answer> answers = new ArrayList<>();
 
-    private String fcmToken;
+    @OneToMany
+    @JoinColumn(name = "member_id")
+    private List<CurationScrap> curationScraps = new ArrayList<>();
+
+    @OneToOne
+    @JoinColumn(name = "fcmToken_id")
+    private FcmToken fcmToken = new FcmToken();
 
     private String name;
 
@@ -70,7 +78,7 @@ public class Member extends BaseEntity {
     private Boolean expired = false;
 
     @Builder
-    public Member(UUID uuid, String fcmToken, String name, String email, String profileImage, Boolean expired) {
+    public Member(UUID uuid, FcmToken fcmToken, String name, String email, String profileImage, Boolean expired) {
         this.uuid = uuid;
         this.fcmToken = fcmToken;
         this.name = name;
@@ -80,7 +88,7 @@ public class Member extends BaseEntity {
     }
 
     public void addUserScrap(CampsiteScrap campsiteScrap) {
-        this.getScraps().add(campsiteScrap);
+        this.getCampsiteScraps().add(campsiteScrap);
     }
 
     public void addUserReview(Review review) {
