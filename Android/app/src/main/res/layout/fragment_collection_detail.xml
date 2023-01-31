@@ -5,6 +5,9 @@
 
     <data>
 
+        <variable
+            name="collectionDetail"
+            type="com.ssafy.campinity.domain.entity.collection.CollectionItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,6 +17,7 @@
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:collectionImgUri="@{collectionDetail.imagePath}"
             android:contentDescription="@string/image_curation_detail"
             android:scaleType="fitXY"
             android:src="@drawable/bg_collection_detail"
@@ -42,6 +46,50 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_collection_delete_update"
+            android:layout_width="143dp"
+            android:layout_height="137dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/bg_rect_white_radius20_transparent80"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="@id/iv_multi_option"
+            app:layout_constraintTop_toBottomOf="@id/iv_multi_option">
+
+            <TextView
+                android:id="@+id/tv_collection_delete"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="@string/content_collection_delete"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/divider"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/zambezi"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_collection_update"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="@string/content_collection_update"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/divider" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_rect_white_radius30"
@@ -54,6 +102,7 @@
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="34dp"
                 android:fontFamily="@font/roboto_bold"
+                android:text="@{collectionDetail.campsiteName}"
                 android:textColor="@color/bilbao"
                 android:textSize="24sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -66,6 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/roboto_bold"
+                android:text="@{collectionDetail.date}"
                 android:textColor="@color/wild_willow"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@id/tv_title_collection"
@@ -79,6 +129,7 @@
                 android:layout_marginEnd="25dp"
                 android:layout_marginBottom="20dp"
                 android:fontFamily="@font/roboto_regular"
+                android:text="@{collectionDetail.content}"
                 android:textColor="@color/zambezi"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@id/cl_share"

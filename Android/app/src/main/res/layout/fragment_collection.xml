@@ -36,6 +36,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv_title_collection" />
 
         <TextView
+            android:id="@+id/tv_add_collection"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="29dp"
@@ -53,7 +54,7 @@
             android:layout_height="0dp"
             android:layout_marginTop="34dp"
             android:layout_marginBottom="85dp"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_content_collection">
 

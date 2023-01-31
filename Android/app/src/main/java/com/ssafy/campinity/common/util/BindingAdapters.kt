@@ -18,4 +18,14 @@ object BindingAdapters {
             .circleCrop()
             .into(this)
     }
+
+    @JvmStatic
+    @BindingAdapter("android:collectionImgUri")
+    fun ImageView.setCollectionImg(imgUri: String?) {
+        Glide.with(this.context)
+            .load(imgUri)
+            .placeholder(R.drawable.bg_image_not_found)
+            .error(R.drawable.bg_image_not_found)
+            .into(this)
+    }
 }

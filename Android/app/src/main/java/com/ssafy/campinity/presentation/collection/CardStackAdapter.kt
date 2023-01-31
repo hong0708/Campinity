@@ -9,10 +9,10 @@ import com.ssafy.campinity.databinding.ItemCollectionCardBinding
 import com.ssafy.campinity.domain.entity.collection.CollectionItem
 
 class CardStackAdapter(
-    private var cards: List<CollectionItem> = emptyList(),
     private val onItemClicked: (collectionId: String) -> Unit
 ) : RecyclerView.Adapter<CardStackAdapter.CardViewHolder>() {
 
+    private var items: List<CollectionItem> = listOf()
     lateinit var binding: ItemCollectionCardBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {
@@ -23,19 +23,17 @@ class CardStackAdapter(
     }
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
-        holder.onBind(cards[position])
+        holder.onBind(items[position])
     }
 
-    override fun getItemCount(): Int {
-        return cards.size
+    override fun getItemCount(): Int = items.size
+
+    fun setItems(items: List<CollectionItem>) {
+        this.items = items
     }
 
-    fun setSpots(spots: List<CollectionItem>) {
-        this.cards = spots
-    }
-
-    fun getSpots(): List<CollectionItem> {
-        return cards
+    fun getItems(): List<CollectionItem> {
+        return items
     }
 
     class CardViewHolder(
@@ -43,12 +41,14 @@ class CardStackAdapter(
         private val onItemClicked: (collectionId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CollectionItem) {
-            //binding.ivCollection.setImageResource(data.img)
-            binding.tvDateCollection.text = data.date
-            binding.tvTitleCollection.text = data.campsiteName
             binding.root.setOnClickListener {
                 onItemClicked(data.collectionId)
             }
         }
+    }
+
+    fun setCollection(collectionItem: List<CollectionItem>) {
+        this.items = collectionItem
+        notifyDataSetChanged()
     }
 }
