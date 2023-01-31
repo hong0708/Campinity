@@ -4,6 +4,7 @@ import com.ssafy.campinity.domain.repository.AuthRepository
 import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
+import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
@@ -35,4 +36,9 @@ object UseCaseModule {
     @Provides
     fun provideGetCollectionsUseCase(collectionRepository: CollectionRepository): GetCollectionsUseCase =
         GetCollectionsUseCase(collectionRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCollectionDetailUseCase(collectionRepository: CollectionRepository): GetCollectionDetailUseCase =
+        GetCollectionDetailUseCase(collectionRepository)
 }

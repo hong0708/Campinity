@@ -18,7 +18,7 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
     CardStackListener {
 
     private val collectionViewModel by viewModels<CollectionViewModel>()
-    private val cardStackAdapter by lazy { CardStackAdapter(createItems(), this::getCollection) }
+    private val cardStackAdapter by lazy { CardStackAdapter(this::getCollection) }
     private val gridAdapter by lazy { GridAdapter(this::getCollection) }
     private val manager by lazy { CardStackLayoutManager(context, this) }
     private var pageState = true
@@ -39,6 +39,9 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
                 binding.clRecyclerView.visibility = View.VISIBLE
             }
             pageState = !pageState
+        }
+        binding.tvAddCollection.setOnClickListener {
+            navigate(CollectionFragmentDirections.actionCollectionFragmentToCreateCollectionFragment())
         }
     }
 
@@ -69,11 +72,11 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
     }
 
     private fun paginate() {
-        val old = cardStackAdapter.getSpots()
-        val new = old.plus(createItems())
+        val old = cardStackAdapter.getItems()
+        val new = old.plus(collectionViewModel.collectionListData.value!!)
         val callback = CollectionDiffCallback(old, new)
         val result = DiffUtil.calculateDiff(callback)
-        cardStackAdapter.setSpots(new)
+        cardStackAdapter.setItems(new)
         result.dispatchUpdatesTo(cardStackAdapter)
     }
 
@@ -101,6 +104,10 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
                 }
             }
         }
+        collectionViewModel.collectionListData.observe(viewLifecycleOwner) { response ->
+            response?.let { cardStackAdapter.setCollection(it) }
+        }
+        collectionViewModel.getCollections()
     }
 
     private fun initRecyclerView() {
