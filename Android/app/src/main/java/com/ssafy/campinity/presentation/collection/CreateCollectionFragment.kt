@@ -56,7 +56,6 @@ class CreateCollectionFragment :
             tvDateInput.setOnClickListener { getDate() }
             tvMakeReview.setOnClickListener { viewModel.createCollection() }
         }
-
     }
 
     private fun observeState() {
