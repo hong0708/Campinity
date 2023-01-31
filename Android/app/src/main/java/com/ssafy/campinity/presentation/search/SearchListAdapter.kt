@@ -25,17 +25,10 @@ class SearchListAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchListViewHolder, position: Int) {
-        holder.bind(campsites[position])
-
-        holder.initListener()
-
-        binding.rvCampsiteImage.apply {
-            layoutManager = LinearLayoutManager(
-                binding.rvCampsiteImage.context,
-                RecyclerView.HORIZONTAL,
-                false
-            )
-            adapter = CampsiteBriefImageAdapter(campsites[position].images)
+        with(campsites[position]) {
+            holder.bind(this)
+            holder.initListener(this)
+            holder.initRecyclerView()
         }
     }
 
@@ -48,9 +41,24 @@ class SearchListAdapter(
             binding.item = item
         }
 
-        fun initListener() {
-            binding.root.setOnClickListener {
-//                navigationToCampsiteDetailFragment(item.campsiteId)
+        fun initListener(item: CampsiteBriefInfo) {
+            binding.btnPostbox.setOnClickListener {
+                navigationToSearchPostboxFragment()
+            }
+
+            binding.rlCampsite.setOnClickListener {
+                navigationToCampsiteDetailFragment(item.campsiteId)
+            }
+        }
+
+        fun initRecyclerView() {
+            binding.rvCampsiteImage.apply {
+                layoutManager = LinearLayoutManager(
+                    binding.rvCampsiteImage.context,
+                    RecyclerView.HORIZONTAL,
+                    false
+                )
+                adapter = CampsiteBriefImageAdapter(campsites[adapterPosition].images)
             }
         }
     }
