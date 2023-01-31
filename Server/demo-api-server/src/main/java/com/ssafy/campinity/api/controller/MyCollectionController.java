@@ -46,9 +46,6 @@ public class MyCollectionController {
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
             MyCollectionReqDTO myCollectionReqDTO) {
 
-        String resourceSrc = request.getServletContext().getRealPath("/"); // 절대경로
-
-        log.debug("resourceSrc : " + resourceSrc);
         if (myCollectionReqDTO.getFile().isEmpty()) {
             log.debug("myCollectionReqDTO multipart file is empty");
         }
