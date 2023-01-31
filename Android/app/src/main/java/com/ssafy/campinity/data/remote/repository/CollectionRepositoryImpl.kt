@@ -32,4 +32,9 @@ class CollectionRepositoryImpl @Inject constructor(
                 )
             ).toDomainModel()
         }
+
+    override suspend fun getCollection(collectionId: String): Resource<CollectionItem> =
+        wrapToResource(Dispatchers.IO) {
+            collectionRemoteDataSource.getCollection(collectionId).toDomainModel()
+    }
 }

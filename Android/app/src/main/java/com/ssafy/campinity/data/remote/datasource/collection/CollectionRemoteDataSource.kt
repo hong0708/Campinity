@@ -5,4 +5,6 @@ interface CollectionRemoteDataSource {
     suspend fun getCollections(): List<CollectionResponse>
 
     suspend fun createCollection(body: CollectionRequest): CollectionResponse
+
+    suspend fun getCollection(collectionId: String): CollectionResponse
 }

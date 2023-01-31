@@ -14,4 +14,6 @@ interface CollectionRepository {
         date: String,
         file: MultipartBody.Part?
     ): Resource<CollectionItem>
+
+    suspend fun getCollection(collectionId: String): Resource<CollectionItem>
 }

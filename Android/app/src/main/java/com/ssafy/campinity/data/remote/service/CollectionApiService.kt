@@ -2,11 +2,7 @@ package com.ssafy.campinity.data.remote.service
 
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionResponse
 import okhttp3.MultipartBody
-import retrofit2.http.GET
-import retrofit2.http.Multipart
-import retrofit2.http.POST
-import retrofit2.http.Part
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface CollectionApiService {
 
@@ -21,4 +17,7 @@ interface CollectionApiService {
         @Query("date") date: String,
         @Part file: MultipartBody.Part?
     ): CollectionResponse
+
+    @GET("/api/v5/my-collections/{collectionId}")
+    suspend fun getCollection(@Path("collectionId") collectionId: String): CollectionResponse
 }

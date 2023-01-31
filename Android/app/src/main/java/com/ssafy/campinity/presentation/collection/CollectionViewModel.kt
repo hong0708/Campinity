@@ -9,6 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.domain.entity.collection.CollectionItem
 import com.ssafy.campinity.domain.usecase.collection.CreateCollectionUseCase
+import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -21,8 +22,12 @@ import javax.inject.Inject
 @HiltViewModel
 class CollectionViewModel @Inject constructor(
     private val getCollectionsUseCase: GetCollectionsUseCase,
-    private val createCollectionUseCase: CreateCollectionUseCase
+    private val createCollectionUseCase: CreateCollectionUseCase,
+    private val getCollectionDetailUseCase: GetCollectionDetailUseCase
 ) : ViewModel() {
+
+    private val _collectionData: MutableLiveData<CollectionItem?> = MutableLiveData()
+    val collectionData: LiveData<CollectionItem?> = _collectionData
 
     private val _collectionListData: MutableLiveData<List<CollectionItem>?> = MutableLiveData()
     val collectionListData: LiveData<List<CollectionItem>?> = _collectionListData
@@ -47,13 +52,24 @@ class CollectionViewModel @Inject constructor(
 
     private var imgMultiPart: MultipartBody.Part? = null
 
+    fun getCollection(collectionId: String) = viewModelScope.launch {
+        when (val value = getCollectionDetailUseCase(collectionId)) {
+            is Resource.Success<CollectionItem> -> {
+                _collectionData.value = value.data
+            }
+            is Resource.Error -> {
+                Log.e("getDetail", "getDetail: ${value.errorMessage}")
+            }
+        }
+    }
+
     fun getCollections() = viewModelScope.launch {
         when (val value = getCollectionsUseCase()) {
             is Resource.Success<List<CollectionItem>> -> {
                 _collectionListData.value = value.data
             }
             is Resource.Error -> {
-                Log.e("getCollections", "getCollections: ${value.errorMessage}", )
+                Log.e("getCollections", "getCollections: ${value.errorMessage}")
             }
         }
     }
@@ -61,13 +77,16 @@ class CollectionViewModel @Inject constructor(
     fun createCollection() = viewModelScope.launch {
         when (
             val value = createCollectionUseCase(
-            campsiteName.value ?: "", content.value ?: "", date.value ?: "", imgMultiPart ?: throw java.lang.IllegalArgumentException("Picture Not Selected.")
+                campsiteName.value ?: "",
+                content.value ?: "",
+                date.value ?: "",
+                imgMultiPart ?: throw java.lang.IllegalArgumentException("Picture Not Selected.")
             )) {
             is Resource.Success<CollectionItem> -> {
                 _isSucceed.value = true
             }
             is Resource.Error -> {
-                Log.e("createCollection", "createCollection: ${value.errorMessage}", )
+                Log.e("createCollection", "createCollection: ${value.errorMessage}")
                 _isSucceed.value = false
             }
         }

@@ -17,4 +17,7 @@ class CollectionRemoteDataSourceImpl @Inject constructor(
             body.date,
             body.file
         )
+
+    override suspend fun getCollection(collectionId: String): CollectionResponse =
+        collectionApiService.getCollection(collectionId)
 }
