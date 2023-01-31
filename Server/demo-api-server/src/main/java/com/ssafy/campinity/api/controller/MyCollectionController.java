@@ -7,12 +7,14 @@ import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
 import com.ssafy.campinity.core.service.MyCollectionService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v5/my-collections")
+@Slf4j
 public class MyCollectionController {
 
     private final MyCollectionService myCollectionService;
@@ -35,7 +38,14 @@ public class MyCollectionController {
     @PostMapping
     public ResponseEntity<MyCollectionResDTO> createMyCollection(
             @AuthenticationPrincipal MemberDetails memberDetails,
-            MyCollectionReqDTO myCollectionReqDTO) {
+            MyCollectionReqDTO myCollectionReqDTO, HttpServletRequest request) {
+
+        String resourceSrc = request.getServletContext().getRealPath("/"); // 절대경로
+
+        log.debug("resourceSrc : " + resourceSrc);
+        if (myCollectionReqDTO.getFile().isEmpty()) {
+            log.debug("myCollectionReqDTO multipart file is empty");
+        }
 
         MyCollection myCollection = myCollectionService.createMyCollection(myCollectionReqDTO, memberDetails.getMember().getId());
 
