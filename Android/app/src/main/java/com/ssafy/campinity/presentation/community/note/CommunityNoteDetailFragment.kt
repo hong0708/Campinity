@@ -23,7 +23,7 @@ class CommunityNoteDetailFragment :
     }
 
     private fun initListener(){
-        binding.ivPostBoxBack.setOnClickListener {
+        binding.ivCloseNoteDetail.setOnClickListener {
             popBackStack()
         }
     }
