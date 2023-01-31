@@ -36,6 +36,10 @@ class CommunityNoteFragment :
             ) { tab, position ->
                 tab.text = tabTitles[position]
             }.attach()
+
+            tvMakePost.setOnClickListener {
+
+            }
         }
     }
 }

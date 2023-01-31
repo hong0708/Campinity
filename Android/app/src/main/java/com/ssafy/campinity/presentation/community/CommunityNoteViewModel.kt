@@ -6,8 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
+import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.domain.usecase.note.NoteMyQuestionUseCase
+import com.ssafy.campinity.domain.usecase.note.NotePostQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.NoteQuestionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,7 +18,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityNoteViewModel @Inject constructor(
     private val noteMyQuestionUseCase: NoteMyQuestionUseCase,
-    private val noteQuestionUseCase: NoteQuestionUseCase
+    private val noteQuestionUseCase: NoteQuestionUseCase,
+    private val notePostQuestionUseCase: NotePostQuestionUseCase
 ) : ViewModel() {
 
     private val _noteQuestions = MutableLiveData<List<NoteQuestionTitle>>()
@@ -50,4 +53,15 @@ class CommunityNoteViewModel @Inject constructor(
             }
         }
     }
+
+    /*fun requestNotePostQuestion(body: NoteQuestionRequest) = viewModelScope.launch {
+        when (val value = notePostQuestionUseCase(body)) {
+            is Resource.Success<NoteQuestionTitle> -> {
+                Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.data}")
+            }
+            is Resource.Error -> {
+                Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.errorMessage}")
+            }
+        }
+    }*/
 }
