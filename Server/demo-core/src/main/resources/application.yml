@@ -54,10 +54,7 @@ spring:
       matching-strategy: ant_path_matcher
 
 logging:
-  level:
-    org.hibernate:
-      type.descriptor.sql: trace #show parameter binding
-      SQL: DEBUG
+  config: classpath:log4j2.yml
 
 fcm:
   certification: /firebase/campinity-5aa0b-firebase-adminsdk-ap06a-54d2b91c8b.json

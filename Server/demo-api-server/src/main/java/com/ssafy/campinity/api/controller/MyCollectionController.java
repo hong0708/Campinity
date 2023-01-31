@@ -7,33 +7,31 @@ import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
 import com.ssafy.campinity.core.service.MyCollectionService;
 import io.swagger.annotations.*;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.enums.ParameterStyle;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Api(tags = "컬렉션 관련 API")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v5/my-collections")
-@Slf4j
+@Log4j2
 public class MyCollectionController {
 
     private final MyCollectionService myCollectionService;
-
+    private static Logger logger = LogManager.getLogger(MyCollectionController.class);
     @ApiResponses({
             @ApiResponse(code = 201, message = "컬렉션 생성이 성공했을 때 응답"),
             @ApiResponse(code = 400, message = "입력 데이터 부적합(파라미터 이미지 파일 확장자, 타입 및 입력값 부적절 시 응답"),
@@ -46,8 +44,15 @@ public class MyCollectionController {
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
             MyCollectionReqDTO myCollectionReqDTO) {
 
+        logger.error("[createMyCollection] : DEBUG TEST error");
+        logger.info("[createMyCollection] : DEBUG TEST info");
+        logger.debug("[createMyCollection] : DEBUG TEST debug");
+        logger.trace("[createMyCollection] : DEBUG TEST trace");
+        logger.fatal("[createMyCollection] : DEBUG TEST fatal");
+        logger.warn("[createMyCollection] : DEBUG TEST warn");
+        System.out.println("[createMyCollection] sout");
         if (myCollectionReqDTO.getFile().isEmpty()) {
-            log.debug("myCollectionReqDTO multipart file is empty");
+            logger.info("myCollectionReqDTO multipart file is empty");
         }
 
         MyCollection myCollection = myCollectionService.createMyCollection(myCollectionReqDTO, memberDetails.getMember().getId());
