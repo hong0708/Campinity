@@ -27,6 +27,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             layoutManager = LinearLayoutManager(
                 context, LinearLayoutManager.VERTICAL, false
             )
+
             adapter = SearchAreaSidoAdapter(
                 listOf(
                     "경기", "인천", "강원", "대전", "세종", "충북", "충남", "울산", "경북", "경남", "전북", "전남"
@@ -38,6 +39,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     private fun initGugun() {
         binding.tvCampsiteCount.text =
             requireContext().getString(R.string.content_campsite_count, 0)
+
         binding.rvGugun.apply {
             layoutManager = GridLayoutManager(
                 context,
@@ -45,9 +47,9 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                 GridLayoutManager.VERTICAL,
                 false
             )
+
             searchAreaGuGunAdapter = SearchAreaGuGunAdapter(
-                requireContext(),
-                listOf(
+                requireContext(), listOf(
                     AreaGugun("가평군", 16),
                     AreaGugun("가평군", 16),
                     AreaGugun("가평군", 16),
@@ -66,28 +68,26 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                     AreaGugun("가평군", 16)
                 )
             ) { method: String, flag: Boolean -> toggleBtn(method, flag) }
+
             adapter = searchAreaGuGunAdapter
-            addItemDecoration(
-                DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
-                    .apply {
-                        setDrawable(
-                            ContextCompat.getDrawable(
-                                context,
-                                R.drawable.bg_rect_transparent_height6
-                            )!!
-                        )
-                    }
-            )
+
+            addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.VERTICAL).apply {
+                setDrawable(
+                    ContextCompat.getDrawable(
+                        context, R.drawable.bg_rect_transparent_height6
+                    )!!
+                )
+            })
         }
     }
 
     private fun initListener() {
         binding.llSelectAll.setOnClickListener {
-            if (isAllSelected) {
+            if (isAllSelected)
                 searchAreaGuGunAdapter.unselectAll()
-            } else {
+            else
                 searchAreaGuGunAdapter.selectAll()
-            }
+
             toggleBtn("selectAll", !isAllSelected)
             toggleBtn("submit", isAllSelected)
         }

@@ -23,11 +23,8 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         behaviorFilter = BottomSheetBehavior.from(binding.fcvFilter)
 
         initListener()
-
         initBehaviorList()
-
         initBehaviorArea()
-
         initBehaviorFilter()
     }
 
@@ -110,17 +107,18 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (isDragging) if (slideOffset <= (getDeviceHeightPx(requireContext()) - 115.px(
-                        requireContext()
-                    )).toFloat() / getDeviceHeightPx(requireContext())
-                ) {
-                    binding.clSearch.apply {
-                        visibility = View.VISIBLE
-                        alpha = 1 - 1.2F * slideOffset
+                if (isDragging)
+                    if (slideOffset <=
+                        (getDeviceHeightPx(requireContext()) - 115.px(requireContext())).toFloat()
+                        / getDeviceHeightPx(requireContext())
+                    ) {
+                        binding.clSearch.apply {
+                            visibility = View.VISIBLE
+                            alpha = 1 - 1.2F * slideOffset
+                        }
+                    } else {
+                        binding.clSearch.visibility = View.GONE
                     }
-                } else {
-                    binding.clSearch.visibility = View.GONE
-                }
             }
         })
     }
@@ -147,17 +145,18 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (isDragging) if (slideOffset <= (getDeviceHeightPx(requireContext()) - 115.px(
-                        requireContext()
-                    )).toFloat() / getDeviceHeightPx(requireContext())
-                ) {
-                    binding.clSearch.apply {
-                        visibility = View.VISIBLE
-                        alpha = 1 - 1.2F * slideOffset
+                if (isDragging)
+                    if (slideOffset <=
+                        (getDeviceHeightPx(requireContext()) - 115.px(requireContext())).toFloat()
+                        / getDeviceHeightPx(requireContext())
+                    ) {
+                        binding.clSearch.apply {
+                            visibility = View.VISIBLE
+                            alpha = 1 - 1.2F * slideOffset
+                        }
+                    } else {
+                        binding.clSearch.visibility = View.GONE
                     }
-                } else {
-                    binding.clSearch.visibility = View.GONE
-                }
             }
         })
     }

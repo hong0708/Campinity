@@ -8,11 +8,15 @@ import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 import com.ssafy.campinity.presentation.base.BaseFragment
 
 class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.fragment_search_list) {
+
     private lateinit var campsiteList: List<CampsiteBriefInfo>
 
     override fun initView() {
         createDummy()
+        initCampsiteList()
+    }
 
+    private fun initCampsiteList() {
         binding.rvCampsiteList.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             adapter = SearchListAdapter(campsiteList) { campsiteId: String ->

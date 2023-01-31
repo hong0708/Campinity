@@ -14,10 +14,11 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 
 class CampsiteDetailFragment() :
     BaseFragment<FragmentCampsiteDetailBinding>(R.layout.fragment_campsite_detail) {
-    private var images: List<String> = listOf()
+
     private lateinit var contentTheme: Array<String>
     private lateinit var contentFacility: Array<String>
     private lateinit var contentAmenity: Array<String>
+    private var images: List<String> = listOf()
     private var facilityAndLeisure = listOf<FacilityAndLeisureItem>()
     private var campsiteId: String = ""
 
@@ -26,11 +27,8 @@ class CampsiteDetailFragment() :
         campsiteId = args.campsiteId
 
         initStringArray()
-
         createDummy()
-
         initViewPager()
-
         initRecyclerView()
     }
 
@@ -50,10 +48,7 @@ class CampsiteDetailFragment() :
             setSliderHeight(5.px(requireContext()).toFloat())
             setSliderGap(0F)
             setupWithViewPager(binding.vpCampsiteImage)
-
-            setSliderWidth(
-                getDeviceWidthPx(requireContext()).toFloat() / images.size
-            )
+            setSliderWidth(getDeviceWidthPx(requireContext()).toFloat() / images.size)
         }
     }
 
@@ -65,7 +60,9 @@ class CampsiteDetailFragment() :
                     LinearLayoutManager.HORIZONTAL,
                     false
                 )
+
             adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
+
             addItemDecoration(
                 DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
                     .apply {
@@ -86,7 +83,9 @@ class CampsiteDetailFragment() :
                     LinearLayoutManager.VERTICAL,
                     false
                 )
+
             adapter = CampsiteReviewAdapter(listOf())
+
             addItemDecoration(
                 DividerItemDecoration(context, DividerItemDecoration.VERTICAL)
                     .apply {

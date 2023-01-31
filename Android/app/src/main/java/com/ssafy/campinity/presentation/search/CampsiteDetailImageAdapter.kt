@@ -11,13 +11,13 @@ import com.ssafy.campinity.databinding.ItemCampsiteDetailImageBinding
 
 class CampsiteDetailImageAdapter(private val images: List<String>) :
     RecyclerView.Adapter<CampsiteDetailImageAdapter.ViewHolder>() {
+
     private lateinit var binding: ItemCampsiteDetailImageBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemCampsiteDetailImageBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-
         return ViewHolder(binding)
     }
 
