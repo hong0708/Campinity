@@ -101,6 +101,8 @@
     <string name="title_write_free_note">자유 쪽지</string>
     <string name="image_user_profile">image_user_profile</string>
     <string name="image_review_content">image_review_content</string>
+    <string name="content_note_question_answer">질문에 대한 답변을 작성해주세요.</string>
+    <string name="content_user_answer">나의 답변</string>
 
     <!-- Community campsite-->
     <string name="image_back_to_main">image_back_to_main</string>

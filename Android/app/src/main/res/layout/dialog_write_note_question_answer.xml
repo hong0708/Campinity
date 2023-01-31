@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -12,56 +13,84 @@
         android:background="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="280dp"
-            android:layout_height="375dp"
+            android:layout_width="312dp"
+            android:layout_height="536dp"
             android:background="@drawable/bg_rect_white_radius15_dialog"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <TextView
-                android:id="@+id/tv_make_note_title"
+            <ImageView
+                android:id="@+id/iv_close_note_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="39dp"
-                android:fontFamily="@font/roboto_bold"
-                android:text="@string/title_write_question_note"
-                android:textColor="@color/black"
-                android:textSize="20sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/image_close_dialog"
+                android:src="@drawable/ic_cancel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_note_question_content"
+                android:layout_width="0dp"
+                android:layout_height="152dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/bg_rect_light_yellow_radius15"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="16dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="20dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_close_note_detail"
+                tools:text="개수대는 넉넉한가용?" />
+
+            <TextView
+                android:id="@+id/tv_user_answer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/content_user_answer"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_note_question_content" />
 
             <EditText
                 android:id="@+id/et_input_make_answer"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:layout_marginStart="18dp"
-                android:layout_marginTop="22dp"
-                android:layout_marginEnd="18dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
                 android:autofillHints="no"
-                android:background="@drawable/bg_rect_light_yellow_radius15"
+                android:background="@drawable/bg_rect_white_smoke_radius15"
                 android:fontFamily="@font/roboto_regular"
-                android:hint="@string/content_review_hint"
+                android:hint="@string/content_note_question_answer"
                 android:inputType="textMultiLine"
-                android:paddingStart="12dp"
-                android:paddingTop="10dp"
-                android:paddingEnd="12dp"
+                android:padding="16dp"
                 android:paddingBottom="10dp"
-                android:textSize="12sp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toTopOf="@+id/tv_make_event_note_marker"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv_make_note_title" />
+                app:layout_constraintTop_toBottomOf="@id/tv_user_answer" />
 
             <TextView
                 android:id="@+id/tv_make_event_note_marker"
                 android:layout_width="66dp"
                 android:layout_height="37dp"
-                android:layout_marginTop="19dp"
+                android:layout_marginTop="17dp"
                 android:layout_marginEnd="16dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_rect_bilbao_radius15"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
@@ -77,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="37dp"
                 android:layout_marginEnd="13dp"
-                android:layout_marginBottom="24dp"
+                android:layout_marginBottom="16dp"
                 android:fontFamily="@font/roboto_bold"
                 android:gravity="center"
                 android:text="@string/content_cancel_question"

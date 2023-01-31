@@ -22,10 +22,16 @@ class CommunityNoteDetailFragment :
         initListener()
     }
 
-    private fun initListener(){
-        binding.ivCloseNoteDetail.setOnClickListener {
-            popBackStack()
+    private fun initListener() {
+        binding.apply {
+            ivCloseNoteDetail.setOnClickListener {
+                popBackStack()
+            }
+            tvMakeAnswer.setOnClickListener {
+
+            }
         }
+
     }
 
     private fun initNoteDetail() {
@@ -35,7 +41,7 @@ class CommunityNoteDetailFragment :
         }
         communityNoteViewModel.requestNoteQuestionDetail(
             /*args.questionId*/
-        "ab1a3f40-0b99-4691-b2a1-b55449265498"
+            "ab1a3f40-0b99-4691-b2a1-b55449265498"
         )
         communityNoteViewModel.noteQuestionDetail.observe(viewLifecycleOwner) { response ->
             response?.let {
