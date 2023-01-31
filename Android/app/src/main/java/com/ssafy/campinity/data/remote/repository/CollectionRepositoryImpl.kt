@@ -37,4 +37,14 @@ class CollectionRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             collectionRemoteDataSource.getCollection(collectionId).toDomainModel()
     }
+
+    override suspend fun deleteCollection(collectionId: String): Resource<String> =
+        wrapToResource(Dispatchers.IO) {
+            collectionRemoteDataSource.deleteCollection(collectionId)
+        }
+
+    override suspend fun updateCollection(collectionId: String): Resource<CollectionItem> =
+        wrapToResource(Dispatchers.IO) {
+            collectionRemoteDataSource.updateCollection(collectionId).toDomainModel()
+        }
 }

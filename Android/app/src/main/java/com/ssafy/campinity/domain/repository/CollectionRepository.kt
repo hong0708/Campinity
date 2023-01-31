@@ -16,4 +16,8 @@ interface CollectionRepository {
     ): Resource<CollectionItem>
 
     suspend fun getCollection(collectionId: String): Resource<CollectionItem>
+
+    suspend fun deleteCollection(collectionId: String): Resource<String>
+
+    suspend fun updateCollection(collectionId: String): Resource<CollectionItem>
 }

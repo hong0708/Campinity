@@ -20,4 +20,10 @@ class CollectionRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getCollection(collectionId: String): CollectionResponse =
         collectionApiService.getCollection(collectionId)
+
+    override suspend fun deleteCollection(collectionId: String): String =
+        collectionApiService.deleteCollection(collectionId)
+
+    override suspend fun updateCollection(collectionId: String): CollectionResponse =
+        collectionApiService.updateCollection(collectionId)
 }

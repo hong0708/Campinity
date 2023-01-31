@@ -8,9 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.domain.entity.collection.CollectionItem
-import com.ssafy.campinity.domain.usecase.collection.CreateCollectionUseCase
-import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
-import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
+import com.ssafy.campinity.domain.usecase.collection.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -23,7 +21,9 @@ import javax.inject.Inject
 class CollectionViewModel @Inject constructor(
     private val getCollectionsUseCase: GetCollectionsUseCase,
     private val createCollectionUseCase: CreateCollectionUseCase,
-    private val getCollectionDetailUseCase: GetCollectionDetailUseCase
+    private val getCollectionDetailUseCase: GetCollectionDetailUseCase,
+    private val deleteCollectionUseCase: DeleteCollectionUseCase,
+    private val updateCollectionUseCase: UpdateCollectionUseCase
 ) : ViewModel() {
 
     private val _collectionData: MutableLiveData<CollectionItem?> = MutableLiveData()
@@ -32,14 +32,11 @@ class CollectionViewModel @Inject constructor(
     private val _collectionListData: MutableLiveData<List<CollectionItem>?> = MutableLiveData()
     val collectionListData: LiveData<List<CollectionItem>?> = _collectionListData
 
-    private val _isValid: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isValid: LiveData<Boolean> = _isValid
-
     private val _campsiteName: MutableLiveData<String> = MutableLiveData("")
-    val campsiteName: LiveData<String> = _campsiteName
+    val campsiteName: MutableLiveData<String> = _campsiteName
 
     private val _content: MutableLiveData<String> = MutableLiveData("")
-    val content: LiveData<String> = _content
+    val content: MutableLiveData<String> = _content
 
     private val _date: MutableLiveData<String> = MutableLiveData("")
     val date: LiveData<String> = _date
@@ -49,6 +46,15 @@ class CollectionViewModel @Inject constructor(
 
     private val _isSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
     val isSucceed: LiveData<Boolean> = _isSucceed
+
+    private val _isDeleted: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isDeleted: LiveData<Boolean> = _isDeleted
+
+    private val _isUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isUpdated: LiveData<Boolean> = _isUpdated
+
+    private val _isValid: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isValid: LiveData<Boolean> = _isValid
 
     private var imgMultiPart: MultipartBody.Part? = null
 
@@ -70,6 +76,28 @@ class CollectionViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 Log.e("getCollections", "getCollections: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun deleteCollection(collectionId: String) = viewModelScope.launch {
+        when (val value = deleteCollectionUseCase(collectionId)) {
+            is Resource.Success<String> -> {
+                _isDeleted.value = true
+            }
+            is Resource.Error -> {
+                Log.e("deleteCollection", "deleteCollection: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun updateCollection(collectionId: String) = viewModelScope.launch {
+        when (val value = updateCollectionUseCase(collectionId)) {
+            is Resource.Success<CollectionItem> -> {
+                _isUpdated.value = true
+            }
+            is Resource.Error -> {
+                Log.e("updateCollection", "updateCollection: ${value.errorMessage}")
             }
         }
     }

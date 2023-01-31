@@ -7,4 +7,8 @@ interface CollectionRemoteDataSource {
     suspend fun createCollection(body: CollectionRequest): CollectionResponse
 
     suspend fun getCollection(collectionId: String): CollectionResponse
+
+    suspend fun deleteCollection(collectionId: String): String
+
+    suspend fun updateCollection(collectionId: String): CollectionResponse
 }

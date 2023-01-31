@@ -20,4 +20,10 @@ interface CollectionApiService {
 
     @GET("/api/v5/my-collections/{collectionId}")
     suspend fun getCollection(@Path("collectionId") collectionId: String): CollectionResponse
+
+    @DELETE("/api/v5/my-collections/{collectionId}")
+    suspend fun deleteCollection(@Path("collectionId") collectionId: String): String
+
+    @POST("/api/v5/my-collections/{collectionId}")
+    suspend fun updateCollection(@Path("collectionId") collectionId: String): CollectionResponse
 }

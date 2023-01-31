@@ -40,6 +40,9 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
             }
             pageState = !pageState
         }
+        binding.tvAddCollection.setOnClickListener {
+            navigate(CollectionFragmentDirections.actionCollectionFragmentToCreateCollectionFragment())
+        }
     }
 
     override fun onCardSwiped(direction: Direction?) {

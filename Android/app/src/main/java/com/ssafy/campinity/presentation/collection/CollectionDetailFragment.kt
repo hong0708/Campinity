@@ -1,6 +1,8 @@
 package com.ssafy.campinity.presentation.collection
 
 import android.view.View
+import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -12,7 +14,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CollectionDetailFragment :
-    BaseFragment<FragmentCollectionDetailBinding>(R.layout.fragment_collection_detail) {
+    BaseFragment<FragmentCollectionDetailBinding>(R.layout.fragment_collection_detail),
+    CollectionDeleteDialogListener {
 
     private val args by navArgs<CollectionDetailFragmentArgs>()
     private val collectionViewModel by activityViewModels<CollectionViewModel>()
@@ -20,6 +23,14 @@ class CollectionDetailFragment :
     override fun initView() {
         initListener()
         getData()
+    }
+
+    override fun onSubmitButtonClickled() {
+        collectionViewModel.deleteCollection(args.collectionId)
+        collectionViewModel.isDeleted.observe(viewLifecycleOwner) {
+            if (it) Toast.makeText(requireContext(), "컬렉션이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+        }
+        popBackStack()
     }
 
     private fun initListener() {
@@ -39,10 +50,16 @@ class CollectionDetailFragment :
 
     private fun setDeleteUpdateView() {
         binding.tvCollectionDelete.setOnClickListener {
-
+            val dialog = CollectionDeleteDialog(requireContext(), this)
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.show()
+            dialog.window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
         }
         binding.tvCollectionUpdate.setOnClickListener {
-
+            navigate(CollectionDetailFragmentDirections.actionCollectionDetailFragmentToUpdateCollectionFragment())
         }
     }
 
