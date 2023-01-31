@@ -1,6 +1,7 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.api.dto.res.MessageDeleteDTO;
 import com.ssafy.campinity.core.dto.LatLngDTO;
 import com.ssafy.campinity.core.dto.MessageLikeDTO;
 import com.ssafy.campinity.core.dto.MessageReqDTO;
@@ -16,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
@@ -96,20 +96,22 @@ public class MessageController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 204, message = "쪽지 삭제 성공 시 응답"),
+            @ApiResponse(code = 200, message = "쪽지 삭제 성공 시 응답"),
             @ApiResponse(code = 400, message = "삭제권한이 없거나 쪽지 식별아이디 값 부적절 시 응답"),
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
     @ApiOperation(value = "쪽지 삭제 API")
     @DeleteMapping("/{messageId}")
-    public ResponseEntity<Boolean> deleteMessage(
+    public ResponseEntity<MessageDeleteDTO> deleteMessage(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "쪽지 식별 아이디", required = true, type = "String")
             @PathVariable String messageId) throws FileNotFoundException {
 
         messageService.deleteMessage(messageId, memberDetails.getMember().getUuid());
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
 
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(MessageDeleteDTO.builder().messageId(messageId).build());
     }
 
     @ApiResponses({
