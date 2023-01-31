@@ -21,6 +21,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image_home_collection"
             android:scaleType="fitXY"
+            android:collectionImgUri="@{collectionGrid.imagePath}"
             app:layout_constraintCircleRadius="15dp"
             app:srcCompat="@drawable/bg_home_banner" />
 
@@ -32,6 +33,7 @@
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/white"
             android:textSize="12sp"
+            android:text="@{collectionGrid.campsiteName}"
             app:layout_constraintBottom_toTopOf="@id/tv_date_collection"
             app:layout_constraintStart_toStartOf="@id/tv_date_collection"
             tools:text="싸피캠핑장" />
@@ -45,6 +47,7 @@
             android:fontFamily="@font/roboto_bold"
             android:textColor="@color/white"
             android:textSize="10sp"
+            android:text="@{collectionGrid.date}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="SmallSp"
