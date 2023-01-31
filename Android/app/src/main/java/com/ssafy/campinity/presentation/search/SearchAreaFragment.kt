@@ -1,6 +1,7 @@
 package com.ssafy.campinity.presentation.search
 
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,6 +16,7 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.fragment_search_area) {
 
     private lateinit var searchAreaGuGunAdapter: SearchAreaGuGunAdapter
+    private val searchViewModel by viewModels<SearchViewModel>()
     private var isAllSelected = false
 
     override fun initView() {
@@ -93,6 +95,10 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             searchAreaGuGunAdapter.unselectAll()
             toggleBtn("selectAll", false)
             toggleBtn("submit", false)
+        }
+
+        binding.btnSubmit.setOnClickListener {
+            searchViewModel.getCampsitesByArea()
         }
     }
 

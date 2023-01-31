@@ -2,10 +2,12 @@ package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.AuthRepository
 import com.ssafy.campinity.domain.repository.CollectionRepository
+import com.ssafy.campinity.domain.repository.SearchRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
+import com.ssafy.campinity.domain.usecase.search.GetCampsitesByAreaUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -41,4 +43,9 @@ object UseCaseModule {
     @Provides
     fun provideGetCollectionDetailUseCase(collectionRepository: CollectionRepository): GetCollectionDetailUseCase =
         GetCollectionDetailUseCase(collectionRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsitesByAreaUseCase(searchRepository: SearchRepository): GetCampsitesByAreaUseCase =
+        GetCampsitesByAreaUseCase(searchRepository)
 }
