@@ -27,29 +27,23 @@ public class CampsiteController {
     private final CampsiteService campsiteService;
 
     @GetMapping("/scope")
-    public ResponseEntity<List<CampsiteLocationInfoDTO>> getCampsiteByScope(
+    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteByScope(
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
             @RequestParam double bottomRightLng,
-            @RequestParam String doName,
-            @RequestParam String siggName) {
+            @AuthenticationPrincipal MemberDetails memberDetails) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
                 .topLeftLat(topLeftLat)
                 .topLeftLng(topLeftLng)
                 .bottomRightLat(bottomRightLat)
                 .bottomRightLng(bottomRightLng)
-                .doName(doName)
-                .siggName(siggName)
                 .build();
 
-        List<Campsite> result = campsiteService.getCampsitesByLatLng(locationInfoDTO);
+        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
 
-        return new ResponseEntity<>(result.stream().map(a -> CampsiteLocationInfoDTO.builder()
-                .campsiteId(a.getUuid())
-                .lat(a.getLatitude())
-                .lng(a.getLongitude()).build()).collect(Collectors.toList()), HttpStatus.OK);
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
     @GetMapping("/conditions")
@@ -134,4 +128,12 @@ public class CampsiteController {
         List<CampsiteMetaResDTO> results = campsiteService.getCampsiteScrapList(memberDetails.getMember().getId());
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CampsiteSearchResDTO>> getCampsiteByCampName(@RequestParam String keyword) {
+        List<CampsiteSearchResDTO> result = campsiteService.getCampsiteByCampName(keyword);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
