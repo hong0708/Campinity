@@ -6,20 +6,17 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.WindowManager
-import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
-import com.ssafy.campinity.databinding.DialogWriteNoteQuestionBinding
+import com.ssafy.campinity.databinding.DialogWriteNoteQuestionAnswerBinding
 
 class CommunityNoteAnswerDialog(
     context: Context,
     private val communityNoteAnswerDialogInterface: CommunityNoteAnswerDialogInterface
 ) : Dialog(context) {
-
-    private lateinit var binding: DialogWriteNoteQuestionBinding
+    private lateinit var binding: DialogWriteNoteQuestionAnswerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //requestWindowFeature(Window.FEATURE_NO_TITLE)
-        binding = DialogWriteNoteQuestionBinding.inflate(layoutInflater)
+        binding = DialogWriteNoteQuestionAnswerBinding.inflate(layoutInflater)
         setContentView(binding.root)
         window?.setLayout(
             WindowManager.LayoutParams.MATCH_PARENT,
@@ -27,19 +24,15 @@ class CommunityNoteAnswerDialog(
         )
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
-        //context.dialogResize(this, 0.8F, 0.6F)
         setCanceledOnTouchOutside(true)
         setCancelable(true)
         binding.apply {
-            tvMakeEventNoteMarker.setOnClickListener {
-                val noteQuestionRequest = NoteQuestionRequest(
-                    "68c156cf-3db2-41dd-8e4e-2e3b44d15179",
-                    etInputMakeNote.text.toString()
-                )
-                communityNoteAnswerDialogInterface.postNoteQuestion(noteQuestionRequest)
+            tvMakeAnswerBtn.setOnClickListener {
+
+                communityNoteAnswerDialogInterface.postNoteAnswer()
                 dismiss()
             }
-            tvCancelEventNoteMarker.setOnClickListener { dismiss() }
+            tvCancelAnswerBtn.setOnClickListener { dismiss() }
         }
     }
 }

@@ -9,7 +9,8 @@ import com.ssafy.campinity.databinding.FragmentCommunityNoteDetailBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 
 class CommunityNoteDetailFragment :
-    BaseFragment<FragmentCommunityNoteDetailBinding>(R.layout.fragment_community_note_detail) {
+    BaseFragment<FragmentCommunityNoteDetailBinding>(R.layout.fragment_community_note_detail),
+    CommunityNoteAnswerDialogInterface {
 
     private val args by navArgs<CommunityNoteDetailFragmentArgs>()
     private val communityNoteViewModel by activityViewModels<CommunityNoteViewModel>()
@@ -28,7 +29,10 @@ class CommunityNoteDetailFragment :
                 popBackStack()
             }
             tvMakeAnswer.setOnClickListener {
-
+                CommunityNoteAnswerDialog(
+                    requireContext(),
+                    this@CommunityNoteDetailFragment
+                ).show()
             }
         }
 
@@ -49,5 +53,9 @@ class CommunityNoteDetailFragment :
                 communityNoteQuestionAnswerAdapter.setAnswer(it.answers)
             }
         }
+    }
+
+    override fun postNoteAnswer() {
+        communityNoteViewModel
     }
 }

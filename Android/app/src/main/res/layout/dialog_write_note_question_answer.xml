@@ -79,13 +79,13 @@
                 android:padding="16dp"
                 android:paddingBottom="10dp"
                 android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/tv_make_event_note_marker"
+                app:layout_constraintBottom_toTopOf="@+id/tv_make_answer_btn"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_user_answer" />
 
             <TextView
-                android:id="@+id/tv_make_event_note_marker"
+                android:id="@+id/tv_make_answer_btn"
                 android:layout_width="66dp"
                 android:layout_height="37dp"
                 android:layout_marginTop="17dp"
@@ -102,7 +102,7 @@
                 app:layout_constraintTop_toBottomOf="@id/et_input_make_answer" />
 
             <TextView
-                android:id="@+id/tv_cancel_event_note_marker"
+                android:id="@+id/tv_cancel_answer_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="37dp"
                 android:layout_marginEnd="13dp"
@@ -113,7 +113,7 @@
                 android:textColor="@color/bilbao"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/tv_make_event_note_marker" />
+                app:layout_constraintEnd_toStartOf="@id/tv_make_answer_btn" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

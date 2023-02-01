@@ -12,7 +12,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CommunityNoteFragment :
     BaseFragment<FragmentCommunityNoteBinding>(R.layout.fragment_community_note),
-    CommunityNoteAnswerDialogInterface {
+    CommunityNoteQuestionDialogInterface {
 
     private val communityNoteViewModel by activityViewModels<CommunityNoteViewModel>()
 
@@ -40,8 +40,8 @@ class CommunityNoteFragment :
                 tab.text = tabTitles[position]
             }.attach()
         }
-        binding.tvMakePost.setOnClickListener {
-            CommunityNoteAnswerDialog(
+        binding.tvMakeQuestion.setOnClickListener {
+            CommunityNoteQuestionDialog(
                 requireContext(),
                 this
             ).show()
