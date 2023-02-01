@@ -2,13 +2,14 @@ package com.ssafy.campinity.core.entity.message;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.member.Member;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity
 public class LikeMessage extends BaseEntity {
@@ -17,24 +18,18 @@ public class LikeMessage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ToString.Exclude
     private Message message;
 
     @ManyToOne
+    @ToString.Exclude
     private Member member;
 
-    private Boolean likeCheck;
-
     @Builder
-    public LikeMessage(Message message, Member member, Boolean likeCheck) {
+    public LikeMessage(Message message, Member member) {
+        message.getLikeMessages().add(this);
         this.message = message;
         this.member = member;
-        this.likeCheck = likeCheck;
     }
-
-    public Boolean changeLikeCheck() {
-        this.likeCheck = !this.likeCheck;
-        return this.likeCheck;
-    }
-
 }

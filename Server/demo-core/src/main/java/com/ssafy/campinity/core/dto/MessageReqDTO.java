@@ -8,7 +8,8 @@ import java.util.UUID;
 
 @Getter
 @ToString
-@NoArgsConstructor(access = AccessLevel.PROTECTED)public class MessageReqDTO {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MessageReqDTO {
 
     @ApiModelProperty(
             value = "캠핑장 식별 아이디",

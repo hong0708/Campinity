@@ -70,7 +70,6 @@ public class MessageController {
         List<Message> messages = messageService.getMessagesByCampsiteUuidBetweenLatLng(campsiteId, latLngDTO);
         List<MessageResDTO> messageResDTOList = messages.stream().map(message -> new MessageResDTO(message, memberDetails.getMember().getUuid())).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(messageResDTOList);
-
     }
 
     @ApiResponses({

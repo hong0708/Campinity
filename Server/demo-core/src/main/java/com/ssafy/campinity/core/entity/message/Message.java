@@ -38,7 +38,7 @@ public class Message extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private MessageCategory messageCategory;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany
     @JoinColumn(name = "message_id")
     @ToString.Exclude
     private List<LikeMessage> likeMessages = new ArrayList<>();
@@ -54,16 +54,19 @@ public class Message extends BaseEntity {
     private Boolean expired;
 
     @Builder
-    public Message(UUID uuid, Campsite campsite, Member member, String messageCategory, List<LikeMessage> likeMessages, String content, String imagePath, Double longitude, Double latitude) {
+    public Message(UUID uuid, Campsite campsite, Member member, String messageCategory, String content, String imagePath, Double longitude, Double latitude) {
         this.uuid = uuid;
         this.campsite = campsite;
         this.member = member;
         this.messageCategory = MessageCategory.fromParam(messageCategory);
-        this.likeMessages = likeMessages;
         this.content = content;
         this.imagePath = imagePath;
         this.longitude = longitude;
         this.latitude = latitude;
         this.expired = false;
+    }
+
+    public void removeLikeMessage(LikeMessage likeMessage){
+        this.likeMessages.remove(likeMessage);
     }
 }

@@ -124,6 +124,7 @@ public class MessageServiceImpl implements MessageService {
         Optional<LikeMessage> likeMessage = likeMessageRepository.findByMemberAndMessage(member, message);
 
         if (likeMessage.isPresent()) {
+            message.removeLikeMessage(likeMessage.get());
             likeMessageRepository.deleteByMemberAndMessage(member, message);
             likeCheck = false;
         }

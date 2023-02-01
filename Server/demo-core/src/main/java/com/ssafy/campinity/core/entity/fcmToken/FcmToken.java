@@ -26,7 +26,7 @@ public class FcmToken extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(mappedBy = "fcmToken")
+    @OneToOne(mappedBy = "fcmToken", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     private Member member;
 
     private String fcmToken;

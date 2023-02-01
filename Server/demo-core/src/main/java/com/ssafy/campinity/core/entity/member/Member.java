@@ -12,17 +12,17 @@ import com.ssafy.campinity.core.entity.message.LikeMessage;
 import com.ssafy.campinity.core.entity.message.Message;
 import com.ssafy.campinity.core.entity.question.Question;
 import com.ssafy.campinity.core.entity.review.Review;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity
 @SQLDelete(sql = "update member set expired = true where id = ?")
@@ -36,34 +36,40 @@ public class Member extends BaseEntity {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-    @OneToMany
-    @JoinColumn(name = "member_id")
-    @ToString.Exclude
-    private List<Message> messages = new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name = "member_id")
-    private List<LikeMessage> likeMessages = new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name = "member_id")
-    private List<CampsiteScrap> campsiteScraps = new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name = "member_id")
-    private List<Review> reviews = new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name = "member_id")
-    private List<Question> questions = new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name = "member_id")
-    private List<Answer> answers = new ArrayList<>();
-
-    @OneToMany
-    @JoinColumn(name = "member_id")
-    private List<CurationScrap> curationScraps = new ArrayList<>();
+//    @OneToMany
+//    @JoinColumn(name = "member_id")
+//    @ToString.Exclude
+//    private List<Message> messages = new ArrayList<>();
+//
+//    @OneToMany
+//    @JoinColumn(name = "member_id")
+//    @ToString.Exclude
+//    private List<LikeMessage> likeMessages = new ArrayList<>();
+//
+//    @OneToMany
+//    @JoinColumn(name = "member_id")
+//    @ToString.Exclude
+//    private List<CampsiteScrap> campsiteScraps = new ArrayList<>();
+//
+//    @OneToMany
+//    @JoinColumn(name = "member_id")
+//    @ToString.Exclude
+//    private List<Review> reviews = new ArrayList<>();
+//
+//    @OneToMany
+//    @JoinColumn(name = "member_id")
+//    @ToString.Exclude
+//    private List<Question> questions = new ArrayList<>();
+//
+//    @OneToMany
+//    @JoinColumn(name = "member_id")
+//    @ToString.Exclude
+//    private List<Answer> answers = new ArrayList<>();
+//
+//    @OneToMany
+//    @JoinColumn(name = "member_id")
+//    @ToString.Exclude
+//    private List<CurationScrap> curationScraps = new ArrayList<>();
 
     @OneToOne
     @JoinColumn(name = "fcmToken_id")
@@ -78,20 +84,19 @@ public class Member extends BaseEntity {
     private Boolean expired = false;
 
     @Builder
-    public Member(UUID uuid, FcmToken fcmToken, String name, String email, String profileImage, Boolean expired) {
+    public Member(UUID uuid, FcmToken fcmToken, String name, String email, String profileImage) {
         this.uuid = uuid;
         this.fcmToken = fcmToken;
         this.name = name;
         this.email = email;
         this.profileImage = profileImage;
-        this.expired = expired;
     }
-
-    public void addUserScrap(CampsiteScrap campsiteScrap) {
-        this.getCampsiteScraps().add(campsiteScrap);
-    }
-
-    public void addUserReview(Review review) {
-        this.getReviews().add(review);
-    }
+//
+//    public void addUserScrap(CampsiteScrap campsiteScrap) {
+//        this.getCampsiteScraps().add(campsiteScrap);
+//    }
+//
+//    public void addUserReview(Review review) {
+//        this.getReviews().add(review);
+//    }
 }
