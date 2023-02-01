@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.LayoutManager
 import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.common.util.px
@@ -61,7 +62,9 @@ class CampsiteDetailFragment() :
             adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
 
             addItemDecoration(
-                RecyclerviewItemDecoration(context, RecyclerView.HORIZONTAL, 20)
+                RecyclerviewItemDecoration(
+                    context, LayoutManager.LINEAR, 0, RecyclerView.HORIZONTAL, 20
+                )
             )
         }
 
@@ -72,7 +75,9 @@ class CampsiteDetailFragment() :
             adapter = CampsiteReviewAdapter(listOf())
 
             addItemDecoration(
-                RecyclerviewItemDecoration(context, RecyclerView.VERTICAL, 20)
+                RecyclerviewItemDecoration(
+                    context, LayoutManager.LINEAR, 0, RecyclerView.VERTICAL, 20
+                )
             )
         }
     }
@@ -80,8 +85,7 @@ class CampsiteDetailFragment() :
     private fun initListener() {
         binding.btnPostbox.setOnClickListener {
             navigate(
-                CampsiteDetailFragmentDirections
-                    .actionCampsiteDetailFragmentToSearchPostboxFragment()
+                CampsiteDetailFragmentDirections.actionCampsiteDetailFragmentToSearchPostboxFragment()
             )
         }
     }

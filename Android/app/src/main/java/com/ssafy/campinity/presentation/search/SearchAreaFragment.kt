@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.LayoutManager
 import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.common.util.getDeviceWidthPx
@@ -22,11 +23,24 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     private val searchViewModel by viewModels<SearchViewModel>()
     private var isAllSelected = false
 
+    val seoul = listOf(
+        AreaGugun("강릉시1", 16), AreaGugun("고성군1", 16), AreaGugun("동해시1", 16)
+    )
+
+    val incheon = listOf(
+        AreaGugun("강릉시2", 16), AreaGugun("고성군2", 16), AreaGugun("동해시2", 16)
+    )
+
+    val gyeonggi = listOf(
+        AreaGugun("강릉시3", 16), AreaGugun("고성군3", 16), AreaGugun("동해시3", 16)
+    )
+
     override fun initView() {
         binding.viewModel = searchViewModel
         initSiDo()
         initGuGun()
         initListener()
+        observeState()
     }
 
     private fun initSiDo() {
@@ -49,11 +63,10 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             requireContext().getString(R.string.content_campsite_count, 0)
 
         binding.rvGugun.apply {
+            val span = (getDeviceWidthPx(requireContext()).dp(requireContext()) - 131) / 110
+
             layoutManager = GridLayoutManager(
-                context,
-                (getDeviceWidthPx(requireContext()).dp(requireContext()) - 131) / 110,
-                GridLayoutManager.VERTICAL,
-                false
+                context, span, GridLayoutManager.VERTICAL, false
             )
 
             searchAreaGuGunAdapter = SearchAreaGuGunAdapter(
@@ -63,7 +76,9 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             adapter = searchAreaGuGunAdapter
 
             addItemDecoration(
-                RecyclerviewItemDecoration(context, RecyclerView.VERTICAL, 6)
+                RecyclerviewItemDecoration(
+                    context, LayoutManager.GRID, span, RecyclerView.VERTICAL, 6
+                )
             )
         }
     }
@@ -92,24 +107,14 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     }
 
     private fun observeState() {
-        val seoul = listOf<AreaGugun>(
-            AreaGugun("강릉시1", 16), AreaGugun("고성군1", 16), AreaGugun("동해시1", 16)
-        )
 
-        val incheon = listOf<AreaGugun>(
-            AreaGugun("강릉시2", 16), AreaGugun("고성군2", 16), AreaGugun("동해시2", 16)
-        )
-
-        val gyeonggi = listOf<AreaGugun>(
-            AreaGugun("강릉시3", 16), AreaGugun("고성군3", 16), AreaGugun("동해시3", 16)
-        )
 
         searchViewModel.sido.observe(viewLifecycleOwner) {
             val list: List<AreaGugun> = when (searchViewModel.sido.value) {
                 "서울시" -> seoul
                 "인천시" -> incheon
                 "경기도" -> gyeonggi
-                else -> listOf<AreaGugun>()
+                else -> listOf()
             }
 
             searchAreaGuGunAdapter.setData(list)
