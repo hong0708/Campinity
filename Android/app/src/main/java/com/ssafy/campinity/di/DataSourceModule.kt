@@ -2,8 +2,10 @@ package com.ssafy.campinity.di
 
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.user.UserRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.service.AuthApiService
+import com.ssafy.campinity.data.remote.service.NoteApiService
 import com.ssafy.campinity.data.remote.service.CollectionApiService
 import com.ssafy.campinity.data.remote.service.UserApiService
 import dagger.Module
@@ -26,6 +28,12 @@ object DataSourceModule {
     fun provideUserDataSource(
         userApiService: UserApiService
     ): UserRemoteDataSourceImpl = UserRemoteDataSourceImpl(userApiService)
+
+    @Provides
+    @Singleton
+    fun provideNoteDataSource(
+        noteApiService: NoteApiService
+    ): NoteRemoteDataSourceImpl = NoteRemoteDataSourceImpl(noteApiService)
 
     @Provides
     @Singleton
