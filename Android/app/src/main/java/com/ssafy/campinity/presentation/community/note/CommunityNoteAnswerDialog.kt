@@ -10,7 +10,9 @@ import com.ssafy.campinity.databinding.DialogWriteNoteQuestionAnswerBinding
 
 class CommunityNoteAnswerDialog(
     context: Context,
-    private val communityNoteAnswerDialogInterface: CommunityNoteAnswerDialogInterface
+    private val communityNoteAnswerDialogInterface: CommunityNoteAnswerDialogInterface,
+    private val questionId: String,
+    private val questionContent: String
 ) : Dialog(context) {
     private lateinit var binding: DialogWriteNoteQuestionAnswerBinding
 
@@ -27,10 +29,12 @@ class CommunityNoteAnswerDialog(
         setCanceledOnTouchOutside(true)
         setCancelable(true)
         binding.apply {
-            tvNoteQuestionContent.text = "a"
+            tvNoteQuestionContent.text = questionContent
             tvMakeAnswerBtn.setOnClickListener {
-
-                communityNoteAnswerDialogInterface.postNoteAnswer()
+                communityNoteAnswerDialogInterface.postNoteAnswer(
+                    etInputMakeAnswer.text.toString(),
+                    questionId,
+                )
                 dismiss()
             }
             tvCancelAnswerBtn.setOnClickListener { dismiss() }

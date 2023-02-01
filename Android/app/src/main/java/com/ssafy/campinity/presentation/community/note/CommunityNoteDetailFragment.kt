@@ -31,7 +31,9 @@ class CommunityNoteDetailFragment :
             tvMakeAnswer.setOnClickListener {
                 CommunityNoteAnswerDialog(
                     requireContext(),
-                    this@CommunityNoteDetailFragment
+                    this@CommunityNoteDetailFragment,
+                    args.questionId,
+                    binding.tvNoteQuestionContent.text.toString()
                 ).show()
             }
         }
@@ -45,7 +47,6 @@ class CommunityNoteDetailFragment :
         }
         communityNoteViewModel.requestNoteQuestionDetail(
             args.questionId
-            /*"ab1a3f40-0b99-4691-b2a1-b55449265498"*/
         )
         communityNoteViewModel.noteQuestionDetail.observe(viewLifecycleOwner) { response ->
             response?.let {
@@ -55,7 +56,7 @@ class CommunityNoteDetailFragment :
         }
     }
 
-    override fun postNoteAnswer() {
-        communityNoteViewModel
+    override fun postNoteAnswer(answerContent: String, questionId: String) {
+        communityNoteViewModel.requestNotePostAnswer(answerContent, questionId)
     }
 }

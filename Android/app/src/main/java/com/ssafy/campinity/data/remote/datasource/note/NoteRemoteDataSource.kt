@@ -12,4 +12,8 @@ interface NoteRemoteDataSource {
     ): NoteQuestionResponse
 
     suspend fun noteQuestionDetailRequest(questionId: String): NoteDetailResponse
+
+    suspend fun getPostAnswerRequest(
+        noteQuestionAnswerRequest: NoteQuestionAnswerRequest
+    ): NoteQuestionAnswerResponse
 }

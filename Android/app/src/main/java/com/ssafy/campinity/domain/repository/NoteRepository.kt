@@ -1,7 +1,9 @@
 package com.ssafy.campinity.domain.repository
 
 import com.ssafy.campinity.data.remote.Resource
+import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionAnswerRequest
 import com.ssafy.campinity.domain.entity.community.NoteDetail
+import com.ssafy.campinity.domain.entity.community.NoteQuestionAnswer
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 
 interface NoteRepository {
@@ -16,4 +18,6 @@ interface NoteRepository {
     ): Resource<NoteQuestionTitle>
 
     suspend fun getQuestionsDetail(questionId: String): Resource<NoteDetail>
+
+    suspend fun getPostAnswer(noteQuestionAnswerRequest: NoteQuestionAnswerRequest): Resource<NoteQuestionAnswer>
 }

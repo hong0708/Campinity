@@ -6,13 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
-import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
+import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionAnswerRequest
 import com.ssafy.campinity.domain.entity.community.NoteDetail
+import com.ssafy.campinity.domain.entity.community.NoteQuestionAnswer
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
-import com.ssafy.campinity.domain.usecase.note.NoteMyQuestionUseCase
-import com.ssafy.campinity.domain.usecase.note.NotePostQuestionUseCase
-import com.ssafy.campinity.domain.usecase.note.NoteQuestionDetailUseCase
-import com.ssafy.campinity.domain.usecase.note.NoteQuestionUseCase
+import com.ssafy.campinity.domain.usecase.note.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -22,7 +20,8 @@ class CommunityNoteViewModel @Inject constructor(
     private val noteMyQuestionUseCase: NoteMyQuestionUseCase,
     private val noteQuestionUseCase: NoteQuestionUseCase,
     private val notePostQuestionUseCase: NotePostQuestionUseCase,
-    private val noteQuestionDetailUseCase: NoteQuestionDetailUseCase
+    private val noteQuestionDetailUseCase: NoteQuestionDetailUseCase,
+    private val notePostAnswerUseCase: NotePostAnswerUseCase
 ) : ViewModel() {
 
     private val _noteQuestions = MutableLiveData<List<NoteQuestionTitle>>()
@@ -60,8 +59,8 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    fun requestNotePostQuestion(body: NoteQuestionRequest) = viewModelScope.launch {
-        when (val value = notePostQuestionUseCase(body.campsiteId, body.content)) {
+    fun requestNotePostQuestion(campsiteId: String, content: String) = viewModelScope.launch {
+        when (val value = notePostQuestionUseCase(campsiteId, content)) {
             is Resource.Success<NoteQuestionTitle> -> {
                 Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.data}")
             }
@@ -82,4 +81,20 @@ class CommunityNoteViewModel @Inject constructor(
             }
         }
     }
+
+    fun requestNotePostAnswer(answerContent: String, questionId: String) =
+        viewModelScope.launch {
+            val noteQuestionAnswerRequest = NoteQuestionAnswerRequest(
+                answerContent,
+                questionId
+            )
+            when (val value = notePostAnswerUseCase(noteQuestionAnswerRequest)) {
+                is Resource.Success<NoteQuestionAnswer> -> {
+                    Log.d("requestNotePostAnswer", "requestNotePostAnswer: ${value.data}")
+                }
+                is Resource.Error -> {
+                    Log.d("requestNotePostAnswer", "requestNotePostAnswer: ${value.errorMessage}")
+                }
+            }
+        }
 }

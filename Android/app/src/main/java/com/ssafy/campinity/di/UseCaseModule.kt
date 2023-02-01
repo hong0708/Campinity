@@ -5,6 +5,7 @@ import com.ssafy.campinity.domain.repository.NoteRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.usecase.note.NoteMyQuestionUseCase
+import com.ssafy.campinity.domain.usecase.note.NotePostAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.NotePostQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.NoteQuestionDetailUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
@@ -48,4 +49,10 @@ object UseCaseModule {
     @Provides
     fun provideNoteQuestionDetaiUseCase(noteRepository: NoteRepository): NoteQuestionDetailUseCase =
         NoteQuestionDetailUseCase(noteRepository)
+
+    @Singleton
+    @Provides
+    fun provideNotePostAnswerUseCase(noteRepository: NoteRepository): NotePostAnswerUseCase =
+        NotePostAnswerUseCase(noteRepository)
+
 }

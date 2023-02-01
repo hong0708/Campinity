@@ -2,5 +2,5 @@ package com.ssafy.campinity.presentation.community.note
 
 
 interface CommunityNoteAnswerDialogInterface {
-    fun postNoteAnswer( )
+    fun postNoteAnswer(answerContent: String, questionId: String)
 }

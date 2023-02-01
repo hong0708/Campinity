@@ -4,7 +4,6 @@ import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ssafy.campinity.R
-import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.databinding.FragmentCommunityNoteBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +47,7 @@ class CommunityNoteFragment :
         }
     }
 
-    override fun postNoteQuestion(body: NoteQuestionRequest) {
-        communityNoteViewModel.requestNotePostQuestion(body)
+    override fun postNoteQuestion(campsiteId: String, content: String) {
+        communityNoteViewModel.requestNotePostQuestion(campsiteId, content)
     }
 }

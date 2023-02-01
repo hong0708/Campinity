@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.WindowManager
-import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.databinding.DialogWriteNoteQuestionBinding
 
 class CommunityNoteQuestionDialog(
@@ -30,11 +29,10 @@ class CommunityNoteQuestionDialog(
         setCancelable(true)
         binding.apply {
             tvMakeEventNoteMarker.setOnClickListener {
-                val noteQuestionRequest = NoteQuestionRequest(
+                communityNoteQuestionDialogInterface.postNoteQuestion(
                     "613f51f2-8942-4d84-bb60-7dc29b3487a6",
                     etInputMakeQuestion.text.toString()
                 )
-                communityNoteQuestionDialogInterface.postNoteQuestion(noteQuestionRequest)
                 dismiss()
             }
             tvCancelEventNoteMarker.setOnClickListener { dismiss() }

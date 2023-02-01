@@ -21,4 +21,10 @@ class NoteRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun noteQuestionDetailRequest(questionId: String): NoteDetailResponse =
         noteApiService.noteQuestionDetailRequest(questionId)
+
+    override suspend fun getPostAnswerRequest(
+        noteQuestionAnswerRequest: NoteQuestionAnswerRequest
+    ): NoteQuestionAnswerResponse {
+        return noteApiService.postAnswerRequest(noteQuestionAnswerRequest)
+    }
 }
