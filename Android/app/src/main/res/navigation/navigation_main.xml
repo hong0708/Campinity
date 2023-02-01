@@ -64,6 +64,9 @@
         <action
             android:id="@+id/action_collectionFragment_to_collectionDetailFragment"
             app:destination="@id/collectionDetailFragment" />
+        <action
+            android:id="@+id/action_collectionFragment_to_createCollectionFragment"
+            app:destination="@id/createCollectionFragment" />
     </fragment>
 
     <fragment
@@ -74,6 +77,12 @@
         <argument
             android:name="collectionId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_collectionDetailFragment_to_updateCollectionFragment"
+            app:destination="@id/updateCollectionFragment" />
+        <action
+            android:id="@+id/action_collectionDetailFragment_to_updateCollectionFragment2"
+            app:destination="@id/updateCollectionFragment" />
     </fragment>
 
     <fragment
@@ -131,6 +140,18 @@
             android:id="@+id/action_completeJoinFragment_to_homeFragment"
             app:destination="@id/homeFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/updateCollectionFragment"
+        android:name="com.ssafy.campinity.presentation.collection.UpdateCollectionFragment"
+        android:label="UpdateCollectionFragment"
+        tools:layout="@layout/fragment_update_collection" />
+
+    <fragment
+        android:id="@+id/createCollectionFragment"
+        android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
+        android:label="CreateCollectionFragment"
+        tools:layout="@layout/fragment_create_collection"/>
 
     <activity
         android:id="@+id/communityActivity"

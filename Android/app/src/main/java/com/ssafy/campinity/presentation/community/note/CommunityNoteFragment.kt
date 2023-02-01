@@ -21,7 +21,6 @@ class CommunityNoteFragment :
 
     private fun initListener() {
         binding.apply {
-
             tlNote.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab?) {}
 
@@ -38,12 +37,16 @@ class CommunityNoteFragment :
             ) { tab, position ->
                 tab.text = tabTitles[position]
             }.attach()
-        }
-        binding.tvMakeQuestion.setOnClickListener {
-            CommunityNoteQuestionDialog(
-                requireContext(),
-                this
-            ).show()
+
+            tvMakeQuestion.setOnClickListener {
+                CommunityNoteQuestionDialog(
+                    requireContext(),
+                    this@CommunityNoteFragment
+                ).show()
+            }
+            ivPostBoxBack.setOnClickListener {
+                navigate(CommunityNoteFragmentDirections.actionCommunityNoteFragmentToCommunityCampsiteFragment())
+            }
         }
     }
 

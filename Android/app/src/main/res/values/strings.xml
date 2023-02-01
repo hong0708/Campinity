@@ -134,15 +134,19 @@
     <string name="image_multi_option">image_multi_option</string>
     <string name="image_share">image_share</string>
     <string name="content_share">공유하기</string>
-    <string name="content_delete_cancel_dialog">삭제하면 컬렉션을 되돌릴 수 없습니다.</string>
+    <string name="content_delete_cancel_dialog">삭제하면 컬렉션을\n 되돌릴 수 없습니다.</string>
     <string name="content_delete_cancel_dialog_2">삭제</string>
     <string name="title_create_collection">컬렉션 생성</string>
+    <string name="title_update_collection">컬렉션 수정</string>
     <string name="title_create_collection_date">날짜</string>
     <string name="image_arrow_right">image_arrow_right</string>
     <string name="title_create_collection_location">위치</string>
     <string name="content_edittext_location">캠핑장의 이름을 입력해주세요!</string>
     <string name="title_create_collection_description">내용</string>
     <string name="content_edittext_description">캠핑을 다녀온 소감을 자유롭게 입력해주세요!</string>
+    <string name="content_collection_delete">삭제하기</string>
+    <string name="content_collection_update">수정하기</string>
+    <string name="content_collection_date">%d/%02d/%02d</string>
 
     <!-- Search -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
@@ -227,5 +231,11 @@
     <string name="content_reset">초기화</string>
     <string name="content_select_all">전체</string>
     <string name="content_campsite_count">(%1$d)</string>
+
+    <!-- Search filter -->
+    <string name="title_filter">관심 필터 설정</string>
+    <string name="title_filter_industry">사업</string>
+    <string name="title_my_letter">내 편지함</string>
+    <string name="content_new_letter">새 쪽지</string>
 
 </resources>

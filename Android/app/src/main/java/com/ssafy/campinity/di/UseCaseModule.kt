@@ -8,6 +8,9 @@ import com.ssafy.campinity.domain.usecase.note.NoteMyQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.NotePostAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.NotePostQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.NoteQuestionDetailUseCase
+import com.ssafy.campinity.domain.repository.CollectionRepository
+import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
+import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -55,4 +58,13 @@ object UseCaseModule {
     fun provideNotePostAnswerUseCase(noteRepository: NoteRepository): NotePostAnswerUseCase =
         NotePostAnswerUseCase(noteRepository)
 
+    @Singleton
+    @Provides
+    fun provideGetCollectionsUseCase(collectionRepository: CollectionRepository): GetCollectionsUseCase =
+        GetCollectionsUseCase(collectionRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCollectionDetailUseCase(collectionRepository: CollectionRepository): GetCollectionDetailUseCase =
+        GetCollectionDetailUseCase(collectionRepository)
 }

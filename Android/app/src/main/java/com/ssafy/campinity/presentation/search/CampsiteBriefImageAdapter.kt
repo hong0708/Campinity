@@ -10,13 +10,13 @@ import com.ssafy.campinity.databinding.ItemCampsiteBriefImageBinding
 
 class CampsiteBriefImageAdapter(private val images: List<String>) :
     RecyclerView.Adapter<CampsiteBriefImageAdapter.SearchImageViewHolder>() {
+
     private lateinit var binding: ItemCampsiteBriefImageBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchImageViewHolder {
         binding = ItemCampsiteBriefImageBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-
         return SearchImageViewHolder(binding)
     }
 
@@ -28,12 +28,12 @@ class CampsiteBriefImageAdapter(private val images: List<String>) :
 
     inner class SearchImageViewHolder(private val binding: ItemCampsiteBriefImageBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         fun bind(url: String) {
             Glide.with(binding.ivCampsiteImage.context)
                 .load(url)
                 .override(
-                    120.px(binding.ivCampsiteImage.context),
-                    150.px(binding.ivCampsiteImage.context)
+                    120.px(binding.ivCampsiteImage.context), 150.px(binding.ivCampsiteImage.context)
                 )
                 .centerCrop()
                 .placeholder(R.drawable.bg_image_not_found)

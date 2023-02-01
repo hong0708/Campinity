@@ -85,6 +85,10 @@ dependencies {
 
     // tool tip indicator
     implementation libs.viewpager.indicator
+
+    // room
+    implementation libs.room
+    annotationProcessor libs.room.compiler
 }
 
 kapt {
