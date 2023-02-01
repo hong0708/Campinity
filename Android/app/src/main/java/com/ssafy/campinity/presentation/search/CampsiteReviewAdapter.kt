@@ -4,9 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.databinding.ItemCampsiteReviewBinding
-import com.ssafy.campinity.domain.entity.search.ReviewItem
+import com.ssafy.campinity.domain.entity.search.Review
 
-class CampsiteReviewAdapter(private val reviews: List<ReviewItem>) :
+class CampsiteReviewAdapter(private val reviews: List<Review>) :
     RecyclerView.Adapter<CampsiteReviewAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemCampsiteReviewBinding
@@ -27,6 +27,6 @@ class CampsiteReviewAdapter(private val reviews: List<ReviewItem>) :
     inner class ViewHolder(binding: ItemCampsiteReviewBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: ReviewItem) {}
+        fun bind(item: Review) {}
     }
 }

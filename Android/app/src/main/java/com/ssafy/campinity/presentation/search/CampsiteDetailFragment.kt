@@ -30,6 +30,7 @@ class CampsiteDetailFragment() :
         createDummy()
         initViewPager()
         initRecyclerView()
+        initListener()
     }
 
     private fun initStringArray() {
@@ -72,6 +73,15 @@ class CampsiteDetailFragment() :
 
             addItemDecoration(
                 RecyclerviewItemDecoration(context, RecyclerView.VERTICAL, 20)
+            )
+        }
+    }
+
+    private fun initListener() {
+        binding.btnPostbox.setOnClickListener {
+            navigate(
+                CampsiteDetailFragmentDirections
+                    .actionCampsiteDetailFragmentToSearchPostboxFragment()
             )
         }
     }

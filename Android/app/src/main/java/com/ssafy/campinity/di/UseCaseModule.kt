@@ -1,14 +1,21 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.AuthRepository
+<<<<<<< Android/app/src/main/java/com/ssafy/campinity/di/UseCaseModule.kt
 import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.repository.CurationRepository
+import com.ssafy.campinity.domain.repository.NoteRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
+import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
+import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
+import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
+import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
+import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -35,6 +42,26 @@ object UseCaseModule {
     @Provides
     fun provideCheckDuplicationUseCase(userRepository: UserRepository): CheckDuplicationUseCase =
         CheckDuplicationUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetNoteQuestionUseCase(noteRepository: NoteRepository): GetNoteQuestionUseCase =
+        GetNoteQuestionUseCase(noteRepository)
+
+    @Singleton
+    @Provides
+    fun providePostNoteQuestionUseCase(noteRepository: NoteRepository): CreateNoteQuestionUseCase =
+        CreateNoteQuestionUseCase(noteRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetNoteQuestionDetailUseCase(noteRepository: NoteRepository): GetNoteQuestionDetailUseCase =
+        GetNoteQuestionDetailUseCase(noteRepository)
+
+    @Singleton
+    @Provides
+    fun providePostNoteAnswerUseCase(noteRepository: NoteRepository): CreateNoteAnswerUseCase =
+        CreateNoteAnswerUseCase(noteRepository)
 
     @Singleton
     @Provides

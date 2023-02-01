@@ -9,7 +9,8 @@ import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 
 class SearchListAdapter(
     private val campsites: List<CampsiteBriefInfo>,
-    private val onClickMethod: (String) -> Unit
+    private val navigationToCampsiteDetailFragment: (String) -> Unit,
+    private val navigationToSearchPostboxFragment: () -> Unit
 ) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
 
     private lateinit var binding: ItemSearchListBinding
@@ -24,15 +25,10 @@ class SearchListAdapter(
     }
 
     override fun onBindViewHolder(holder: SearchListViewHolder, position: Int) {
-        holder.bind(campsites[position])
-
-        binding.rvCampsiteImage.apply {
-            layoutManager = LinearLayoutManager(
-                binding.rvCampsiteImage.context,
-                RecyclerView.HORIZONTAL,
-                false
-            )
-            adapter = CampsiteBriefImageAdapter(campsites[position].images)
+        with(campsites[position]) {
+            holder.bind(this)
+            holder.initListener(this)
+            holder.initRecyclerView()
         }
     }
 
@@ -43,8 +39,26 @@ class SearchListAdapter(
 
         fun bind(item: CampsiteBriefInfo) {
             binding.item = item
-            binding.root.setOnClickListener {
-                onClickMethod(item.campsiteId)
+        }
+
+        fun initListener(item: CampsiteBriefInfo) {
+            binding.btnPostbox.setOnClickListener {
+                navigationToSearchPostboxFragment()
+            }
+
+            binding.rlCampsite.setOnClickListener {
+                navigationToCampsiteDetailFragment(item.campsiteId)
+            }
+        }
+
+        fun initRecyclerView() {
+            binding.rvCampsiteImage.apply {
+                layoutManager = LinearLayoutManager(
+                    binding.rvCampsiteImage.context,
+                    RecyclerView.HORIZONTAL,
+                    false
+                )
+                adapter = CampsiteBriefImageAdapter(campsites[adapterPosition].images)
             }
         }
     }

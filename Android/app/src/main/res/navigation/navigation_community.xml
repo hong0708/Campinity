@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_community"
-    app:startDestination="@id/communityCampsiteFragment">
+    app:startDestination="@id/communityNoteFragment">
 
     <fragment
         android:id="@+id/communityCampsiteFragment"
-        android:name="com.ssafy.campinity.presentation.community.CommunityCampsiteFragment"
+        android:name="com.ssafy.campinity.presentation.community.campsite.CommunityCampsiteFragment"
         android:label="fragment_community_campsite"
         tools:layout="@layout/fragment_community_campsite">
         <action
@@ -17,12 +17,25 @@
 
     <fragment
         android:id="@+id/communityNoteFragment"
-        android:name="com.ssafy.campinity.presentation.community.CommunityNoteFragment"
+        android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteFragment"
         android:label="fragment_community_note"
         tools:layout="@layout/fragment_community_note">
         <action
             android:id="@+id/action_communityNoteFragment_to_communityCampsiteFragment"
             app:destination="@id/communityCampsiteFragment" />
+        <action
+            android:id="@+id/action_communityNoteFragment_to_communityNoteDetailFragment"
+            app:destination="@id/communityNoteDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/communityNoteDetailFragment"
+        android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteDetailFragment"
+        android:label="fragment_community_note_detail"
+        tools:layout="@layout/fragment_community_note_detail">
+        <argument
+            android:name="question_id"
+            app:argType="string" />
     </fragment>
 
 </navigation>
