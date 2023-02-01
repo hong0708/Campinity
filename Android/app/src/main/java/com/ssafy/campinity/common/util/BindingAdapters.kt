@@ -20,10 +20,10 @@ object BindingAdapters {
     }
 
     @JvmStatic
-    @BindingAdapter("android:collectionImgUri")
-    fun ImageView.setCollectionImg(imgUri: String?) {
+    @BindingAdapter("android:normalImgUri")
+    fun ImageView.setNormalImg(imgUri: String?) {
         Glide.with(this.context)
-            .load(imgUri)
+            .load("http://i8d101.p.ssafy.io:8003/images$imgUri")
             .placeholder(R.drawable.bg_image_not_found)
             .error(R.drawable.bg_image_not_found)
             .into(this)

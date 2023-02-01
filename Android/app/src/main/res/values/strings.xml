@@ -73,6 +73,7 @@
     <string name="image_home_collection">image_home_collection</string>
     <string name="image_home_banner">image_home_banner</string>
     <string name="image_location_home_camping_site">image_location_home_camping_site</string>
+    <string name="content_home_banner_more">더보기</string>
 
     <!-- Dialog -->
     <!-- 공통 단어 정리하기 -->

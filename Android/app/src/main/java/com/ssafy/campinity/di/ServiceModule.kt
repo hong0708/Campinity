@@ -4,6 +4,7 @@ import com.ssafy.campinity.AuthInterceptorClient
 import com.ssafy.campinity.NoAuthInterceptorClient
 import com.ssafy.campinity.data.remote.service.AuthApiService
 import com.ssafy.campinity.data.remote.service.CollectionApiService
+import com.ssafy.campinity.data.remote.service.CurationApiService
 import com.ssafy.campinity.data.remote.service.UserApiService
 import dagger.Module
 import dagger.Provides
@@ -15,6 +16,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ServiceModule {
+
     @Provides
     @Singleton
     fun provideAuthApiService(
@@ -35,4 +37,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): CollectionApiService =
         retrofit.create(CollectionApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCurationApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): CurationApiService =
+        retrofit.create(CurationApiService::class.java)
 }

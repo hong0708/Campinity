@@ -36,6 +36,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         binding.clCommunity.setOnClickListener {
             navigate(HomeFragmentDirections.actionHomeFragmentToCommunityActivity())
         }
+        binding.tvBannerMore.setOnClickListener {
+            navigate(HomeFragmentDirections.actionHomeFragmentToCurationFragment())
+        }
     }
 
     private fun initCampingSite() {

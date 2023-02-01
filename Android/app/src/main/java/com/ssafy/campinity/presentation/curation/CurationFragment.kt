@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.curation
 
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.ssafy.campinity.R
@@ -9,6 +10,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class CurationFragment : BaseFragment<FragmentCurationBinding>(R.layout.fragment_curation) {
+
+    private val curationViewModel by activityViewModels<CurationViewModel>()
+
     override fun initView() {
         initListener()
         initTabLayout()
@@ -16,7 +20,9 @@ class CurationFragment : BaseFragment<FragmentCurationBinding>(R.layout.fragment
 
     private fun initListener() {
         binding.tlCuration.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
-            override fun onTabSelected(tab: TabLayout.Tab?) {}
+            override fun onTabSelected(tab: TabLayout.Tab?) {
+                curationViewModel.categoryState.value = tab!!.text.toString()
+            }
 
             override fun onTabUnselected(tab: TabLayout.Tab?) {}
 
