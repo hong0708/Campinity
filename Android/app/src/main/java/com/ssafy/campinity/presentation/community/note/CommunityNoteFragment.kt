@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 @AndroidEntryPoint
 class CommunityNoteFragment :
     BaseFragment<FragmentCommunityNoteBinding>(R.layout.fragment_community_note),
-    CommunityNoteQuestionDialogInterface {
+    CommunityNoteDialogInterface {
 
     private val communityNoteViewModel by activityViewModels<CommunityNoteViewModel>()
 
@@ -55,9 +55,9 @@ class CommunityNoteFragment :
         }
     }
 
-    override fun postNoteQuestion(campsiteId: String, content: String) {
+    override fun postNote(id: String, content: String) {
         CoroutineScope(Dispatchers.IO).launch {
-            if (communityNoteViewModel.postNoteQuestion(campsiteId, content)) {
+            if (communityNoteViewModel.postNoteQuestion(id, content)) {
                 withContext(Dispatchers.Main) {
                     Toast.makeText(
                         requireContext(),

@@ -10,7 +10,7 @@ import com.ssafy.campinity.databinding.DialogWriteNoteQuestionBinding
 
 class CommunityNoteQuestionDialog(
     context: Context,
-    private val communityNoteQuestionDialogInterface: CommunityNoteQuestionDialogInterface
+    private val communityNoteDialogInterface: CommunityNoteDialogInterface
 ) : Dialog(context) {
 
     private lateinit var binding: DialogWriteNoteQuestionBinding
@@ -24,12 +24,12 @@ class CommunityNoteQuestionDialog(
             WindowManager.LayoutParams.WRAP_CONTENT,
         )
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
         setCanceledOnTouchOutside(true)
         setCancelable(true)
+
         binding.apply {
             tvMakeEventNoteMarker.setOnClickListener {
-                communityNoteQuestionDialogInterface.postNoteQuestion(
+                communityNoteDialogInterface.postNote(
                     "613f51f2-8942-4d84-bb60-7dc29b3487a6",
                     etInputMakeQuestion.text.toString()
                 )
