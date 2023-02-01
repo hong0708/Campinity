@@ -35,7 +35,7 @@ public class MemberController {
     private final ImageUtil imageUtil;
     /**
      *
-     * @param code
+     * @param accessToken
      * @return 멤버의 기본정보(email, nickname, profileImg, UUID)와 함께 refresh token, access token 둘다 제공해야함.
      * @throws JsonProcessingException
      */

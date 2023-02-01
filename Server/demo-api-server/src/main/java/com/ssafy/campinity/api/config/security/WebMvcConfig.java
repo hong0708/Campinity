@@ -1,23 +1,35 @@
 package com.ssafy.campinity.api.config.security;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 
-    String uploadPath = System.getProperty("user.home");
+    private final String uploadImagePath;
+
+    public WebMvcConfig(@Value("${custom.path.upload-images}") String uploadImagePath) {
+        this.uploadImagePath = uploadImagePath;
+    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         WebMvcConfigurer.super.addResourceHandlers(registry);
 
-        registry.addResourceHandler("/images/**")
-                .addResourceLocations("file:///" + uploadPath + "/upload/")
-                .setCachePeriod(60*10*6)
-                .resourceChain(true)
-                .addResolver(new PathResourceResolver());
+        List<String> imageFolders = Arrays.asList("my-collection", "member", "message", "curation");
+        for(String imageFolder : imageFolders) {
+            registry.addResourceHandler("/images/" + imageFolder + "/**")
+                    .addResourceLocations("file:///" + uploadImagePath + "/" + imageFolder + "/")
+                    .setCachePeriod(60 * 10 * 6)
+                    .resourceChain(true)
+                    .addResolver(new PathResourceResolver());
+        }
     }
 }

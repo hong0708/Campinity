@@ -36,7 +36,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
                 .orElseThrow(IllegalArgumentException::new);
 
         String imagePath = "";
-        try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "myCollection"); }
+        try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
         catch (IOException e) { throw new RuntimeException(e); }
 
         MyCollection myCollection = MyCollection.builder()
