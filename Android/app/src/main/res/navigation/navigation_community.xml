@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation_community"
-    app:startDestination="@id/communityNoteFragment">
+    app:startDestination="@id/communityCampsiteFragment">
 
     <fragment
         android:id="@+id/communityCampsiteFragment"
         android:name="com.ssafy.campinity.presentation.community.campsite.CommunityCampsiteFragment"
         android:label="fragment_community_campsite"
         tools:layout="@layout/fragment_community_campsite">
+
         <action
-            android:id="@+id/action_communityCampsiteFragment_to_onboardingFragment"
+            android:id="@+id/action_communityCampsiteFragment_to_communityNoteFragment"
             app:destination="@id/communityNoteFragment" />
     </fragment>
 

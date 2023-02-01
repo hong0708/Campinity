@@ -125,6 +125,7 @@
     <string name="content_campsite_get_help">도움 주기</string>
     <string name="content_campsite_review">리뷰 쪽지</string>
     <string name="content_campsite_free">자유 쪽지</string>
+    <string name="image_campsite_title_icon">image_campsite_title_icon</string>
 
     <!-- Collection -->
     <string name="title_collection">My Collection</string>
