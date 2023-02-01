@@ -1,6 +1,6 @@
 package com.ssafy.campinity.domain.entity.search
 
-data class ReviewItem(
+data class Review(
     val reviewId: String,
     val content: String,
     val createAt: String,

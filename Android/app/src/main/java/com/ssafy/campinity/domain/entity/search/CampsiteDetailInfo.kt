@@ -21,6 +21,6 @@ data class CampsiteDetailInfo(
     val dayOperation: String,
     val allowAnimal: String,
     val images: List<String>,
-    val reviews: List<ReviewItem>,
+    val reviews: List<Review>,
     val total_rate: Double
 )

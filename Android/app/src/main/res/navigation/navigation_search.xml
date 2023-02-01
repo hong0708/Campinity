@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_searchMainFragment_to_campsiteDetailFragment"
             app:destination="@id/campsiteDetailFragment" />
+        <action
+            android:id="@+id/action_searchMainFragment_to_searchPostboxFragment"
+            app:destination="@+id/searchPostboxFragment" />
     </fragment>
 
     <fragment
@@ -23,5 +26,14 @@
         <argument
             android:name="campsiteId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_campsiteDetailFragment_to_searchPostboxFragment"
+            app:destination="@id/searchPostboxFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/searchPostboxFragment"
+        android:name="com.ssafy.campinity.presentation.search.SearchPostboxFragment"
+        android:label="fragment_search_postbox"
+        tools:layout="@layout/fragment_search_postbox" />
 </navigation>
