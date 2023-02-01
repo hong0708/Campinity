@@ -6,7 +6,6 @@ import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
 import com.ssafy.campinity.core.service.QuestionService;
 import io.swagger.annotations.*;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

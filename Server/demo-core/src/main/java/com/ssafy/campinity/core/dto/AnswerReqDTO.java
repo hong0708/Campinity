@@ -21,13 +21,6 @@ public class AnswerReqDTO {
     private UUID questionId;
 
     @ApiModelProperty(
-            value = "멤버 식별 아이디",
-            required = true,
-            dataType = "String"
-    )
-    private UUID memberId;
-
-    @ApiModelProperty(
             value = "답변 내용",
             required = true,
             dataType = "String"
@@ -35,9 +28,8 @@ public class AnswerReqDTO {
     private String content;
 
     @Builder
-    public AnswerReqDTO(UUID questionId, UUID memberId, String content) {
+    public AnswerReqDTO(UUID questionId, String content) {
         this.questionId = questionId;
-        this.memberId = memberId;
         this.content = content;
     }
 }
