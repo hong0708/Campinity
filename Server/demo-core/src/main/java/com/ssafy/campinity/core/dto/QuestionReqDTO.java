@@ -14,8 +14,7 @@ public class QuestionReqDTO {
 
     @ApiModelProperty(
             value = "캠핑장 식별 아이디",
-            required = true,
-            dataType = "String"
+            required = true
     )
     UUID campsiteId;
 
