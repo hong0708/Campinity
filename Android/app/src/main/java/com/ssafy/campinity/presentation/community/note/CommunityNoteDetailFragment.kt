@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.community.note
 
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -7,6 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentCommunityNoteDetailBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class CommunityNoteDetailFragment :
     BaseFragment<FragmentCommunityNoteDetailBinding>(R.layout.fragment_community_note_detail),
@@ -57,6 +62,24 @@ class CommunityNoteDetailFragment :
     }
 
     override fun postNoteAnswer(answerContent: String, questionId: String) {
-        communityNoteViewModel.postNoteAnswer(answerContent, questionId)
+        CoroutineScope(Dispatchers.IO).launch {
+            if (communityNoteViewModel.postNoteAnswer(answerContent, questionId)) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "답변이 등록되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "답변 등록에 실패하였습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }

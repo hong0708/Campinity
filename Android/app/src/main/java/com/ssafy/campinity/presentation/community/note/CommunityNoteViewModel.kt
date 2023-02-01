@@ -11,9 +11,13 @@ import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.domain.entity.community.NoteDetail
 import com.ssafy.campinity.domain.entity.community.NoteQuestionAnswer
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
-import com.ssafy.campinity.domain.usecase.note.*
+import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
+import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
+import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
+import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -59,14 +63,18 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    fun postNoteQuestion(campsiteId: String, content: String) = viewModelScope.launch {
-        val noteQuestionRequest = NoteQuestionRequest(campsiteId, content)
-        when (val value = createNoteQuestionUseCase(noteQuestionRequest)) {
-            is Resource.Success<NoteQuestionTitle> -> {
-                Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.data}")
-            }
-            is Resource.Error -> {
-                Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.errorMessage}")
+    suspend fun postNoteQuestion(campsiteId: String, content: String): Boolean {
+        return withContext(viewModelScope.coroutineContext) {
+            val noteQuestionRequest = NoteQuestionRequest(campsiteId, content)
+            when (val value = createNoteQuestionUseCase(noteQuestionRequest)) {
+                is Resource.Success<NoteQuestionTitle> -> {
+                    Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.data}")
+                    return@withContext true
+                }
+                is Resource.Error -> {
+                    Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.errorMessage}")
+                    return@withContext false
+                }
             }
         }
     }
@@ -83,8 +91,8 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    fun postNoteAnswer(answerContent: String, questionId: String) =
-        viewModelScope.launch {
+    suspend fun postNoteAnswer(answerContent: String, questionId: String): Boolean {
+        return withContext(viewModelScope.coroutineContext) {
             val noteQuestionAnswerRequest = NoteQuestionAnswerRequest(
                 answerContent,
                 questionId
@@ -92,10 +100,13 @@ class CommunityNoteViewModel @Inject constructor(
             when (val value = createNoteAnswerUseCase(noteQuestionAnswerRequest)) {
                 is Resource.Success<NoteQuestionAnswer> -> {
                     Log.d("requestNotePostAnswer", "NotePostAnswer: ${value.data}")
+                    return@withContext true
                 }
                 is Resource.Error -> {
                     Log.d("requestNotePostAnswer", "NotePostAnswer: ${value.errorMessage}")
+                    return@withContext false
                 }
             }
         }
+    }
 }

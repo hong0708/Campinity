@@ -11,8 +11,7 @@
         android:layout_height="50dp"
         android:layout_marginBottom="12dp"
         android:background="@drawable/bg_rect_white_smoke_radius15"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp">
+        android:paddingHorizontal="12dp">
 
         <TextView
             android:id="@+id/tv_note_title"

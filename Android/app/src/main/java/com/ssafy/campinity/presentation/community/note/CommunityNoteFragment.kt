@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.community.note
 
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -7,6 +8,10 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentCommunityNoteBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class CommunityNoteFragment :
@@ -51,6 +56,24 @@ class CommunityNoteFragment :
     }
 
     override fun postNoteQuestion(campsiteId: String, content: String) {
-        communityNoteViewModel.postNoteQuestion(campsiteId, content)
+        CoroutineScope(Dispatchers.IO).launch {
+            if (communityNoteViewModel.postNoteQuestion(campsiteId, content)) {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "질문이 등록되었습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    Toast.makeText(
+                        requireContext(),
+                        "질문 등록이 실패하였습니다.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
     }
 }

@@ -96,9 +96,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 tools:listitem="@layout/item_note_answer_list"
                 app:layout_constraintTop_toBottomOf="@id/tv_note_question_content" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </layout>

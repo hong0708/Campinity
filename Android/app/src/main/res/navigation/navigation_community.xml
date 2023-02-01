@@ -36,7 +36,6 @@
         <argument
             android:name="question_id"
             app:argType="string" />
-
     </fragment>
 
 </navigation>
