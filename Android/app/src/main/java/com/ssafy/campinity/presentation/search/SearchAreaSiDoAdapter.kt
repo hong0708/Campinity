@@ -6,11 +6,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemSearchAreaSidoBinding
 
-class SearchAreaSidoAdapter(private val sido: List<String>) :
-    RecyclerView.Adapter<SearchAreaSidoAdapter.ViewHolder>() {
+class SearchAreaSiDoAdapter(private val sido: List<String>) :
+    RecyclerView.Adapter<SearchAreaSiDoAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemSearchAreaSidoBinding
     private var selectedPosition = 0
+    val selectedItem: String
+        get() = sido[selectedPosition]
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemSearchAreaSidoBinding.inflate(

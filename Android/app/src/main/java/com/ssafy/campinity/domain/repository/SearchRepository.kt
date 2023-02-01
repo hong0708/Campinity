@@ -5,5 +5,5 @@ import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 
 interface SearchRepository {
 
-    suspend fun getCampsitesByArea(): Resource<List<CampsiteBriefInfo>>
+    suspend fun getCampsitesByArea(sido: String, gugun: String): Resource<List<CampsiteBriefInfo>>
 }

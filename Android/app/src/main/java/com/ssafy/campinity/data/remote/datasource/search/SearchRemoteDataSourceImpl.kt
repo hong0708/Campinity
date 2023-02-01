@@ -7,6 +7,6 @@ class SearchRemoteDataSourceImpl @Inject constructor(
     private val searchApiService: SearchApiService
 ) : SearchRemoteDataSource {
 
-    override suspend fun getCampsitesByArea(): List<SearchAreaResponse> =
-        searchApiService.getCampsitesByArea()
+    override suspend fun getCampsitesByArea(sido: String, gugun: String): List<SearchAreaResponse> =
+        searchApiService.getCampsitesByArea(sido, gugun)
 }

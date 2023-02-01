@@ -12,8 +12,9 @@ class SearchRepositoryImpl @Inject constructor(
     private val searchRemoteDataSource: SearchRemoteDataSource
 ) : SearchRepository {
 
-    override suspend fun getCampsitesByArea(): Resource<List<CampsiteBriefInfo>> =
-        wrapToResource(Dispatchers.IO) {
-            searchRemoteDataSource.getCampsitesByArea().map { it.toDomainModel() }
-        }
+    override suspend fun getCampsitesByArea(
+        sido: String, gugun: String
+    ): Resource<List<CampsiteBriefInfo>> = wrapToResource(Dispatchers.IO) {
+        searchRemoteDataSource.getCampsitesByArea(sido, gugun).map { it.toDomainModel() }
+    }
 }

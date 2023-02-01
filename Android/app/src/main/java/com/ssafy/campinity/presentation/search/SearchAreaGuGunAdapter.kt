@@ -14,23 +14,30 @@ class SearchAreaGuGunAdapter(
     private val context: Context,
     private val gugun: List<AreaGugun>,
     private val toggleBtn: (String, Boolean) -> Unit
-) :
-    RecyclerView.Adapter<SearchAreaGuGunAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<SearchAreaGuGunAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemSearchAreaGugunBinding
     private var mSelectedItem = SparseBooleanArray(0)
     private val selectedItemCount: Int
         get() {
             var count = 0
-            mSelectedItem.forEach { _, value -> if (value) count++ }
+            mSelectedItem.forEach { _, isSelected -> if (isSelected) count++ }
             return count
+        }
+    val selectedItems: List<String>
+        get() {
+            val items = mutableListOf<String>()
+
+            mSelectedItem.forEach { position, isSelected ->
+                if (isSelected) items.add(gugun[position].gugun)
+            }
+
+            return items
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemSearchAreaGugunBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
+            LayoutInflater.from(parent.context), parent, false
         )
         return ViewHolder(binding)
     }
@@ -73,10 +80,9 @@ class SearchAreaGuGunAdapter(
                     this.setBackgroundResource(
                         R.drawable.bg_rect_primrose_grey_alpha30_radius5_stroke1
                     )
-                else
-                    this.setBackgroundResource(
-                        R.drawable.bg_rect_white_grey_alpha30_radius5_stroke1
-                    )
+                else this.setBackgroundResource(
+                    R.drawable.bg_rect_white_grey_alpha30_radius5_stroke1
+                )
             }
         }
 
@@ -94,15 +100,11 @@ class SearchAreaGuGunAdapter(
                     )
                 }
 
-                if (selectedItemCount == itemCount)
-                    toggleBtn("selectAll", true)
-                else
-                    toggleBtn("selectAll", false)
+                if (selectedItemCount == itemCount) toggleBtn("selectAll", true)
+                else toggleBtn("selectAll", false)
 
-                if (selectedItemCount > 0)
-                    toggleBtn("submit", true)
-                else
-                    toggleBtn("submit", false)
+                if (selectedItemCount > 0) toggleBtn("submit", true)
+                else toggleBtn("submit", false)
             }
 
         }
