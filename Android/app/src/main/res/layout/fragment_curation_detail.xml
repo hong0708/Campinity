@@ -5,19 +5,19 @@
 
     <data>
 
+        <variable
+            name="curationDetail"
+            type="com.ssafy.campinity.domain.entity.curation.CurationDetailItem" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_curation"
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/vp_curation_detail"
             android:layout_width="match_parent"
-            android:layout_height="370dp"
-            android:contentDescription="@string/image_curation"
-            android:scaleType="fitXY"
-            android:src="@drawable/bg_collection_detail"
+            android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
@@ -46,11 +46,11 @@
             android:id="@+id/ns_curation"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginHorizontal="14dp"
+            android:layout_marginHorizontal="25dp"
             android:layout_marginTop="11dp"
             android:layout_marginBottom="11dp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iv_curation">
+            app:layout_constraintTop_toBottomOf="@+id/vp_curation_detail">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -58,20 +58,21 @@
 
                 <TextView
                     android:id="@+id/tv_title_curation"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="47dp"
                     android:fontFamily="@font/roboto_bold"
+                    android:text="@{curationDetail.title}"
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
                     tools:text="초보자를 위한 캠핑 준비물 A - Z" />
-
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
+                    android:text="@{curationDetail.content}"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@id/tv_title_curation"

@@ -1,12 +1,17 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.AuthRepository
+<<<<<<< Android/app/src/main/java/com/ssafy/campinity/di/UseCaseModule.kt
+import com.ssafy.campinity.domain.repository.CollectionRepository
+import com.ssafy.campinity.domain.repository.CurationRepository
 import com.ssafy.campinity.domain.repository.NoteRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
+import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
+import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
@@ -67,4 +72,14 @@ object UseCaseModule {
     @Provides
     fun provideGetCollectionDetailUseCase(collectionRepository: CollectionRepository): GetCollectionDetailUseCase =
         GetCollectionDetailUseCase(collectionRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCurationsUseCase(curationRepository: CurationRepository): GetCurationsUseCase =
+        GetCurationsUseCase(curationRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCurationUseCase(curationRepository: CurationRepository): GetCurationDetailUseCase =
+        GetCurationDetailUseCase(curationRepository)
 }

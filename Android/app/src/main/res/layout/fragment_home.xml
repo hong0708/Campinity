@@ -67,6 +67,20 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <TextView
+                    android:id="@+id/tv_banner_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/bg_rect_grey_radius15"
+                    android:fontFamily="@font/roboto_bold"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="4dp"
+                    android:text="@string/content_home_banner_more"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/vp_banner_home"
+                    app:layout_constraintEnd_toEndOf="@+id/vp_banner_home" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_search"

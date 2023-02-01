@@ -1,23 +1,32 @@
 package com.ssafy.campinity.presentation.curation
 
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
 import com.ssafy.campinity.databinding.FragmentCurationCategoryBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 
 class CurationCategoryFragment :
     BaseFragment<FragmentCurationCategoryBinding>(R.layout.fragment_curation_category) {
 
-    private var categoryPosition = -1
     private val curationCategoryAdapter by lazy { CurationCategoryAdapter(this::getCuration) }
+    private val curationViewModel by activityViewModels<CurationViewModel>()
 
     override fun initView() {
-        initData()
         initRecyclerView()
     }
 
     private fun initData() {
-        categoryPosition = arguments?.getInt("category_position")!!
+        curationViewModel.categoryState.observe(viewLifecycleOwner) {
+            when(it) {
+                "전체" -> curationViewModel.getCurations("")
+                "튜토리얼" -> curationViewModel.getCurations("튜토리얼")
+                "레시피" -> curationViewModel.getCurations("레시피")
+                "장소 추천" -> curationViewModel.getCurations("장소추천")
+            }
+        }
     }
 
     private fun initRecyclerView() {
@@ -25,7 +34,14 @@ class CurationCategoryFragment :
             adapter = curationCategoryAdapter
             layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+            addItemDecoration(
+                RecyclerviewItemDecoration(context, RecyclerView.VERTICAL, 4)
+            )
         }
+        curationViewModel.curationListData.observe(viewLifecycleOwner) {
+            it?.let { curationCategoryAdapter.setCuration(it) }
+        }
+        initData()
     }
 
     private fun getCuration(curationId: String) {

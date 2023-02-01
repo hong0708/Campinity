@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,18 +10,19 @@
             type="com.ssafy.campinity.domain.entity.curation.CurationItem" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="170dp"
+        android:layout_height="240dp">
 
         <ImageView
             android:id="@+id/iv_curation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/image_curation"
-            android:src="@drawable/ic_onboarding_camping" />
+            android:normalImgUri="@{curation.firstImagePath}"
+            android:scaleType="fitXY"
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="0dp" />
 
         <TextView
             android:id="@+id/tv_curation"
@@ -28,6 +31,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginBottom="7dp"
             android:fontFamily="@font/roboto_bold"
+            android:text="@{curation.title}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
