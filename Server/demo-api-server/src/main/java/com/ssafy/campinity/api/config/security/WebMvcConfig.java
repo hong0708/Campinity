@@ -23,7 +23,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         WebMvcConfigurer.super.addResourceHandlers(registry);
 
-        List<String> imageFolders = Arrays.asList("myCollection", "member", "message");
+        List<String> imageFolders = Arrays.asList("my-collection", "member", "message", "curation");
         for(String imageFolder : imageFolders) {
             registry.addResourceHandler("/images/" + imageFolder + "/**")
                     .addResourceLocations("file:///" + uploadImagePath + "/" + imageFolder + "/")
