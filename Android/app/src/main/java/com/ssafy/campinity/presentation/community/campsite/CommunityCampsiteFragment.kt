@@ -3,6 +3,8 @@ package com.ssafy.campinity.presentation.community.campsite
 import android.animation.ObjectAnimator
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.CustomDialog
@@ -21,10 +23,14 @@ class CommunityCampsiteFragment :
     private lateinit var fabList: List<ConstraintLayout>
     private lateinit var mapView: MapView
     private val moveValues: List<Float> = listOf(800f, 600f, 400f, 200f)
+    private val communityCampsiteTitleListAdapter by lazy {
+        CommunityCampsiteTitleListAdapter(this::getCampsite)
+    }
     private var isFabOpen = false
 
     override fun initView() {
         initListener()
+        initRecyclerView()
     }
 
     override fun onResume() {
@@ -138,6 +144,17 @@ class CommunityCampsiteFragment :
 
     private fun moveFab(clFab: ConstraintLayout, moveValue: Float) {
         ObjectAnimator.ofFloat(clFab, "translationY", -moveValue).apply { start() }
+    }
+
+    private fun initRecyclerView(){
+        binding.rvCampsiteList.apply {
+            adapter = communityCampsiteTitleListAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
+    }
+
+    private fun getCampsite() {
+
     }
 
     // 이벤트 리스너

@@ -8,9 +8,6 @@ import com.ssafy.campinity.data.remote.repository.AuthRepositoryImpl
 import com.ssafy.campinity.data.remote.repository.CollectionRepositoryImpl
 import com.ssafy.campinity.data.remote.repository.CurationRepositoryImpl
 import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSourceImpl
-import com.ssafy.campinity.data.remote.datasource.user.UserRemoteDataSourceImpl
-import com.ssafy.campinity.data.remote.repository.AuthRepositoryImpl
-import com.ssafy.campinity.data.remote.repository.CollectionRepositoryImpl
 import com.ssafy.campinity.data.remote.repository.NoteRepositoryImpl
 import com.ssafy.campinity.data.remote.repository.UserRepositoryImpl
 import com.ssafy.campinity.domain.repository.AuthRepository

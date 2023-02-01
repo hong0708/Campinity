@@ -1,13 +1,11 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.AuthRepository
-<<<<<<< Android/app/src/main/java/com/ssafy/campinity/di/UseCaseModule.kt
 import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.repository.CurationRepository
 import com.ssafy.campinity.domain.repository.NoteRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
-import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
