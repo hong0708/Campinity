@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionAnswerRequest
+import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.domain.entity.community.NoteDetail
 import com.ssafy.campinity.domain.entity.community.NoteQuestionAnswer
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
@@ -17,11 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CommunityNoteViewModel @Inject constructor(
-    private val noteMyQuestionUseCase: NoteMyQuestionUseCase,
-    private val noteQuestionUseCase: NoteQuestionUseCase,
-    private val notePostQuestionUseCase: NotePostQuestionUseCase,
-    private val noteQuestionDetailUseCase: NoteQuestionDetailUseCase,
-    private val notePostAnswerUseCase: NotePostAnswerUseCase
+    private val getNoteQuestionUseCase: GetNoteQuestionUseCase,
+    private val createNoteQuestionUseCase: CreateNoteQuestionUseCase,
+    private val noteQuestionDetailUseCase: GetNoteQuestionDetailUseCase,
+    private val createNoteAnswerUseCase: CreateNoteAnswerUseCase
 ) : ViewModel() {
 
     private val _noteQuestions = MutableLiveData<List<NoteQuestionTitle>>()
@@ -33,8 +33,8 @@ class CommunityNoteViewModel @Inject constructor(
     private val _noteQuestionDetail = MutableLiveData<NoteDetail>()
     val noteQuestionDetail: LiveData<NoteDetail> = _noteQuestionDetail
 
-    fun requestNoteQuestions(campsiteId: String) = viewModelScope.launch {
-        when (val value = noteQuestionUseCase(campsiteId)) {
+    fun getNoteQuestions(campsiteId: String) = viewModelScope.launch {
+        when (val value = getNoteQuestionUseCase(campsiteId)) {
             is Resource.Success<List<NoteQuestionTitle>> -> {
                 val noteQuestionList = value.data
                 _noteQuestions.value = noteQuestionList
@@ -46,8 +46,8 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    fun requestNoteMyQuestions(campsiteId: String) = viewModelScope.launch {
-        when (val value = noteMyQuestionUseCase(campsiteId)) {
+    fun getNoteMyQuestions(campsiteId: String) = viewModelScope.launch {
+        when (val value = getNoteQuestionUseCase(campsiteId)) {
             is Resource.Success<List<NoteQuestionTitle>> -> {
                 val noteQuestionList = value.data
                 _noteMyQuestions.value = noteQuestionList
@@ -59,8 +59,9 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    fun requestNotePostQuestion(campsiteId: String, content: String) = viewModelScope.launch {
-        when (val value = notePostQuestionUseCase(campsiteId, content)) {
+    fun postNoteQuestion(campsiteId: String, content: String) = viewModelScope.launch {
+        val noteQuestionRequest = NoteQuestionRequest(campsiteId, content)
+        when (val value = createNoteQuestionUseCase(noteQuestionRequest)) {
             is Resource.Success<NoteQuestionTitle> -> {
                 Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.data}")
             }
@@ -70,7 +71,7 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    fun requestNoteQuestionDetail(questionId: String) = viewModelScope.launch {
+    fun getNoteQuestionDetail(questionId: String) = viewModelScope.launch {
         when (val value = noteQuestionDetailUseCase(questionId)) {
             is Resource.Success<NoteDetail> -> {
                 val noteDetail = value.data
@@ -82,13 +83,13 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    fun requestNotePostAnswer(answerContent: String, questionId: String) =
+    fun postNoteAnswer(answerContent: String, questionId: String) =
         viewModelScope.launch {
             val noteQuestionAnswerRequest = NoteQuestionAnswerRequest(
                 answerContent,
                 questionId
             )
-            when (val value = notePostAnswerUseCase(noteQuestionAnswerRequest)) {
+            when (val value = createNoteAnswerUseCase(noteQuestionAnswerRequest)) {
                 is Resource.Success<NoteQuestionAnswer> -> {
                     Log.d("requestNotePostAnswer", "NotePostAnswer: ${value.data}")
                 }

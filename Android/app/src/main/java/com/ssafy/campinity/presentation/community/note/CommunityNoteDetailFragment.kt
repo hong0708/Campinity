@@ -45,7 +45,7 @@ class CommunityNoteDetailFragment :
             adapter = communityNoteQuestionAnswerAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
-        communityNoteViewModel.requestNoteQuestionDetail(
+        communityNoteViewModel.getNoteQuestionDetail(
             args.questionId
         )
         communityNoteViewModel.noteQuestionDetail.observe(viewLifecycleOwner) { response ->
@@ -57,6 +57,6 @@ class CommunityNoteDetailFragment :
     }
 
     override fun postNoteAnswer(answerContent: String, questionId: String) {
-        communityNoteViewModel.requestNotePostAnswer(answerContent, questionId)
+        communityNoteViewModel.postNoteAnswer(answerContent, questionId)
     }
 }

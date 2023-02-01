@@ -7,24 +7,23 @@ class NoteRemoteDataSourceImpl @Inject constructor(
     private val noteApiService: NoteApiService
 ) : NoteRemoteDataSource {
 
-    override suspend fun noteQuestionRequest(campsiteId: String): List<NoteQuestionResponse> =
-        noteApiService.noteQuestionRequest(campsiteId)
+    override suspend fun getNoteQuestion(campsiteId: String): List<NoteQuestionResponse> =
+        noteApiService.getNoteQuestion(campsiteId)
 
-    override suspend fun noteMyQuestionRequest(campsiteId: String): List<NoteQuestionResponse> =
-        noteApiService.noteMyQuestionRequest(campsiteId)
+    override suspend fun getNoteMyQuestion(campsiteId: String): List<NoteQuestionResponse> =
+        noteApiService.getNoteMyQuestion(campsiteId)
 
-    override suspend fun getPostQuestionRequest(
-        campsiteId: String,
-        content: String
+    override suspend fun createNoteQuestion(
+        noteQuestionRequest: NoteQuestionRequest
     ): NoteQuestionResponse =
-        noteApiService.postQuestionRequest(campsiteId, content)
+        noteApiService.createQuestion(noteQuestionRequest)
 
-    override suspend fun noteQuestionDetailRequest(questionId: String): NoteDetailResponse =
-        noteApiService.noteQuestionDetailRequest(questionId)
+    override suspend fun getNoteQuestionDetail(questionId: String): NoteDetailResponse =
+        noteApiService.getNoteQuestionDetail(questionId)
 
-    override suspend fun getPostAnswerRequest(
+    override suspend fun createQuestionAnswer(
         noteQuestionAnswerRequest: NoteQuestionAnswerRequest
     ): NoteQuestionAnswerResponse {
-        return noteApiService.postAnswerRequest(noteQuestionAnswerRequest)
+        return noteApiService.createAnswer(noteQuestionAnswerRequest)
     }
 }

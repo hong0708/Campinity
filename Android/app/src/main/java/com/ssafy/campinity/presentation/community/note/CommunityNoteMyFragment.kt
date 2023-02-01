@@ -31,7 +31,7 @@ class CommunityNoteMyFragment :
                 communityNoteListAdapter.setNote(it)
             }
         }
-        communityNoteViewModel.requestNoteMyQuestions("613f51f2-8942-4d84-bb60-7dc29b3487a6")
+        communityNoteViewModel.getNoteMyQuestions("613f51f2-8942-4d84-bb60-7dc29b3487a6")
     }
 
     private fun getPost(questionId: String) {

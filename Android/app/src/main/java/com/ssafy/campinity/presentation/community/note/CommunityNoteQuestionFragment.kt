@@ -29,7 +29,7 @@ class CommunityNoteQuestionFragment :
         communityNoteViewModel.noteQuestions.observe(viewLifecycleOwner) { response ->
             response.let { communityNoteListAdapter.setNote(it) }
         }
-        communityNoteViewModel.requestNoteQuestions("613f51f2-8942-4d84-bb60-7dc29b3487a6")
+        communityNoteViewModel.getNoteQuestions("613f51f2-8942-4d84-bb60-7dc29b3487a6")
     }
 
     private fun getPost(questionId: String) {

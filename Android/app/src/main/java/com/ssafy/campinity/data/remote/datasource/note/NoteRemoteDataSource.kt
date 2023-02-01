@@ -2,18 +2,17 @@ package com.ssafy.campinity.data.remote.datasource.note
 
 interface NoteRemoteDataSource {
 
-    suspend fun noteQuestionRequest(campsiteId: String): List<NoteQuestionResponse>
+    suspend fun getNoteQuestion(campsiteId: String): List<NoteQuestionResponse>
 
-    suspend fun noteMyQuestionRequest(campsiteId: String): List<NoteQuestionResponse>
+    suspend fun getNoteMyQuestion(campsiteId: String): List<NoteQuestionResponse>
 
-    suspend fun getPostQuestionRequest(
-        campsiteId: String,
-        content: String
+    suspend fun createNoteQuestion(
+        noteQuestionRequest: NoteQuestionRequest
     ): NoteQuestionResponse
 
-    suspend fun noteQuestionDetailRequest(questionId: String): NoteDetailResponse
+    suspend fun getNoteQuestionDetail(questionId: String): NoteDetailResponse
 
-    suspend fun getPostAnswerRequest(
+    suspend fun createQuestionAnswer(
         noteQuestionAnswerRequest: NoteQuestionAnswerRequest
     ): NoteQuestionAnswerResponse
 }

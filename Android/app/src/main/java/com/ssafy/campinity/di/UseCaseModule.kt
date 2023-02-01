@@ -4,13 +4,13 @@ import com.ssafy.campinity.domain.repository.AuthRepository
 import com.ssafy.campinity.domain.repository.NoteRepository
 import com.ssafy.campinity.domain.repository.UserRepository
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
-import com.ssafy.campinity.domain.usecase.note.NoteMyQuestionUseCase
-import com.ssafy.campinity.domain.usecase.note.NotePostAnswerUseCase
-import com.ssafy.campinity.domain.usecase.note.NotePostQuestionUseCase
-import com.ssafy.campinity.domain.usecase.note.NoteQuestionDetailUseCase
 import com.ssafy.campinity.domain.repository.CollectionRepository
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
+import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
+import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
+import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
+import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -40,23 +40,23 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideNoteMyQuestionUseCase(noteRepository: NoteRepository): NoteMyQuestionUseCase =
-        NoteMyQuestionUseCase(noteRepository)
+    fun provideGetNoteQuestionUseCase(noteRepository: NoteRepository): GetNoteQuestionUseCase =
+        GetNoteQuestionUseCase(noteRepository)
 
     @Singleton
     @Provides
-    fun provideNotePostQuestionUseCase(noteRepository: NoteRepository): NotePostQuestionUseCase =
-        NotePostQuestionUseCase(noteRepository)
+    fun providePostNoteQuestionUseCase(noteRepository: NoteRepository): CreateNoteQuestionUseCase =
+        CreateNoteQuestionUseCase(noteRepository)
 
     @Singleton
     @Provides
-    fun provideNoteQuestionDetaiUseCase(noteRepository: NoteRepository): NoteQuestionDetailUseCase =
-        NoteQuestionDetailUseCase(noteRepository)
+    fun provideGetNoteQuestionDetailUseCase(noteRepository: NoteRepository): GetNoteQuestionDetailUseCase =
+        GetNoteQuestionDetailUseCase(noteRepository)
 
     @Singleton
     @Provides
-    fun provideNotePostAnswerUseCase(noteRepository: NoteRepository): NotePostAnswerUseCase =
-        NotePostAnswerUseCase(noteRepository)
+    fun providePostNoteAnswerUseCase(noteRepository: NoteRepository): CreateNoteAnswerUseCase =
+        CreateNoteAnswerUseCase(noteRepository)
 
     @Singleton
     @Provides

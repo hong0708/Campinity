@@ -51,6 +51,6 @@ class CommunityNoteFragment :
     }
 
     override fun postNoteQuestion(campsiteId: String, content: String) {
-        communityNoteViewModel.requestNotePostQuestion(campsiteId, content)
+        communityNoteViewModel.postNoteQuestion(campsiteId, content)
     }
 }

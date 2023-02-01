@@ -3,6 +3,7 @@ package com.ssafy.campinity.data.remote.repository
 import com.ssafy.campinity.common.util.wrapToResource
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionAnswerRequest
+import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSource
 import com.ssafy.campinity.domain.entity.community.NoteDetail
 import com.ssafy.campinity.domain.entity.community.NoteQuestionAnswer
@@ -17,31 +18,30 @@ class NoteRepositoryImpl @Inject constructor(
 
     override suspend fun getQuestions(campsiteId: String): Resource<List<NoteQuestionTitle>> =
         wrapToResource(Dispatchers.IO) {
-            noteRemoteDataSource.noteQuestionRequest(campsiteId).map { it.toDomainModel() }
+            noteRemoteDataSource.getNoteQuestion(campsiteId).map { it.toDomainModel() }
         }
 
     override suspend fun getMyQuestions(campsiteId: String): Resource<List<NoteQuestionTitle>> =
         wrapToResource(Dispatchers.IO) {
-            noteRemoteDataSource.noteMyQuestionRequest(campsiteId).map { it.toDomainModel() }
+            noteRemoteDataSource.getNoteMyQuestion(campsiteId).map { it.toDomainModel() }
         }
 
-    override suspend fun getPostQuestion(
-        campsiteId: String,
-        content: String
+    override suspend fun createQuestion(
+        noteQuestionRequest: NoteQuestionRequest
     ): Resource<NoteQuestionTitle> =
         wrapToResource(Dispatchers.IO) {
-            noteRemoteDataSource.getPostQuestionRequest(campsiteId, content).toDomainModel()
+            noteRemoteDataSource.createNoteQuestion(noteQuestionRequest).toDomainModel()
         }
 
     override suspend fun getQuestionsDetail(questionId: String): Resource<NoteDetail> =
         wrapToResource(Dispatchers.IO) {
-            noteRemoteDataSource.noteQuestionDetailRequest(questionId).toDomainModel()
+            noteRemoteDataSource.getNoteQuestionDetail(questionId).toDomainModel()
         }
 
-    override suspend fun getPostAnswer(
+    override suspend fun createAnswer(
         noteQuestionAnswerRequest: NoteQuestionAnswerRequest
     ): Resource<NoteQuestionAnswer> =
         wrapToResource(Dispatchers.IO) {
-            noteRemoteDataSource.getPostAnswerRequest(noteQuestionAnswerRequest).toDomainModel()
+            noteRemoteDataSource.createQuestionAnswer(noteQuestionAnswerRequest).toDomainModel()
         }
 }
