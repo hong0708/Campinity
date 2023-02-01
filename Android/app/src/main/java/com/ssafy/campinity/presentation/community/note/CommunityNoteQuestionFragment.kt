@@ -18,16 +18,6 @@ class CommunityNoteQuestionFragment :
     }
 
     override fun initView() {
-        initListener()
-
-    }
-
-    private fun initListener() {
-
-    }
-
-    override fun onResume() {
-        super.onResume()
         initNote()
     }
 

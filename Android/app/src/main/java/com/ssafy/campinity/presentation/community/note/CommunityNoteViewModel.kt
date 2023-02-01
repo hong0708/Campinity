@@ -62,10 +62,10 @@ class CommunityNoteViewModel @Inject constructor(
     fun requestNotePostQuestion(campsiteId: String, content: String) = viewModelScope.launch {
         when (val value = notePostQuestionUseCase(campsiteId, content)) {
             is Resource.Success<NoteQuestionTitle> -> {
-                Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.data}")
+                Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.data}")
             }
             is Resource.Error -> {
-                Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.errorMessage}")
+                Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.errorMessage}")
             }
         }
     }
@@ -77,7 +77,7 @@ class CommunityNoteViewModel @Inject constructor(
                 _noteQuestionDetail.value = noteDetail
             }
             is Resource.Error -> {
-                Log.d("requestNoteMyQuestions", "NoteMyQuestions: ${value.errorMessage}")
+                Log.d("requestNoteQuestionDetail", "NoteQuestionDetail: ${value.errorMessage}")
             }
         }
     }
@@ -90,10 +90,10 @@ class CommunityNoteViewModel @Inject constructor(
             )
             when (val value = notePostAnswerUseCase(noteQuestionAnswerRequest)) {
                 is Resource.Success<NoteQuestionAnswer> -> {
-                    Log.d("requestNotePostAnswer", "requestNotePostAnswer: ${value.data}")
+                    Log.d("requestNotePostAnswer", "NotePostAnswer: ${value.data}")
                 }
                 is Resource.Error -> {
-                    Log.d("requestNotePostAnswer", "requestNotePostAnswer: ${value.errorMessage}")
+                    Log.d("requestNotePostAnswer", "NotePostAnswer: ${value.errorMessage}")
                 }
             }
         }

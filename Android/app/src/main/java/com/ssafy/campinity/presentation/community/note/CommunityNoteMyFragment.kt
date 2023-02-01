@@ -18,16 +18,7 @@ class CommunityNoteMyFragment :
     }
 
     override fun initView() {
-        initListener()
-    }
-
-    override fun onResume() {
-        super.onResume()
         initNote()
-    }
-
-    private fun initListener() {
-
     }
 
     private fun initNote() {
