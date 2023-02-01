@@ -12,7 +12,7 @@ import com.ssafy.campinity.domain.entity.search.AreaGugun
 
 class SearchAreaGuGunAdapter(
     private val context: Context,
-    private val gugun: List<AreaGugun>,
+    private var gugun: List<AreaGugun>,
     private val toggleBtn: (String, Boolean) -> Unit
 ) : RecyclerView.Adapter<SearchAreaGuGunAdapter.ViewHolder>() {
 
@@ -48,6 +48,11 @@ class SearchAreaGuGunAdapter(
     }
 
     override fun getItemCount(): Int = gugun.size
+
+    fun setData(gugun: List<AreaGugun>) {
+        this.gugun = gugun
+        notifyDataSetChanged()
+    }
 
     fun selectAll() {
         for (position in 0 until itemCount) {

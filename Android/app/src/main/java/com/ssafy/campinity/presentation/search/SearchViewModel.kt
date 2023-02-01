@@ -20,7 +20,16 @@ class SearchViewModel @Inject constructor(
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
     val campsiteListData: LiveData<List<CampsiteBriefInfo>?> = _campsiteListData
 
-    fun setGugun(gugun: List<String>): String {
+    private val _sido: MutableLiveData<String> = MutableLiveData()
+    val sido: LiveData<String> = _sido
+
+    fun setSido(sido: String) {
+        viewModelScope.launch {
+            _sido.value = sido
+        }
+    }
+
+    fun mapGugun(gugun: List<String>): String {
         val result = StringBuilder()
         gugun.forEachIndexed { index, item ->
             if (index == 0) result.append(item)

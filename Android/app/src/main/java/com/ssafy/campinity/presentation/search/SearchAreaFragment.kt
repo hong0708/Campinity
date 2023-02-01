@@ -36,8 +36,8 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             )
 
             searchAreaSiDoAdapter = SearchAreaSiDoAdapter(
-                listOf(
-                    "경기", "인천", "강원도", "대전", "세종", "충북", "충남", "울산", "경북", "경남", "전북", "전남"
+                searchViewModel, listOf(
+                    "서울시", "인천시", "경기도"
                 )
             )
             adapter = searchAreaSiDoAdapter
@@ -57,24 +57,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             )
 
             searchAreaGuGunAdapter = SearchAreaGuGunAdapter(
-                requireContext(), listOf(
-                    AreaGugun("강릉시", 16),
-                    AreaGugun("고성군", 16),
-                    AreaGugun("동해시", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16),
-                    AreaGugun("가평군", 16)
-                )
+                requireContext(), listOf()
             ) { method: String, flag: Boolean -> toggleBtn(method, flag) }
 
             adapter = searchAreaGuGunAdapter
@@ -87,10 +70,8 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
     private fun initListener() {
         binding.llSelectAll.setOnClickListener {
-            if (isAllSelected)
-                searchAreaGuGunAdapter.unselectAll()
-            else
-                searchAreaGuGunAdapter.selectAll()
+            if (isAllSelected) searchAreaGuGunAdapter.unselectAll()
+            else searchAreaGuGunAdapter.selectAll()
 
             toggleBtn("selectAll", !isAllSelected)
             toggleBtn("submit", isAllSelected)
@@ -104,9 +85,34 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
         binding.btnSubmit.setOnClickListener {
             val sido = searchAreaSiDoAdapter.selectedItem
-            val gugun = searchViewModel.setGugun(searchAreaGuGunAdapter.selectedItems.toList())
+            val gugun = searchViewModel.mapGugun(searchAreaGuGunAdapter.selectedItems.toList())
 
             searchViewModel.getCampsitesByArea(sido, gugun)
+        }
+    }
+
+    private fun observeState() {
+        val seoul = listOf<AreaGugun>(
+            AreaGugun("강릉시1", 16), AreaGugun("고성군1", 16), AreaGugun("동해시1", 16)
+        )
+
+        val incheon = listOf<AreaGugun>(
+            AreaGugun("강릉시2", 16), AreaGugun("고성군2", 16), AreaGugun("동해시2", 16)
+        )
+
+        val gyeonggi = listOf<AreaGugun>(
+            AreaGugun("강릉시3", 16), AreaGugun("고성군3", 16), AreaGugun("동해시3", 16)
+        )
+
+        searchViewModel.sido.observe(viewLifecycleOwner) {
+            val list: List<AreaGugun> = when (searchViewModel.sido.value) {
+                "서울시" -> seoul
+                "인천시" -> incheon
+                "경기도" -> gyeonggi
+                else -> listOf<AreaGugun>()
+            }
+
+            searchAreaGuGunAdapter.setData(list)
         }
     }
 
