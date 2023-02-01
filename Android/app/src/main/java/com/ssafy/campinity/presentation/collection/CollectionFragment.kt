@@ -29,22 +29,6 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
         initCardStackView()
     }
 
-    private fun initListener() {
-        binding.fabCollectionMode.setOnClickListener {
-            if (pageState) {
-                binding.clCardView.visibility = View.VISIBLE
-                binding.clRecyclerView.visibility = View.GONE
-            } else {
-                binding.clCardView.visibility = View.GONE
-                binding.clRecyclerView.visibility = View.VISIBLE
-            }
-            pageState = !pageState
-        }
-        binding.tvAddCollection.setOnClickListener {
-            navigate(CollectionFragmentDirections.actionCollectionFragmentToCreateCollectionFragment())
-        }
-    }
-
     override fun onCardSwiped(direction: Direction?) {
         if (manager.topPosition == 1) {
             paginate()
@@ -69,6 +53,22 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
     override fun onResume() {
         super.onResume()
         collectionViewModel.getCollections()
+    }
+
+    private fun initListener() {
+        binding.fabCollectionMode.setOnClickListener {
+            if (pageState) {
+                binding.clCardView.visibility = View.VISIBLE
+                binding.clRecyclerView.visibility = View.GONE
+            } else {
+                binding.clCardView.visibility = View.GONE
+                binding.clRecyclerView.visibility = View.VISIBLE
+            }
+            pageState = !pageState
+        }
+        binding.tvAddCollection.setOnClickListener {
+            navigate(CollectionFragmentDirections.actionCollectionFragmentToCreateCollectionFragment())
+        }
     }
 
     private fun paginate() {
@@ -126,57 +126,5 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
                 collectionId
             )
         )
-    }
-
-    private fun createItems(): List<CollectionItem> {
-        val items = ArrayList<CollectionItem>()
-        items.apply {
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#"
-                )
-            )
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            items.add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            return items
-        }
     }
 }

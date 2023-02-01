@@ -1,15 +1,12 @@
 package com.ssafy.campinity.di
 
-import com.ssafy.campinity.domain.repository.AuthRepository
-import com.ssafy.campinity.domain.repository.CollectionRepository
-import com.ssafy.campinity.domain.repository.CurationRepository
-import com.ssafy.campinity.domain.repository.NoteRepository
-import com.ssafy.campinity.domain.repository.UserRepository
+import com.ssafy.campinity.domain.repository.*
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
+import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
@@ -80,4 +77,9 @@ object UseCaseModule {
     @Provides
     fun provideGetCurationUseCase(curationRepository: CurationRepository): GetCurationDetailUseCase =
         GetCurationDetailUseCase(curationRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetHomeBannersUseCase(homeRepository: HomeRepository): GetHomeBannersUseCase =
+        GetHomeBannersUseCase(homeRepository)
 }
