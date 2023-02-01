@@ -27,6 +27,7 @@ class CommunityNoteAnswerDialog(
         setCanceledOnTouchOutside(true)
         setCancelable(true)
         binding.apply {
+            tvNoteQuestionContent.text = "a"
             tvMakeAnswerBtn.setOnClickListener {
 
                 communityNoteAnswerDialogInterface.postNoteAnswer()

@@ -44,8 +44,8 @@ class CommunityNoteDetailFragment :
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
         communityNoteViewModel.requestNoteQuestionDetail(
-            /*args.questionId*/
-            "ab1a3f40-0b99-4691-b2a1-b55449265498"
+            args.questionId
+            /*"ab1a3f40-0b99-4691-b2a1-b55449265498"*/
         )
         communityNoteViewModel.noteQuestionDetail.observe(viewLifecycleOwner) { response ->
             response?.let {
