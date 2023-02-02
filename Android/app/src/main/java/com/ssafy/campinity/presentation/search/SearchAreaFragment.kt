@@ -64,10 +64,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
         binding.rvGugun.apply {
             val layoutWidth = getDeviceWidthPx(requireContext()).dp(requireContext()) - 131
-//            val span = layoutWidth / 110
-//            val offsetHorizontal = min((layoutWidth - 110 * span) / (span - 1), 10)
-//            val btnWidth = (layoutWidth - offsetHorizontal * (span - 1)) / span
-            val span = 2
+            val span = layoutWidth / 110
             val offsetHorizontal = min((layoutWidth - 110 * span) / (span - 1), 10)
             val btnWidth = (layoutWidth - offsetHorizontal * (span - 1)) / span
 
@@ -85,7 +82,14 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
             adapter = searchAreaGuGunAdapter
 
-            addItemDecoration(GridItemDecoration(context, span, 6, offsetHorizontal.dp(requireContext())))
+            addItemDecoration(
+                GridItemDecoration(
+                    context,
+                    span,
+                    6,
+                    offsetHorizontal.dp(requireContext())
+                )
+            )
         }
     }
 
