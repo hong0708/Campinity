@@ -127,8 +127,4 @@ class CollectionViewModel @Inject constructor(
             imgMultiPart = MultipartBody.Part.createFormData("file", file.name, requestFile)
         }
     }
-
-    fun setDate(date: String) {
-        _date.value = date
-    }
 }
