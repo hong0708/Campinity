@@ -10,7 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
 public class CurationScrap extends BaseEntity {
 
     @Id
@@ -18,9 +17,11 @@ public class CurationScrap extends BaseEntity {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
+    @JoinColumn(name = "curation_id")
     private Curation curation;
 
     @Builder

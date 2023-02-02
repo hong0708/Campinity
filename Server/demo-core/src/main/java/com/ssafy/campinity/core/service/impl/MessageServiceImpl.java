@@ -93,12 +93,12 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
-    public void deleteMessage(String messageId, UUID memberUuid) throws FileNotFoundException {
+    public void deleteMessage(String messageId,int memberId) throws FileNotFoundException {
         Message message = messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageId))
                 .orElseThrow(IllegalArgumentException::new);
         String imagePath = message.getImagePath();
 
-        if (message.getMember().getUuid().equals(memberUuid)){
+        if (message.getMember().getId() == memberId) {
             if (!imagePath.isEmpty()){
                 try {
                     imageUtil.removeImage(imagePath);
@@ -124,12 +124,14 @@ public class MessageServiceImpl implements MessageService {
         Optional<LikeMessage> likeMessage = likeMessageRepository.findByMemberAndMessage(member, message);
 
         if (likeMessage.isPresent()) {
+            message.removeLikeMessage(likeMessage.get());
             likeMessageRepository.deleteByMemberAndMessage(member, message);
             likeCheck = false;
         }
         else {
             LikeMessage newLikeMessage = LikeMessage.builder()
                     .member(member).message(message).build();
+            message.addLikeMessage(newLikeMessage);
             likeMessageRepository.save(newLikeMessage);
             likeCheck = true;
         }

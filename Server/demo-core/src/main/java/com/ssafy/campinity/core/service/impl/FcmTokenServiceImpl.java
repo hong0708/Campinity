@@ -8,6 +8,7 @@ import com.ssafy.campinity.core.entity.fcmToken.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.fcmToken.FcmTokenRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
+import com.ssafy.campinity.core.service.FcmTokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class FcmTokenServiceImpl {
+public class FcmTokenServiceImpl implements FcmTokenService {
 
     private final MemberRepository memberRepository;
     private final FcmTokenRepository fcmTokenRepository;
@@ -30,10 +31,11 @@ public class FcmTokenServiceImpl {
 
         FcmToken token = FcmToken.builder()
                 .fcmToken(fcmToken)
+                .member(member)
+                .campsiteUuid("")
                 .build();
 
-        member.setFcmToken(token);
-        memberRepository.save(member);
+        fcmTokenRepository.save(token);
     }
 
     @Transactional

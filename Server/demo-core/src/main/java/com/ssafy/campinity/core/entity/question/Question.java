@@ -17,8 +17,8 @@ import java.util.UUID;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Getter
-@SQLDelete(sql = "UPDATE question SET expired = true WHERE question.id = ?")
 @Entity
+@SQLDelete(sql = "UPDATE question SET expired = true WHERE question.id = ?")
 public class Question extends BaseEntity {
 
     @Id
@@ -34,13 +34,14 @@ public class Question extends BaseEntity {
     private Boolean expired;
 
     @ManyToOne
+    @ToString.Exclude
     private Member member;
 
     @ManyToOne
+    @ToString.Exclude
     private Campsite campsite;
 
-    @OneToMany
-    @JoinColumn(name = "question_id")
+    @OneToMany(cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Answer> answers = new ArrayList<>();
 
@@ -51,5 +52,9 @@ public class Question extends BaseEntity {
         this.member = member;
         this.campsite = campsite;
         this.expired = false;
+    }
+
+    public void addAnswer(Answer answer){
+        this.answers.add(answer);
     }
 }

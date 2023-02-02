@@ -1,7 +1,7 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
-import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
+import com.ssafy.campinity.api.dto.res.CampsiteMetaDataDTO;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,12 +25,11 @@ public class CampsiteController {
     private final CampsiteService campsiteService;
 
     @GetMapping("/scope")
-    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteByScope(
+    public ResponseEntity<List<CampsiteMetaDataDTO>> getCampsiteByScope(
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
-            @RequestParam double bottomRightLng,
-            @AuthenticationPrincipal MemberDetails memberDetails) {
+            @RequestParam double bottomRightLng) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
                 .topLeftLat(topLeftLat)
@@ -43,7 +40,12 @@ public class CampsiteController {
 
         List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
 
-        return new ResponseEntity<>(results, HttpStatus.OK);
+        return new ResponseEntity<>(result.stream().map(a -> CampsiteMetaDataDTO.builder()
+                .campsiteId(a.getUuid())
+                .lat(a.getLatitude())
+                .lng(a.getLongitude())
+                .campsiteName(a.getCampName())
+                .build()).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/conditions")

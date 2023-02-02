@@ -2,6 +2,7 @@ package com.ssafy.campinity.api.controller;
 
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.api.dto.res.ReviewDeleteDTO;
 import com.ssafy.campinity.core.dto.ReviewReqDTO;
 import com.ssafy.campinity.core.dto.ReviewResDTO;
 import com.ssafy.campinity.core.service.ReviewService;
@@ -39,18 +40,21 @@ public class ReviewController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 204, message = "리뷰 삭제 성공 시 응답"),
+            @ApiResponse(code = 200, message = "리뷰 삭제 성공 시 응답"),
             @ApiResponse(code = 400, message = "삭제권한이 없거나 리뷰 식별아이디 값 부적절 시 응답"),
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
     @ApiOperation(value = "리뷰 삭제 API")
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Object> deleteReview(
+    public ResponseEntity<ReviewDeleteDTO> deleteReview(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "리뷰 식별 아이디", required = true, type = "String")
             @PathVariable UUID reviewId) throws NoPermissionException {
 
         reviewService.deleteReview(reviewId, memberDetails.getMember().getUuid());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(ReviewDeleteDTO.builder().reviewId(reviewId.toString()).build());
     }
 }

@@ -30,10 +30,12 @@ public class Answer extends BaseEntity {
 
     private Boolean expired;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
+    @ToString.Exclude
     private Question question;
 
     @ManyToOne
+    @ToString.Exclude
     private Member member;
 
     @Builder

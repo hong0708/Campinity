@@ -18,6 +18,7 @@ public class CurationImage extends BaseEntity {
     private int id;
 
     @ManyToOne
+    @JoinColumn(name = "curation_id")
     private Curation curation;
 
     private String imagePath;
