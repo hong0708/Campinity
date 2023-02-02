@@ -38,7 +38,7 @@ public class CampsiteController {
                 .bottomRightLng(bottomRightLng)
                 .build();
 
-        List<Campsite> result = campsiteService.getCampsitesByLatLng(locationInfoDTO);
+        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
 
         return new ResponseEntity<>(result.stream().map(a -> CampsiteMetaDataDTO.builder()
                 .campsiteId(a.getUuid())
@@ -130,4 +130,12 @@ public class CampsiteController {
         List<CampsiteMetaResDTO> results = campsiteService.getCampsiteScrapList(memberDetails.getMember().getId());
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<CampsiteSearchResDTO>> getCampsiteByCampName(@RequestParam String keyword) {
+        List<CampsiteSearchResDTO> result = campsiteService.getCampsiteByCampName(keyword);
+
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
