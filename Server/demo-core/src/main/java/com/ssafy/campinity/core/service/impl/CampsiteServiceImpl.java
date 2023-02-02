@@ -18,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -37,14 +38,36 @@ public class CampsiteServiceImpl implements CampsiteService {
 
     @Override
     @Transactional
-    public List<Campsite> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO) {
+    public List<CampsiteListResDTO> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO, int memberId) {
         Double topLeftLat = locationInfoDTO.getTopLeftLat();
         Double topLeftLng = locationInfoDTO.getTopLeftLng();
         Double bottomRightLat = locationInfoDTO.getBottomRightLat();
         Double bottomRightLng = locationInfoDTO.getBottomRightLng();
 
-        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat, topLeftLat,
-                topLeftLng, bottomRightLng);
+        List<Campsite> campsites = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat,
+                topLeftLat, topLeftLng, bottomRightLng);
+
+        List<CampsiteListResDTO> results = new ArrayList<>();
+        for (Campsite camp: campsites) {
+
+            List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
+                return image.getImagePath();
+            }).collect(Collectors.toList());
+
+            Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(memberId, camp.getId());
+
+            Boolean isScraped = false;
+            if (campsiteScrap.isPresent()) {
+                isScraped = true;
+            }
+
+            int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+
+            results.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).images(images).build());
+
+        }
+
+        return results;
     }
 
     @Transactional
@@ -118,5 +141,14 @@ public class CampsiteServiceImpl implements CampsiteService {
         return campsites.stream().map(campsite -> {
             return CampsiteMetaResDTO.builder().campsite(campsite).isScraped(true).build();
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CampsiteSearchResDTO> getCampsiteByCampName(String keyword) {
+        List<CampsiteSearchResDTO> campsites = campsiteRepository.findByCampNameContains(keyword).stream().map(campsite -> {
+            return CampsiteSearchResDTO.builder().campsite(campsite).build();
+        }).collect(Collectors.toList());
+
+        return campsites;
     }
 }
