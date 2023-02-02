@@ -18,7 +18,7 @@ public class LikeMessage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = CascadeType.MERGE)
     @ToString.Exclude
     private Message message;
 
@@ -28,7 +28,6 @@ public class LikeMessage extends BaseEntity {
 
     @Builder
     public LikeMessage(Message message, Member member) {
-        message.getLikeMessages().add(this);
         this.message = message;
         this.member = member;
     }

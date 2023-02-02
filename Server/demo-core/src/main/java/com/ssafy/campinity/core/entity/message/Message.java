@@ -69,4 +69,7 @@ public class Message extends BaseEntity {
     public void removeLikeMessage(LikeMessage likeMessage){
         this.likeMessages.remove(likeMessage);
     }
+    public void addLikeMessage(LikeMessage likeMessage){
+        this.likeMessages.add(likeMessage);
+    }
 }

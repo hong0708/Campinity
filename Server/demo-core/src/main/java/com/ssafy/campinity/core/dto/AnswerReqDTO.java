@@ -28,7 +28,7 @@ public class AnswerReqDTO {
     private String content;
 
     @Builder
-    public AnswerReqDTO(UUID questionId, UUID memberId, String content) {
+    public AnswerReqDTO(UUID questionId, String content) {
         this.questionId = questionId;
         this.content = content;
     }

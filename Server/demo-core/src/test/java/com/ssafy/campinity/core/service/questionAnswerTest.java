@@ -1,6 +1,8 @@
 package com.ssafy.campinity.core.service;
 
 
+import com.ssafy.campinity.core.dto.AnswerReqDTO;
+import com.ssafy.campinity.core.dto.AnswerResDTO;
 import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
 import com.ssafy.campinity.core.entity.answer.Answer;
@@ -22,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -60,9 +63,10 @@ public class questionAnswerTest {
                 .findById(question.getId())
                 .orElseThrow(IllegalArgumentException::new);
 
-        Answer savedAnswer = createAnswer(savedQuestion);
+        AnswerResDTO answerResDTO = createAnswer(savedQuestion);
 
-        Question mergedQuestion = questionRepository.findById(savedAnswer.getQuestion().getId()).orElse(null);
+        Answer savedAnswer = answerRepository.findAnswerByUuidAndExpiredIsFalse(UUID.fromString(answerResDTO.getAnswerId())).orElse(null);
+        Question mergedQuestion = questionRepository.findById(savedQuestion.getId()).orElse(null);
 
         assertEquals(1, mergedQuestion.getAnswers().size());
         assertEquals(mergedQuestion.getAnswers().get(0).getId(), savedAnswer.getId());
@@ -83,7 +87,9 @@ public class questionAnswerTest {
                 .findById(question.getId())
                 .orElseThrow(IllegalArgumentException::new);
 
-        Answer savedAnswer = createAnswer(savedQuestion);
+        AnswerResDTO answerResDTO = createAnswer(savedQuestion);
+
+        Answer savedAnswer = answerRepository.findAnswerByUuidAndExpiredIsFalse(UUID.fromString(answerResDTO.getAnswerId())).orElse(null);
 
         int answerId = savedAnswer.getId();
 
@@ -165,19 +171,18 @@ public class questionAnswerTest {
         Member savedMember = memberRepository.save(member);
 
         QuestionReqDTO request = QuestionReqDTO.builder()
-                .campsiteId(campsite.getUuid())
+                .campsiteId(savedCampsite.getUuid())
                 .content("quest test")
                 .build();
         QuestionResDTO questionResDTO = questionService.createQuestion(request, savedMember.getId());
 
-        Question savedQuestion = questionRepository
+        return questionRepository
                 .findByUuidAndExpiredIsFalse(UUID.fromString(questionResDTO.getQuestionId()))
                 .orElseThrow(IllegalArgumentException::new);
-        return savedQuestion;
     }
 
     // 테스트 통과한 code 답변 객체 생성
-    public Answer createAnswer(Question question){
+    public AnswerResDTO createAnswer(Question question){
 
         Question savedQuestion = questionRepository
                 .findById(question.getId())
@@ -188,14 +193,10 @@ public class questionAnswerTest {
                 .build();
         Member savedMember = memberRepository.save(member);
 
-        Answer answer = Answer.builder()
-                .question(savedQuestion)
-                .uuid(UUID.randomUUID())
+        AnswerReqDTO answerReqDTO = AnswerReqDTO.builder()
+                .questionId(question.getUuid())
                 .content("answer test")
-                .member(savedMember)
                 .build();
-
-        savedQuestion.addAnswer(answer);
-        return answerRepository.save(answer);
+        return answerService.createAnswer(answerReqDTO, savedMember.getId());
     }
 }
