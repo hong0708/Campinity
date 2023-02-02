@@ -2,7 +2,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".presentation.community.CommunityCampsiteFragment">
+    tools:context=".presentation.community.campsite.CommunityCampsiteFragment">
 
     <data>
 
@@ -372,7 +372,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/v_underline_search" />
+                    app:layout_constraintTop_toBottomOf="@id/v_underline_search"
+                    tools:listitem="@layout/item_campsite_title"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>

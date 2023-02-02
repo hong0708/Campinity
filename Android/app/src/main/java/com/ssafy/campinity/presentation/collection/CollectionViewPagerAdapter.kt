@@ -8,9 +8,9 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemCollectionCardBinding
 import com.ssafy.campinity.domain.entity.collection.CollectionItem
 
-class CardStackAdapter(
+class CollectionViewPagerAdapter(
     private val onItemClicked: (collectionId: String) -> Unit
-) : RecyclerView.Adapter<CardStackAdapter.CardViewHolder>() {
+) : RecyclerView.Adapter<CollectionViewPagerAdapter.CardViewHolder>() {
 
     private var items: List<CollectionItem> = listOf()
     lateinit var binding: ItemCollectionCardBinding
@@ -28,19 +28,12 @@ class CardStackAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    fun setItems(items: List<CollectionItem>) {
-        this.items = items
-    }
-
-    fun getItems(): List<CollectionItem> {
-        return items
-    }
-
     class CardViewHolder(
         private val binding: ItemCollectionCardBinding,
         private val onItemClicked: (collectionId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CollectionItem) {
+            binding.collectionCard = data
             binding.root.setOnClickListener {
                 onItemClicked(data.collectionId)
             }

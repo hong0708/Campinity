@@ -1,42 +1,45 @@
 package com.ssafy.campinity.presentation.collection
 
+import android.graphics.Rect
 import android.view.View
-import android.view.animation.LinearInterpolator
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentCollectionBinding
-import com.ssafy.campinity.domain.entity.collection.CollectionItem
 import com.ssafy.campinity.presentation.base.BaseFragment
-import com.yuyakaido.android.cardstackview.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.fragment_collection),
-    CardStackListener {
+class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.fragment_collection) {
 
     private val collectionViewModel by viewModels<CollectionViewModel>()
-    private val cardStackAdapter by lazy { CardStackAdapter(this::getCollection) }
+    private val collectionViewPagerAdapter by lazy { CollectionViewPagerAdapter(this::getCollection) }
     private val gridAdapter by lazy { GridAdapter(this::getCollection) }
-    private val manager by lazy { CardStackLayoutManager(context, this) }
     private var pageState = true
+    private val spaceDecoration = VerticalSpaceItemDecoration(20)
 
     override fun initView() {
-        initListener()
         initRecyclerView()
-        initCardStackView()
+        initViewPager()
+        initListener()
     }
 
     private fun initListener() {
         binding.fabCollectionMode.setOnClickListener {
             if (pageState) {
-                binding.clCardView.visibility = View.VISIBLE
-                binding.clRecyclerView.visibility = View.GONE
+                binding.apply {
+                    clCardView.visibility = View.VISIBLE
+                    clRecyclerView.visibility = View.GONE
+                    fabCollectionMode.setImageResource(R.drawable.ic_collection_card)
+                }
             } else {
-                binding.clCardView.visibility = View.GONE
-                binding.clRecyclerView.visibility = View.VISIBLE
+                binding.apply {
+                    clCardView.visibility = View.GONE
+                    clRecyclerView.visibility = View.VISIBLE
+                    fabCollectionMode.setImageResource(R.drawable.ic_collection_grid)
+                }
             }
             pageState = !pageState
         }
@@ -45,75 +48,47 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
         }
     }
 
-    override fun onCardSwiped(direction: Direction?) {
-        if (manager.topPosition == 1) {
-            paginate()
-        }
-        when (direction) {
-            Direction.Right -> {}
-            Direction.Left -> {}
-            else -> Unit
-        }
-    }
-
-    override fun onCardRewound() {}
-
-    override fun onCardCanceled() {}
-
-    override fun onCardAppeared(view: View?, position: Int) {}
-
-    override fun onCardDisappeared(view: View?, position: Int) {}
-
-    override fun onCardDragging(direction: Direction?, ratio: Float) {}
-
     override fun onResume() {
         super.onResume()
         collectionViewModel.getCollections()
     }
 
-    private fun paginate() {
-        val old = cardStackAdapter.getItems()
-        val new = old.plus(collectionViewModel.collectionListData.value!!)
-        val callback = CollectionDiffCallback(old, new)
-        val result = DiffUtil.calculateDiff(callback)
-        cardStackAdapter.setItems(new)
-        result.dispatchUpdatesTo(cardStackAdapter)
-    }
+    private fun initViewPager() {
+        val offsetBetweenPages =
+            resources.getDimensionPixelOffset(R.dimen.offsetBetweenPages).toFloat()
 
-    private fun initCardStackView() {
-        manager.apply {
-            setStackFrom(StackFrom.Right)
-            setVisibleCount(3)
-            setTranslationInterval(12.0f)
-            setScaleInterval(0.90f)
-            setSwipeThreshold(0.3f)
-            setMaxDegree(20.0f)
-            setDirections(Direction.HORIZONTAL)
-            setCanScrollHorizontal(true)
-            setCanScrollVertical(false)
-            setSwipeableMethod(SwipeableMethod.AutomaticAndManual)
-            setOverlayInterpolator(LinearInterpolator())
-        }
-
-        binding.csvCollection.apply {
-            layoutManager = manager
-            adapter = cardStackAdapter
-            itemAnimator.apply {
-                if (this is DefaultItemAnimator) {
-                    supportsChangeAnimations = true
+        binding.vpCollection.apply {
+            adapter = collectionViewPagerAdapter
+            orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            offscreenPageLimit = 4
+            setPageTransformer { page, position ->
+                val myOffset = position * -(2 * offsetBetweenPages)
+                if (position < -1) {
+                    page.translationX = -myOffset
+                } else if (position <= 1) {
+                    val scaleFactor = 0.8f.coerceAtLeast(1 - kotlin.math.abs(position))
+                    page.translationX = myOffset
+                    page.scaleY = scaleFactor
+                    page.alpha = scaleFactor
+                } else {
+                    page.alpha = 0f
+                    page.translationX = myOffset
                 }
             }
         }
         collectionViewModel.collectionListData.observe(viewLifecycleOwner) { response ->
-            response?.let { cardStackAdapter.setCollection(it) }
+            response?.let { collectionViewPagerAdapter.setCollection(it) }
         }
         collectionViewModel.getCollections()
     }
 
     private fun initRecyclerView() {
-        binding.rvCollection.adapter = gridAdapter
-        binding.rvCollection.layoutManager =
-            GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+        binding.rvCollection.apply {
+            adapter = gridAdapter
+            layoutManager =
+                GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+            addItemDecoration(spaceDecoration)
+        }
         collectionViewModel.collectionListData.observe(viewLifecycleOwner) { response ->
             response?.let { gridAdapter.setCollection(it) }
         }
@@ -128,55 +103,13 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
         )
     }
 
-    private fun createItems(): List<CollectionItem> {
-        val items = ArrayList<CollectionItem>()
-        items.apply {
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#"
-                )
-            )
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            items.add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            add(
-                CollectionItem(
-                    "1",
-                    "https://search.naver.com/search.naver?where=image&sm=tab_jum&query=rkddkwl#",
-                    "캠핑장",
-                    "2023/01/19",
-                    "내용을 입력해주세요ㅇㅇㅇㅇ"
-                )
-            )
-            return items
+    inner class VerticalSpaceItemDecoration(private val verticalSpaceHeight: Int) :
+        RecyclerView.ItemDecoration() {
+        override fun getItemOffsets(
+            outRect: Rect, view: View, parent: RecyclerView,
+            state: RecyclerView.State
+        ) {
+            outRect.bottom = verticalSpaceHeight
         }
     }
 }

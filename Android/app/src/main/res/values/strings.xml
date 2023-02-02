@@ -73,6 +73,7 @@
     <string name="image_home_collection">image_home_collection</string>
     <string name="image_home_banner">image_home_banner</string>
     <string name="image_location_home_camping_site">image_location_home_camping_site</string>
+    <string name="content_home_banner_more">더보기</string>
 
     <!-- Dialog -->
     <!-- 공통 단어 정리하기 -->
@@ -101,6 +102,9 @@
     <string name="title_write_free_note">자유 쪽지</string>
     <string name="image_user_profile">image_user_profile</string>
     <string name="image_review_content">image_review_content</string>
+    <string name="content_note_question_answer">질문에 대한 답변을 작성해주세요.</string>
+    <string name="content_user_answer">나의 답변</string>
+    <string name="content_user_question_input">캠핑장에 질문을 남겨주세요.</string>
 
     <!-- Community campsite-->
     <string name="image_back_to_main">image_back_to_main</string>
@@ -121,6 +125,7 @@
     <string name="content_campsite_get_help">도움 주기</string>
     <string name="content_campsite_review">리뷰 쪽지</string>
     <string name="content_campsite_free">자유 쪽지</string>
+    <string name="image_campsite_title_icon">image_campsite_title_icon</string>
 
     <!-- Collection -->
     <string name="title_collection">My Collection</string>
@@ -144,6 +149,8 @@
     <string name="content_collection_delete">삭제하기</string>
     <string name="content_collection_update">수정하기</string>
     <string name="content_collection_date">%d/%02d/%02d</string>
+    <string name="content_collection_file_delete">사진을 삭제하시겠습니까?</string>
+    <string name="image_collection_photo">image_collection_photo</string>
 
     <!-- Search -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
@@ -215,6 +222,8 @@
     <!-- Community note-->
     <string name="img_post_box_back">img_post_box_back</string>
     <string name="img_post_box_color">img_post_box_color</string>
+    <string name="content_make_note">새 편지</string>
+    <string name="content_note_answer">답변 작성</string>
 
     <!-- Curation -->
     <string name="image_book_mark">image_book_mark</string>
