@@ -47,10 +47,11 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cl_collection_delete_update"
-            android:layout_width="143dp"
-            android:layout_height="137dp"
+            android:layout_width="100dp"
+            android:layout_height="80dp"
             android:layout_marginTop="8dp"
-            android:background="@drawable/bg_rect_white_radius20_transparent80"
+            android:background="@drawable/bg_rect_white_radius10_transparent80"
+            android:elevation="10dp"
             android:visibility="gone"
             app:layout_constraintEnd_toEndOf="@id/iv_multi_option"
             app:layout_constraintTop_toBottomOf="@id/iv_multi_option">
@@ -63,7 +64,7 @@
                 android:gravity="center"
                 android:text="@string/content_collection_delete"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@+id/divider"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -71,7 +72,7 @@
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/zambezi"
+                android:background="@color/silver"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -83,7 +84,7 @@
                 android:gravity="center"
                 android:text="@string/content_collection_update"
                 android:textColor="@color/black"
-                android:textSize="24sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/divider" />
 
@@ -91,8 +92,9 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="400dp"
             android:background="@drawable/bg_rect_white_radius30_top"
+            android:elevation="20dp"
             app:layout_constraintBottom_toBottomOf="parent">
 
             <TextView
@@ -122,21 +124,29 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_title_collection"
                 tools:text="2023/01/08" />
 
-            <TextView
+            <androidx.core.widget.NestedScrollView
+                android:id="@+id/ns_content"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="25dp"
-                android:layout_marginBottom="20dp"
-                android:fontFamily="@font/roboto_regular"
-                android:text="@{collectionDetail.content}"
-                android:textColor="@color/zambezi"
-                android:textSize="16sp"
+                android:layout_marginBottom="25dp"
                 app:layout_constraintBottom_toTopOf="@id/cl_share"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_date_collection"
-                app:layout_constraintTop_toBottomOf="@id/tv_date_collection"
-                tools:text="오늘은 싸피 캠핑장에 왔당!\n앞에 바다도 보이고 평소 다니던 마운틴뷰\n캠핑장이랑은 완전 다른 느낌!\n시설도 너무 좋고 또 와야지 :)" />
+                app:layout_constraintTop_toBottomOf="@id/tv_date_collection">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/roboto_regular"
+                    android:gravity="top"
+                    android:text="@{collectionDetail.content}"
+                    android:textColor="@color/zambezi"
+                    android:textSize="16sp"
+                    tools:text="오늘은 싸피 캠핑장에 왔당!\n앞에 바다도 보이고 평소 다니던 마운틴뷰\n캠핑장이랑은 완전 다른 느낌!\n시설도 너무 좋고 또 와야지 :)" />
+
+            </androidx.core.widget.NestedScrollView>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/cl_share"

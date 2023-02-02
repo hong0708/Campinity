@@ -39,10 +39,10 @@ class CollectionViewModel @Inject constructor(
     val content: MutableLiveData<String> = _content
 
     private val _date: MutableLiveData<String> = MutableLiveData("")
-    val date: LiveData<String> = _date
+    val date: MutableLiveData<String> = _date
 
     private val _file: MutableLiveData<Uri?> = MutableLiveData(null)
-    val file: LiveData<Uri?> = _file
+    val file: MutableLiveData<Uri?> = _file
 
     private val _isSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
     val isSucceed: LiveData<Boolean> = _isSucceed
@@ -108,7 +108,7 @@ class CollectionViewModel @Inject constructor(
                 campsiteName.value ?: "",
                 content.value ?: "",
                 date.value ?: "",
-                imgMultiPart ?: throw java.lang.IllegalArgumentException("Picture Not Selected.")
+                imgMultiPart
             )) {
             is Resource.Success<CollectionItem> -> {
                 _isSucceed.value = true
@@ -126,5 +126,9 @@ class CollectionViewModel @Inject constructor(
             val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
             imgMultiPart = MultipartBody.Part.createFormData("file", file.name, requestFile)
         }
+    }
+
+    fun setDate(date: String) {
+        _date.value = date
     }
 }

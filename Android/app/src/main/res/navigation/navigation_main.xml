@@ -145,13 +145,17 @@
         android:id="@+id/updateCollectionFragment"
         android:name="com.ssafy.campinity.presentation.collection.UpdateCollectionFragment"
         android:label="UpdateCollectionFragment"
-        tools:layout="@layout/fragment_update_collection" />
+        tools:layout="@layout/fragment_update_collection">
+        <argument
+            android:name="collectionId"
+            app:argType="string" />
+    </fragment>
 
     <fragment
         android:id="@+id/createCollectionFragment"
         android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
         android:label="CreateCollectionFragment"
-        tools:layout="@layout/fragment_create_collection"/>
+        tools:layout="@layout/fragment_create_collection" />
 
     <activity
         android:id="@+id/communityActivity"
