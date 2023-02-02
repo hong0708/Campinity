@@ -1,23 +1,29 @@
 package com.ssafy.campinity.presentation.home
 
-import androidx.lifecycle.lifecycleScope
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
+import android.view.View
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentHomeBinding
-import com.ssafy.campinity.domain.entity.home.HomeBanner
 import com.ssafy.campinity.domain.entity.home.HomeCampingSite
 import com.ssafy.campinity.domain.entity.home.HomeCollection
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlin.math.ceil
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
-    private var bannerPosition = 0
-    lateinit var job: Job
+    private val homeViewModel by viewModels<HomeViewModel>()
+    private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
+    private val handler = Handler(Looper.getMainLooper()) {
+        setPage()
+        true
+    }
+    private var currentPage = 0
 
     override fun initView() {
         initListener()
@@ -26,18 +32,25 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initCampingSite()
     }
 
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.getHomeBanners()
+    }
+
     private fun initListener() {
-        binding.tvCollectionMore.setOnClickListener {
-            navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment())
-        }
-        binding.clSearch.setOnClickListener {
-            navigate(HomeFragmentDirections.actionHomeFragmentToSearchActivity())
-        }
-        binding.clCommunity.setOnClickListener {
-            navigate(HomeFragmentDirections.actionHomeFragmentToCommunityActivity())
-        }
-        binding.tvBannerMore.setOnClickListener {
-            navigate(HomeFragmentDirections.actionHomeFragmentToCurationFragment())
+        binding.apply {
+            tvCollectionMore.setOnClickListener {
+                navigate(HomeFragmentDirections.actionHomeFragmentToCollectionFragment())
+            }
+            clSearch.setOnClickListener {
+                navigate(HomeFragmentDirections.actionHomeFragmentToSearchActivity())
+            }
+            clCommunity.setOnClickListener {
+                navigate(HomeFragmentDirections.actionHomeFragmentToCommunityActivity())
+            }
+            tvBannerMore.setOnClickListener {
+                navigate(HomeFragmentDirections.actionHomeFragmentToCurationFragment())
+            }
         }
     }
 
@@ -61,7 +74,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 )
             }
         }
-
         binding.rvPopularCampingSite.adapter = HomeCampingSiteAdapter(list)
         binding.rvScoreCampingSite.adapter = HomeCampingSiteAdapter(list)
     }
@@ -86,73 +98,47 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 )
             }
         }
-
         binding.rvCollectionHome.adapter = HomeCollectionAdapter(list)
     }
 
     private fun initBanner() {
-        val list: ArrayList<HomeBanner> = ArrayList<HomeBanner>().let {
-            it.apply {
-                add(
-                    HomeBanner(
-                        R.drawable.bg_home_banner, "초보자를 위한 캠핑 준비물 A - Z", "초보자를 위한 캠핑 준비물 A - Z"
-                    )
-                )
-                add(
-                    HomeBanner(
-                        R.drawable.bg_home_banner, "초보자를 위한 캠핑 준비물 A - Z", "초보자를 위한 캠핑 준비물 A - Z"
-                    )
-                )
-                add(
-                    HomeBanner(
-                        R.drawable.bg_home_banner, "초보자를 위한 캠핑 준비물 A - Z", "초보자를 위한 캠핑 준비물 A - Z"
-                    )
-                )
-            }
-        }
+        val child = binding.vpBannerHome.getChildAt(0)
+        val thread = Thread(PagerRunnable())
 
-        binding.vpBannerHome.adapter = HomeBannerAdapter(list)
+        binding.vpBannerHome.adapter = homeBannerAdapter
         binding.vpBannerHome.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-        binding.vpBannerHome.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                bannerPosition = position
-            }
+        homeViewModel.homeBanners.observe(viewLifecycleOwner) { response ->
+            response?.let { homeBannerAdapter.addHomeBanner(it) }
+        }
+        homeViewModel.getHomeBanners()
 
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-                when (state) {
-                    ViewPager2.SCROLL_STATE_IDLE -> {
-                        if (!job.isActive) scrollJobCreate()
-                    }
+        (child as? RecyclerView)?.overScrollMode = View.OVER_SCROLL_NEVER
+        thread.start()
+    }
 
-                    ViewPager2.SCROLL_STATE_DRAGGING -> job.cancel()
+    private fun getCurationDetail(curationId: String) {
+        navigate(
+            HomeFragmentDirections.actionHomeFragmentToCurationDetailFragment(curationId)
+        )
+    }
 
-                    ViewPager2.SCROLL_STATE_SETTLING -> {}
+    private fun setPage() {
+        if (currentPage == 3) currentPage = 0
+        binding.vpBannerHome.setCurrentItem(currentPage, true)
+        currentPage += 1
+    }
+
+    inner class PagerRunnable:Runnable {
+        override fun run() {
+            while(true){
+                try {
+                    Thread.sleep(3000)
+                    handler.sendEmptyMessage(0)
+                } catch (e : InterruptedException){
+                    Log.e("interrupt", e.message.toString())
                 }
             }
-        })
-
-        bannerPosition = Int.MAX_VALUE / 2 - ceil(list.size.toDouble() / 2).toInt()
-        binding.vpBannerHome.setCurrentItem(bannerPosition, false)
-    }
-
-    fun scrollJobCreate() {
-        job = lifecycleScope.launchWhenResumed {
-            delay(2200)
-            binding.vpBannerHome.setCurrentItem(++bannerPosition, true)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        scrollJobCreate()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        job.cancel()
     }
 }

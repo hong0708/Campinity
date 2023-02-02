@@ -2,11 +2,7 @@ package com.ssafy.campinity.di
 
 import com.ssafy.campinity.AuthInterceptorClient
 import com.ssafy.campinity.NoAuthInterceptorClient
-import com.ssafy.campinity.data.remote.service.AuthApiService
-import com.ssafy.campinity.data.remote.service.NoteApiService
-import com.ssafy.campinity.data.remote.service.CollectionApiService
-import com.ssafy.campinity.data.remote.service.CurationApiService
-import com.ssafy.campinity.data.remote.service.UserApiService
+import com.ssafy.campinity.data.remote.service.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,4 +48,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): CurationApiService =
         retrofit.create(CurationApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideHomeApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): HomeApiService =
+        retrofit.create(HomeApiService::class.java)
 }
