@@ -1,8 +1,11 @@
 package com.ssafy.campinity.presentation.home
 
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentHomeBinding
@@ -10,23 +13,28 @@ import com.ssafy.campinity.domain.entity.home.HomeCampingSite
 import com.ssafy.campinity.domain.entity.home.HomeCollection
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
-import kotlin.math.ceil
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel by viewModels<HomeViewModel>()
     private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
-    private var bannerPosition = 0
-    lateinit var job: Job
+    private val handler = Handler(Looper.getMainLooper()) {
+        setPage()
+        true
+    }
+    private var currentPage = 0
 
     override fun initView() {
         initListener()
         initCollection()
         initBanner()
         initCampingSite()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        homeViewModel.getHomeBanners()
     }
 
     private fun initListener() {
@@ -94,37 +102,19 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun initBanner() {
+        val child = binding.vpBannerHome.getChildAt(0)
+        val thread = Thread(PagerRunnable())
+
         binding.vpBannerHome.adapter = homeBannerAdapter
         binding.vpBannerHome.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
         homeViewModel.homeBanners.observe(viewLifecycleOwner) { response ->
-            Log.d("initBanner", "initBanner: $response")
-            response?.let { homeBannerAdapter.setHomeBanner(it) }
+            response?.let { homeBannerAdapter.addHomeBanner(it) }
         }
         homeViewModel.getHomeBanners()
 
-        binding.vpBannerHome.registerOnPageChangeCallback(object :
-            ViewPager2.OnPageChangeCallback() {
-            override fun onPageSelected(position: Int) {
-                super.onPageSelected(position)
-                bannerPosition = position
-            }
-
-            override fun onPageScrollStateChanged(state: Int) {
-                super.onPageScrollStateChanged(state)
-                when (state) {
-                    ViewPager2.SCROLL_STATE_IDLE -> {
-                        if (!job.isActive) scrollJobCreate()
-                    }
-
-                    ViewPager2.SCROLL_STATE_DRAGGING -> job.cancel()
-
-                    ViewPager2.SCROLL_STATE_SETTLING -> {}
-                }
-            }
-        })
-
-        bannerPosition = Int.MAX_VALUE / 2 - ceil(3.toDouble() / 2).toInt()
-        binding.vpBannerHome.setCurrentItem(bannerPosition, false)
+        (child as? RecyclerView)?.overScrollMode = View.OVER_SCROLL_NEVER
+        thread.start()
     }
 
     private fun getCurationDetail(curationId: String) {
@@ -133,21 +123,22 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
     }
 
-    fun scrollJobCreate() {
-        job = lifecycleScope.launchWhenResumed {
-            delay(2200)
-            binding.vpBannerHome.setCurrentItem(++bannerPosition, true)
+    private fun setPage(){
+        if (currentPage == 3) currentPage = 0
+        binding.vpBannerHome.setCurrentItem(currentPage, true)
+        currentPage += 1
+    }
+
+    inner class PagerRunnable:Runnable{
+        override fun run() {
+            while(true){
+                try {
+                    Thread.sleep(3000)
+                    handler.sendEmptyMessage(0)
+                } catch (e : InterruptedException){
+                    Log.e("interrupt", e.message.toString())
+                }
+            }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeViewModel.getHomeBanners()
-        scrollJobCreate()
-    }
-
-    override fun onPause() {
-        super.onPause()
-        job.cancel()
     }
 }

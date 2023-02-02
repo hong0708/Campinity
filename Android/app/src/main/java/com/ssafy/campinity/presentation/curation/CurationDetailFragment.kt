@@ -29,7 +29,6 @@ class CurationDetailFragment :
         curationViewModel.getCuration(args.curationId)
         curationViewModel.curationData.observe(viewLifecycleOwner) {
             binding.curationDetail = it
-
         }
     }
 

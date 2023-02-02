@@ -11,7 +11,7 @@ import com.ssafy.campinity.domain.entity.home.HomeBanner
 class HomeBannerAdapter(private val onItemClicked: (curationId: String) -> Unit) :
     RecyclerView.Adapter<HomeBannerAdapter.BannerViewHolder>() {
 
-    private var items: List<HomeBanner> = listOf()
+    private var items: ArrayList<HomeBanner> = arrayListOf()
     lateinit var binding: ItemHomeBannerBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
@@ -25,10 +25,10 @@ class HomeBannerAdapter(private val onItemClicked: (curationId: String) -> Unit)
     }
 
     override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
-        holder.onBind(items[position % items.size])
+        holder.onBind(items[position])
     }
 
-    override fun getItemCount(): Int = Int.MAX_VALUE
+    override fun getItemCount(): Int = items.size
 
     class BannerViewHolder(
         val binding: ItemHomeBannerBinding,
@@ -42,9 +42,11 @@ class HomeBannerAdapter(private val onItemClicked: (curationId: String) -> Unit)
         }
     }
 
-    fun setHomeBanner(item: List<HomeBanner>) {
-        this.items = item
-        notifyDataSetChanged()
+    fun addHomeBanner(item: List<HomeBanner>) {
+        for (i in item) {
+            this.items.add(i)
+        }
+        notifyItemInserted(this.items.size - 1)
     }
 }
 

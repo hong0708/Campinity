@@ -24,6 +24,8 @@ class HomeViewModel @Inject constructor(
         when (val value = getHomeBannersUseCase()) {
             is Resource.Success<List<HomeBanner>> -> {
                 _homeBanners.value = value.data
+                Log.d("getCollections", "getCollections: ${value.data}")
+
             }
             is Resource.Error -> {
                 Log.e("getCollections", "getCollections: ${value.errorMessage}")
