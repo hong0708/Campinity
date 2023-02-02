@@ -21,7 +21,6 @@ public class Amenity extends BaseEntity {
 
     private String amenityName;
 
-
     @OneToMany
     @JoinColumn(name = "amenity_id")
     @ToString.Exclude

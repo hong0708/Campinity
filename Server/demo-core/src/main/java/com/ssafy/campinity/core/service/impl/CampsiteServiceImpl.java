@@ -38,6 +38,18 @@ public class CampsiteServiceImpl implements CampsiteService {
 
     @Override
     @Transactional
+    public List<Campsite> getMetaDataListByLatLng(LocationInfoDTO locationInfoDTO) {
+        Double topLeftLat = locationInfoDTO.getTopLeftLat();
+        Double topLeftLng = locationInfoDTO.getTopLeftLng();
+        Double bottomRightLat = locationInfoDTO.getBottomRightLat();
+        Double bottomRightLng = locationInfoDTO.getBottomRightLng();
+
+        return campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat, topLeftLat,
+                topLeftLng, bottomRightLng);
+    }
+
+    @Override
+    @Transactional
     public List<CampsiteListResDTO> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO, int memberId) {
         Double topLeftLat = locationInfoDTO.getTopLeftLat();
         Double topLeftLng = locationInfoDTO.getTopLeftLng();

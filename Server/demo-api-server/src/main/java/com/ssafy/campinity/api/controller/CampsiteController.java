@@ -1,20 +1,21 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
-import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
+import com.ssafy.campinity.api.dto.res.CampsiteMetaDataDTO;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,8 +27,43 @@ public class CampsiteController {
 
     private final CampsiteService campsiteService;
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 메타 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 커뮤니티용 API")
+    @GetMapping("/scope/meta")
+    public ResponseEntity<List<CampsiteMetaDataDTO>> getMetaDataByScope(
+            @RequestParam double topLeftLat,
+            @RequestParam double topLeftLng,
+            @RequestParam double bottomRightLat,
+            @RequestParam double bottomRightLng) {
+
+        LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
+                .topLeftLat(topLeftLat)
+                .topLeftLng(topLeftLng)
+                .bottomRightLat(bottomRightLat)
+                .bottomRightLng(bottomRightLng)
+                .build();
+
+        List<Campsite> result = campsiteService.getMetaDataListByLatLng(locationInfoDTO);
+
+        return new ResponseEntity<>(result.stream().map(a -> CampsiteMetaDataDTO.builder()
+                .campsiteId(a.getUuid())
+                .campsiteName(a.getCampName())
+                .address(a.getAddress())
+                .build()).collect(Collectors.toList()), HttpStatus.OK);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 검색 페이지용 API")
     @GetMapping("/scope")
-    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteByScope(
+    public ResponseEntity<List<CampsiteListResDTO>> getCampsitesByScope(
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,

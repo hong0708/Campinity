@@ -1,6 +1,7 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.api.dto.res.QuestionDeleteDTO;
 import com.ssafy.campinity.core.dto.QuestionDetailResDTO;
 import com.ssafy.campinity.core.dto.QuestionReqDTO;
 import com.ssafy.campinity.core.dto.QuestionResDTO;
@@ -92,19 +93,21 @@ public class QuestionController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 204, message = "질문 삭제 성공 시 응답"),
+            @ApiResponse(code = 200, message = "질문 삭제 성공 시 응답"),
             @ApiResponse(code = 400, message = "삭제권한이 없거나 질문 식별 아이디 값 부적절 시 응답"),
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
     @ApiOperation(value = "질문 삭제 API")
     @DeleteMapping("/{questionId}")
-    public ResponseEntity<Object> deleteQuestion(
+    public ResponseEntity<QuestionDeleteDTO> deleteQuestion(
             @ApiParam(value = "질문 식별 아이디", required = true, type = "String")
             @PathVariable UUID questionId,
             @AuthenticationPrincipal MemberDetails memberDetails) throws Exception {
 
         questionService.deleteQuestion(questionId, memberDetails.getMember().getUuid());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(QuestionDeleteDTO.builder().questionId(questionId.toString()).build());
 
     }
 }

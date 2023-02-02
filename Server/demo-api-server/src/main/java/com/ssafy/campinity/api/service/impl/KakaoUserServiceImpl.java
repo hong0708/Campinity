@@ -120,7 +120,6 @@ public class KakaoUserServiceImpl implements KakaoUserService {
             //String password = UUID.randomUUID().toString();
             kakaoUser = Member.builder()
                     .email(kakaoEmail)
-                    .expired(false)
                     .uuid(UUID.randomUUID()).build();
             memberRepository.save(kakaoUser);
         }

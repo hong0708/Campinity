@@ -29,6 +29,7 @@ public class MyCollection extends BaseEntity {
     private UUID uuid;
 
     @ManyToOne
+    @ToString.Exclude
     private Member member;
 
     private String campsiteName;

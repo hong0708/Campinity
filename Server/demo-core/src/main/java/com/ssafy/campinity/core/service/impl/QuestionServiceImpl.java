@@ -27,11 +27,8 @@ import java.util.stream.Collectors;
 public class QuestionServiceImpl implements QuestionService {
 
     private final MemberRepository memberRepository;
-
     private final CampsiteRepository campsiteRepository;
-
     private final QuestionRepository questionRepository;
-
     private final AnswerRepository answerRepository;
 
 

@@ -19,8 +19,8 @@ public interface MyCollectionService {
 
     MyCollection getMyCollection(String collectionUuid);
 
-    MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, UUID memberUuid) throws UnsupportedEncodingException, FileNotFoundException;
+    MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, int memberId) throws UnsupportedEncodingException, FileNotFoundException;
 
-    void deleteMyCollection(String collectionUuid, UUID memberUuid) throws FileNotFoundException;
+    void deleteMyCollection(String collectionUuid, int memberId) throws FileNotFoundException;
 
 }

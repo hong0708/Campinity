@@ -1,6 +1,7 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.api.dto.res.MyCollectionDeleteDTO;
 import com.ssafy.campinity.core.dto.MyCollectionReqDTO;
 import com.ssafy.campinity.core.dto.MyCollectionResDTO;
 import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.FileNotFoundException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -79,7 +81,7 @@ public class MyCollectionController {
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
             MyCollectionReqDTO myCollectionReqDTO) throws FileNotFoundException, UnsupportedEncodingException {
 
-        MyCollection myCollection = myCollectionService.editMyCollection(myCollectionReqDTO, collectionId, memberDetails.getMember().getUuid());
+        MyCollection myCollection = myCollectionService.editMyCollection(myCollectionReqDTO, collectionId, memberDetails.getMember().getId());
 
         MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
 
@@ -126,18 +128,22 @@ public class MyCollectionController {
     }
 
     @ApiResponses({
-            @ApiResponse(code = 204, message = "컬렉션 리스트 조회를 성공했을 때 응답"),
+            @ApiResponse(code = 200, message = "컬렉션 리스트 삭제를 성공했을 때 응답"),
             @ApiResponse(code = 400, message = "삭제권한이 없거나 쪽지 식별아이디 값 부적절 시 응답"),
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답")
     })
     @DeleteMapping("/{collectionId}")
-    public ResponseEntity<Object> deleteCollection(
+    public ResponseEntity<MyCollectionDeleteDTO> deleteCollection(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "컬렉션 식별 아이디", required = true, type = "String")
             @PathVariable String collectionId) throws FileNotFoundException {
 
-        myCollectionService.deleteMyCollection(collectionId, memberDetails.getMember().getUuid());
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+        myCollectionService.deleteMyCollection(collectionId, memberDetails.getMember().getId());
 
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(MyCollectionDeleteDTO.builder().collectionId(collectionId).build());
     }
+
+
 }

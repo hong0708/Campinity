@@ -2,6 +2,7 @@ package com.ssafy.campinity.core.entity.curation;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -31,16 +32,6 @@ public class Curation extends BaseEntity {
 
     @Enumerated(value = EnumType.STRING)
     private CurationCategory curationCategory;
-
-    @OneToMany
-    @JoinColumn(name = "curation_id")
-    @ToString.Exclude
-    private List<CurationImage> images;
-
-    @OneToMany
-    @JoinColumn(name = "curation_id")
-    @ToString.Exclude
-    private List<CurationScrap> scraps;
 
     @Builder
     public Curation(UUID uuid, String title, String content, String firstImagePath, String curationCategory) {
