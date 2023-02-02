@@ -22,7 +22,7 @@ import java.io.File
 @AndroidEntryPoint
 class CreateCollectionFragment :
     BaseFragment<FragmentCreateCollectionBinding>(R.layout.fragment_create_collection),
-    CollectionDatePickerDialogListener {
+    CollectionDatePickerDialogListener, CollectionDeleteDialogListener {
 
     private val viewModel by viewModels<CollectionViewModel>()
     private val fromAlbumActivityLauncher = registerForActivityResult(
@@ -45,8 +45,9 @@ class CreateCollectionFragment :
         observeState()
     }
 
-    override fun onSubmitButtonClickled(date: String) {
+    override fun onSubmitButtonClicked(date: String) {
         binding.tvDateInput.text = date
+        viewModel.date.value = date
     }
 
     private fun initListener() {
@@ -89,26 +90,37 @@ class CreateCollectionFragment :
     }
 
     private fun setAlbumView() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                fromAlbumActivityLauncher.launch(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        if (viewModel.file.value == null) {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) -> {
+                    fromAlbumActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
                     )
-                )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
-            else -> {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_READ_STORAGE_PERMISSION
-                )
-            }
+        } else {
+            val dialog = CollectionDeleteFileDialog(requireContext(), this)
+            dialog.setCanceledOnTouchOutside(true)
+            dialog.show()
+            dialog.window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
         }
+
     }
 
     private fun absolutelyPath(path: Uri?, context: Context): String {
@@ -123,5 +135,9 @@ class CreateCollectionFragment :
 
     companion object {
         const val REQUEST_READ_STORAGE_PERMISSION = 1
+    }
+
+    override fun onSubmitButtonClicked() {
+        viewModel.file.value = null
     }
 }

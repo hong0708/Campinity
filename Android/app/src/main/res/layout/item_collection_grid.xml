@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/image_home_collection"
-            android:normalImgUri="@{collectionGrid.imagePath}"
+            android:roundedImgUri="@{collectionGrid.imagePath}"
             android:scaleType="fitXY"
             app:layout_constraintCircleRadius="15dp" />
 

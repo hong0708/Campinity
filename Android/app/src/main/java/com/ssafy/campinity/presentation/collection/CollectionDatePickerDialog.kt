@@ -28,7 +28,7 @@ class CollectionDatePickerDialog(
 
         binding.apply {
             tvConfirm.setOnClickListener {
-                listener.onSubmitButtonClickled(
+                listener.onSubmitButtonClicked(
                     String.format(
                         context.getString(R.string.content_collection_date),
                         dpCollection.year,

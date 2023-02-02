@@ -149,6 +149,8 @@
     <string name="content_collection_delete">삭제하기</string>
     <string name="content_collection_update">수정하기</string>
     <string name="content_collection_date">%d/%02d/%02d</string>
+    <string name="content_collection_file_delete">사진을 삭제하시겠습니까?</string>
+    <string name="image_collection_photo">image_collection_photo</string>
 
     <!-- Search -->
     <string name="content_search_by_name">캠핑장 이름으로 검색</string>
