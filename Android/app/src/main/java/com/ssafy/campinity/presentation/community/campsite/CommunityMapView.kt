@@ -6,8 +6,8 @@ import android.app.Activity
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
-import android.util.Log
 import com.ssafy.campinity.R
+import com.ssafy.campinity.domain.entity.community.MarkerLocation
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -19,7 +19,7 @@ class CommunityMapView(activity: Activity, context: Context?) : MapView(context)
     private val markerImage: Int = R.drawable.ic_community_campsite_marker
 
     // 마커를 그리는 함수
-    private fun markers(markerLocationList: List<Location>) {
+    private fun markers(markerLocationList: List<MarkerLocation>) {
         for (i in markerLocationList) {
             val markerPosition = MapPoint.mapPointWithGeoCoord(i.latitude, i.longitude)
             val marker = MapPOIItem()

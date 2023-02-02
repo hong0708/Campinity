@@ -1,6 +1,6 @@
 package com.ssafy.campinity.domain.entity.community
 
-data class Location(
+data class MarkerLocation(
     val latitude: Double,
     val longitude: Double
 )

@@ -9,6 +9,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -32,8 +33,9 @@ class CommunityCampsiteFragment :
     private lateinit var mapView: MapView
     private val moveValues: List<Float> = listOf(800f, 600f, 400f, 200f)
     private val communityCampsiteTitleListAdapter by lazy {
-        CommunityCampsiteTitleListAdapter(this::getCampsite)
+        CommunityCampsiteTitleListAdapter(this::getCampsiteTitle)
     }
+    private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
 
@@ -45,10 +47,11 @@ class CommunityCampsiteFragment :
     override fun onResume() {
         super.onResume()
         mapView = MapView(activity)
-        binding.clCommunityMap.addView(mapView)
 
-        val listener = MapViewEventListener()
+        val listener = CommunityMapViewEventListener()
         mapView.setMapViewEventListener(listener)
+
+        binding.clCommunityMap.addView(mapView)
     }
 
     override fun onPause() {
@@ -219,8 +222,8 @@ class CommunityCampsiteFragment :
         }
     }
 
-    private fun getCampsite() {
-
+    private fun getCampsiteTitle(campsiteId: String) {
+        communityCampsiteViewModel.getCampsiteTitle(campsiteId)
     }
 
     // 이벤트 리스너

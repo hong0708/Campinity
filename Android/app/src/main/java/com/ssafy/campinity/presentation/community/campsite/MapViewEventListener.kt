@@ -4,7 +4,7 @@ import android.util.Log
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
-class MapViewEventListener: MapView.MapViewEventListener {
+class CommunityMapViewEventListener: MapView.MapViewEventListener {
     val TAG = "MapViewEventListener"
     
     override fun onMapViewInitialized(p0: MapView?) {
