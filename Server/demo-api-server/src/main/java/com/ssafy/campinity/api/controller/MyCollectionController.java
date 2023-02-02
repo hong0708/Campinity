@@ -132,4 +132,6 @@ public class MyCollectionController {
                 .status(HttpStatus.OK)
                 .body(MyCollectionDeleteDTO.builder().collectionId(collectionId).build());
     }
+
+
 }

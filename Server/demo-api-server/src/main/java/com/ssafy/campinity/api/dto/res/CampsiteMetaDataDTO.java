@@ -10,14 +10,11 @@ import java.util.UUID;
 public class CampsiteMetaDataDTO {
     String campsiteId;
     String campsiteName;
-    Double lat;
-    Double lng;
-
+    String address;
     @Builder
-    public CampsiteMetaDataDTO(UUID campsiteId, String campsiteName, Double lat, Double lng) {
+    public CampsiteMetaDataDTO(UUID campsiteId, String campsiteName, String address) {
         this.campsiteId = campsiteId.toString();
         this.campsiteName = campsiteName;
-        this.lat = lat;
-        this.lng = lng;
+        this.address = address;
     }
 }
