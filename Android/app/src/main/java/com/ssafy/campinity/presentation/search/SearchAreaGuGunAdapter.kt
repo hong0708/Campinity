@@ -4,15 +4,18 @@ import android.content.Context
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import androidx.core.util.forEach
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.ItemSearchAreaGugunBinding
 import com.ssafy.campinity.domain.entity.search.AreaGugun
 
 class SearchAreaGuGunAdapter(
     private val context: Context,
     private var gugun: List<AreaGugun>,
+    private val btnWidth: Int,
     private val toggleBtn: (String, Boolean) -> Unit
 ) : RecyclerView.Adapter<SearchAreaGuGunAdapter.ViewHolder>() {
 
@@ -76,6 +79,9 @@ class SearchAreaGuGunAdapter(
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: AreaGugun) {
+            binding.llGugun.layoutParams =
+                LinearLayout.LayoutParams(btnWidth.px(context), 33.px(context))
+
             binding.item = item
             binding.tvCampsiteCount.text =
                 context.getString(R.string.content_campsite_count, item.campsiteCount)

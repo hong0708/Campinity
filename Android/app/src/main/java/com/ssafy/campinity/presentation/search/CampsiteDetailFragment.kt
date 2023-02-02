@@ -5,8 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.LayoutManager
-import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
+import com.ssafy.campinity.common.util.LinearItemDecoration
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.FragmentCampsiteDetailBinding
@@ -61,11 +60,7 @@ class CampsiteDetailFragment() :
             )
             adapter = CampsiteFacilityAndLeisureAdapter(facilityAndLeisure)
 
-            addItemDecoration(
-                RecyclerviewItemDecoration(
-                    context, LayoutManager.LINEAR, 0, RecyclerView.HORIZONTAL, 20
-                )
-            )
+            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL, 20))
         }
 
         binding.rvCampsiteReview.apply {
@@ -74,11 +69,7 @@ class CampsiteDetailFragment() :
             )
             adapter = CampsiteReviewAdapter(listOf())
 
-            addItemDecoration(
-                RecyclerviewItemDecoration(
-                    context, LayoutManager.LINEAR, 0, RecyclerView.VERTICAL, 20
-                )
-            )
+            addItemDecoration(LinearItemDecoration(context, RecyclerView.VERTICAL, 20))
         }
     }
 

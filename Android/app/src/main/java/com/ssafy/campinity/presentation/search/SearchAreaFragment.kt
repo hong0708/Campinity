@@ -1,19 +1,19 @@
 package com.ssafy.campinity.presentation.search
 
+import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.LayoutManager
-import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
+import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.databinding.FragmentSearchAreaBinding
 import com.ssafy.campinity.domain.entity.search.AreaGugun
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlin.math.min
 
 @AndroidEntryPoint
 class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.fragment_search_area) {
@@ -24,15 +24,15 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     private var isAllSelected = false
 
     val seoul = listOf(
-        AreaGugun("강릉시1", 16), AreaGugun("고성군1", 16), AreaGugun("동해시1", 16)
+        AreaGugun("강릉시1", 16), AreaGugun("고성군11", 16), AreaGugun("동해시111", 16)
     )
 
     val incheon = listOf(
-        AreaGugun("강릉시2", 16), AreaGugun("고성군2", 16), AreaGugun("동해시2", 16)
+        AreaGugun("강릉시2", 16), AreaGugun("고성군22", 16), AreaGugun("동해시222", 16)
     )
 
     val gyeonggi = listOf(
-        AreaGugun("강릉시3", 16), AreaGugun("고성군3", 16), AreaGugun("동해시3", 16)
+        AreaGugun("강릉시3", 16), AreaGugun("고성군33", 16), AreaGugun("동해시333", 16)
     )
 
     override fun initView() {
@@ -63,23 +63,29 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             requireContext().getString(R.string.content_campsite_count, 0)
 
         binding.rvGugun.apply {
-            val span = (getDeviceWidthPx(requireContext()).dp(requireContext()) - 131) / 110
+            val layoutWidth = getDeviceWidthPx(requireContext()).dp(requireContext()) - 131
+//            val span = layoutWidth / 110
+//            val offsetHorizontal = min((layoutWidth - 110 * span) / (span - 1), 10)
+//            val btnWidth = (layoutWidth - offsetHorizontal * (span - 1)) / span
+            val span = 2
+            val offsetHorizontal = min((layoutWidth - 110 * span) / (span - 1), 10)
+            val btnWidth = (layoutWidth - offsetHorizontal * (span - 1)) / span
+
+            Log.d("", "layoutWidth: $layoutWidth")
+            Log.d("SearchAreaFragment", "offsetHorizontal: $offsetHorizontal")
+            Log.d("SearchAreaFragment", "btnWidth: $btnWidth")
 
             layoutManager = GridLayoutManager(
                 context, span, GridLayoutManager.VERTICAL, false
             )
 
             searchAreaGuGunAdapter = SearchAreaGuGunAdapter(
-                requireContext(), listOf()
+                requireContext(), listOf(), btnWidth
             ) { method: String, flag: Boolean -> toggleBtn(method, flag) }
 
             adapter = searchAreaGuGunAdapter
 
-            addItemDecoration(
-                RecyclerviewItemDecoration(
-                    context, LayoutManager.GRID, span, RecyclerView.VERTICAL, 6
-                )
-            )
+            addItemDecoration(GridItemDecoration(context, span, 6, offsetHorizontal.dp(requireContext())))
         }
     }
 

@@ -3,8 +3,7 @@ package com.ssafy.campinity.presentation.search
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.LayoutManager
-import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
+import com.ssafy.campinity.common.util.LinearItemDecoration
 import com.ssafy.campinity.databinding.FragmentSearchPostboxBinding
 import com.ssafy.campinity.domain.entity.search.Letter
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -34,13 +33,7 @@ class SearchPostboxFragment :
             )
 
             addItemDecoration(
-                RecyclerviewItemDecoration(
-                    requireContext(),
-                    LayoutManager.LINEAR,
-                    0,
-                    RecyclerView.VERTICAL,
-                    15
-                )
+                LinearItemDecoration(requireContext(), RecyclerView.VERTICAL, 15)
             )
         }
     }
