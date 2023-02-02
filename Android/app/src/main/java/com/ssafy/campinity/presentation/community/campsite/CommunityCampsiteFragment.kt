@@ -1,7 +1,13 @@
 package com.ssafy.campinity.presentation.community.campsite
 
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
+import android.content.Context
+import android.location.Location
+import android.location.LocationManager
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,6 +18,8 @@ import com.ssafy.campinity.common.util.CustomDialogInterface
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import net.daum.mf.map.api.MapPOIItem
+import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
@@ -27,6 +35,7 @@ class CommunityCampsiteFragment :
         CommunityCampsiteTitleListAdapter(this::getCampsite)
     }
     private var isFabOpen = false
+    private var isTracking = false
 
     override fun initView() {
         initListener()
@@ -37,6 +46,9 @@ class CommunityCampsiteFragment :
         super.onResume()
         mapView = MapView(activity)
         binding.clCommunityMap.addView(mapView)
+
+        val listener = MapViewEventListener()
+        mapView.setMapViewEventListener(listener)
     }
 
     override fun onPause() {
@@ -49,55 +61,109 @@ class CommunityCampsiteFragment :
     }
 
     private fun initListener() {
-        binding.fabHelp.setOnClickListener {
-        }
-
-        binding.fabGetHelp.setOnClickListener {
-            CustomDialog(
-                requireContext(),
-                this,
-                R.layout.dialog_write_event_note,
-                R.id.iv_cancel_help_dialog,
-                R.id.btn_make_note_help
-            ).show()
-        }
-
-        binding.fabReview.setOnClickListener {
-            CustomDialog(
-                requireContext(),
-                this,
-                R.layout.dialog_write_review_note,
-                R.id.iv_close_write_review_note_dialog,
-                R.id.tv_make_review
-            ).show()
-        }
-
-        binding.fabFreeNote.setOnClickListener {
-            CustomDialog(
-                requireContext(),
-                this,
-                R.layout.dialog_write_free_note,
-                R.id.iv_close_write_review_note_dialog,
-                R.id.tv_make_review
-            ).show()
-        }
-
-        // SlidingUpPanel
-        val slidePanel = binding.slCommunityFrame
-        // 이벤트 리스너 추가
-        slidePanel.addPanelSlideListener(PanelEventListener())
-
-        // 패널 열고 닫기
-        binding.clCampsiteCondition.setOnClickListener {
-            val state = slidePanel.panelState
-            // 닫힌 상태일 경우 열기
-            if (state == SlidingUpPanelLayout.PanelState.COLLAPSED) {
-                slidePanel.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
-            }
-        }
-
         binding.apply {
-            viewList = listOf(tvFabHelp, tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
+
+            fabUserLocation.setOnClickListener {
+                if (!isTracking) {
+                    Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
+                    mapView.currentLocationTrackingMode =
+                            // TrackingModeOnWithoutHeading -> 이동하면 지도 뷰가 따라옴
+                            // TrackingModeOnWithoutHeadingWithoutMapMoving -> 내 위치는 움직이지만 지도 뷰는 멈춤
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
+
+                    // 내 위치를 나타내는 뷰 변경경
+                    /*mapView.setCustomCurrentLocationMarkerImage(
+                         R.drawable.ic_community_campsite_marker,
+                         MapPOIItem.ImageOffset,
+                         anchorPointOffset
+                     )*/
+
+                } else {
+                    Toast.makeText(requireContext(), "위치 추적을 멈춥니다.", Toast.LENGTH_SHORT).show()
+                    mapView.currentLocationTrackingMode =
+                            // TrackingModeOff -> 지도 뷰에서 내가 안움직임 아마 안쓸듯
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                }
+                isTracking = !isTracking
+
+                Log.d("testlistener", "initListener: ${mapView.zoomLevel}")
+            }
+            tvSearchCurrentLocation.setOnClickListener {
+                val center = mapView.mapCenterPoint.mapPointGeoCoord
+                val bottomLeft = mapView.mapPointBounds.bottomLeft.mapPointGeoCoord
+                val topRight = mapView.mapPointBounds.topRight.mapPointGeoCoord
+
+                mapView.mapCenterPoint.mapPointScreenLocation
+                val level = mapView.zoomLevel
+                Log.d(
+                    "map data",
+                    "initListener: 중심점 : x = ${center.latitude} , y = ${center.longitude} , 줌레벨 : $level"
+                )
+                Log.d(
+                    "map data",
+                    "바운드 출력: bottomLeft.longitude ${bottomLeft.longitude} bottomLeft.latitude ${bottomLeft.latitude}"
+                )
+                Log.d(
+                    "map data",
+                    "바운드 출력: topRight.longitude ${topRight.longitude} topRight.latitude ${topRight.latitude}"
+                )
+
+                initMapView()
+            }
+
+
+
+
+
+            fabHelp.setOnClickListener {
+            }
+
+            fabGetHelp.setOnClickListener {
+                CustomDialog(
+                    requireContext(),
+                    this@CommunityCampsiteFragment,
+                    R.layout.dialog_write_event_note,
+                    R.id.iv_cancel_help_dialog,
+                    R.id.btn_make_note_help
+                ).show()
+            }
+
+            fabReview.setOnClickListener {
+                CustomDialog(
+                    requireContext(),
+                    this@CommunityCampsiteFragment,
+                    R.layout.dialog_write_review_note,
+                    R.id.iv_close_write_review_note_dialog,
+                    R.id.tv_make_review
+                ).show()
+            }
+
+            fabFreeNote.setOnClickListener {
+                CustomDialog(
+                    requireContext(),
+                    this@CommunityCampsiteFragment,
+                    R.layout.dialog_write_free_note,
+                    R.id.iv_close_write_review_note_dialog,
+                    R.id.tv_make_review
+                ).show()
+            }
+
+            // SlidingUpPanel
+            val slidePanel = binding.slCommunityFrame
+            // 이벤트 리스너 추가
+            slidePanel.addPanelSlideListener(PanelEventListener())
+
+            // 패널 열고 닫기
+            clCampsiteCondition.setOnClickListener {
+                val state = slidePanel.panelState
+                // 닫힌 상태일 경우 열기
+                if (state == SlidingUpPanelLayout.PanelState.COLLAPSED) {
+                    slidePanel.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
+                }
+            }
+
+            viewList =
+                listOf(tvFabHelp, tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
             fabList = listOf(clFabHelp, clFabGetHelp, clFabReview, clFabFreeNote)
 
             clMapBackSite.setOnClickListener {
@@ -146,7 +212,7 @@ class CommunityCampsiteFragment :
         ObjectAnimator.ofFloat(clFab, "translationY", -moveValue).apply { start() }
     }
 
-    private fun initRecyclerView(){
+    private fun initRecyclerView() {
         binding.rvCampsiteList.apply {
             adapter = communityCampsiteTitleListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
@@ -168,6 +234,53 @@ class CommunityCampsiteFragment :
             previousState: SlidingUpPanelLayout.PanelState?,
             newState: SlidingUpPanelLayout.PanelState?
         ) {
+        }
+    }
+
+    /*// 위치추적 시작
+    private fun startTracking() {
+        mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
+    }
+
+    // 위치추적 중지
+    private fun stopTracking() {
+        mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
+    }*/
+
+    @SuppressLint("MissingPermission")
+    private fun initMapView() {
+        // 마커 찍는 부분
+        val lm: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        //위도 , 경도
+        val uLatitude = userNowLocation?.latitude
+        val uLongitude = userNowLocation?.longitude
+        val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
+
+        // 현 위치에 마커 찍기
+        val marker = MapPOIItem()
+        marker.itemName = "현 위치"
+        marker.mapPoint = uNowPosition
+        marker.markerType = MapPOIItem.MarkerType.CustomImage
+        marker.customImageResourceId = R.drawable.ic_community_campsite_marker
+        marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+        mapView.addPOIItem(marker)
+    }
+
+    // 마커를 그리는 함수
+    private fun markers(markerLocationList: List<Location>) {
+        for (i in markerLocationList) {
+            val markerPosition = MapPoint.mapPointWithGeoCoord(i.latitude, i.longitude)
+            val marker = MapPOIItem()
+            marker.itemName = "현 위치"
+            marker.mapPoint = markerPosition
+            marker.markerType = MapPOIItem.MarkerType.CustomImage
+            marker.customImageResourceId = R.drawable.ic_community_campsite_marker
+            marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+            mapView.addPOIItem(marker)
         }
     }
 }

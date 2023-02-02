@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.Permission.REQUEST_READ_STORAGE_PERMISSION
 import com.ssafy.campinity.databinding.FragmentJoinBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -110,9 +111,5 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
         val result = c?.getString(index!!)
         c?.close()
         return result!!
-    }
-
-    companion object {
-        const val REQUEST_READ_STORAGE_PERMISSION = 1
     }
 }
