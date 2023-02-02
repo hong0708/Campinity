@@ -123,13 +123,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
     }
 
-    private fun setPage(){
+    private fun setPage() {
         if (currentPage == 3) currentPage = 0
         binding.vpBannerHome.setCurrentItem(currentPage, true)
         currentPage += 1
     }
 
-    inner class PagerRunnable:Runnable{
+    inner class PagerRunnable:Runnable {
         override fun run() {
             while(true){
                 try {
