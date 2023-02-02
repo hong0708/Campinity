@@ -5,12 +5,14 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.databinding.FragmentSearchAreaBinding
 import com.ssafy.campinity.domain.entity.search.AreaGugun
+import com.ssafy.campinity.domain.entity.search.AreaSido
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.min
@@ -21,19 +23,8 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     private lateinit var searchAreaSiDoAdapter: SearchAreaSiDoAdapter
     private lateinit var searchAreaGuGunAdapter: SearchAreaGuGunAdapter
     private val searchViewModel by viewModels<SearchViewModel>()
+    private lateinit var areaList: List<AreaSido>
     private var isAllSelected = false
-
-    val seoul = listOf(
-        AreaGugun("강릉시1", 16), AreaGugun("고성군11", 16), AreaGugun("동해시111", 16)
-    )
-
-    val incheon = listOf(
-        AreaGugun("강릉시2", 16), AreaGugun("고성군22", 16), AreaGugun("동해시222", 16)
-    )
-
-    val gyeonggi = listOf(
-        AreaGugun("강릉시3", 16), AreaGugun("고성군33", 16), AreaGugun("동해시333", 16)
-    )
 
     override fun initView() {
         binding.viewModel = searchViewModel
@@ -41,6 +32,10 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
         initGuGun()
         initListener()
         observeState()
+
+        ApplicationClass.preferences.areaList = ""
+        val a = ApplicationClass.preferences.areaList
+        Log.d("areaList", "areaList: $a")
     }
 
     private fun initSiDo() {
@@ -67,10 +62,6 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             val span = layoutWidth / 110
             val offsetHorizontal = min((layoutWidth - 110 * span) / (span - 1), 10)
             val btnWidth = (layoutWidth - offsetHorizontal * (span - 1)) / span
-
-            Log.d("", "layoutWidth: $layoutWidth")
-            Log.d("SearchAreaFragment", "offsetHorizontal: $offsetHorizontal")
-            Log.d("SearchAreaFragment", "btnWidth: $btnWidth")
 
             layoutManager = GridLayoutManager(
                 context, span, GridLayoutManager.VERTICAL, false
@@ -120,12 +111,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
 
         searchViewModel.sido.observe(viewLifecycleOwner) {
-            val list: List<AreaGugun> = when (searchViewModel.sido.value) {
-                "서울시" -> seoul
-                "인천시" -> incheon
-                "경기도" -> gyeonggi
-                else -> listOf()
-            }
+            val list: List<AreaGugun> = listOf()
 
             searchAreaGuGunAdapter.setData(list)
         }

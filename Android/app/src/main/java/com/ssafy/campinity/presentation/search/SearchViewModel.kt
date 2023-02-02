@@ -42,7 +42,6 @@ class SearchViewModel @Inject constructor(
         when (val value = getCampsitesByAreaUseCase(sido, gugun)) {
             is Resource.Success<List<CampsiteBriefInfo>> -> {
                 _campsiteListData.value = value.data
-                Log.d("getCampsitesByArea", "getCampsitesByArea: ${value.data}")
             }
             is Resource.Error -> {
                 Log.e("getCampsitesByArea", "getCampsitesByArea: ${value.errorMessage}")
