@@ -21,4 +21,6 @@ public interface CampsiteRepository extends JpaRepository<Campsite, Integer> {
 
     @Query(value = "SELECT * FROM campsite AS c INNER JOIN campsite_scrap ON campsite_scrap.member_id = :memberId AND campsite_scrap.campsite_id = c.id", nativeQuery = true)
     List<Campsite> findCampsiteScrapList(@Param("memberId") int memberId);
+
+    List<Campsite> findByCampNameContains(String keyword);
 }

@@ -11,6 +11,4 @@ public class LocationInfoDTO {
     double topLeftLng;
     double bottomRightLat;
     double bottomRightLng;
-    String doName;
-    String siggName;
 }
