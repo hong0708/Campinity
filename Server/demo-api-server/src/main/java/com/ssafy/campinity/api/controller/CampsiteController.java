@@ -1,7 +1,7 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
-import com.ssafy.campinity.api.dto.res.CampsiteLocationInfoDTO;
+import com.ssafy.campinity.api.dto.res.CampsiteMetaDataDTO;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.service.CampsiteService;
@@ -12,9 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,29 +25,27 @@ public class CampsiteController {
     private final CampsiteService campsiteService;
 
     @GetMapping("/scope")
-    public ResponseEntity<List<CampsiteLocationInfoDTO>> getCampsiteByScope(
+    public ResponseEntity<List<CampsiteMetaDataDTO>> getCampsiteByScope(
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
-            @RequestParam double bottomRightLng,
-            @RequestParam String doName,
-            @RequestParam String siggName) {
+            @RequestParam double bottomRightLng) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
                 .topLeftLat(topLeftLat)
                 .topLeftLng(topLeftLng)
                 .bottomRightLat(bottomRightLat)
                 .bottomRightLng(bottomRightLng)
-                .doName(doName)
-                .siggName(siggName)
                 .build();
 
         List<Campsite> result = campsiteService.getCampsitesByLatLng(locationInfoDTO);
 
-        return new ResponseEntity<>(result.stream().map(a -> CampsiteLocationInfoDTO.builder()
+        return new ResponseEntity<>(result.stream().map(a -> CampsiteMetaDataDTO.builder()
                 .campsiteId(a.getUuid())
                 .lat(a.getLatitude())
-                .lng(a.getLongitude()).build()).collect(Collectors.toList()), HttpStatus.OK);
+                .lng(a.getLongitude())
+                .campsiteName(a.getCampName())
+                .build()).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @GetMapping("/conditions")
