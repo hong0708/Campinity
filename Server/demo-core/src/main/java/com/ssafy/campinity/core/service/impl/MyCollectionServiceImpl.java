@@ -54,13 +54,13 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
     @Transactional
     @Override
-    public MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, UUID memberUuid) throws FileNotFoundException {
+    public MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, int memberId) throws FileNotFoundException {
 
         MyCollection myCollection = myCollectionRepository.findByUuidAndExpiredIsFalse(UUID.fromString(collectionUuid))
                 .orElseThrow(IllegalArgumentException::new);
         String imagePath = myCollection.getImagePath();
 
-        if (!myCollection.getMember().getUuid().equals(memberUuid)) {
+        if (myCollection.getMember().getId() != memberId) {
             throw new BadRequestException("수정 권한이 없습니다.");
         }
 
@@ -112,11 +112,11 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
     @Transactional
     @Override
-    public void deleteMyCollection(String collectionUuid, UUID memberUuid) throws FileNotFoundException {
+    public void deleteMyCollection(String collectionUuid, int memberId) throws FileNotFoundException {
         MyCollection myCollection = myCollectionRepository.findByUuidAndExpiredIsFalse(UUID.fromString(collectionUuid))
                 .orElseThrow(IllegalArgumentException::new);
 
-        if (!myCollection.getMember().getUuid().equals(memberUuid)) {
+        if (myCollection.getMember().getId() != memberId) {
             throw new BadRequestException("삭제 권한이 없습니다.");
         }
 

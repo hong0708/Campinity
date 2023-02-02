@@ -32,6 +32,7 @@ public class AnswerServiceImpl implements AnswerService {
 
         Answer answer = Answer.builder().uuid(UUID.randomUUID()).question(question).member(member).content(answerReqDTO.getContent()).build();
 
+//        question.addAnswer(answer);
         Answer savedAnswer = answerRepository.save(answer);
 
         return AnswerResDTO.builder().answer(savedAnswer).build();

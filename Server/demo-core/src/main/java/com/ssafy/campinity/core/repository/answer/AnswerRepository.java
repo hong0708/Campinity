@@ -5,10 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AnswerRepository extends JpaRepository<Answer, Integer> {
 
     List<Answer> findAllByQuestion_idAndExpiredIsFalse(int questionId);
+    Optional<Answer> findAnswerByQuestion_idAndExpiredIsFalse(int questionId);
 
     @Transactional
     void deleteByQuestion_id(int questionId);

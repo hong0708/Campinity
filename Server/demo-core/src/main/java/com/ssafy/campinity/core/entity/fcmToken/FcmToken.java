@@ -6,6 +6,7 @@ import com.ssafy.campinity.core.entity.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -27,6 +28,7 @@ public class FcmToken extends BaseEntity {
     private Integer id;
 
     @OneToOne(mappedBy = "fcmToken", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ToString.Exclude
     private Member member;
 
     private String fcmToken;
@@ -35,6 +37,7 @@ public class FcmToken extends BaseEntity {
 
     @Builder
     public FcmToken(Member member, String fcmToken, String campsiteUuid) {
+        member.setFcmToken(this);
         this.member = member;
         this.fcmToken = fcmToken;
         this.campsiteUuid = campsiteUuid;
@@ -47,7 +50,9 @@ public class FcmToken extends BaseEntity {
     public void subscribeCamp(String campsiteUuid){
        this.campsiteUuid = campsiteUuid;
     }
+
     public void unsubscribeCamp(){
        this.campsiteUuid = "";
     }
+
 }

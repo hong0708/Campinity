@@ -18,7 +18,7 @@ public interface MessageService {
 
     Message getMessage(String messageId);
 
-    void deleteMessage(String messageId, UUID memberUuid) throws FileNotFoundException;
+    void deleteMessage(String messageId, int memberId) throws FileNotFoundException;
 
     boolean likeMessage(int memberId, String messageUuid);
 }

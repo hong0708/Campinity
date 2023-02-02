@@ -106,7 +106,7 @@ public class MessageController {
             @ApiParam(value = "쪽지 식별 아이디", required = true, type = "String")
             @PathVariable String messageId) throws FileNotFoundException {
 
-        messageService.deleteMessage(messageId, memberDetails.getMember().getUuid());
+        messageService.deleteMessage(messageId, memberDetails.getMember().getId());
 
         return ResponseEntity
                 .status(HttpStatus.OK)
