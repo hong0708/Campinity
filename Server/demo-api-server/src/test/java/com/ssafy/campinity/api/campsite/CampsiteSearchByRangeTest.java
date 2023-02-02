@@ -7,10 +7,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 import javax.transaction.Transactional;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest(classes = CampinityApplication.class)
 @Transactional
 public class CampsiteSearchByRangeTest {
@@ -21,6 +22,10 @@ public class CampsiteSearchByRangeTest {
     @Test
     @DisplayName("campsite range retrieve test")
     public void campsiteRangeRetrieveTest() {
+
+        int beforeNumCampsite = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(
+                36.1088718, 36.1097202, 128.4187025,128.4204129).size();
+
         Campsite campsite1 = Campsite.builder()
                 .latitude(36.1088718)
                 .longitude(128.4187025)
@@ -67,8 +72,10 @@ public class CampsiteSearchByRangeTest {
         campsiteRepository.save(campsite4);
         campsiteRepository.save(campsite5);
 
-        assertThat(campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(
-                        36.1088718, 36.1097202, 128.4187025,128.4204129)
-                .size(), is(equalTo(5)));
+        int afterNumCampsite = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(
+                        36.1088718, 36.1097202, 128.4187025,128.4204129).size();
+
+
+        assertEquals(beforeNumCampsite + 5, afterNumCampsite);
     }
 }
