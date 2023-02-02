@@ -17,7 +17,8 @@ public class CurationImage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinColumn(name = "curation_id")
     private Curation curation;
 
     private String imagePath;
