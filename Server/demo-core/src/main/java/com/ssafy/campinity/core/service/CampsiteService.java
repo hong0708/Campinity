@@ -25,7 +25,7 @@ public interface CampsiteService {
 
     List<CampsiteMetaResDTO> getCampsiteScrapList(int memberId);
 
-    List<CampsiteSearchResDTO> getCampsiteByCampName(String keyword);
+    List<Campsite> getCampsiteByCampName(String keyword);
 
     List<CampsiteRankingResDTO> getHottestCampsite() throws JsonProcessingException;
 

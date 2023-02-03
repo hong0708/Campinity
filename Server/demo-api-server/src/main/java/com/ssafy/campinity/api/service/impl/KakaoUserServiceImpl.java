@@ -22,8 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-
-import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -40,13 +40,13 @@ public class KakaoUserServiceImpl implements KakaoUserService {
         SocialUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
 
         // 3. 카카오ID로 회원가입 처리
-        Member kakaoUser = registerKakaoUserIfNeed(kakaoUserInfo);
+        Map<String, Object> resMap = registerKakaoUserIfNeed(kakaoUserInfo);
 
         // 4. 강제 로그인 처리
-        Authentication authentication = forceLogin(kakaoUser);
+        Authentication authentication = forceLogin((Member)resMap.get("member"));
 
         // 5. response Header에 JWT 토큰 추가
-        TokenResponse tokenResponse = kakaoUsersAuthorizationInput(authentication);
+        TokenResponse tokenResponse = kakaoUsersAuthorizationInput(authentication, (Boolean)resMap.get("isExist"));
         return tokenResponse;
     }
 
@@ -108,22 +108,27 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     }
 
     // 3. 카카오ID로 회원가입 처리
-    private Member registerKakaoUserIfNeed (SocialUserInfoDto kakaoUserInfo) {
+    private Map<String, Object> registerKakaoUserIfNeed (SocialUserInfoDto kakaoUserInfo) {
         // DB 에 중복된 email이 있는지 확인
+        Map<String, Object> resMap = new HashMap<>();
+        Boolean isExist = true;
+
         String kakaoEmail = kakaoUserInfo.getEmail();
-        Member kakaoUser = memberRepository.findMemberByEmail(kakaoEmail)
+        Member member = memberRepository.findMemberByEmail(kakaoEmail)
                 .orElse(null);
 
-        if (kakaoUser == null) {
-            // 회원가입
-            // password: random UUID
-            //String password = UUID.randomUUID().toString();
-            kakaoUser = Member.builder()
+        if (member == null) {
+            isExist = false;
+            member = Member.builder()
                     .email(kakaoEmail)
                     .uuid(UUID.randomUUID()).build();
-            memberRepository.save(kakaoUser);
+            memberRepository.save(member);
         }
-        return kakaoUser;
+
+        resMap.put("member", member);
+        resMap.put("isExist", isExist);
+
+        return resMap;
     }
 
     // 4. 강제 로그인 처리
@@ -135,10 +140,10 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     }
 
     // 5. response Header에 JWT 토큰 추가
-    private TokenResponse kakaoUsersAuthorizationInput(Authentication authentication) throws JsonProcessingException {
+    private TokenResponse kakaoUsersAuthorizationInput(Authentication authentication, Boolean isExist) throws JsonProcessingException {
         // response header에 token 추가
         UserDetailsImpl userDetailsImpl = ((UserDetailsImpl) authentication.getPrincipal());
-        TokenResponse tokenResponse = jwtProvider.createTokensByLogin(memberRepository.findMemberByEmail(userDetailsImpl.email).get());
+        TokenResponse tokenResponse = jwtProvider.createTokensByLogin(memberRepository.findMemberByEmail(userDetailsImpl.email).get(), isExist);
         return tokenResponse;
     }
 }

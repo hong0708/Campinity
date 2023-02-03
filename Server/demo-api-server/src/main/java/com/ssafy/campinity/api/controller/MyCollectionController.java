@@ -72,7 +72,7 @@ public class MyCollectionController {
             @ApiResponse(code = 400, message = "입력 데이터 부적합(파라미터 이미지 파일 확장자, 타입 및 입력값 부적절 시 응답"),
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
-    @ApiOperation(value = "컬렉션 생성 및 컬렉션 객체 반환하는 API")
+    @ApiOperation(value = "컬렉션 수정 및 컬렉션 객체 반환하는 API")
     @PostMapping(value = "/{collectionId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<MyCollectionResDTO> editMyCollection(
             @AuthenticationPrincipal MemberDetails memberDetails,
