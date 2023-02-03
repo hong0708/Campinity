@@ -33,4 +33,13 @@ public class CampsiteMetaResDTO {
         this.sigunguName = campsite.getSigunguName();
         this.isScraped = isScraped;
     }
+
+    public CampsiteMetaResDTO(String campsiteId, String campName, String doName, String sigunguName, String firstImageUrl, Boolean isScraped) {
+        this.campsiteId = campsiteId;
+        this.campName = campName;
+        this.doName = doName;
+        this.sigunguName = sigunguName;
+        this.firstImageUrl = firstImageUrl;
+        this.isScraped = isScraped;
+    }
 }

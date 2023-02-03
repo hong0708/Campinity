@@ -8,20 +8,19 @@ import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.message.MessageRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
 public class CampsiteCustomRepository {
 
-
-    private final EntityManager em;
+    private EntityManager em;
     private final MemberRepository memberRepository;
     private final CampsiteScrapRepository campsiteScrapRepository;
     private final MessageRepository messageRepository;
@@ -32,7 +31,6 @@ public class CampsiteCustomRepository {
                                                                String[] fclties, String[] amenities, String[] industries,
                                                                String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
-
         String query = "Select c From Campsite c ";
 
         // join절

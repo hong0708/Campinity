@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import org.springframework.stereotype.Service;
@@ -25,4 +26,8 @@ public interface CampsiteService {
     List<CampsiteMetaResDTO> getCampsiteScrapList(int memberId);
 
     List<CampsiteSearchResDTO> getCampsiteByCampName(String keyword);
+
+    List<CampsiteRankingResDTO> getHottestCampsite() throws JsonProcessingException;
+
+    List<CampsiteRankingResDTO> getHighestCampsite() throws JsonProcessingException;
 }

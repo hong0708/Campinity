@@ -1,6 +1,9 @@
 package com.ssafy.campinity.core.service.impl;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
@@ -12,12 +15,14 @@ import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
 import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.message.MessageRepository;
+import com.ssafy.campinity.core.repository.redis.RedisDao;
 import com.ssafy.campinity.core.repository.review.ReviewRepository;
 import com.ssafy.campinity.core.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +40,8 @@ public class CampsiteServiceImpl implements CampsiteService {
     private final ReviewRepository reviewRepository;
     private final CampsiteImageRepository campsiteImageRepository;
     private final MessageRepository messageRepository;
+    private final RedisDao redisDao;
+    private final ObjectMapper objectMapper;
 
     @Override
     @Transactional
@@ -162,5 +169,17 @@ public class CampsiteServiceImpl implements CampsiteService {
         }).collect(Collectors.toList());
 
         return campsites;
+    }
+
+    @Override
+    public List<CampsiteRankingResDTO> getHottestCampsite() throws JsonProcessingException {
+        String highestCampsite = redisDao.getValues("hottestCampsite");
+        return objectMapper.readValue(highestCampsite, new TypeReference<List<CampsiteRankingResDTO>>(){});
+    }
+
+    @Override
+    public List<CampsiteRankingResDTO> getHighestCampsite() throws JsonProcessingException {
+        String highestCampsite = redisDao.getValues("highestCampsite");
+        return objectMapper.readValue(highestCampsite, new TypeReference<List<CampsiteRankingResDTO>>(){});
     }
 }
