@@ -11,7 +11,6 @@ class CommunityRemoteDataSourceImpl @Inject constructor(
             : List<CommunityCampsiteBriefInfoResponse> =
         communityApiService.getCommunityCampsiteBriefInfoByCampName(campsiteName)
 
-
     override suspend fun getCampsiteBriefInfoByUserLocation(
         bottomRightLat: Double,
         bottomRightLng: Double,

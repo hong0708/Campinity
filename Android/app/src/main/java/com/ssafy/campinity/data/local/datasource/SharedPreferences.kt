@@ -6,6 +6,8 @@ class SharedPreferences(context: Context) {
 
     private val prefs = context.getSharedPreferences("prefs", Context.MODE_PRIVATE)
 
+    /*private val userC*/
+
     var accessToken: String?
         get() = prefs.getString("accessToken", null)
         set(value) = prefs.edit().putString("accessToken", value).apply()

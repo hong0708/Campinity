@@ -8,7 +8,7 @@ import retrofit2.http.Query
 interface CommunityApiService {
 
     @GET("/api/v1/campsites/search")
-    suspend fun getCommunityCampsiteBriefInfoByCampName(@Query("keyword") campName: String)
+    suspend fun getCommunityCampsiteBriefInfoByCampName(@Query("keyword") campsiteName: String)
             : List<CommunityCampsiteBriefInfoResponse>
 
     @GET("/api/v1/campsites/scope/meta")

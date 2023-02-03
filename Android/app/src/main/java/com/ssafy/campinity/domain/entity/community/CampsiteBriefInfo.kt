@@ -1,7 +1,7 @@
 package com.ssafy.campinity.domain.entity.community
 
 data class CampsiteBriefInfo(
-    val address: String,
-    val campName: String,
-    val campsiteId: String
+    val campsiteId: String,
+    val campsiteName: String,
+    val address: String
 )

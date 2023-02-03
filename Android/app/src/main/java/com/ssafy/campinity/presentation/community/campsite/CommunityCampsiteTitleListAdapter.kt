@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.community.campsite
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -42,7 +43,7 @@ class CommunityCampsiteTitleListAdapter(
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CampsiteBriefInfo) {
             binding.apply {
-                tvCampsiteTitle.text = data.campName
+                tvCampsiteTitle.text = data.campsiteName
                 tvCampsiteAddress.text = data.address
                 root.setOnClickListener {
                     onCampsiteTitleClicked(data.campsiteId)
@@ -51,6 +52,7 @@ class CommunityCampsiteTitleListAdapter(
         }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setCampsiteBriefInfo(campsiteBriefInfo: List<CampsiteBriefInfo>) {
         this.campsiteList = campsiteBriefInfo
         notifyDataSetChanged()

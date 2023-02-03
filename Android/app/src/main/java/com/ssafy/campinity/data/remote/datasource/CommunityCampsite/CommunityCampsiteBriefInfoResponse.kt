@@ -5,18 +5,18 @@ import com.ssafy.campinity.data.remote.datasource.base.DataToDomainMapper
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 
 data class CommunityCampsiteBriefInfoResponse(
-    @SerializedName("address")
-    val address: String,
-    @SerializedName("campName")
-    val campName: String,
     @SerializedName("campsiteId")
-    val campsiteId: String
+    val campsiteId: String,
+    @SerializedName("campsiteName")
+    val campsiteName: String,
+    @SerializedName("address")
+    val address: String
 ) : DataToDomainMapper<CampsiteBriefInfo> {
     override fun toDomainModel(): CampsiteBriefInfo {
         return CampsiteBriefInfo(
-            address,
-            campName,
-            campsiteId
+            campsiteId,
+            campsiteName,
+            address
         )
     }
 }

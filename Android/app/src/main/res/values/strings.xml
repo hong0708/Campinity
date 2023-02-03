@@ -116,7 +116,7 @@
     <string name="image_floatingactionbutton_free">image_floatingactionbutton_free</string>
     <string name="image_floatingactionbutton_main">image_floatingactionbutton_main</string>
     <string name="title_campsite_condition">캠핑장 설정</string>
-    <string name="content_select_campsite_condition">편집</string>
+    <string name="content_select_campsite_condition">검색</string>
     <string name="content_search_campsite">현재 위치로 검색</string>
     <string name="image_aim">image_aim</string>
     <string name="image_search_now_location">image_search_now_location</string>

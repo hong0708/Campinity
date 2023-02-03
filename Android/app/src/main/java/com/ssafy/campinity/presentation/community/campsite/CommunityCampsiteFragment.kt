@@ -122,20 +122,11 @@ class CommunityCampsiteFragment :
                     mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
                     mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
                 )
-                Log.d(
-                    "map data", "initListener: " +
-                            "${mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude}  " +
-                            "${mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude}  " +
-                            "${mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude}   " +
-                            "${mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude}"
-                )
             }
 
 
             tvSearchCampsiteByName.setOnClickListener {
-                if (etInputCampsiteName.text.toString() != "") {
-                    searchCampsiteTitle(etInputCampsiteName.text.toString())
-                }
+                searchCampsiteTitle(etInputCampsiteName.text.toString())
             }
 
             tvSearchByUserLocation.setOnClickListener {

@@ -42,7 +42,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_bold"
                 android:maxLines="1"
-                android:text="@{campsiteName.campName}"
+                android:text="@{campsiteName.campsiteName}"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
