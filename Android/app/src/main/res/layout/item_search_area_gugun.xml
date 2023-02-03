@@ -6,7 +6,7 @@
 
         <variable
             name="item"
-            type="com.ssafy.campinity.domain.entity.search.AreaGugun" />
+            type="com.ssafy.campinity.domain.entity.search.GugunItem" />
     </data>
 
     <LinearLayout

@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.ItemSearchAreaGugunBinding
-import com.ssafy.campinity.domain.entity.search.AreaGugun
+import com.ssafy.campinity.domain.entity.search.GugunItem
 
 class SearchAreaGuGunAdapter(
     private val context: Context,
-    private var gugun: List<AreaGugun>,
+    private var gugun: List<GugunItem>,
     private val btnWidth: Int,
     private val toggleBtn: (String, Boolean) -> Unit
 ) : RecyclerView.Adapter<SearchAreaGuGunAdapter.ViewHolder>() {
@@ -52,7 +52,7 @@ class SearchAreaGuGunAdapter(
 
     override fun getItemCount(): Int = gugun.size
 
-    fun setData(gugun: List<AreaGugun>) {
+    fun setData(gugun: List<GugunItem>) {
         this.gugun = gugun
         notifyDataSetChanged()
     }
@@ -78,7 +78,7 @@ class SearchAreaGuGunAdapter(
     inner class ViewHolder(private val binding: ItemSearchAreaGugunBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: AreaGugun) {
+        fun bind(item: GugunItem) {
             binding.llGugun.layoutParams =
                 LinearLayout.LayoutParams(btnWidth.px(context), 33.px(context))
 

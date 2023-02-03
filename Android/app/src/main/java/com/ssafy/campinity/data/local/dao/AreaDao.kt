@@ -13,9 +13,9 @@ interface AreaDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(areaEntity: AreaEntity)
 
-    @Query("SELECT sido_name, SUM(campsite_count) campsite_count_all FROM area GROUP BY sido_name")
+    @Query("SELECT sido_name sidoName, SUM(campsite_count) campsiteCountAll FROM area GROUP BY sido_name")
     fun getSidoAll(): List<AreaSidoResponse>
 
-    @Query("SELECT gugun_name, campsite_count FROM area WHERE sido_name = :sidoName")
+    @Query("SELECT gugun_name gugunName, campsite_count campsiteCount FROM area WHERE sido_name = :sidoName")
     fun getGugun(sidoName: String): List<AreaGugunResponse>
 }

@@ -18,5 +18,5 @@ class AreaEntity(
 ) : Parcelable {
     @IgnoredOnParcel
     @PrimaryKey(autoGenerate = true)
-    var uid: Int = 0
+    var rowid: Int = 0
 }

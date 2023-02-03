@@ -1,5 +1,6 @@
 package com.ssafy.campinity.di
 
+import com.ssafy.campinity.data.local.AreaDataBase
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.curation.CurationRemoteDataSourceImpl
@@ -60,4 +61,10 @@ object RepositoryModule {
     fun provideSearchRepository(
         searchRemoteDataSourceImpl: SearchRemoteDataSourceImpl
     ): SearchRepository = SearchRepositoryImpl(searchRemoteDataSourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideAreaRepository(
+        appDataBase: AreaDataBase
+    ): AreaRepository = AreaRepositoryImpl(appDataBase)
 }

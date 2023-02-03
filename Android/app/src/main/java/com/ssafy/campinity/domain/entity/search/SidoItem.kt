@@ -1,7 +1,6 @@
 package com.ssafy.campinity.domain.entity.search
 
-data class AreaSido(
+data class SidoItem(
     var sido: String,
-    var gugunList: List<AreaGugun>,
     var campsiteCountAll: Int
 )
