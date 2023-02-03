@@ -30,5 +30,4 @@ public class BaseEntity implements Auditable {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
 }

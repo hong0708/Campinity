@@ -15,6 +15,7 @@ public interface MessageService {
     Message createMessage(MessageReqDTO messageReqDTO, int memberId);
 
     List<Message> getMessagesByCampsiteUuidBetweenLatLng(String campsiteUuid, LatLngDTO latLngDTO);
+    List<Message> getMyMessages(int memberId);
 
     Message getMessage(String messageId);
 

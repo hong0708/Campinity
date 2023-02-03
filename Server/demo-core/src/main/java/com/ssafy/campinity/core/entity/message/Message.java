@@ -30,9 +30,11 @@ public class Message extends BaseEntity {
     private UUID uuid;
 
     @ManyToOne
+    @ToString.Exclude
     private Campsite campsite;
 
     @ManyToOne
+    @ToString.Exclude
     private Member member;
 
     @Enumerated(value = EnumType.STRING)

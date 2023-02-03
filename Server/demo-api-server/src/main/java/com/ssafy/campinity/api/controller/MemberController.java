@@ -6,6 +6,7 @@ import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
 import com.ssafy.campinity.api.service.KakaoUserService;
 import com.ssafy.campinity.core.dto.MemberResDTO;
+import com.ssafy.campinity.core.entity.fcmToken.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.service.MemberService;
 import com.ssafy.campinity.core.utils.ImageUtil;
@@ -49,6 +50,7 @@ public class MemberController {
     @PostMapping(value = "/sign-up", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<MemberResDTO> signUp(@RequestPart String nickName,
                                                @RequestPart MultipartFile profileImg,
+                                               @RequestPart String fcmToken,
                                                @AuthenticationPrincipal MemberDetails memberDetails) throws IOException, NoSuchElementException {
         Member member = memberService.findMemberByUUID(memberDetails.getMember().getUuid());
 
@@ -56,6 +58,7 @@ public class MemberController {
 
         member.setProfileImage(profileImgPath);
         member.setName(nickName);
+        member.setFcmToken(FcmToken.builder().fcmToken(fcmToken).member(member).build());
         memberService.save(member);
 
         return new ResponseEntity<>(MemberResDTO.builder()

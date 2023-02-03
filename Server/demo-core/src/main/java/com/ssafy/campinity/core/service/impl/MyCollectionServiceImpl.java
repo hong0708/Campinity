@@ -91,6 +91,19 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
     @Transactional
     @Override
+    public List<MyCollection> getLatestMyCollections(int memberId) {
+
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
+                .orElseThrow(IllegalArgumentException::new);
+
+        List<MyCollection> myCollections = myCollectionRepository.findTop5ByMemberAndExpiredIsFalseOrderByUpdatedAtDesc(member);
+
+        if (myCollections.isEmpty()) return new ArrayList<>();
+        return myCollections;
+    }
+
+    @Transactional
+    @Override
     public List<MyCollection> getMyCollections(int memberId) {
 
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)

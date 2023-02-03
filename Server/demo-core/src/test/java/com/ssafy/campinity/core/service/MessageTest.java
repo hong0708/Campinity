@@ -23,7 +23,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.UUID;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import static com.ssafy.campinity.core.entity.message.MessageCategory.ETC;
+import static com.ssafy.campinity.core.entity.message.MessageCategory.REVIEW;
 import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
@@ -208,6 +211,58 @@ public class MessageTest {
 
         List<LikeMessage> likeMessages = likeMessageRepository.findByMember(savedMember);
         assertEquals(0, likeMessages.size());
+    }
+
+    @Test
+    void getMyMessageTest(){
+        Campsite campsite = Campsite.builder()
+                .address("전남 담양군 봉산면 탄금길 9-26")
+                .allowAnimal("불가능")
+                .campName("힐포인트")
+                .contentId(125423)
+                .dayOperation("평일, 주말")
+                .doName("충청남도")
+                .latitude(36.8822361)
+                .longitude(130.8338106)
+                .sigunguName("구미시")
+                .uuid(UUID.randomUUID())
+                .build();
+
+        Campsite savedCampsite = campsiteRepository.save(campsite);
+
+        Member member = Member.builder()
+                .email("test@Tset.com").name("test").profileImage("")
+                .build();
+
+        Member savedMember = memberRepository.save(member);
+
+        MessageReqDTO request = MessageReqDTO.builder()
+                .campsiteId(savedCampsite.getUuid().toString())
+                .messageCategory("자유")
+                .content("testet")
+                .longitude(111.0)
+                .latitude(111.0)
+                .file(implementFile())
+                .build();
+
+        MessageReqDTO request1 = MessageReqDTO.builder()
+                .campsiteId(savedCampsite.getUuid().toString())
+                .messageCategory("리뷰")
+                .content("testet")
+                .longitude(111.0)
+                .latitude(111.0)
+                .file(implementFile())
+                .build();
+
+        messageService.createMessage(request, savedMember.getId());
+
+        messageService.createMessage(request1, savedMember.getId());
+
+        List<Message> myMessages = messageService.getMyMessages(savedMember.getId());
+
+        assertEquals(1, myMessages.stream().filter(message -> message.getMessageCategory().equals(ETC)).collect(Collectors.toList()).size());
+        assertEquals(1, myMessages.stream().filter(message -> message.getMessageCategory().equals(REVIEW)).collect(Collectors.toList()).size());
+
     }
 
 

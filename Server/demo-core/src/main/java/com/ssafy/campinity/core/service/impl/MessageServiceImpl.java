@@ -93,6 +93,12 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
+    public List<Message> getMyMessages(int memberId) {
+        return messageRepository.findAllByMember_IdAndExpiredIsFalse(memberId);
+    };
+
+    @Transactional
+    @Override
     public void deleteMessage(String messageId,int memberId) throws FileNotFoundException {
         Message message = messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageId))
                 .orElseThrow(IllegalArgumentException::new);
