@@ -143,7 +143,7 @@ public class CampsiteServiceImpl implements CampsiteService {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
-        List<Review> reviews = reviewRepository.findByCampsite_idAndExpiredIsFalse(campsite.getId());
+        List<Review> reviews = reviewRepository.findByCampsite_idAndExpiredIsFalseOrderByCreatedAtDesc(campsite.getId());
 
         List<ReviewResDTO> reviewDTOLists = reviews.stream().map(review -> ReviewResDTO.builder().review(review).build()).collect(Collectors.toList());
 
@@ -163,12 +163,8 @@ public class CampsiteServiceImpl implements CampsiteService {
     }
 
     @Override
-    public List<CampsiteSearchResDTO> getCampsiteByCampName(String keyword) {
-        List<CampsiteSearchResDTO> campsites = campsiteRepository.findByCampNameContains(keyword).stream().map(campsite -> {
-            return CampsiteSearchResDTO.builder().campsite(campsite).build();
-        }).collect(Collectors.toList());
-
-        return campsites;
+    public List<Campsite> getCampsiteByCampName(String keyword) {
+        return campsiteRepository.findByCampNameContains(keyword);
     }
 
     @Override

@@ -49,7 +49,7 @@ public class QuestionServiceImpl implements QuestionService {
     public List<QuestionResDTO> getQuestionListByCampsite(UUID campsiteId) {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
 
-        return questionRepository.findAllByCampsite_idAndExpiredIsFalse(campsite.getId()).stream().
+        return questionRepository.findAllByCampsite_idAndExpiredIsFalseOrderByCreatedAtDesc(campsite.getId()).stream().
                 map(question -> {return QuestionResDTO.builder().question(question).build();}).
                 collect(Collectors.toList());
     }
@@ -59,7 +59,7 @@ public class QuestionServiceImpl implements QuestionService {
         Campsite campsite = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
 
-        return questionRepository.findAllByCampsite_idAndMember_idAndExpiredIsFalse(campsite.getId(), member.getId()).
+        return questionRepository.findAllByCampsite_idAndMember_idAndExpiredIsFalseOrderByCreatedAtDesc(campsite.getId(), member.getId()).
                 stream().map(question -> {return QuestionResDTO.builder().question(question).build();})
                 .collect(Collectors.toList());
     }

@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
     Optional<Review> findByUuid(UUID reviewId);
 
-    List<Review> findByCampsite_idAndExpiredIsFalse(int campsiteId);
+    List<Review> findByCampsite_idAndExpiredIsFalseOrderByCreatedAtDesc(int campsiteId);
 
     void delete(Review review);
 }

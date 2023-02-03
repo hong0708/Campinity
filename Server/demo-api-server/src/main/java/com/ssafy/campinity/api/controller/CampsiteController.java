@@ -166,8 +166,10 @@ public class CampsiteController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<List<CampsiteSearchResDTO>> getCampsiteByCampName(@RequestParam String keyword) {
-        List<CampsiteSearchResDTO> result = campsiteService.getCampsiteByCampName(keyword);
+    public ResponseEntity<List<CampsiteMetaDataDTO>> getCampsiteByCampName(@RequestParam String keyword) {
+        List<CampsiteMetaDataDTO> result = campsiteService.getCampsiteByCampName(keyword).stream().map(campsite -> {
+            return CampsiteMetaDataDTO.builder().campsiteId(campsite.getUuid()).campsiteName(campsite.getCampName()).address(campsite.getAddress()).build();
+        }).collect(Collectors.toList());
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
