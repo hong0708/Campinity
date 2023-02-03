@@ -9,11 +9,18 @@ server:
   port: 8002
 
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/campinity
-    username: root
-    password: root
+  batch-db:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://localhost:3306/batch
+      username: root
+      password: root
+  campinity-db:
+    datasource:
+      driver-class-name: org.mariadb.jdbc.Driver
+      jdbc-url: jdbc:mariadb://localhost:3306/campinity
+      username: root
+      password: root
 
   redis:
     host: localhost
@@ -26,6 +33,14 @@ spring:
       hibernate:
         format_sql: true #To beautify or pretty print the SQL
         show_sql: true #show sql
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  batch:
+    job:
+      enabled: false   # batch server 실행시켰을 때, 실행되는지 아닌지
+    jdbc:
+      isolation-level-for-create: default
 
 logging:
   level:
@@ -33,3 +48,8 @@ logging:
       type.descriptor.sql: trace #show parameter binding
       SQL: DEBUG
 
+
+fcm:
+  certification: /firebase/campinity-5aa0b-firebase-adminsdk-ap06a-54d2b91c8b.json
+  url: https://fcm.googleapis.com/v1/projects/campinity-5aa0b/messages:send
+  scope: https://www.googleapis.com/auth/cloud-platform

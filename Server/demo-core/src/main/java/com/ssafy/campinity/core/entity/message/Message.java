@@ -74,4 +74,9 @@ public class Message extends BaseEntity {
     public void addLikeMessage(LikeMessage likeMessage){
         this.likeMessages.add(likeMessage);
     }
+
+    public Message softDeleteEtcMessage() {
+        this.expired = true;
+        return this;
+    }
 }

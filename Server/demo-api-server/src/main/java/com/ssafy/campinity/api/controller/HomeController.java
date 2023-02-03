@@ -1,9 +1,11 @@
 package com.ssafy.campinity.api.controller;
 
-
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.core.dto.CampsiteRankingResDTO;
 import com.ssafy.campinity.core.dto.MyCollectionResDTO;
 import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
+import com.ssafy.campinity.core.service.CampsiteService;
 import com.ssafy.campinity.core.service.MessageService;
 import com.ssafy.campinity.core.service.MyCollectionService;
 import io.swagger.annotations.Api;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @Api(tags = "홈페이지 관련 API")
 @RestController
 @RequiredArgsConstructor
@@ -29,6 +32,7 @@ public class HomeController {
 
     private final MyCollectionService myCollectionService;
     private final MessageService messageService;
+    private final CampsiteService campsiteService;
 
     @ApiResponses({
             @ApiResponse(code = 200, message = "최신 컬렉션 top 5  리스트 조회를 성공했을 때 응답"),
@@ -42,5 +46,17 @@ public class HomeController {
         List<MyCollection> myCollections = myCollectionService.getLatestMyCollections(memberDetails.getMember().getId());
         List<MyCollectionResDTO> myCollectionResDTOList = myCollections.stream().map(MyCollectionResDTO::new).collect(Collectors.toList());
         return ResponseEntity.status(HttpStatus.OK).body(myCollectionResDTOList);
+    }
+
+    @GetMapping("/hottest-campsite")
+    public ResponseEntity<List<CampsiteRankingResDTO>> getHottestCampsite() throws JsonProcessingException {
+        List<CampsiteRankingResDTO> result = campsiteService.getHottestCampsite();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/highest-campsite")
+    public ResponseEntity<List<CampsiteRankingResDTO>> getHighestCampsite() throws JsonProcessingException {
+        List<CampsiteRankingResDTO> result = campsiteService.getHighestCampsite();
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
