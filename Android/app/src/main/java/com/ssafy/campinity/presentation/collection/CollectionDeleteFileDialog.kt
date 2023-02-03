@@ -6,21 +6,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import com.ssafy.campinity.R
-import com.ssafy.campinity.databinding.DialogCollectionDeleteBinding
+import com.ssafy.campinity.databinding.DialogCollectionFileDeleteBinding
 
-class CollectionDeleteDialog(
+class CollectionDeleteFileDialog(
     context: Context,
     private val listener: CollectionDeleteDialogListener
 ) : Dialog(context) {
 
-    private lateinit var binding: DialogCollectionDeleteBinding
+    private lateinit var binding: DialogCollectionFileDeleteBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(context),
-            R.layout.dialog_collection_delete,
+            R.layout.dialog_collection_file_delete,
             null, false
         )
 

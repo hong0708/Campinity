@@ -6,6 +6,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-android'
     id 'androidx.navigation.safeargs.kotlin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -89,6 +90,10 @@ dependencies {
     // room
     implementation libs.room
     annotationProcessor libs.room.compiler
+
+    implementation libs.firebase.messaging
+
+    implementation platform(libs.firebase.bom)
 }
 
 kapt {

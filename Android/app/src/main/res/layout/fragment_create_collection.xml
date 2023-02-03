@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="vm"
             type="com.ssafy.campinity.presentation.collection.CollectionViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -49,6 +50,7 @@
             app:layout_constraintTop_toBottomOf="@id/iv_arrow_left">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_add_photo_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -82,6 +84,15 @@
                     app:layout_constraintTop_toBottomOf="@id/iv_add_photo" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:collectionImgUri="@{vm.file}"
+                android:contentDescription="@string/image_collection_photo"
+                android:scaleType="centerCrop" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView

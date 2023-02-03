@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -104,8 +105,8 @@ class CommunityCampsiteFragment :
                 )
             }
 
-
             tvSearchCampsiteByName.setOnClickListener {
+                Log.d("name search", "initListener: ${etInputCampsiteName.text.toString()}")
                 communityCampsiteViewModel.getCampsiteBriefInfoByCampName(etInputCampsiteName.text.toString())
             }
 
@@ -217,7 +218,7 @@ class CommunityCampsiteFragment :
         }
     }
 
-    private fun getCampsiteTitle(campsiteId: String, campsiteName: String) {
+    private fun getCampsiteTitle(campsiteId: String, campsiteName: String?) {
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
         // ApplicationClass.preferences.
         binding.tvCampsiteCondition.text = campsiteName

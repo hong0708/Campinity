@@ -47,11 +47,14 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
     private fun initListener() {
         binding.apply {
             ivProfileImage.setOnClickListener { setAlbumView() }
-            etNickname.addTextChangedListener {
-                viewModel.setNickname(it.toString())
-            }
+            etNickname.addTextChangedListener { viewModel.setNickname(it.toString()) }
             btnBack.setOnClickListener { navigate(JoinFragmentDirections.actionJoinFragmentToOnBoardingFragment()) }
-            btnConfirm.setOnClickListener { viewModel.updateProfile() }
+            btnConfirm.setOnClickListener {
+                viewModel.requestCurrentToken()
+                viewModel.fcmToken.observe(viewLifecycleOwner) {
+                    viewModel.updateProfile(it)
+                }
+            }
             btnCheckDuplication.setOnClickListener { viewModel.checkDuplication() }
         }
     }

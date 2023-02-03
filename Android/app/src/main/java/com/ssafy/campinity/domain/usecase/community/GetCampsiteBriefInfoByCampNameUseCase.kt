@@ -8,6 +8,6 @@ import javax.inject.Singleton
 class GetCampsiteBriefInfoByCampNameUseCase @Inject constructor(
     private val communityRepository: CommunityRepository
 ) {
-    suspend operator fun invoke(campName: String) =
-        communityRepository.getCampsiteBriefInfoByCampName(campName)
+    suspend operator fun invoke(campsiteName: String) =
+        communityRepository.getCampsiteBriefInfoByCampName(campsiteName)
 }
