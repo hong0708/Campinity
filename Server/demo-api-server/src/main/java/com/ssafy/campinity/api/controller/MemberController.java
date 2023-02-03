@@ -49,7 +49,7 @@ public class MemberController {
     @Transactional
     @PostMapping(value = "/sign-up", consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<MemberResDTO> signUp(@RequestPart String nickName,
-                                               @RequestPart MultipartFile profileImg,
+                                               @RequestPart(required = false) MultipartFile profileImg,
                                                @RequestPart String fcmToken,
                                                @AuthenticationPrincipal MemberDetails memberDetails) throws IOException, NoSuchElementException {
         Member member = memberService.findMemberByUUID(memberDetails.getMember().getUuid());
