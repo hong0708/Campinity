@@ -12,10 +12,12 @@ class UserRemoteDataSourceImpl @Inject constructor(
 ) : UserRemoteDataSource {
     override suspend fun editUserInfo(
         nickName: String,
-        profileImg: MultipartBody.Part?
+        profileImg: MultipartBody.Part?,
+        fcmToken: String
     ): UserResponse {
         val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
         map["nickName"] = nickName.toRequestBody("text/plain".toMediaTypeOrNull())
+        map["fcmToken"] = fcmToken.toRequestBody("text/plain".toMediaTypeOrNull())
         return userApiService.editUserInfo(map, profileImg)
     }
 

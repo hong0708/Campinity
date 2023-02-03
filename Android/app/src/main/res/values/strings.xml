@@ -493,4 +493,8 @@
     <string name="title_my_letter">내 편지함</string>
     <string name="content_new_letter">새 쪽지</string>
 
+    <!-- Notification -->
+    <string name="notification_channel_id">Channel_Id</string>
+    <string name="notification_channel_name">campinity</string>
+
 </resources>

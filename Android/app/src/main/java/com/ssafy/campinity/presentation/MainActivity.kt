@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation
 
+import android.Manifest
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -37,8 +38,14 @@ class MainActivity : AppCompatActivity() {
         val navGraph = graphInflater.inflate(R.navigation.navigation_main)
 
         val startDestination = when {
-            isGranted() -> {
-                R.id.permissionFragment
+            isGranted(
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_NOTIFICATION_POLICY
+            ) -> {
+                R.id.homeFragment
             }
             ApplicationClass.preferences.accessToken == null -> {
                 R.id.onBoardingFragment
