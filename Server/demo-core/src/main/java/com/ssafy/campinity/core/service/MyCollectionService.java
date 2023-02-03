@@ -17,6 +17,8 @@ public interface MyCollectionService {
 
     List<MyCollection> getMyCollections(int memberId);
 
+    List<MyCollection> getLatestMyCollections(int memberId);
+
     MyCollection getMyCollection(String collectionUuid);
 
     MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, int memberId) throws UnsupportedEncodingException, FileNotFoundException;

@@ -2,10 +2,7 @@ package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.api.dto.res.MessageDeleteDTO;
-import com.ssafy.campinity.core.dto.LatLngDTO;
-import com.ssafy.campinity.core.dto.MessageLikeDTO;
-import com.ssafy.campinity.core.dto.MessageReqDTO;
-import com.ssafy.campinity.core.dto.MessageResDTO;
+import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.message.Message;
 import com.ssafy.campinity.core.service.MessageService;
 import io.swagger.annotations.*;
@@ -17,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
@@ -129,5 +127,20 @@ public class MessageController {
             MessageLikeDTO messageLikeDTO = MessageLikeDTO.builder().likeCheck(likeCheck).build();
             return ResponseEntity.status(HttpStatus.OK).body(messageLikeDTO);
 
+    }
+
+    @Transactional
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "내가 작성한 쪽지 조회 성공했을 때 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답")
+    })
+    @ApiOperation(value = "내가 작성한 쪽지 리스트 조회 API")
+    @GetMapping("/my-messages")
+    public ResponseEntity<MyMessagesResDTO> getMyMessages (
+            @AuthenticationPrincipal MemberDetails memberDetails
+    ){
+        List<Message> messages = messageService.getMyMessages(memberDetails.getMember().getId());
+        MyMessagesResDTO myMessagesResDTO = MyMessagesResDTO.builder().messages(messages).build();
+        return ResponseEntity.status(HttpStatus.OK).body(myMessagesResDTO);
     }
 }
