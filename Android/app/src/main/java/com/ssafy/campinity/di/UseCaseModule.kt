@@ -4,6 +4,8 @@ import com.ssafy.campinity.domain.repository.*
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
+import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByCampNameUseCase
+import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByUserLocationUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
@@ -77,6 +79,18 @@ object UseCaseModule {
     @Provides
     fun provideGetCurationUseCase(curationRepository: CurationRepository): GetCurationDetailUseCase =
         GetCurationDetailUseCase(curationRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCommunityCampsiteBriefInfoByCampNameUseCase(communityRepository: CommunityRepository)
+            : GetCampsiteBriefInfoByCampNameUseCase =
+        GetCampsiteBriefInfoByCampNameUseCase(communityRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCommunityCampsiteBriefInfoByUserLocationUseCase(communityRepository: CommunityRepository)
+            : GetCampsiteBriefInfoByUserLocationUseCase =
+        GetCampsiteBriefInfoByUserLocationUseCase(communityRepository)
 
     @Singleton
     @Provides

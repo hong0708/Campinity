@@ -1,5 +1,6 @@
 package com.ssafy.campinity.di
 
+import com.ssafy.campinity.data.remote.datasource.CommunityCampsite.CommunityRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.curation.CurationRemoteDataSourceImpl
@@ -46,6 +47,12 @@ object DataSourceModule {
     fun provideCurationDataSource(
         curationApiService: CurationApiService
     ): CurationRemoteDataSourceImpl = CurationRemoteDataSourceImpl(curationApiService)
+
+    @Provides
+    @Singleton
+    fun provideCommunityDataSource(
+        communityApiService: CommunityApiService
+    ): CommunityRemoteDataSourceImpl = CommunityRemoteDataSourceImpl(communityApiService)
 
     @Provides
     @Singleton

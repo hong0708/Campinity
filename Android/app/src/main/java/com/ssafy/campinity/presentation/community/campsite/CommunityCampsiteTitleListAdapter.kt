@@ -1,19 +1,19 @@
 package com.ssafy.campinity.presentation.community.campsite
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemCampsiteTitleBinding
-import com.ssafy.campinity.domain.entity.community.CampsiteTitle
+import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 
 class CommunityCampsiteTitleListAdapter(
-    private val campsiteClicked: () -> Unit
-) :
-    RecyclerView.Adapter<CommunityCampsiteTitleListAdapter.CommunityCampsiteTitleListViewHolder>() {
+    private val onCampsiteTitleClicked: (campsiteId: String, campsiteName: String?) -> Unit
+) : RecyclerView.Adapter<CommunityCampsiteTitleListAdapter.CommunityCampsiteTitleListViewHolder>() {
 
-    private var campsiteList = listOf<CampsiteTitle>()
+    private var campsiteList = listOf<CampsiteBriefInfo>()
     lateinit var binding: ItemCampsiteTitleBinding
 
     override fun onCreateViewHolder(
@@ -26,7 +26,7 @@ class CommunityCampsiteTitleListAdapter(
             parent,
             false
         )
-        return CommunityCampsiteTitleListViewHolder(binding)
+        return CommunityCampsiteTitleListViewHolder(binding, onCampsiteTitleClicked)
     }
 
     override fun onBindViewHolder(holder: CommunityCampsiteTitleListViewHolder, position: Int) {
@@ -38,17 +38,22 @@ class CommunityCampsiteTitleListAdapter(
 
     class CommunityCampsiteTitleListViewHolder(
         val binding: ItemCampsiteTitleBinding,
+        private val onCampsiteTitleClicked: (campsiteId: String, campsiteName: String?) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CampsiteTitle) {
+        fun onBind(data: CampsiteBriefInfo) {
             binding.apply {
-                tvCampsiteTitle.text = data.title
+                tvCampsiteTitle.text = data.campsiteName
                 tvCampsiteAddress.text = data.address
+                root.setOnClickListener {
+                    onCampsiteTitleClicked(data.campsiteId, data.campsiteName)
+                }
             }
         }
     }
 
-    fun setAnswer(campsiteTitle: List<CampsiteTitle>) {
-        this.campsiteList = campsiteTitle
+    @SuppressLint("NotifyDataSetChanged")
+    fun setCampsiteBriefInfo(campsiteBriefInfo: List<CampsiteBriefInfo>) {
+        this.campsiteList = campsiteBriefInfo
         notifyDataSetChanged()
     }
 }

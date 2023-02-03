@@ -1,5 +1,6 @@
 package com.ssafy.campinity.di
 
+import com.ssafy.campinity.data.remote.datasource.CommunityCampsite.CommunityRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.curation.CurationRemoteDataSourceImpl
@@ -47,6 +48,12 @@ object RepositoryModule {
     fun provideCurationRepository(
         curationRemoteDataSourceImpl: CurationRemoteDataSourceImpl
     ): CurationRepository = CurationRepositoryImpl(curationRemoteDataSourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideCommunityRepository(
+        communityRemoteDataSourceImpl: CommunityRemoteDataSourceImpl
+    ): CommunityRepository = CommunityRepositoryImpl(communityRemoteDataSourceImpl)
 
     @Provides
     @Singleton

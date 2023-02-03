@@ -51,6 +51,13 @@ object ServiceModule {
 
     @Provides
     @Singleton
+    fun provideCommunityApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): CommunityApiService =
+        retrofit.create(CommunityApiService::class.java)
+
+    @Provides
+    @Singleton
     fun provideHomeApiService(
         @AuthInterceptorClient retrofit: Retrofit
     ): HomeApiService =

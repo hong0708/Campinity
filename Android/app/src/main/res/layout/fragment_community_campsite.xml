@@ -50,7 +50,7 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/cl_campsite_condition"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -212,7 +212,6 @@
                         app:layout_constraintBottom_toBottomOf="@id/fab_review"
                         app:layout_constraintEnd_toStartOf="@id/fab_review"
                         app:layout_constraintTop_toTopOf="@id/fab_review" />
-
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -270,6 +269,20 @@
                     app:maxImageSize="56dp"
                     app:tint="@null" />
 
+                <com.google.android.material.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/fab_user_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="24dp"
+                    android:backgroundTint="@color/primrose"
+                    android:contentDescription="@string/image_floatingactionbutton_main"
+                    android:scaleType="center"
+                    android:src="@drawable/ic_add_fab"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:maxImageSize="56dp"
+                    app:tint="@null" />
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -291,13 +304,15 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
-                    android:layout_marginEnd="12dp"
+                    android:id="@+id/tv_search_campsite_by_name"
+                    android:layout_width="50dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="14dp"
+                    android:gravity="center"
                     android:text="@string/content_select_campsite_condition"
                     android:textColor="@color/black"
                     android:textSize="14sp"
+                    app:layout_constraintBottom_toTopOf="@id/et_input_campsite_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -324,48 +339,57 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_campsite_title" />
 
-                <ImageView
-                    android:id="@+id/iv_icon_aim"
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="15dp"
-                    android:contentDescription="@string/image_aim"
-                    android:src="@drawable/ic_aim"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_input_campsite_name" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_search_by_user_location"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    app:layout_constraintBottom_toTopOf="@id/v_underline_search"
+                    app:layout_constraintTop_toBottomOf="@id/et_input_campsite_name">
 
-                <TextView
-                    android:id="@+id/tv_search_current_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginTop="15dp"
-                    android:text="@string/content_search_campsite"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintStart_toEndOf="@id/iv_icon_aim"
-                    app:layout_constraintTop_toBottomOf="@id/et_input_campsite_name" />
+                    <ImageView
+                        android:id="@+id/iv_icon_aim"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginStart="28dp"
+                        android:contentDescription="@string/image_aim"
+                        android:src="@drawable/ic_aim"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <ImageButton
-                    android:layout_width="16dp"
-                    android:layout_height="16dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="12dp"
-                    android:contentDescription="@string/image_search_now_location"
-                    android:src="@drawable/ic_arrow_right"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/et_input_campsite_name" />
+                    <TextView
+                        android:id="@+id/tv_search_by_user_location"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="7dp"
+                        android:text="@string/content_search_campsite"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/iv_icon_aim"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageButton
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginEnd="12dp"
+                        android:backgroundTint="@color/white"
+                        android:contentDescription="@string/image_search_now_location"
+                        android:src="@drawable/ic_arrow_right"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     android:id="@+id/v_underline_search"
                     android:layout_width="0dp"
                     android:layout_height="8dp"
-                    android:layout_marginTop="15dp"
                     android:background="@color/white_smoke"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/tv_search_current_location" />
+                    app:layout_constraintTop_toBottomOf="@id/cl_search_by_user_location" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_campsite_list"
@@ -373,8 +397,7 @@
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/v_underline_search"
-                    tools:listitem="@layout/item_campsite_title"/>
-
+                    tools:listitem="@layout/item_campsite_title" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.sothree.slidinguppanel.SlidingUpPanelLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
