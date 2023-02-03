@@ -41,7 +41,7 @@ public class JwtProvider {
         key = Base64.getEncoder().encodeToString(key.getBytes());
     }
 
-    public TokenResponse createTokensByLogin(Member member) throws JsonProcessingException {
+    public TokenResponse createTokensByLogin(Member member, Boolean isExist) throws JsonProcessingException {
         Subject atkSubject = Subject.atk(
                 UUID.fromString(member.getUuid().toString()),
                 member.getEmail(),
@@ -55,7 +55,11 @@ public class JwtProvider {
         String atk = createToken(atkSubject, atkLive);
         String rtk = createToken(rtkSubject, rtkLive);
         redisDao.setValues(member.getEmail(), rtk, Duration.ofMillis(rtkLive));
-        return new TokenResponse(atk, "Bearer", rtk);
+        return TokenResponse.builder()
+                .accessToken(atk)
+                .refreshToken(rtk)
+                .tokenType("Bearer")
+                .isExist(isExist).build();
     }
 
     private String createToken(Subject subject, Long tokenLive) throws JsonProcessingException {
@@ -84,6 +88,10 @@ public class JwtProvider {
                 member.getEmail(),
                 member.getName());
         String atk = createToken(atkSubject, atkLive);
-        return new TokenResponse(atk, "Bearer", null);
+        return TokenResponse.builder()
+                .accessToken(atk)
+                .refreshToken(null)
+                .tokenType("Bearer")
+                .isExist(true).build();
     }
 }
