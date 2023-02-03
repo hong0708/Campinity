@@ -2,6 +2,7 @@ package com.ssafy.campinity.presentation.community.campsite
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.app.Application
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
@@ -13,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.CustomDialog
 import com.ssafy.campinity.common.util.CustomDialogInterface
@@ -40,13 +42,19 @@ class CommunityCampsiteFragment :
     private var isTracking = false
 
     override fun initView() {
-        isFabOpen = false
         initListener()
         initRecyclerView()
     }
 
     override fun onResume() {
         super.onResume()
+        // 추후 최근 검색으로 초기화 작업 추가 진행
+        if (ApplicationClass.preferences.userRecentCampsiteName == null) {
+            binding.tvCampsiteCondition.text = "미 지정"
+        } else {
+            binding.tvCampsiteCondition.text = ApplicationClass.preferences.userRecentCampsiteName
+        }
+
         mapView = MapView(activity)
 
         val listener = CommunityMapViewEventListener()
@@ -95,6 +103,16 @@ class CommunityCampsiteFragment :
 
 
             clSearchByUserLocation.setOnClickListener {
+                //추적 시작
+                Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
+                mapView.currentLocationTrackingMode =
+                        // TrackingModeOnWithoutHeading -> 이동하면 지도 뷰가 따라옴
+                        // TrackingModeOnWithoutHeadingWithoutMapMoving -> 내 위치는 움직이지만 지도 뷰는 멈춤
+                    MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
+                if (!isTracking) {
+                    isTracking = true
+                }
+
                 val center = mapView.mapCenterPoint.mapPointGeoCoord
                 val bottomLeft = mapView.mapPointBounds.bottomLeft.mapPointGeoCoord
                 val topRight = mapView.mapPointBounds.topRight.mapPointGeoCoord
@@ -126,7 +144,7 @@ class CommunityCampsiteFragment :
 
 
             tvSearchCampsiteByName.setOnClickListener {
-                searchCampsiteTitle(etInputCampsiteName.text.toString())
+                communityCampsiteViewModel.getCampsiteBriefInfoByCampName(etInputCampsiteName.text.toString())
             }
 
             tvSearchByUserLocation.setOnClickListener {
@@ -240,8 +258,12 @@ class CommunityCampsiteFragment :
         }
     }
 
-    private fun getCampsiteTitle(campsiteId: String) {
+    private fun getCampsiteTitle(campsiteId: String, campsiteName: String) {
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
+        // ApplicationClass.preferences.
+        binding.tvCampsiteCondition.text = campsiteName
+        ApplicationClass.preferences.userRecentCampsite = campsiteId
+        ApplicationClass.preferences.userRecentCampsiteName = campsiteName
     }
 
     private fun searchCampsiteTitle(campName: String) {
