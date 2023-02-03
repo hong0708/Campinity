@@ -1,5 +1,6 @@
 package com.ssafy.campinity.data.remote.datasource.home
 
+import com.ssafy.campinity.data.remote.datasource.collection.CollectionResponse
 import com.ssafy.campinity.data.remote.service.HomeApiService
 import javax.inject.Inject
 
@@ -9,4 +10,7 @@ class HomeRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getHomeBanners(): List<HomeBannerResponse> =
         homeApiService.getHomeBanners()
+
+    override suspend fun getHomeCollections(): List<CollectionResponse> =
+        homeApiService.getHomeCollections()
 }
