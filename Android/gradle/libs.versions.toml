@@ -37,7 +37,7 @@ kakao_sdk_version = "2.11.2"
 
 viewpager_indicator = "1.2.1"
 
-room = "2.5.0"
+room = "2.4.3"
 
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
@@ -70,7 +70,7 @@ androidslidinguppanel = { module = "com.github.hannesa2:AndroidSlidingUpPanel", 
 cardStackView = { module = "com.yuyakaido.android:card-stack-view", version.ref = "cardstackview" }
 kakao-sdk-user = { module = "com.kakao.sdk:v2-user", version.ref = "kakao_sdk_version" }
 viewpager-indicator = { module = "com.github.zhpanvip:viewpagerindicator", version.ref = "viewpager_indicator" }
-room = { module = "androidx.room:room-common", version.ref = "room" }
+room = { module = "androidx.room:room-ktx", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [bundles]

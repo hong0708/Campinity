@@ -1,10 +1,10 @@
 package com.ssafy.campinity.data.local.datasource
 
 import android.content.Context
-import android.util.Log
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import com.ssafy.campinity.domain.entity.search.AreaSido
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 
 class SharedPreferences(private val context: Context) {
@@ -19,28 +19,14 @@ class SharedPreferences(private val context: Context) {
         get() = prefs.getString("refreshToken", null)
         set(value) = prefs.edit().putString("refreshToken", value).apply()
 
-    var areaList: String?
+    var areaList: List<AreaSido>
         get() {
+            val listType: TypeToken<List<AreaSido>> = object : TypeToken<List<AreaSido>>() {}
             val area = prefs.getString("area", null)
-            val areaList: MutableList<AreaSido>
-            if (area != null) {
-                try {
-                    val sidoArray = JSONArray(area)
-                    val temp = arrayListOf<String>()
-                    for (i in area.indices) {
-                        temp.add(sidoArray.optString(i))
-                    }
-                    Log.d("areaList", "areaList[0]: ${temp[0]}")
-                } catch (e: JSONException) {
-                    Log.e("getAreaList", "Cannot get AreaList from SharedPreferences: $e")
-                }
-            } else {
-                Log.d("areaList", "area is null")
-            }
 
-            return ""
+            return Gson().fromJson(area, listType.type)
         }
-        set(value) {
+        set(_) {
             val editor = prefs.edit()
             val area = listOf(
                 "gangwon",
@@ -74,19 +60,14 @@ class SharedPreferences(private val context: Context) {
                 stringArray.forEachIndexed { index, s ->
                     when (index) {
                         0 -> sidoObject.put("sido", s)
-                        1 -> sidoObject.put("campsiteCountAll", s)
+                        1 -> sidoObject.put("campsiteCountAll", s.toInt())
                         else -> {
                             val gugun = s.split("(")[0]
-                            val campsiteCount = s.split("(")[1].split(")")[0]
-                            sidoObject.put(
-                                "gugunList",
-                                gugunArray.put(
-                                    JSONObject().apply {
-                                        this.put("gugun", gugun)
-                                        this.put("campsiteCount", campsiteCount)
-                                    }
-                                )
-                            )
+                            val campsiteCount = s.split("(")[1].split(")")[0].toInt()
+                            sidoObject.put("gugunList", gugunArray.put(JSONObject().apply {
+                                this.put("gugun", gugun)
+                                this.put("campsiteCount", campsiteCount)
+                            }))
                         }
                     }
                     sidoArray.put(sidoObject)

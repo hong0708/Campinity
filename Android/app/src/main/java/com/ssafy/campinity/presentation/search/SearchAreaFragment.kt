@@ -1,11 +1,9 @@
 package com.ssafy.campinity.presentation.search
 
-import android.util.Log
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.common.util.dp
@@ -32,10 +30,6 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
         initGuGun()
         initListener()
         observeState()
-
-        ApplicationClass.preferences.areaList = ""
-        val a = ApplicationClass.preferences.areaList
-        Log.d("areaList", "areaList: $a")
     }
 
     private fun initSiDo() {
@@ -45,9 +39,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             )
 
             searchAreaSiDoAdapter = SearchAreaSiDoAdapter(
-                searchViewModel, listOf(
-                    "서울시", "인천시", "경기도"
-                )
+                searchViewModel, listOf("서울시", "인천시", "경기도")
             )
             adapter = searchAreaSiDoAdapter
         }
@@ -75,10 +67,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
             addItemDecoration(
                 GridItemDecoration(
-                    context,
-                    span,
-                    6,
-                    offsetHorizontal.dp(requireContext())
+                    context, span, 6, offsetHorizontal.dp(requireContext())
                 )
             )
         }
