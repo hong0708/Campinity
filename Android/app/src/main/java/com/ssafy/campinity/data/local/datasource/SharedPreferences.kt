@@ -14,7 +14,7 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("refreshToken", null)
         set(value) = prefs.edit().putString("refreshToken", value).apply()
 
-    var userRecentCampsite: String?
+    var userRecentCampsiteId: String?
         get() = prefs.getString("userRecentCampsite", null)
         set(value) = prefs.edit().putString("userRecentCampsite", value).apply()
 

@@ -75,14 +75,14 @@ class CommunityCampsiteFragment :
         binding.apply {
 
             fabUserLocation.setOnClickListener {
-                if (!isTracking) {
-                    Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
-                    mapView.currentLocationTrackingMode =
-                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-                } else {
+                if (isTracking) {
                     Toast.makeText(requireContext(), "위치 추적을 멈춥니다.", Toast.LENGTH_SHORT).show()
                     mapView.currentLocationTrackingMode =
                         MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                } else {
+                    Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
+                    mapView.currentLocationTrackingMode =
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
                 }
                 isTracking = !isTracking
             }
@@ -222,11 +222,12 @@ class CommunityCampsiteFragment :
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
         // ApplicationClass.preferences.
         binding.tvCampsiteCondition.text = campsiteName
-        ApplicationClass.preferences.userRecentCampsite = campsiteId
+        ApplicationClass.preferences.userRecentCampsiteId = campsiteId
         ApplicationClass.preferences.userRecentCampsiteName = campsiteName
 
         binding.slCommunityFrame.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
+
     // 이벤트 리스너
     inner class PanelEventListener : SlidingUpPanelLayout.PanelSlideListener {
         // 패널이 슬라이드 중일 때
@@ -255,11 +256,14 @@ class CommunityCampsiteFragment :
 
         // 현 위치에 마커 찍기
         val marker = MapPOIItem()
-        marker.itemName = "현 위치"
-        marker.mapPoint = uNowPosition
-        marker.markerType = MapPOIItem.MarkerType.CustomImage
-        marker.customImageResourceId = R.drawable.ic_community_campsite_marker
-        marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+
+        marker.apply {
+            itemName = "현 위치"
+            mapPoint = uNowPosition
+            markerType = MapPOIItem.MarkerType.CustomImage
+            customImageResourceId = R.drawable.ic_community_campsite_marker
+            selectedMarkerType = MapPOIItem.MarkerType.RedPin
+        }
         mapView.addPOIItem(marker)
     }
 
@@ -268,11 +272,13 @@ class CommunityCampsiteFragment :
         for (i in markerLocationList) {
             val markerPosition = MapPoint.mapPointWithGeoCoord(i.latitude, i.longitude)
             val marker = MapPOIItem()
-            marker.itemName = "현 위치"
-            marker.mapPoint = markerPosition
-            marker.markerType = MapPOIItem.MarkerType.CustomImage
-            marker.customImageResourceId = R.drawable.ic_community_campsite_marker
-            marker.selectedMarkerType = MapPOIItem.MarkerType.RedPin
+            marker.apply {
+                itemName = "현 위치"
+                mapPoint = markerPosition
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageResourceId = R.drawable.ic_community_campsite_marker
+                selectedMarkerType = MapPOIItem.MarkerType.RedPin
+            }
             mapView.addPOIItem(marker)
         }
     }
