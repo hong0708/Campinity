@@ -1,10 +1,8 @@
 package com.ssafy.campinity.presentation.onboarding
 
-import android.Manifest
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.isGranted
 import com.ssafy.campinity.databinding.FragmentPermissionBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,17 +18,6 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
 
     override fun initView() {
         setButtonClickListener()
-
-        if (requireContext().isGranted(
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_NOTIFICATION_POLICY
-            )
-        ) {
-            requireView().findNavController().navigate(action)
-        }
     }
 
     private fun setButtonClickListener() {

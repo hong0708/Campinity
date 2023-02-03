@@ -25,7 +25,7 @@ class OnBoardingViewModel @Inject constructor(
         when (val value = loginUseCase(body)) {
             is Resource.Success<Token> -> {
                 val token = value.data.accessToken
-                ApplicationClass.preferences.accessToken = token
+                 ApplicationClass.preferences.accessToken = token
                 _accessToken.value = token
             }
             is Resource.Error -> {
