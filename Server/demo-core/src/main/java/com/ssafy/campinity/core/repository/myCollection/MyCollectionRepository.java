@@ -12,5 +12,7 @@ public interface MyCollectionRepository extends JpaRepository<MyCollection, Inte
 
     List<MyCollection> findByMemberAndExpiredIsFalse(Member member);
 
+    List<MyCollection> findTop5ByMemberAndExpiredIsFalseOrderByUpdatedAtDesc(Member member);
+
     Optional<MyCollection> findByUuidAndExpiredIsFalse(UUID myCollectionUuid);
 }

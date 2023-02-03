@@ -71,7 +71,7 @@ public class Member extends BaseEntity {
 //    @ToString.Exclude
 //    private List<CurationScrap> curationScraps = new ArrayList<>();
 
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "fcmToken_id")
     private FcmToken fcmToken = new FcmToken();
 
