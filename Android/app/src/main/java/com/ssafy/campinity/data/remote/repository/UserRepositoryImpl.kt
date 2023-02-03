@@ -14,10 +14,11 @@ class UserRepositoryImpl @Inject constructor(
 ) : UserRepository {
     override suspend fun editUserInfo(
         nickName: String,
-        profileImg: MultipartBody.Part?
+        profileImg: MultipartBody.Part?,
+        fcmToken: String
     ): Resource<User> =
         wrapToResource(Dispatchers.IO) {
-            userRemoteDataSource.editUserInfo(nickName, profileImg).toDomainModel()
+            userRemoteDataSource.editUserInfo(nickName, profileImg, fcmToken).toDomainModel()
         }
 
     override suspend fun checkDuplication(nickName: String): Resource<Boolean> =

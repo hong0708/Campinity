@@ -13,7 +13,11 @@ import javax.inject.Singleton
 class EditUserUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    suspend fun editUserInfo(nickname: String, profileImg: MultipartBody.Part?): Resource<User> = withContext(Dispatchers.IO) {
-        userRepository.editUserInfo(nickname, profileImg)
+    suspend fun editUserInfo(
+        nickname: String,
+        profileImg: MultipartBody.Part?,
+        fcmToken: String
+    ): Resource<User> = withContext(Dispatchers.IO) {
+        userRepository.editUserInfo(nickname, profileImg, fcmToken)
     }
 }

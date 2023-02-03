@@ -4,7 +4,7 @@ import okhttp3.MultipartBody
 
 interface UserRemoteDataSource {
 
-    suspend fun editUserInfo(nickName: String, profileImg: MultipartBody.Part?): UserResponse
+    suspend fun editUserInfo(nickName: String, profileImg: MultipartBody.Part?, fcmToken: String): UserResponse
 
     suspend fun checkDuplication(nickName: String): Boolean
 

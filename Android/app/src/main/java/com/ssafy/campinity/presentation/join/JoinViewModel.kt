@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
+import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
@@ -38,6 +39,13 @@ class JoinViewModel @Inject constructor(
 
     private var profileImgMultiPart: MultipartBody.Part? = null
 
+    val fcmToken: MutableLiveData<String> = MutableLiveData()
+
+    fun requestCurrentToken() = viewModelScope.launch {
+        val result = FirebaseService().getCurrentToken()
+        fcmToken.postValue(result)
+    }
+
     fun setNickname(nickname: String) {
         viewModelScope.launch {
             _nickname.value = nickname
@@ -53,10 +61,14 @@ class JoinViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile() {
+    fun updateProfile(fcmToken: String) {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfo(requireNotNull(nickname.value), profileImgMultiPart)) {
+                editUserUseCase.editUserInfo(
+                    requireNotNull(nickname.value),
+                    profileImgMultiPart,
+                    fcmToken
+                )) {
                 is Resource.Success<User> -> {
                     _isSuccess.value = true
                 }
