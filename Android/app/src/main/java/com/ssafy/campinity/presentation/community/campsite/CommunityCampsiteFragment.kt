@@ -2,11 +2,9 @@ package com.ssafy.campinity.presentation.community.campsite
 
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
-import android.app.Application
 import android.content.Context
 import android.location.Location
 import android.location.LocationManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -79,60 +77,24 @@ class CommunityCampsiteFragment :
                 if (!isTracking) {
                     Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
                     mapView.currentLocationTrackingMode =
-                            // TrackingModeOnWithoutHeading -> 이동하면 지도 뷰가 따라옴
-                            // TrackingModeOnWithoutHeadingWithoutMapMoving -> 내 위치는 움직이지만 지도 뷰는 멈춤
                         MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-
-                    // 내 위치를 나타내는 뷰 변경경
-                    /*mapView.setCustomCurrentLocationMarkerImage(
-                         R.drawable.ic_community_campsite_marker,
-                         MapPOIItem.ImageOffset,
-                         anchorPointOffset
-                     )*/
-
                 } else {
                     Toast.makeText(requireContext(), "위치 추적을 멈춥니다.", Toast.LENGTH_SHORT).show()
                     mapView.currentLocationTrackingMode =
-                            // TrackingModeOff -> 지도 뷰에서 내가 안움직임 아마 안쓸듯
                         MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
                 }
                 isTracking = !isTracking
-
-                Log.d("testlistener", "initListener: ${mapView.zoomLevel}")
             }
-
 
             clSearchByUserLocation.setOnClickListener {
                 //추적 시작
                 Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
                 mapView.currentLocationTrackingMode =
-                        // TrackingModeOnWithoutHeading -> 이동하면 지도 뷰가 따라옴
-                        // TrackingModeOnWithoutHeadingWithoutMapMoving -> 내 위치는 움직이지만 지도 뷰는 멈춤
                     MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
                 if (!isTracking) {
                     isTracking = true
                 }
-
-                val center = mapView.mapCenterPoint.mapPointGeoCoord
-                val bottomLeft = mapView.mapPointBounds.bottomLeft.mapPointGeoCoord
-                val topRight = mapView.mapPointBounds.topRight.mapPointGeoCoord
-
                 mapView.mapCenterPoint.mapPointScreenLocation
-                val level = mapView.zoomLevel
-                Log.d(
-                    "map data",
-                    "initListener: 중심점 : x = ${center.latitude} , y = ${center.longitude} , 줌레벨 : $level"
-                )
-                Log.d(
-                    "map data",
-                    "바운드 출력: bottomLeft.longitude ${bottomLeft.longitude} bottomLeft.latitude ${bottomLeft.latitude}"
-                )
-                Log.d(
-                    "map data",
-                    "바운드 출력: topRight.longitude ${topRight.longitude} topRight.latitude ${topRight.latitude}"
-                )
-
-                //initMapView()
 
                 communityCampsiteViewModel.getCampsiteBriefInfoByUserLocation(
                     mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
@@ -147,11 +109,8 @@ class CommunityCampsiteFragment :
                 communityCampsiteViewModel.getCampsiteBriefInfoByCampName(etInputCampsiteName.text.toString())
             }
 
-            tvSearchByUserLocation.setOnClickListener {
-
-            }
-
             fabHelp.setOnClickListener {
+
             }
 
             fabGetHelp.setOnClickListener {
@@ -264,12 +223,9 @@ class CommunityCampsiteFragment :
         binding.tvCampsiteCondition.text = campsiteName
         ApplicationClass.preferences.userRecentCampsite = campsiteId
         ApplicationClass.preferences.userRecentCampsiteName = campsiteName
-    }
 
-    private fun searchCampsiteTitle(campName: String) {
-        communityCampsiteViewModel.getCampsiteBriefInfoByCampName(campName)
+        binding.slCommunityFrame.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
     }
-
     // 이벤트 리스너
     inner class PanelEventListener : SlidingUpPanelLayout.PanelSlideListener {
         // 패널이 슬라이드 중일 때
@@ -283,17 +239,6 @@ class CommunityCampsiteFragment :
         ) {
         }
     }
-
-    /*// 위치추적 시작
-    private fun startTracking() {
-        mapView.currentLocationTrackingMode =
-            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-    }
-
-    // 위치추적 중지
-    private fun stopTracking() {
-        mapView.currentLocationTrackingMode = MapView.CurrentLocationTrackingMode.TrackingModeOff
-    }*/
 
     @SuppressLint("MissingPermission")
     private fun initMapView() {

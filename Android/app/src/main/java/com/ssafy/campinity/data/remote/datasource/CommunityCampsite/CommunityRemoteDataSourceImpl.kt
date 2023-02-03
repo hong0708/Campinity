@@ -23,4 +23,14 @@ class CommunityRemoteDataSourceImpl @Inject constructor(
             topLeftLat,
             topLeftLng
         )
+
+    override suspend fun getCampsiteMessagesByScope(
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        campsiteId: String,
+        topLeftLat: Double,
+        topLeftLng: Double
+    ): List<CommunityCampsiteMessageResponse> {
+        TODO("Not yet implemented")
+    }
 }

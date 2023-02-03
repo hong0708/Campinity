@@ -11,4 +11,12 @@ interface CommunityRemoteDataSource {
         topLeftLat: Double,
         topLeftLng: Double
     ): List<CommunityCampsiteBriefInfoResponse>
+
+    suspend fun getCampsiteMessagesByScope(
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        campsiteId: String,
+        topLeftLat: Double,
+        topLeftLng: Double
+    ): List<CommunityCampsiteMessageResponse>
 }
