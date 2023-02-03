@@ -6,14 +6,14 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemCampsiteTitleBinding
-import com.ssafy.campinity.domain.entity.community.CampsiteTitle
+import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 
 class CommunityCampsiteTitleListAdapter(
     private val onCampsiteTitleClicked: (campsiteId: String) -> Unit
 ) :
     RecyclerView.Adapter<CommunityCampsiteTitleListAdapter.CommunityCampsiteTitleListViewHolder>() {
 
-    private var campsiteList = listOf<CampsiteTitle>()
+    private var campsiteList = listOf<CampsiteBriefInfo>()
     lateinit var binding: ItemCampsiteTitleBinding
 
     override fun onCreateViewHolder(
@@ -40,9 +40,9 @@ class CommunityCampsiteTitleListAdapter(
         val binding: ItemCampsiteTitleBinding,
         private val onCampsiteTitleClicked: (campsiteId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: CampsiteTitle) {
+        fun onBind(data: CampsiteBriefInfo) {
             binding.apply {
-                tvCampsiteTitle.text = data.title
+                tvCampsiteTitle.text = data.campName
                 tvCampsiteAddress.text = data.address
                 root.setOnClickListener {
                     onCampsiteTitleClicked(data.campsiteId)
@@ -51,8 +51,8 @@ class CommunityCampsiteTitleListAdapter(
         }
     }
 
-    fun setAnswer(campsiteTitle: List<CampsiteTitle>) {
-        this.campsiteList = campsiteTitle
+    fun setCampsiteBriefInfo(campsiteBriefInfo: List<CampsiteBriefInfo>) {
+        this.campsiteList = campsiteBriefInfo
         notifyDataSetChanged()
     }
 }

@@ -1,6 +1,7 @@
 package com.ssafy.campinity.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -8,6 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.isGranted
+import com.ssafy.campinity.data.local.datasource.SharedPreferences
 import com.ssafy.campinity.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,6 +27,9 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
+
+        Log.d("onCreate", "onCreate: ${SharedPreferences(this).accessToken.toString()}")
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.permissionFragment,

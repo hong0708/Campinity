@@ -40,6 +40,7 @@ class CommunityCampsiteFragment :
     private var isTracking = false
 
     override fun initView() {
+        isFabOpen = false
         initListener()
         initRecyclerView()
     }
@@ -91,7 +92,9 @@ class CommunityCampsiteFragment :
 
                 Log.d("testlistener", "initListener: ${mapView.zoomLevel}")
             }
-            tvSearchCurrentLocation.setOnClickListener {
+
+
+            clSearchByUserLocation.setOnClickListener {
                 val center = mapView.mapCenterPoint.mapPointGeoCoord
                 val bottomLeft = mapView.mapPointBounds.bottomLeft.mapPointGeoCoord
                 val topRight = mapView.mapPointBounds.topRight.mapPointGeoCoord
@@ -111,12 +114,33 @@ class CommunityCampsiteFragment :
                     "바운드 출력: topRight.longitude ${topRight.longitude} topRight.latitude ${topRight.latitude}"
                 )
 
-                initMapView()
+                //initMapView()
+
+                communityCampsiteViewModel.getCampsiteBriefInfoByUserLocation(
+                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+                    mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
+                    mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+                )
+                Log.d(
+                    "map data", "initListener: " +
+                            "${mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude}  " +
+                            "${mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude}  " +
+                            "${mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude}   " +
+                            "${mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude}"
+                )
             }
 
 
+            tvSearchCampsiteByName.setOnClickListener {
+                if (etInputCampsiteName.text.toString() != "") {
+                    searchCampsiteTitle(etInputCampsiteName.text.toString())
+                }
+            }
 
+            tvSearchByUserLocation.setOnClickListener {
 
+            }
 
             fabHelp.setOnClickListener {
             }
@@ -220,10 +244,17 @@ class CommunityCampsiteFragment :
             adapter = communityCampsiteTitleListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
+        communityCampsiteViewModel.campsiteBriefInfo.observe(viewLifecycleOwner) { response ->
+            response.let { communityCampsiteTitleListAdapter.setCampsiteBriefInfo(it) }
+        }
     }
 
     private fun getCampsiteTitle(campsiteId: String) {
-        communityCampsiteViewModel.getCampsiteTitle(campsiteId)
+        // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
+    }
+
+    private fun searchCampsiteTitle(campName: String) {
+        communityCampsiteViewModel.getCampsiteBriefInfoByCampName(campName)
     }
 
     // 이벤트 리스너

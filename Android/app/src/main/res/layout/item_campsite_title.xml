@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="CampsiteTitle"
-            type="com.ssafy.campinity.domain.entity.community.CampsiteTitle" />
+            name="campsiteName"
+            type="com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,11 +19,11 @@
             android:layout_width="23dp"
             android:layout_height="23dp"
             android:layout_marginStart="14dp"
+            android:contentDescription="@string/image_campsite_title_icon"
             android:src="@drawable/ic_comunity_campsite"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:contentDescription="@string/image_campsite_title_icon" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -42,6 +42,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_bold"
                 android:maxLines="1"
+                android:text="@{campsiteName.campName}"
                 android:textColor="@color/black"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +56,7 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
                 android:maxLines="1"
+                android:text="@{campsiteName.address}"
                 android:textColor="@color/black"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
