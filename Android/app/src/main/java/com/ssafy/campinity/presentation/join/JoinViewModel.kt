@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.user.User
@@ -70,6 +71,26 @@ class JoinViewModel @Inject constructor(
                     fcmToken
                 )) {
                 is Resource.Success<User> -> {
+                    ApplicationClass.preferences.isLoggedIn = true
+                    _isSuccess.value = true
+                }
+                is Resource.Error -> {
+                    Log.e("updateprofile", "updateProfile: ${value.errorMessage}")
+
+                }
+            }
+        }
+    }
+
+    fun updateProfileWithoutImg(fcmToken: String) {
+        viewModelScope.launch {
+            when (val value =
+                editUserUseCase.editUserInfoWithoutimg(
+                    requireNotNull(nickname.value),
+                    fcmToken
+                )) {
+                is Resource.Success<User> -> {
+                    ApplicationClass.preferences.isLoggedIn = true
                     _isSuccess.value = true
                 }
                 is Resource.Error -> {

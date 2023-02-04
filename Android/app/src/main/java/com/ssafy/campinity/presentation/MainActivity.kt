@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
-import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.isGranted
 import com.ssafy.campinity.data.local.datasource.SharedPreferences
@@ -25,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host) as NavHostFragment
         navController = navHostFragment.navController
@@ -45,15 +45,10 @@ class MainActivity : AppCompatActivity() {
         val startDestination = when {
             isGranted(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.CAMERA,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_NOTIFICATION_POLICY
             ) -> {
                 R.id.homeFragment
-            }
-            ApplicationClass.preferences.accessToken == null -> {
-                R.id.onBoardingFragment
             }
             else -> R.id.permissionFragment
         }

@@ -14,6 +14,10 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("refreshToken", null)
         set(value) = prefs.edit().putString("refreshToken", value).apply()
 
+    var isLoggedIn: Boolean
+        get() = prefs.getBoolean("isLoggedIn", false)
+        set(value) = prefs.edit().putBoolean("isLoggedIn", value).apply()
+
     var userRecentCampsiteId: String?
         get() = prefs.getString("userRecentCampsite", null)
         set(value) = prefs.edit().putString("userRecentCampsite", value).apply()

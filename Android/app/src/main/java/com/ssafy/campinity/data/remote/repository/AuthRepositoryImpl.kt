@@ -12,8 +12,14 @@ import javax.inject.Inject
 class AuthRepositoryImpl @Inject constructor(
     private val authRemoteDataSource: AuthRemoteDataSource
 ) : AuthRepository {
+
     override suspend fun loginRequest(body: AuthRequest): Resource<Token> =
         wrapToResource(Dispatchers.IO) {
             authRemoteDataSource.loginRequest(body.accessToken).toDomainModel()
+        }
+
+    override suspend fun getNewToken(): Resource<Token> =
+        wrapToResource(Dispatchers.IO) {
+            authRemoteDataSource.getNewToken().toDomainModel()
         }
 }

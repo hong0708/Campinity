@@ -52,7 +52,11 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
             btnConfirm.setOnClickListener {
                 viewModel.requestCurrentToken()
                 viewModel.fcmToken.observe(viewLifecycleOwner) {
-                    viewModel.updateProfile(it)
+                    if (viewModel.profileImgUri.value == null) {
+                        viewModel.updateProfileWithoutImg(it)
+                    } else {
+                        viewModel.updateProfile(it)
+                    }
                 }
             }
             btnCheckDuplication.setOnClickListener { viewModel.checkDuplication() }

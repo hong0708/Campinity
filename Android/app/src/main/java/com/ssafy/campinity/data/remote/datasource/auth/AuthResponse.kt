@@ -7,13 +7,15 @@ import com.ssafy.campinity.domain.entity.auth.Token
 data class AuthResponse(
     @SerializedName("accessToken")
     val accessToken: String,
+    @SerializedName("isExist")
+    val isExist: Boolean,
     @SerializedName("refreshToken")
     val refreshToken: String
 ) : DataToDomainMapper<Token> {
-    override fun toDomainModel(): Token {
-        return Token(
+    override fun toDomainModel(): Token =
+        Token(
             accessToken = accessToken,
-            refreshToken = refreshToken
+            refreshToken = refreshToken,
+            isExist = isExist
         )
-    }
 }
