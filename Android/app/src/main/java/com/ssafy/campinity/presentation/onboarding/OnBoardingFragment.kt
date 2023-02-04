@@ -16,9 +16,9 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
 
     private val onBoardingViewModel by viewModels<OnBoardingViewModel>()
     private val callback = initKakaoLoginCallback()
-    private val actionFalse: NavDirections =
-        OnBoardingFragmentDirections.actionOnBoardingFragmentToJoinFragment()
     private val actionTrue: NavDirections =
+        OnBoardingFragmentDirections.actionOnBoardingFragmentToJoinFragment()
+    private val actionFalse: NavDirections =
         OnBoardingFragmentDirections.actionOnBoardingFragmentToExistingUserFragment()
 
     override fun initView() {
@@ -33,9 +33,6 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
         } else if (token != null) {
             Log.i("login", "카카오계정으로 로그인 성공 ${token.accessToken}")
             onBoardingViewModel.requestLogin(AuthRequest(token.accessToken))
-            if (onBoardingViewModel.refreshToken.value == "") {
-                onBoardingViewModel.requestLogin(AuthRequest(token.accessToken))
-            }
         }
     }
 
@@ -51,7 +48,7 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
     }
 
     private fun kakaoLogin() {
-//        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
+        // 카카오톡이 설치되어 있으면 카카오톡으로 로그인, 아니면 카카오계정으로 로그인
 //        if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
 //            UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
 //                if (error != null) {
@@ -75,11 +72,12 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
 //            UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
 //        }
         UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
+
     }
 
     private fun observeOnBoardingViewModel() {
-        onBoardingViewModel.isExist.observe(viewLifecycleOwner) {
-            when (it) {
+        onBoardingViewModel.accessToken.observe(viewLifecycleOwner) {
+            when (it?.isEmpty()) {
                 true -> {
                     navigate(actionTrue)
                 }

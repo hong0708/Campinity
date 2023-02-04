@@ -92,12 +92,20 @@ class CollectionViewModel @Inject constructor(
     }
 
     fun updateCollection(collectionId: String) = viewModelScope.launch {
-        when (val value = updateCollectionUseCase(collectionId)) {
+        when (
+            val value = updateCollectionUseCase(
+                collectionId,
+                campsiteName.value ?: "",
+                content.value ?: "",
+                date.value ?: "",
+                imgMultiPart
+            )) {
             is Resource.Success<CollectionItem> -> {
                 _isUpdated.value = true
             }
             is Resource.Error -> {
                 Log.e("updateCollection", "updateCollection: ${value.errorMessage}")
+                _isUpdated.value = false
             }
         }
     }
@@ -105,9 +113,9 @@ class CollectionViewModel @Inject constructor(
     fun createCollection() = viewModelScope.launch {
         when (
             val value = createCollectionUseCase(
-                campsiteName.value ?: "",
-                content.value ?: "",
-                date.value ?: "",
+                requireNotNull(campsiteName.value),
+                requireNotNull(content.value),
+                requireNotNull(date.value),
                 imgMultiPart
             )) {
             is Resource.Success<CollectionItem> -> {
@@ -120,11 +128,12 @@ class CollectionViewModel @Inject constructor(
         }
     }
 
-    fun setPicture(uri: Uri, file: File) {
+    fun setPicture(uri: Uri?, file: File?) {
         viewModelScope.launch {
             _file.value = uri
-            val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            imgMultiPart = MultipartBody.Part.createFormData("file", file.name, requestFile)
+            val requestFile = file?.asRequestBody("image/jpeg".toMediaTypeOrNull())
+            imgMultiPart =
+                requestFile?.let { MultipartBody.Part.createFormData("file", file.name, it) }
         }
     }
 }
