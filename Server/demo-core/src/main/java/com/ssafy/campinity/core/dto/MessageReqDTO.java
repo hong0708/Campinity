@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.dto;
 
+import com.ssafy.campinity.core.utils.EmptyMultiPartFile;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,12 +59,14 @@ public class MessageReqDTO {
 
 
     @Builder
-    public MessageReqDTO(String campsiteId, String messageCategory, String content, double latitude, double longitude, MultipartFile file) {
+    public MessageReqDTO(String campsiteId, String messageCategory, String content, double latitude, double longitude, Object file) {
         this.campsiteId = UUID.fromString(campsiteId);
         this.messageCategory = messageCategory;
         this.content = content;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.file = file;
+
+        EmptyMultiPartFile emptyFile = new EmptyMultiPartFile();
+        this.file = file != null ? (MultipartFile) file : emptyFile.create();
     }
 }
