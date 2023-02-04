@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CampsiteCustomRepository {
 
-    private EntityManager em;
+    private final EntityManager em;
     private final MemberRepository memberRepository;
     private final CampsiteScrapRepository campsiteScrapRepository;
     private final MessageRepository messageRepository;
