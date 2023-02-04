@@ -43,11 +43,13 @@ public class MessageServiceImpl implements MessageService {
                 .orElseThrow(IllegalArgumentException::new);
 
         String imagePath = "";
-        try {
-            imagePath = imageUtil.uploadImage(messageReqDTO.getFile(), "message");
-        }
-        catch (IOException e) {
-            throw new RuntimeException(e);
+        if (messageReqDTO.getFile().getSize() != 0){
+            try {
+                imagePath = imageUtil.uploadImage(messageReqDTO.getFile(), "message");
+            }
+            catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
 
         Message message = Message.builder()
