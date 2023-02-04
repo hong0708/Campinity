@@ -6,11 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemHomeCollectionBinding
-import com.ssafy.campinity.domain.entity.home.HomeCollection
+import com.ssafy.campinity.domain.entity.collection.CollectionItem
 
-class HomeCollectionAdapter(private val datas: ArrayList<HomeCollection>) :
-    RecyclerView.Adapter<CollectionViewHolder>() {
+class HomeCollectionAdapter(private val onItemClicked: (collectionId: String) -> Unit) :
+    RecyclerView.Adapter<HomeCollectionAdapter.CollectionViewHolder>() {
 
+    private var items: List<CollectionItem> = listOf()
     lateinit var binding: ItemHomeCollectionBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CollectionViewHolder {
@@ -20,22 +21,29 @@ class HomeCollectionAdapter(private val datas: ArrayList<HomeCollection>) :
             parent,
             false
         )
-        return CollectionViewHolder(binding)
+        return CollectionViewHolder(binding, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: CollectionViewHolder, position: Int) {
-        val viewHolder: CollectionViewHolder = holder
-        viewHolder.onBind(datas[position])
+        holder.onBind(items[position])
     }
 
-    override fun getItemCount(): Int = datas.size
-}
+    override fun getItemCount(): Int = items.size
 
-class CollectionViewHolder(val binding: ItemHomeCollectionBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    fun onBind(datas: HomeCollection) {
-        binding.ivHomeCollection.setImageResource(datas.img)
-        binding.tvTitleHomeCollection.text = datas.title
-        binding.tvDateHomeCollection.text = datas.date
+    class CollectionViewHolder(
+        private val binding: ItemHomeCollectionBinding,
+        private val onItemClicked: (collectionId: String) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
+        fun onBind(data: CollectionItem) {
+            binding.homeCollection = data
+            binding.root.setOnClickListener {
+                onItemClicked(data.collectionId)
+            }
+        }
+    }
+
+    fun setCollection(collectionItem: List<CollectionItem>) {
+        this.items = collectionItem
+        notifyDataSetChanged()
     }
 }
