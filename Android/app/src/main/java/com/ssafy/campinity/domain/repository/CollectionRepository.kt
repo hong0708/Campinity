@@ -19,5 +19,11 @@ interface CollectionRepository {
 
     suspend fun deleteCollection(collectionId: String): Resource<String>
 
-    suspend fun updateCollection(collectionId: String): Resource<CollectionItem>
+    suspend fun updateCollection(
+        collectionId: String,
+        campsiteName: String,
+        content: String,
+        date: String,
+        file: MultipartBody.Part?
+    ): Resource<CollectionItem>
 }

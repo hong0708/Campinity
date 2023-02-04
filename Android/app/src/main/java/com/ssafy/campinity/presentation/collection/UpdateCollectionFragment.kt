@@ -39,6 +39,10 @@ class UpdateCollectionFragment :
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
                 )
+            } else {
+                viewModel.setPicture(
+                    null, null
+                )
             }
         }
     }
@@ -86,6 +90,12 @@ class UpdateCollectionFragment :
 
     private fun observeState() {
         viewModel.isSucceed.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> popBackStack()
+                else -> {}
+            }
+        }
+        viewModel.isUpdated.observe(viewLifecycleOwner) {
             when (it) {
                 true -> popBackStack()
                 else -> {}
