@@ -37,7 +37,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
 
         String imagePath = "";
         if (myCollectionReqDTO.getFile().getSize() != 0){
-            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "myCollection"); }
+            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
             catch (IOException e) { throw new RuntimeException(e); }
         }
 

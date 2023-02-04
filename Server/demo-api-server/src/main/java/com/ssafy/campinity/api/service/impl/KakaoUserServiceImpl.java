@@ -32,9 +32,9 @@ public class KakaoUserServiceImpl implements KakaoUserService {
     private final MemberRepository memberRepository;
     private final JwtProvider jwtProvider;
 
-    public TokenResponse kakaoLogin(String code) throws JsonProcessingException {
-        // 1. "인가 코드"로 "액세스 토큰" 요청
-        String accessToken = getAccessToken(code);
+    public TokenResponse kakaoLogin(String accessToken) throws JsonProcessingException {
+        // 1. "인가 코드"로 "액세스 토큰" 요청 -> 안드로이드 앱에서 엑세스토큰을 전송해주기때문에 필요x
+        //String accessToken = getAccessToken(code);
 
         // 2. 토큰으로 카카오 API 호출
         SocialUserInfoDto kakaoUserInfo = getKakaoUserInfo(accessToken);
@@ -60,7 +60,7 @@ public class KakaoUserServiceImpl implements KakaoUserService {
         MultiValueMap<String, String> body = new LinkedMultiValueMap<>();
         body.add("grant_type", "authorization_code");
         body.add("client_id", "7b67ff80038831c2283545ae61432e6c");
-        body.add("redirect_uri", "http://localhost:8003/api/v4/members/login-kakao");
+        body.add("redirect_uri", "http://i8d101.p.ssafy.io:8003/api/v4/members/login-kakao");
         body.add("code", code);
 
         // HTTP 요청 보내기
