@@ -2,6 +2,7 @@ package com.ssafy.campinity.di
 
 import com.ssafy.campinity.AuthInterceptorClient
 import com.ssafy.campinity.NoAuthInterceptorClient
+import com.ssafy.campinity.RefreshInterceptorClient
 import com.ssafy.campinity.data.remote.service.*
 import dagger.Module
 import dagger.Provides
@@ -20,6 +21,13 @@ object ServiceModule {
         @NoAuthInterceptorClient retrofit: Retrofit
     ): AuthApiService =
         retrofit.create(AuthApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRefreshApiService(
+        @RefreshInterceptorClient retrofit: Retrofit
+    ): RefreshApiService =
+        retrofit.create(RefreshApiService::class.java)
 
     @Provides
     @Singleton

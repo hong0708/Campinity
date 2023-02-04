@@ -20,8 +20,9 @@ object DataSourceModule {
     @Provides
     @Singleton
     fun provideAuthDataSource(
-        authApiService: AuthApiService
-    ): AuthRemoteDataSourceImpl = AuthRemoteDataSourceImpl(authApiService)
+        authApiService: AuthApiService,
+        refreshApiService: RefreshApiService
+    ): AuthRemoteDataSourceImpl = AuthRemoteDataSourceImpl(authApiService, refreshApiService)
 
     @Provides
     @Singleton

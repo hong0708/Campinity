@@ -6,6 +6,7 @@ interface UserRemoteDataSource {
 
     suspend fun editUserInfo(nickName: String, profileImg: MultipartBody.Part?, fcmToken: String): UserResponse
 
-    suspend fun checkDuplication(nickName: String): Boolean
+    suspend fun editUserInfoWithoutImg(nickName: String, fcmToken: String): UserResponse
 
+    suspend fun checkDuplication(nickName: String): Boolean
 }

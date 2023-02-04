@@ -1,6 +1,7 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.*
+import com.ssafy.campinity.domain.usecase.auth.GetNewTokenUseCase
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
@@ -27,6 +28,11 @@ object UseCaseModule {
     @Provides
     fun provideLoginUseCase(authRepository: AuthRepository): LoginUseCase =
         LoginUseCase(authRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetNewTokenUseCase(authRepository: AuthRepository): GetNewTokenUseCase =
+        GetNewTokenUseCase(authRepository)
 
     @Singleton
     @Provides

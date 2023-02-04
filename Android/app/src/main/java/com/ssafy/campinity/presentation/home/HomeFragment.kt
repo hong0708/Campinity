@@ -7,6 +7,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentHomeBinding
 import com.ssafy.campinity.domain.entity.home.HomeCampingSite
@@ -30,6 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initCollection()
         initBanner()
         initCampingSite()
+        Log.d("왜?", "initView: ${ApplicationClass.preferences.isLoggedIn}")
     }
 
     override fun onResume() {
