@@ -1,20 +1,13 @@
 package com.ssafy.campinity.core.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.ssafy.campinity.core.utils.EmptyMultiPartFile;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
 import lombok.*;
-import org.springframework.http.MediaType;
 import org.springframework.web.multipart.MultipartFile;
 
-import lombok.NoArgsConstructor;
-import lombok.Builder;
-
-import java.time.LocalDate;
-
 @Getter
+@Setter
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MyCollectionReqDTO {
@@ -47,10 +40,12 @@ public class MyCollectionReqDTO {
     private MultipartFile file;
 
     @Builder
-    public MyCollectionReqDTO(String campsiteName, String date, String content, MultipartFile file) {
+    public MyCollectionReqDTO(String campsiteName, String date, String content, Object file) {
         this.campsiteName = campsiteName;
         this.date = date;
         this.content = content;
-        this.file = file;
+
+        EmptyMultiPartFile emptyFile = new EmptyMultiPartFile();
+        this.file = file != null ? (MultipartFile) file : emptyFile.create();
     }
 }
