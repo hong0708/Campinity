@@ -59,6 +59,7 @@ public class MessageController {
     })
     @ApiOperation(value = "캠핑장별 범위 내에 쪽지 조회 API")
     @GetMapping("/{campsiteId}/scope")
+    @Transactional
     public ResponseEntity<List<MessageResDTO>> getMessagesByCampsiteIdLatLngBetweenScope(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "캠핑장 식별 아이디", required = true, type = "String")
@@ -77,6 +78,7 @@ public class MessageController {
     })
     @ApiOperation(value = "쪽지 상세 조회 API")
     @GetMapping("/{messageId}")
+    @Transactional
     public ResponseEntity<MessageResDTO> getMessage(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "쪽지 식별 아이디", required = true, type = "String")
