@@ -1,4 +1,4 @@
-package com.ssafy.campinity.data.remote.datasource.CommunityCampsite
+package com.ssafy.campinity.data.remote.datasource.communitycampsite
 
 interface CommunityRemoteDataSource {
 
@@ -12,11 +12,11 @@ interface CommunityRemoteDataSource {
         topLeftLng: Double
     ): List<CommunityCampsiteBriefInfoResponse>
 
-    suspend fun getCampsiteMessagesByScope(
+    suspend fun getCampsiteMessagesBriefInfoByScope(
         bottomRightLat: Double,
         bottomRightLng: Double,
         campsiteId: String,
         topLeftLat: Double,
         topLeftLng: Double
-    ): List<CommunityCampsiteMessageResponse>
+    ): List<CommunityCampsiteBriefInfoMessageResponse>
 }
