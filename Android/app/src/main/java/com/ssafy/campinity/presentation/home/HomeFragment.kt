@@ -49,6 +49,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             tvBannerMore.setOnClickListener {
                 navigate(HomeFragmentDirections.actionHomeFragmentToCurationFragment())
             }
+            ivMyPage.setOnClickListener {
+                navigate(HomeFragmentDirections.actionHomeFragmentToMyPageActivity())
+            }
         }
     }
 
