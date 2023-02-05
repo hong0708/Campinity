@@ -2,9 +2,9 @@ package com.ssafy.campinity.data.remote.datasource.communitycampsite
 
 import com.google.gson.annotations.SerializedName
 import com.ssafy.campinity.data.remote.datasource.base.DataToDomainMapper
-import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
+import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 
-data class CommunityCampsiteBriefInfoMessageResponse(
+data class CommunityCampsiteDetailInfoMessageResponse(
     @SerializedName("authorName")
     val authorName: String?,
     @SerializedName("campsiteName")
@@ -31,9 +31,9 @@ data class CommunityCampsiteBriefInfoMessageResponse(
     val messageId: String,
     @SerializedName("updatedAt")
     val updatedAt: String
-) : DataToDomainMapper<CampsiteMessageBriefInfo> {
-    override fun toDomainModel(): CampsiteMessageBriefInfo {
-        return CampsiteMessageBriefInfo(
+) : DataToDomainMapper<CampsiteMessageDetailInfo> {
+    override fun toDomainModel(): CampsiteMessageDetailInfo {
+        return CampsiteMessageDetailInfo(
             authorName,
             campsiteName,
             content,
@@ -50,3 +50,4 @@ data class CommunityCampsiteBriefInfoMessageResponse(
         )
     }
 }
+
