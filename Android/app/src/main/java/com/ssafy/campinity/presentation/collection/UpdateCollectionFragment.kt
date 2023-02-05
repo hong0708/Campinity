@@ -39,6 +39,7 @@ class UpdateCollectionFragment :
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
                 )
+                viewModel.changeImgState()
             } else {
                 viewModel.setPicture(
                     null, null
@@ -84,7 +85,14 @@ class UpdateCollectionFragment :
             ivArrowLeft.setOnClickListener { popBackStack() }
             clAddPhoto.setOnClickListener { setAlbumView() }
             tvDateInput.setOnClickListener { getDate() }
-            tvMakeReview.setOnClickListener { viewModel.updateCollection(args.collectionId) }
+            tvMakeReview.setOnClickListener {
+                viewModel.imageChange.observe(viewLifecycleOwner) {
+                    when (it) {
+                        true -> viewModel.updateCollection(args.collectionId)
+                        false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+                    }
+                }
+            }
         }
     }
 

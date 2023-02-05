@@ -27,9 +27,7 @@ interface CollectionApiService {
     @POST("/api/v5/my-collections/{collectionId}")
     suspend fun updateCollection(
         @Path("collectionId") collectionId: String,
-        @Query("campsiteName") campsiteName: String,
-        @Query("content") content: String,
-        @Query("date") date: String,
+        @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part file: MultipartBody.Part?
     ): CollectionResponse
 }

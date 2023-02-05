@@ -13,18 +13,7 @@ import javax.inject.Singleton
 class UpdateCollectionUseCase @Inject constructor(
     private val collectionRepository: CollectionRepository
 ){
-    suspend operator fun invoke(
-        campsiteName: String,
-        content: String,
-        date: String,
-        file: MultipartBody.Part?
-    ): Resource<CollectionItem> = withContext(Dispatchers.IO) {
-        collectionRepository.createCollection(
-            campsiteName, content, date, file
-        )
-    }
-
-    suspend operator fun invoke(
+    suspend fun updateCollection(
         collectionId: String,
         campsiteName: String,
         content: String,
@@ -33,6 +22,17 @@ class UpdateCollectionUseCase @Inject constructor(
     ): Resource<CollectionItem> = withContext(Dispatchers.IO) {
         collectionRepository.updateCollection(
             collectionId, campsiteName, content, date, file
+        )
+    }
+
+    suspend fun updateCollectionWithoutImg(
+        collectionId: String,
+        campsiteName: String,
+        content: String,
+        date: String
+    ): Resource<CollectionItem> = withContext(Dispatchers.IO) {
+        collectionRepository.updateCollectionWithoutImg(
+            collectionId, campsiteName, content, date
         )
     }
 }
