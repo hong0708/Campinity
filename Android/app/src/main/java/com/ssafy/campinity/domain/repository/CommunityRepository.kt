@@ -29,4 +29,8 @@ interface CommunityRepository {
     suspend fun createCampsiteMessage(
         communityCampsiteMessageRequest: CommunityCampsiteMessageRequest
     ): Resource<CampsiteMessageDetailInfo>
+
+    suspend fun getCampsiteMessageDetailInfo(
+        messageId: String
+    ): Resource<CampsiteMessageDetailInfo>
 }

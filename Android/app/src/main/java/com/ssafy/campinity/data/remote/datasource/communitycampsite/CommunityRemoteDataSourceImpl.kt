@@ -53,4 +53,9 @@ class CommunityRemoteDataSourceImpl @Inject constructor(
         map["longitude"] = body.longitude.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         return communityApiService.createCampsiteMessage(map, body.file)
     }
+
+    override suspend fun getCampsiteMessageDetailInfo(
+        messageId: String
+    ): CommunityCampsiteDetailInfoMessageResponse =
+        communityApiService.getCampsiteMessageDetailInfo(messageId)
 }

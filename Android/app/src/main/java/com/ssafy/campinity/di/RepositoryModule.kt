@@ -5,6 +5,7 @@ import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.curation.CurationRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.home.HomeRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.user.UserRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.repository.*
@@ -60,4 +61,10 @@ object RepositoryModule {
     fun provideHomeRepository(
         homeRemoteDataSourceImpl: HomeRemoteDataSourceImpl
     ): HomeRepository = HomeRepositoryImpl(homeRemoteDataSourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideMyPageRepository(
+        myPageRemoteDataSourceImpl: MyPageRemoteDataSourceImpl
+    ): MyPageRepository = MyPageRepositoryImpl(myPageRemoteDataSourceImpl)
 }

@@ -62,4 +62,13 @@ class CommunityRepositoryImpl @Inject constructor(
                 communityCampsiteMessageRequest
             ).toDomainModel()
         }
+
+    override suspend fun getCampsiteMessageDetailInfo(
+        messageId: String
+    ): Resource<CampsiteMessageDetailInfo> =
+        wrapToResource(Dispatchers.IO) {
+            communityRemoteDataSource.getCampsiteMessageDetailInfo(
+                messageId
+            ).toDomainModel()
+        }
 }
