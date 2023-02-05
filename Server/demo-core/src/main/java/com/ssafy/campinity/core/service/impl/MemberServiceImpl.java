@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.service.impl;
 
+import com.ssafy.campinity.core.dto.ProfileResDTO;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.MemberService;
@@ -55,5 +56,13 @@ public class MemberServiceImpl implements MemberService {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    @Transactional
+    @Override
+    public ProfileResDTO getMemberProfile(Integer memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        return ProfileResDTO.builder().member(member).build();
     }
 }
