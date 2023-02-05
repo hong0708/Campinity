@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.ssafy.campinity.presentation.join.JoinViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:contentDescription="@string/image_arrow_left"
+            android:src="@drawable/ic_arrow_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_title_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/title_join"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@id/btn_back"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/btn_back" />
+
+        <View
+            android:id="@+id/divider1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/tv_title_join" />
+
+        <TextView
+            android:id="@+id/tv_content_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:fontFamily="@font/roboto_bold"
+            android:gravity="center_horizontal"
+            android:text="@string/content_edit_profile"
+            android:textColor="@color/black"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/divider1" />
+
+        <ImageView
+            android:id="@+id/iv_profile_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:contentDescription="@string/image_profile"
+            android:profileImgUri="@{vm.profileImgUri}"
+            android:src="@drawable/ic_profile_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_content_join" />
+
+        <EditText
+            android:id="@+id/et_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="65dp"
+            android:layout_marginEnd="25dp"
+            android:autofillHints="name"
+            android:backgroundTint="@color/bilbao"
+            android:hint="@string/content_hint_join"
+            android:inputType="text"
+            android:textColorHint="@color/grey"
+            app:layout_constraintTop_toBottomOf="@id/iv_profile_image" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_check_duplication"
+            android:layout_width="65dp"
+            android:layout_height="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="14dp"
+            android:background="@drawable/bg_rect_bilbao_white_radius15_stroke1"
+            android:enabled="@{!vm.nickname.empty}"
+            android:fontFamily="@font/roboto_regular"
+            android:text="@string/content_duplicate_check"
+            android:textColor="@color/bilbao"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@id/et_nickname"
+            app:layout_constraintEnd_toEndOf="@id/et_nickname"
+            app:layout_constraintTop_toTopOf="@id/et_nickname" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="28dp"
+            android:layout_marginEnd="28dp"
+            android:layout_marginBottom="20dp"
+            android:background="@{vm.isDuplicate|vm.isDuplicate==null ? @drawable/bg_rect_grey_radius10 : @drawable/bg_rect_bilbao_radius10}"
+            android:enabled="@{!vm.isDuplicate}"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@string/content_confirm_edit_profile"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

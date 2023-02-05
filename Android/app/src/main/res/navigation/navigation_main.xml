@@ -57,6 +57,9 @@
         <action
             android:id="@+id/action_homeFragment_to_collectionDetailFragment"
             app:destination="@id/collectionDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_myPageActivity"
+            app:destination="@id/myPageActivity" />
     </fragment>
 
     <fragment
@@ -159,6 +162,12 @@
         android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
         android:label="CreateCollectionFragment"
         tools:layout="@layout/fragment_create_collection" />
+
+    <activity
+        android:id="@+id/myPageActivity"
+        android:name="com.ssafy.campinity.presentation.mypage.MyPageActivity"
+        android:label="MyPageActivity"
+        tools:layout="@layout/activity_my_page"/>
 
     <activity
         android:id="@+id/communityActivity"

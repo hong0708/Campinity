@@ -1,5 +1,6 @@
 package com.ssafy.campinity.common.util
 
+import android.annotation.SuppressLint
 import android.content.Context
 
 fun Int.dp(context: Context): Int {
@@ -16,4 +17,25 @@ fun getDeviceWidthPx(context: Context): Int {
 
 fun getDeviceHeightPx(context: Context): Int {
     return context.resources.displayMetrics.heightPixels
+}
+
+@SuppressLint("InternalInsetResource")
+fun getStatusBarHeight(context: Context): Int {
+    val resourceId = context.resources.getIdentifier("status_bar_height", "dimen", "android")
+
+    return if (resourceId > 0) {
+        context.resources.getDimensionPixelSize(resourceId)
+    } else {
+        0
+    }
+}
+
+@SuppressLint("InternalInsetResource")
+fun getNaviBarHeight(context: Context): Int {
+    val resourceId: Int = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    return if (resourceId > 0) {
+        context.resources.getDimensionPixelSize(resourceId)
+    } else {
+        0
+    }
 }
