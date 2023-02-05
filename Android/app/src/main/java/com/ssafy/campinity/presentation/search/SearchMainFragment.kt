@@ -1,6 +1,9 @@
 package com.ssafy.campinity.presentation.search
 
+import android.content.Context
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.activityViewModels
@@ -9,6 +12,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCa
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.getDeviceHeightPx
 import com.ssafy.campinity.common.util.px
+import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchMainBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,6 +64,29 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             binding.clSearch.visibility = View.GONE
             behaviorFilter.state = BottomSheetBehavior.STATE_EXPANDED
         }
+
+        binding.etSearchByName.apply {
+            setOnEditorActionListener { textView, id, _ ->
+                var handled = false
+
+                if (id == EditorInfo.IME_ACTION_SEARCH) {
+                    searchViewModel.getCampsitesByFiltering(SearchFilterRequest(keyword = textView.text.toString()))
+
+                    this.clearFocus()
+                    this.isFocusable = false
+                    this.setText("")
+                    this.isFocusableInTouchMode = true
+                    this.isFocusable = true
+                    val imm =
+                        context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(binding.etSearchByName.windowToken, 0)
+
+                    handled = true
+                }
+
+                return@setOnEditorActionListener handled
+            }
+        }
     }
 
     private fun initBehaviorList() {
@@ -109,18 +136,17 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (isDragging)
-                    if (slideOffset <=
-                        (getDeviceHeightPx(requireContext()) - 115.px(requireContext())).toFloat()
-                        / getDeviceHeightPx(requireContext())
-                    ) {
-                        binding.clSearch.apply {
-                            visibility = View.VISIBLE
-                            alpha = 1 - 1.2F * slideOffset
-                        }
-                    } else {
-                        binding.clSearch.visibility = View.GONE
+                if (isDragging) if (slideOffset <= (getDeviceHeightPx(requireContext()) - 115.px(
+                        requireContext()
+                    )).toFloat() / getDeviceHeightPx(requireContext())
+                ) {
+                    binding.clSearch.apply {
+                        visibility = View.VISIBLE
+                        alpha = 1 - 1.2F * slideOffset
                     }
+                } else {
+                    binding.clSearch.visibility = View.GONE
+                }
             }
         })
     }
@@ -144,18 +170,17 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
-                if (isDragging)
-                    if (slideOffset <=
-                        (getDeviceHeightPx(requireContext()) - 115.px(requireContext())).toFloat()
-                        / getDeviceHeightPx(requireContext())
-                    ) {
-                        binding.clSearch.apply {
-                            visibility = View.VISIBLE
-                            alpha = 1 - 1.2F * slideOffset
-                        }
-                    } else {
-                        binding.clSearch.visibility = View.GONE
+                if (isDragging) if (slideOffset <= (getDeviceHeightPx(requireContext()) - 115.px(
+                        requireContext()
+                    )).toFloat() / getDeviceHeightPx(requireContext())
+                ) {
+                    binding.clSearch.apply {
+                        visibility = View.VISIBLE
+                        alpha = 1 - 1.2F * slideOffset
                     }
+                } else {
+                    binding.clSearch.visibility = View.GONE
+                }
             }
         })
     }
