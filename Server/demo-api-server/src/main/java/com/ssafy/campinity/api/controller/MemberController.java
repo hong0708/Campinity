@@ -3,10 +3,11 @@ package com.ssafy.campinity.api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.campinity.api.config.security.jwt.JwtProvider;
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
-import com.ssafy.campinity.api.dto.req.LogoutDTO;
+import com.ssafy.campinity.api.dto.req.LogoutReqDTO;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
 import com.ssafy.campinity.api.service.KakaoUserService;
 import com.ssafy.campinity.core.dto.MemberResDTO;
+import com.ssafy.campinity.core.dto.ProfileResDTO;
 import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.redis.RedisDao;
@@ -119,7 +120,7 @@ public class MemberController {
     })
     @ApiOperation(value = "로그아웃 API")
     @PostMapping("/logout")
-    public ResponseEntity<Boolean> logout(@RequestBody LogoutDTO logoutDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
+    public ResponseEntity<Boolean> logout(@RequestBody LogoutReqDTO logoutDTO, @AuthenticationPrincipal MemberDetails memberDetails) {
 
         // refresh token 삭제
         if(redisDao.getValues(memberDetails.getMember().getEmail()) != null) {
@@ -155,5 +156,12 @@ public class MemberController {
         }
 
         return new ResponseEntity<>(res, HttpStatus.OK);
+    }
+
+    @GetMapping("/profiles")
+    public ResponseEntity<ProfileResDTO> getMemberInfo(
+            @AuthenticationPrincipal MemberDetails memberDetails) {
+        ProfileResDTO profileResDTO = memberService.getMemberProfile(memberDetails.getMember().getId());
+        return new ResponseEntity<>(profileResDTO, HttpStatus.OK);
     }
 }
