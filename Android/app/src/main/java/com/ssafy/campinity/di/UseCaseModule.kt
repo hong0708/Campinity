@@ -1,9 +1,15 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.domain.repository.*
+import com.ssafy.campinity.domain.usecase.auth.GetNewTokenUseCase
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
+import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByCampNameUseCase
+import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByUserLocationUseCase
+import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
+import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
+import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
@@ -28,6 +34,11 @@ object UseCaseModule {
     @Provides
     fun provideLoginUseCase(authRepository: AuthRepository): LoginUseCase =
         LoginUseCase(authRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetNewTokenUseCase(authRepository: AuthRepository): GetNewTokenUseCase =
+        GetNewTokenUseCase(authRepository)
 
     @Singleton
     @Provides
@@ -71,6 +82,16 @@ object UseCaseModule {
 
     @Singleton
     @Provides
+    fun provideGetCurationsUseCase(curationRepository: CurationRepository): GetCurationsUseCase =
+        GetCurationsUseCase(curationRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCurationUseCase(curationRepository: CurationRepository): GetCurationDetailUseCase =
+        GetCurationDetailUseCase(curationRepository)
+
+    @Singleton
+    @Provides
     fun provideGetCampsitesByAreaUseCase(searchRepository: SearchRepository): GetCampsitesByAreaUseCase =
         GetCampsitesByAreaUseCase(searchRepository)
 
@@ -88,4 +109,21 @@ object UseCaseModule {
     @Provides
     fun provideGetGugunUseCase(areaRepository: AreaRepository): GetGugunUseCase =
         GetGugunUseCase(areaRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCommunityCampsiteBriefInfoByCampNameUseCase(communityRepository: CommunityRepository)
+            : GetCampsiteBriefInfoByCampNameUseCase =
+        GetCampsiteBriefInfoByCampNameUseCase(communityRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCommunityCampsiteBriefInfoByUserLocationUseCase(communityRepository: CommunityRepository)
+            : GetCampsiteBriefInfoByUserLocationUseCase =
+        GetCampsiteBriefInfoByUserLocationUseCase(communityRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetHomeBannersUseCase(homeRepository: HomeRepository): GetHomeBannersUseCase =
+        GetHomeBannersUseCase(homeRepository)
 }

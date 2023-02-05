@@ -54,6 +54,9 @@
         <action
             android:id="@+id/action_homeFragment_to_curationDetailFragment"
             app:destination="@id/curationDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_collectionDetailFragment"
+            app:destination="@id/collectionDetailFragment" />
     </fragment>
 
     <fragment

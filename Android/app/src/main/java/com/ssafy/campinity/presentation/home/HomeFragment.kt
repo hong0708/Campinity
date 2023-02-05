@@ -9,8 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentHomeBinding
-import com.ssafy.campinity.domain.entity.home.HomeCampingSite
-import com.ssafy.campinity.domain.entity.home.HomeCollection
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,6 +17,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel by viewModels<HomeViewModel>()
     private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
+    private val homeCollectionAdapter by lazy { HomeCollectionAdapter(this::getCollection) }
     private val handler = Handler(Looper.getMainLooper()) {
         setPage()
         true
@@ -29,7 +28,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initListener()
         initCollection()
         initBanner()
-        initCampingSite()
     }
 
     override fun onResume() {
@@ -54,51 +52,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         }
     }
 
-    private fun initCampingSite() {
-        val list: ArrayList<HomeCampingSite> = ArrayList<HomeCampingSite>().let {
-            it.apply {
-                add(
-                    HomeCampingSite(
-                        R.drawable.bg_home_banner, "비니비니 글램핑", "서울 특별시, 대한민국"
-                    )
-                )
-                add(
-                    HomeCampingSite(
-                        R.drawable.bg_home_banner, "비니비니 글램핑", "서울 특별시, 대한민국"
-                    )
-                )
-                add(
-                    HomeCampingSite(
-                        R.drawable.bg_home_banner, "비니비니 글램핑", "서울 특별시, 대한민국"
-                    )
-                )
-            }
-        }
-        binding.rvPopularCampingSite.adapter = HomeCampingSiteAdapter(list)
-        binding.rvScoreCampingSite.adapter = HomeCampingSiteAdapter(list)
-    }
-
     private fun initCollection() {
-        val list: ArrayList<HomeCollection> = ArrayList<HomeCollection>().let {
-            it.apply {
-                add(
-                    HomeCollection(
-                        R.drawable.bg_home_banner, "싸피캠핑장", "2023/01/08"
-                    )
-                )
-                add(
-                    HomeCollection(
-                        R.drawable.bg_home_banner, "싸피캠핑장", "2023/01/08"
-                    )
-                )
-                add(
-                    HomeCollection(
-                        R.drawable.bg_home_banner, "싸피캠핑장", "2023/01/08"
-                    )
-                )
-            }
+        binding.rvCollectionHome.adapter = homeCollectionAdapter
+        homeViewModel.homeCollections.observe(viewLifecycleOwner) { response ->
+            response?.let { homeCollectionAdapter.setCollection(it) }
         }
-        binding.rvCollectionHome.adapter = HomeCollectionAdapter(list)
+        homeViewModel.getHomeCollections()
     }
 
     private fun initBanner() {
@@ -127,6 +86,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         if (currentPage == 3) currentPage = 0
         binding.vpBannerHome.setCurrentItem(currentPage, true)
         currentPage += 1
+    }
+
+    private fun getCollection(collectionId: String) {
+        navigate(
+            HomeFragmentDirections.actionHomeFragmentToCollectionDetailFragment(
+                collectionId
+            )
+        )
     }
 
     inner class PagerRunnable:Runnable {

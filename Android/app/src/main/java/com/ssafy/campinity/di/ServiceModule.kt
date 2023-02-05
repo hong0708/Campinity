@@ -2,6 +2,7 @@ package com.ssafy.campinity.di
 
 import com.ssafy.campinity.AuthInterceptorClient
 import com.ssafy.campinity.NoAuthInterceptorClient
+import com.ssafy.campinity.RefreshInterceptorClient
 import com.ssafy.campinity.data.remote.service.AuthApiService
 import com.ssafy.campinity.data.remote.service.CollectionApiService
 import com.ssafy.campinity.data.remote.service.SearchApiService
@@ -24,6 +25,13 @@ object ServiceModule {
         @NoAuthInterceptorClient retrofit: Retrofit
     ): AuthApiService =
         retrofit.create(AuthApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideRefreshApiService(
+        @RefreshInterceptorClient retrofit: Retrofit
+    ): RefreshApiService =
+        retrofit.create(RefreshApiService::class.java)
 
     @Provides
     @Singleton
@@ -52,6 +60,13 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): CurationApiService =
         retrofit.create(CurationApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideCommunityApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): CommunityApiService =
+        retrofit.create(CommunityApiService::class.java)
 
     @Provides
     @Singleton

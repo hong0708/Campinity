@@ -20,4 +20,11 @@ class EditUserUseCase @Inject constructor(
     ): Resource<User> = withContext(Dispatchers.IO) {
         userRepository.editUserInfo(nickname, profileImg, fcmToken)
     }
+
+    suspend fun editUserInfoWithoutimg(
+        nickname: String,
+        fcmToken: String
+    ): Resource<User> = withContext(Dispatchers.IO) {
+        userRepository.editUserInfoWithoutImg(nickname, fcmToken)
+    }
 }

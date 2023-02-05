@@ -3,9 +3,11 @@ package com.ssafy.campinity.di
 import android.content.Context
 import com.ssafy.campinity.AuthInterceptorClient
 import com.ssafy.campinity.NoAuthInterceptorClient
+import com.ssafy.campinity.RefreshInterceptorClient
 import com.ssafy.campinity.common.util.Constants.BASE_URL
 import com.ssafy.campinity.data.local.datasource.SharedPreferences
 import com.ssafy.campinity.data.remote.AuthInterceptor
+import com.ssafy.campinity.data.remote.RefreshInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,6 +57,24 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @RefreshInterceptorClient
+    fun provideRefreshHttpClient(
+        @ApplicationContext context: Context
+    ): OkHttpClient {
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+        val authInterceptor = RefreshInterceptor(SharedPreferences(context))
+        return OkHttpClient.Builder()
+            .readTimeout(10, TimeUnit.SECONDS)
+            .connectTimeout(10, TimeUnit.SECONDS)
+            .writeTimeout(15, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(authInterceptor)
+            .build()
+    }
+
+    @Provides
+    @Singleton
     @NoAuthInterceptorClient
     fun provideRetrofit(
         @NoAuthInterceptorClient okHttpClient: OkHttpClient
@@ -69,6 +89,18 @@ object NetworkModule {
     @Singleton
     @AuthInterceptorClient
     fun provideAuthRetrofit(
+        @AuthInterceptorClient okHttpClient: OkHttpClient
+    ): Retrofit =
+        Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .client(okHttpClient)
+            .build()
+
+    @Provides
+    @Singleton
+    @RefreshInterceptorClient
+    fun provideRefreshRetrofit(
         @AuthInterceptorClient okHttpClient: OkHttpClient
     ): Retrofit =
         Retrofit.Builder()
