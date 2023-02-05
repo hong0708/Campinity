@@ -25,7 +25,7 @@ class CollectionDetailFragment :
         getData()
     }
 
-    override fun onSubmitButtonClicked() {
+    override fun onConfirmButtonClicked() {
         collectionViewModel.deleteCollection(args.collectionId)
         collectionViewModel.isDeleted.observe(viewLifecycleOwner) {
             if (it) Toast.makeText(requireContext(), "컬렉션이 삭제되었습니다.", Toast.LENGTH_SHORT).show()

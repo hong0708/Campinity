@@ -9,6 +9,7 @@ import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 import com.ssafy.campinity.domain.repository.CommunityRepository
 import kotlinx.coroutines.Dispatchers
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class CommunityRepositoryImpl @Inject constructor(
@@ -54,12 +55,25 @@ class CommunityRepositoryImpl @Inject constructor(
             ).map { it.toDomainModel() }
         }
 
+
     override suspend fun createCampsiteMessage(
-        communityCampsiteMessageRequest: CommunityCampsiteMessageRequest
+        messageCategory: String,
+        file: MultipartBody.Part?,
+        latitude: Double,
+        campsiteId: String,
+        content: String,
+        longitude: Double
     ): Resource<CampsiteMessageDetailInfo> =
         wrapToResource(Dispatchers.IO) {
             communityRemoteDataSource.createCampsiteMessage(
-                communityCampsiteMessageRequest
+                CommunityCampsiteMessageRequest(
+                    messageCategory,
+                    file,
+                    latitude,
+                    campsiteId,
+                    content,
+                    longitude
+                )
             ).toDomainModel()
         }
 }

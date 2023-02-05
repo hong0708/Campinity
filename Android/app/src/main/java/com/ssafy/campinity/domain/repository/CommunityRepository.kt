@@ -1,10 +1,10 @@
 package com.ssafy.campinity.domain.repository
 
 import com.ssafy.campinity.data.remote.Resource
-import com.ssafy.campinity.data.remote.datasource.communitycampsite.CommunityCampsiteMessageRequest
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
+import okhttp3.MultipartBody
 
 interface CommunityRepository {
 
@@ -27,6 +27,11 @@ interface CommunityRepository {
     ): Resource<List<CampsiteMessageBriefInfo>>
 
     suspend fun createCampsiteMessage(
-        communityCampsiteMessageRequest: CommunityCampsiteMessageRequest
+        messageCategory: String,
+        file: MultipartBody.Part?,
+        latitude: Double,
+        campsiteId: String,
+        content: String,
+        longitude: Double,
     ): Resource<CampsiteMessageDetailInfo>
 }

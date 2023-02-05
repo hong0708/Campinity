@@ -37,15 +37,13 @@ class CommunityCampsiteFreeReviewDialog(
                 dismiss()
             }
 
-            ibAddPhoto.setOnClickListener {
-                clUserPhoto.background
-            }
+            ibAddPhoto.setOnClickListener { }
 
             if (typeOfDialog == "review") {
                 tvSelectMarkerLocation.visibility = View.VISIBLE
 
                 tvSelectMarkerLocation.setOnClickListener {
-                    CommunityCampsiteMarkerDialog(context).show()
+                    //CommunityCampsiteMarkerDialog(context).show()
                 }
 
                 tvMakeReview.setOnClickListener {
@@ -60,6 +58,5 @@ class CommunityCampsiteFreeReviewDialog(
                 }
             }
         }
-
     }
 }

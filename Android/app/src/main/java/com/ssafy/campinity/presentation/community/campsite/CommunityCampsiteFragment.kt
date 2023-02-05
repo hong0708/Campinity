@@ -226,23 +226,39 @@ class CommunityCampsiteFragment :
             }
 
             fabReview.setOnClickListener {
-                CustomDialog(
+                /*CustomDialog(
                     requireContext(),
                     this@CommunityCampsiteFragment,
                     R.layout.dialog_write_review_note,
                     R.id.iv_close_write_review_note_dialog,
                     R.id.tv_make_review
-                ).show()
+                ).show()*/
+
+                // 캠핑장 설정 먼저 해야함 후에 제한 두기
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityCampsiteDialogFragment(
+                            "리뷰 쪽지",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             fabFreeNote.setOnClickListener {
-                CustomDialog(
+                /*CustomDialog(
                     requireContext(),
                     this@CommunityCampsiteFragment,
                     R.layout.dialog_write_free_note,
                     R.id.iv_close_write_review_note_dialog,
                     R.id.tv_make_review
-                ).show()
+                ).show()*/
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityCampsiteDialogFragment(
+                            "자유 쪽지",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             // SlidingUpPanel
@@ -369,7 +385,7 @@ class CommunityCampsiteFragment :
                 MapPoint.mapPointWithGeoCoord(i.latitude.toDouble(), i.longitude.toDouble())
             val marker = MapPOIItem()
             marker.apply {
-                itemName = "현 위치"
+                itemName = i.content
                 mapPoint = markerPosition
                 markerType = MapPOIItem.MarkerType.CustomImage
                 customImageResourceId = R.drawable.ic_community_campsite_marker

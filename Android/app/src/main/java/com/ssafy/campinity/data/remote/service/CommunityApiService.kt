@@ -30,6 +30,7 @@ interface CommunityApiService {
         @Query("topLeftLng") topLeftLng: Double
     ): List<CommunityCampsiteBriefInfoMessageResponse>
 
+    @Multipart
     @POST("/api/v2/messages")
     suspend fun createCampsiteMessage(
         @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,

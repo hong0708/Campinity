@@ -28,7 +28,7 @@ class CollectionDeleteFileDialog(
 
         binding.apply {
             btnConfirm.setOnClickListener {
-                listener.onSubmitButtonClicked()
+                listener.onConfirmButtonClicked()
                 dismiss()
             }
             btnCancel.setOnClickListener {
