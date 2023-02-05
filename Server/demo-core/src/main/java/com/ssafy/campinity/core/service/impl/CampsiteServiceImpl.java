@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -69,23 +70,16 @@ public class CampsiteServiceImpl implements CampsiteService {
         List<CampsiteListResDTO> results = new ArrayList<>();
         for (Campsite camp: campsites) {
 
-            List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
+            List<String> images = camp.getImages().stream().map(image -> {
                 return image.getImagePath();
             }).collect(Collectors.toList());
 
-            Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(memberId, camp.getId());
+            boolean isScraped = camp.getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getId() == memberId);
 
-            Boolean isScraped = false;
-            if (campsiteScrap.isPresent()) {
-                isScraped = true;
-            }
-
-            int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+            int messageCnt = camp.getMessages().size();
 
             results.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).images(images).build());
-
         }
-
         return results;
     }
 
@@ -96,7 +90,36 @@ public class CampsiteServiceImpl implements CampsiteService {
                                                                String[] themes, String[] allowAnimals, String[] openSeasons,
                                                                int memberId) {
 
-        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames, fclties, amenities, industries, themes, allowAnimals, openSeasons, memberId);
+        List<Campsite> campsites = campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames,
+                fclties, amenities, industries, themes, allowAnimals, openSeasons);
+
+        List<CampsiteListResDTO> results = campsites.stream().map(camp -> {
+            boolean isScraped = camp.getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getId() == memberId);
+            int messageCnt = camp.getMessages().size();
+
+            List<String> images = camp.getImages().stream().map(image -> {
+                return image.getImagePath();
+            }).collect(Collectors.toList());
+
+            return CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).images(images).build();
+
+//            Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(memberId, camp.getId());
+//
+//            Boolean isScraped = false;
+//            if (campsiteScrap.isPresent()) {
+//                isScraped = true;
+//            }
+//
+//            int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+//
+//            List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
+//                return image.getImagePath();
+//            }).collect(Collectors.toList());
+//
+//            return CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).images(images).messageCnt(messageCnt).build();
+        }).collect(Collectors.toList());
+
+        return results;
     }
 
     @Transactional
