@@ -4,6 +4,7 @@ package com.ssafy.campinity.core.utils;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -15,12 +16,12 @@ import java.io.InputStream;
 import java.util.List;
 
 @Slf4j
+@RequiredArgsConstructor
 @Component
 public class FcmInitializer {
-    @Value("${fcm.certification}")
-    private String GOOGLE_APPLICATION_CREDENTIALS;
-    @Value("${fcm.scope}")
-    private String FIREBASE_SCOPE;
+
+    private final String GOOGLE_APPLICATION_CREDENTIALS = "firebase/campinity-5ff94-firebase-adminsdk-a0uem-64c6576e75.json";;
+    private final String FIREBASE_SCOPE = "https://www.googleapis.com/auth/cloud-platform";
 
     @PostConstruct
     public void initialize() throws IOException {

@@ -79,7 +79,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
                     throw new FileNotFoundException();
                 }
             }
-            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "myCollection"); }
+            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
             catch (IOException e) { throw new RuntimeException(e); }
         }
 
@@ -111,7 +111,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        List<MyCollection> myCollections = myCollectionRepository.findByMemberAndExpiredIsFalse(member);
+        List<MyCollection> myCollections = myCollectionRepository.findAllByMemberAndExpiredIsFalse(member);
 
         if (myCollections.isEmpty()) return new ArrayList<>();
         return myCollections;

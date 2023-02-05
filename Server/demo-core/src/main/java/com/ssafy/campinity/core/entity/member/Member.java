@@ -1,23 +1,15 @@
 package com.ssafy.campinity.core.entity.member;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.ssafy.campinity.core.entity.BaseEntity;
-import com.ssafy.campinity.core.entity.answer.Answer;
-import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
-import com.ssafy.campinity.core.entity.curation.CurationScrap;
-import com.ssafy.campinity.core.entity.fcmToken.FcmToken;
-import com.ssafy.campinity.core.entity.message.LikeMessage;
-import com.ssafy.campinity.core.entity.message.Message;
-import com.ssafy.campinity.core.entity.question.Question;
-import com.ssafy.campinity.core.entity.review.Review;
+import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.UUID;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,44 +28,11 @@ public class Member extends BaseEntity {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-//    @OneToMany
-//    @JoinColumn(name = "member_id")
-//    @ToString.Exclude
-//    private List<Message> messages = new ArrayList<>();
-//
-//    @OneToMany
-//    @JoinColumn(name = "member_id")
-//    @ToString.Exclude
-//    private List<LikeMessage> likeMessages = new ArrayList<>();
-//
-//    @OneToMany
-//    @JoinColumn(name = "member_id")
-//    @ToString.Exclude
-//    private List<CampsiteScrap> campsiteScraps = new ArrayList<>();
-//
-//    @OneToMany
-//    @JoinColumn(name = "member_id")
-//    @ToString.Exclude
-//    private List<Review> reviews = new ArrayList<>();
-//
-//    @OneToMany
-//    @JoinColumn(name = "member_id")
-//    @ToString.Exclude
-//    private List<Question> questions = new ArrayList<>();
-//
-//    @OneToMany
-//    @JoinColumn(name = "member_id")
-//    @ToString.Exclude
-//    private List<Answer> answers = new ArrayList<>();
-//
-//    @OneToMany
-//    @JoinColumn(name = "member_id")
-//    @ToString.Exclude
-//    private List<CurationScrap> curationScraps = new ArrayList<>();
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @ToString.Exclude
+    private List<FcmToken> fcmTokenList;
 
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinColumn(name = "fcmToken_id")
-    private FcmToken fcmToken = new FcmToken();
+    private String subscribeCamp;
 
     private String name;
 
@@ -84,19 +43,18 @@ public class Member extends BaseEntity {
     private Boolean expired = false;
 
     @Builder
-    public Member(UUID uuid, FcmToken fcmToken, String name, String email, String profileImage) {
+    public Member(UUID uuid, FcmToken fcmTokenList, String name, String email, String profileImage) {
         this.uuid = uuid;
-        this.fcmToken = fcmToken;
+        this.fcmTokenList = fcmTokenList == null ? new ArrayList<>() : List.of(fcmTokenList);
         this.name = name;
         this.email = email;
         this.profileImage = profileImage;
     }
-//
-//    public void addUserScrap(CampsiteScrap campsiteScrap) {
-//        this.getCampsiteScraps().add(campsiteScrap);
-//    }
-//
-//    public void addUserReview(Review review) {
-//        this.getReviews().add(review);
-//    }
+
+    public void addFcmToken(FcmToken fcmToken){
+        this.fcmTokenList.add(fcmToken);
+    }
+    public void removeFcmToken(FcmToken fcmToken){
+        this.fcmTokenList.remove(fcmToken);
+    }
 }
