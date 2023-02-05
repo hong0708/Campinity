@@ -27,6 +27,7 @@ public class FcmToken {
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
+    @ToString.Exclude
     private Member member;
 
     private String token;
