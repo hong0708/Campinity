@@ -3,10 +3,6 @@ package com.ssafy.campinity.di
 import com.ssafy.campinity.AuthInterceptorClient
 import com.ssafy.campinity.NoAuthInterceptorClient
 import com.ssafy.campinity.RefreshInterceptorClient
-import com.ssafy.campinity.data.remote.service.AuthApiService
-import com.ssafy.campinity.data.remote.service.CollectionApiService
-import com.ssafy.campinity.data.remote.service.SearchApiService
-import com.ssafy.campinity.data.remote.service.UserApiService
 import com.ssafy.campinity.data.remote.service.*
 import dagger.Module
 import dagger.Provides

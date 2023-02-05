@@ -8,10 +8,6 @@ import com.ssafy.campinity.data.remote.datasource.home.HomeRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.search.SearchRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.user.UserRemoteDataSourceImpl
-import com.ssafy.campinity.data.remote.service.AuthApiService
-import com.ssafy.campinity.data.remote.service.CollectionApiService
-import com.ssafy.campinity.data.remote.service.SearchApiService
-import com.ssafy.campinity.data.remote.service.UserApiService
 import com.ssafy.campinity.data.remote.service.*
 import dagger.Module
 import dagger.Provides
