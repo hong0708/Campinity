@@ -1,16 +1,15 @@
 package com.ssafy.campinity.presentation.search
 
-import android.util.Log
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.common.util.getDeviceWidthPx
+import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchAreaBinding
-import com.ssafy.campinity.domain.entity.search.AreaListItem
 import com.ssafy.campinity.domain.entity.search.GugunItem
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -21,42 +20,24 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
     private lateinit var searchAreaSiDoAdapter: SearchAreaSiDoAdapter
     private lateinit var searchAreaGuGunAdapter: SearchAreaGuGunAdapter
-    private val searchViewModel by viewModels<SearchViewModel>()
+    private val searchViewModel by activityViewModels<SearchViewModel>()
     private var isAllSelected = false
 
     override fun initView() {
         binding.viewModel = searchViewModel
 
-        initAreaList()
-        initSiDo()
-        initGuGun()
+        initRecyclerview()
         initListener()
         observeState()
     }
 
-    override fun onResume() {
-        super.onResume()
-//        initListener()
-    }
-
-    private fun initAreaList() {
-        searchViewModel.getSidoAll()
-        Log.d("initAreaList", "initAreaList: ${searchViewModel.sidoList.value}")
-
-        searchViewModel.sidoList.value?.forEach { sidoItem ->
-            Log.d("getGugun", "sidoItem: $sidoItem")
-            val sidoName = sidoItem.sido
-            val campsiteCountAll = sidoItem.campsiteCountAll
-
-            searchViewModel.getGugun(sidoName)
-            searchViewModel.makeAreaList(
-                AreaListItem(
-                    sidoName,
-                    searchViewModel.gugunList.value!!,
-                    campsiteCountAll
-                )
-            )
-        }
+    private fun initRecyclerview() {
+        initSiDo()
+        initGuGun()
+        binding.tvCampsiteCount.text = requireContext().getString(
+            R.string.content_campsite_count,
+            searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].campsiteCountAll
+        )
     }
 
     private fun initSiDo() {
@@ -65,12 +46,10 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                 context, LinearLayoutManager.VERTICAL, false
             )
 
-            searchViewModel.extractSidoName()
-            Log.d("initSiDo", "initSiDo: ${searchViewModel.sidoNameList.value}")
-//            searchAreaSiDoAdapter = SearchAreaSiDoAdapter(
-//                searchViewModel, searchViewModel.sidoNameList.value!!.toList()
-//            )
-//            adapter = searchAreaSiDoAdapter
+            searchAreaSiDoAdapter = SearchAreaSiDoAdapter(
+                searchViewModel, searchViewModel.areaList.toList()
+            )
+            adapter = searchAreaSiDoAdapter
         }
     }
 
@@ -89,7 +68,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             )
 
             searchAreaGuGunAdapter = SearchAreaGuGunAdapter(
-                requireContext(), listOf(), btnWidth
+                requireContext(), searchViewModel.areaList[0].gugunList, btnWidth
             ) { method: String, flag: Boolean -> toggleBtn(method, flag) }
 
             adapter = searchAreaGuGunAdapter
@@ -118,18 +97,32 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
         }
 
         binding.btnSubmit.setOnClickListener {
-            val sido = searchAreaSiDoAdapter.selectedItem
+            val sido = searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].sidoName
             val gugun = searchViewModel.mapGugun(searchAreaGuGunAdapter.selectedItems.toList())
 
-            searchViewModel.getCampsitesByArea(sido, gugun)
+            searchViewModel.getCampsitesByFiltering(
+                SearchFilterRequest(
+                    doName = sido, sigunguName = gugun
+                )
+            )
+            searchViewModel.setStateBehaviorArea(false)
+            searchAreaSiDoAdapter.selectedPosition = 0
+            searchViewModel.setSido(searchViewModel.areaList[0].sidoName)
         }
     }
 
     private fun observeState() {
         searchViewModel.sido.observe(viewLifecycleOwner) {
-            val list: List<GugunItem> = listOf()
+            val list: List<GugunItem> =
+                searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].gugunList
 
+            searchAreaGuGunAdapter.unselectAll()
             searchAreaGuGunAdapter.setData(list)
+
+            binding.tvCampsiteCount.text = requireContext().getString(
+                R.string.content_campsite_count,
+                searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].campsiteCountAll
+            )
         }
     }
 
@@ -157,9 +150,11 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     private fun toggleBtnSubmit(isSelected: Boolean) {
         binding.btnSubmit.apply {
             if (isSelected) {
+                this.isClickable = true
                 this.setBackgroundResource(R.drawable.bg_rect_bilbao_radius10)
                 this.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
             } else {
+                this.isClickable = false
                 this.setBackgroundResource(R.drawable.bg_rect_white_smoke_radius10)
                 this.setTextColor(ContextCompat.getColor(requireContext(), R.color.zambezi))
             }

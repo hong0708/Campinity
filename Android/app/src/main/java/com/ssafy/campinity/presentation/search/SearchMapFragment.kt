@@ -19,4 +19,9 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
         binding.rlMapView.addView(mapView)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+            binding.rlMapView.removeAllViews()
+    }
 }

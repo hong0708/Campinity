@@ -5,17 +5,16 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemSearchAreaSidoBinding
+import com.ssafy.campinity.domain.entity.search.AreaListItem
 
 class SearchAreaSiDoAdapter(
     private val viewModel: SearchViewModel,
-    private val sido: List<String>
+    private val sido: List<AreaListItem>
 ) :
     RecyclerView.Adapter<SearchAreaSiDoAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemSearchAreaSidoBinding
-    private var selectedPosition = 0
-    val selectedItem: String
-        get() = sido[selectedPosition]
+    var selectedPosition = 0
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemSearchAreaSidoBinding.inflate(
@@ -27,8 +26,8 @@ class SearchAreaSiDoAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(sido[position])
-        holder.initListener(sido[position])
+        holder.bind(sido[position].sidoName)
+        holder.initListener(sido[position].sidoName)
     }
 
     override fun getItemCount(): Int = sido.size

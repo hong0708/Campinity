@@ -3,6 +3,7 @@ package com.ssafy.campinity.presentation.search
 import android.view.View
 import android.widget.LinearLayout
 import androidx.fragment.app.FragmentContainerView
+import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
 import com.ssafy.campinity.R
@@ -10,12 +11,15 @@ import com.ssafy.campinity.common.util.getDeviceHeightPx
 import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.FragmentSearchMainBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.fragment_search_main) {
 
     private lateinit var behaviorList: BottomSheetBehavior<LinearLayout>
     private lateinit var behaviorArea: BottomSheetBehavior<FragmentContainerView>
     private lateinit var behaviorFilter: BottomSheetBehavior<FragmentContainerView>
+    private val searchViewModel by activityViewModels<SearchViewModel>()
 
     override fun initView() {
         behaviorList = BottomSheetBehavior.from(binding.llList)
@@ -26,6 +30,7 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         initBehaviorList()
         initBehaviorArea()
         initBehaviorFilter()
+        observeStateBehavior()
     }
 
     private fun initListener() {
@@ -91,15 +96,12 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         behaviorArea.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        isDragging = false
-                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> isDragging = false
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         isDragging = false
+                        searchViewModel.setStateBehaviorArea(true)
                     }
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                        isDragging = true
-                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> isDragging = true
                     BottomSheetBehavior.STATE_SETTLING -> {}
                     BottomSheetBehavior.STATE_HIDDEN -> {}
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
@@ -129,15 +131,12 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         behaviorFilter.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> {
-                        isDragging = false
-                    }
+                    BottomSheetBehavior.STATE_COLLAPSED -> isDragging = false
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         isDragging = false
+                        searchViewModel.setStateBehaviorFilter(true)
                     }
-                    BottomSheetBehavior.STATE_DRAGGING -> {
-                        isDragging = true
-                    }
+                    BottomSheetBehavior.STATE_DRAGGING -> isDragging = true
                     BottomSheetBehavior.STATE_SETTLING -> {}
                     BottomSheetBehavior.STATE_HIDDEN -> {}
                     BottomSheetBehavior.STATE_HALF_EXPANDED -> {}
@@ -159,5 +158,20 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                     }
             }
         })
+    }
+
+    private fun observeStateBehavior() {
+        searchViewModel.stateBehaviorArea.observe(viewLifecycleOwner) {
+            if (!it) {
+                binding.clSearch.visibility = View.VISIBLE
+                behaviorArea.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
+        searchViewModel.stateBehaviorFilter.observe(viewLifecycleOwner) {
+            if (!it) {
+                binding.clSearch.visibility = View.VISIBLE
+                behaviorFilter.state = BottomSheetBehavior.STATE_COLLAPSED
+            }
+        }
     }
 }

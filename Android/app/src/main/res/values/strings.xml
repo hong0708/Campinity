@@ -180,14 +180,26 @@
     <string name="image_review_profile">프로필 사진입니다.</string>
     <string name="image_review_star">캠핑장 리뷰 별점 이미지입니다.</string>
     <string name="image_campsite_facility_and_leisure">캠핑장의 시설 및 레저 이미지입니다.</string>
+    <string name="content_campsite_not_found">검색 된 캠핑장이 없습니다.</string>
+    <string name="title_filter_facility">내부 시설</string>
+    <string name="title_filter_amenity">부대 시설</string>
+    <string name="title_filter_theme">테마</string>
+    <string name="title_filter_pet">반려동물 동반 가능</string>
+    <string name="title_filter_season">운영 계절</string>
+    <array name="content_campsite_industry">
+        <item name="content_campsite_industry_1">일반야영장</item>
+        <item name="content_campsite_industry_2">자동차야영장</item>
+        <item name="content_campsite_industry_3">카라반</item>
+        <item name="content_campsite_industry_4">글램핑</item>
+    </array>
     <array name="content_campsite_theme">
         <item name="content_campsite_theme_1">걷기길</item>
         <item name="content_campsite_theme_2">수상레저</item>
         <item name="content_campsite_theme_3">항공레저</item>
         <item name="content_campsite_theme_4">여름물놀이</item>
-        <item name="content_campsite_theme_5">가을\n단풍명소</item>
+        <item name="content_campsite_theme_5">가을단풍명소</item>
         <item name="content_campsite_theme_6">봄꽃여행</item>
-        <item name="content_campsite_theme_7">겨율\n눈꽃명소</item>
+        <item name="content_campsite_theme_7">겨율눈꽃명소</item>
         <item name="content_campsite_theme_8">일출명소</item>
         <item name="content_campsite_theme_9">액티비티</item>
         <item name="content_campsite_theme_10">낚시</item>
@@ -197,10 +209,10 @@
     <array name="content_campsite_facility">
         <item name="content_campsite_facility_1">침대</item>
         <item name="content_campsite_facility_2">TV</item>
-        <item name="content_campsite_facility_3">내부 샤워실</item>
+        <item name="content_campsite_facility_3">내부샤워실</item>
         <item name="content_campsite_facility_4">냉장고</item>
-        <item name="content_campsite_facility_5">유,무선 인터넷</item>
-        <item name="content_campsite_facility_6">내부 화장실</item>
+        <item name="content_campsite_facility_5">유,무선인터넷</item>
+        <item name="content_campsite_facility_6">내부화장실</item>
         <item name="content_campsite_facility_7">난방기구</item>
         <item name="content_campsite_facility_8">에어컨</item>
         <item name="content_campsite_facility_9">취사도구</item>
@@ -217,6 +229,17 @@
         <item name="content_campsite_amenity_9">트렘폴린</item>
         <item name="content_campsite_amenity_10">산책로</item>
         <item name="content_campsite_amenity_11">놀이터</item>
+    </array>
+    <array name="content_campsite_pet">
+        <item name="content_campsite_pet_1">가능</item>
+        <item name="content_campsite_pet_2">가능(소형견)</item>
+        <item name="content_campsite_pet_3">불가능</item>
+    </array>
+    <array name="content_campsite_season">
+        <item name="content_campsite_oper_season_1">봄</item>
+        <item name="content_campsite_oper_season_2">여름</item>
+        <item name="content_campsite_oper_season_3">가을</item>
+        <item name="content_campsite_oper_season_4">겨울</item>
     </array>
 
     <!-- Community note-->
@@ -237,6 +260,7 @@
     <string name="content_campsite_count">(%1$d)</string>
     <string-array name="area_gangwon">
         <item name="gangwon_title">강원도</item>
+        <item name="gangwon_campsite_count_all">667</item>
         <item name="gangwon_content_1">강릉시(31)</item>
         <item name="gangwon_content_2">고성군(24)</item>
         <item name="gangwon_content_3">동해시(7)</item>
@@ -258,6 +282,7 @@
     </string-array>
     <string-array name="area_gyeonggi">
         <item name="gyeonggi_title">경기도</item>
+        <item name="gyeonggi_campsite_count_all">814</item>
         <item name="gyeonggi_content_1">가평군(235)</item>
         <item name="gyeonggi_content_2">고양시(4)</item>
         <item name="gyeonggi_content_3">과천시(2)</item>
@@ -291,6 +316,7 @@
     </string-array>
     <string-array name="area_gyeongsang_south">
         <item name="gyeongsang_south_title">경상남도</item>
+        <item name="gyeongsang_south_campsite_count_all">335</item>
         <item name="gyeongsang_south_content_1">거제시(14)</item>
         <item name="gyeongsang_south_content_2">거창군(19)</item>
         <item name="gyeongsang_south_content_3">고성군(21)</item>
@@ -312,6 +338,7 @@
     </string-array>
     <string-array name="area_gyeongsang_north">
         <item name="gyeongsang_north_title">경상북도</item>
+        <item name="gyeongsang_north_campsite_count_all">405</item>
         <item name="gyeongsang_north_content_1">경산시(3)</item>
         <item name="gyeongsang_north_content_2">경주시(66)</item>
         <item name="gyeongsang_north_content_3">고령군(17)</item>
@@ -338,6 +365,7 @@
     </string-array>
     <string-array name="area_gwangju">
         <item name="gwangju_title">광주시</item>
+        <item name="gwangju_campsite_count_all">5</item>
         <item name="gwangju_content_1">광산구(1)</item>
         <item name="gwangju_content_2">남구(2)</item>
         <item name="gwangju_content_3">북구(1)</item>
@@ -345,6 +373,7 @@
     </string-array>
     <string-array name="area_daegu">
         <item name="daegu_title">대구시</item>
+        <item name="daegu_campsite_count_all">20</item>
         <item name="daegu_content_1">달서구(1)</item>
         <item name="daegu_content_2">달성군(9)</item>
         <item name="daegu_content_3">동구(6)</item>
@@ -353,6 +382,7 @@
     </string-array>
     <string-array name="area_daejeon">
         <item name="daejeon_title">대전시</item>
+        <item name="daejeon_campsite_count_all">15</item>
         <item name="daejeon_content_1">대덕구(3)</item>
         <item name="daejeon_content_2">동구(4)</item>
         <item name="daejeon_content_3">서구(2)</item>
@@ -361,6 +391,7 @@
     </string-array>
     <string-array name="area_busan">
         <item name="busan_title">부산시</item>
+        <item name="busan_campsite_count_all">10</item>
         <item name="busan_content_1">강서구(1)</item>
         <item name="busan_content_2">기장군(5)</item>
         <item name="busan_content_3">동구(1)</item>
@@ -370,6 +401,7 @@
     </string-array>
     <string-array name="area_seoul">
         <item name="seoul_title">서울시</item>
+        <item name="seoul_campsite_count_all">15</item>
         <item name="seoul_content_1">강동구(1)</item>
         <item name="seoul_content_2">강북구(1)</item>
         <item name="seoul_content_3">강서구(1)</item>
@@ -386,6 +418,7 @@
     </string-array>
     <string-array name="area_sejong">
         <item name="sejong_title">세종시</item>
+        <item name="sejong_campsite_count_all">7</item>
         <item name="sejong_content_1">금남면(1)</item>
         <item name="sejong_content_2">세종시(2)</item>
         <item name="sejong_content_3">연서면(2)</item>
@@ -393,6 +426,7 @@
     </string-array>
     <string-array name="area_ulsan">
         <item name="ulsan_title">울산시</item>
+        <item name="ulsan_campsite_count_all">27</item>
         <item name="ulsan_content_1">동구(2)</item>
         <item name="ulsan_content_2">북구(4)</item>
         <item name="ulsan_content_3">울주군(17)</item>
@@ -400,6 +434,7 @@
     </string-array>
     <string-array name="area_incheon">
         <item name="incheon_title">인천시</item>
+        <item name="incheon_campsite_count_all">102</item>
         <item name="incheon_content_1">강화군(58)</item>
         <item name="incheon_content_2">계양구(1)</item>
         <item name="incheon_content_3">남동구(3)</item>
@@ -410,6 +445,7 @@
     </string-array>
     <string-array name="area_jeonla_south">
         <item name="jeonla_south_title">전라남도</item>
+        <item name="jeonla_south_campsite_count_all">183</item>
         <item name="jeonla_south_content_1">강진군(7)</item>
         <item name="jeonla_south_content_2">고흥군(12)</item>
         <item name="jeonla_south_content_3">곡성군(17)</item>
@@ -435,6 +471,7 @@
     </string-array>
     <string-array name="area_jeonla_north">
         <item name="jeonla_north_title">전라북도</item>
+        <item name="jeonla_north_campsite_count_all">143</item>
         <item name="jeonla_north_content_1">고창군(9)</item>
         <item name="jeonla_north_content_2">군산시(4)</item>
         <item name="jeonla_north_content_3">김제시(3)</item>
@@ -452,11 +489,13 @@
     </string-array>
     <string-array name="area_jeju">
         <item name="jeju_title">제주도</item>
+        <item name="jeju_campsite_count_all">48</item>
         <item name="jeju_content_1">서귀포시(17)</item>
         <item name="jeju_content_2">제주시(31)</item>
     </string-array>
     <string-array name="area_chungcheong_south">
         <item name="chungcheong_south_title">충청남도</item>
+        <item name="chungcheong_south_campsite_count_all">291</item>
         <item name="chungcheong_south_content_1">공주시(26)</item>
         <item name="chungcheong_south_content_2">금산군(17)</item>
         <item name="chungcheong_south_content_3">논산시(16)</item>
@@ -474,6 +513,7 @@
     </string-array>
     <string-array name="area_chungcheong_north">
         <item name="chungcheong_north_title">충청북도</item>
+        <item name="chungcheong_north_campsite_count_all">241</item>
         <item name="chungcheong_north_content_1">괴산군(39)</item>
         <item name="chungcheong_north_content_2">단양군(26)</item>
         <item name="chungcheong_north_content_3">보은군(15)</item>
@@ -489,9 +529,9 @@
 
     <!-- Search filter -->
     <string name="title_filter">관심 필터 설정</string>
-    <string name="title_filter_industry">사업</string>
     <string name="title_my_letter">내 편지함</string>
     <string name="content_new_letter">새 쪽지</string>
+    <string name="title_filter_industry">사업</string>
 
     <!-- Notification -->
     <string name="notification_channel_id">Channel_Id</string>

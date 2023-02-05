@@ -73,6 +73,15 @@ class SearchAreaGuGunAdapter(
                 notifyItemChanged(position)
             }
         }
+        toggleBtn()
+    }
+
+    fun toggleBtn() {
+        if (selectedItemCount == itemCount) toggleBtn("selectAll", true)
+        else toggleBtn("selectAll", false)
+
+        if (selectedItemCount > 0) toggleBtn("submit", true)
+        else toggleBtn("submit", false)
     }
 
     inner class ViewHolder(private val binding: ItemSearchAreaGugunBinding) :
@@ -111,11 +120,7 @@ class SearchAreaGuGunAdapter(
                     )
                 }
 
-                if (selectedItemCount == itemCount) toggleBtn("selectAll", true)
-                else toggleBtn("selectAll", false)
-
-                if (selectedItemCount > 0) toggleBtn("submit", true)
-                else toggleBtn("submit", false)
+                toggleBtn()
             }
 
         }
