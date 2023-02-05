@@ -5,9 +5,11 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 // 추후 모션 인식에 따른 동작 설정 필요
-class CommunityMapViewEventListener: MapView.MapViewEventListener {
+class CommunityMapViewEventListener(
+    private val mapViewMarkerEventListener: MapViewMarkerEventListener
+) : MapView.MapViewEventListener {
     val TAG = "MapViewEventListener"
-    
+
     override fun onMapViewInitialized(p0: MapView?) {
         Log.d(TAG, "onMapViewInitialized: ")
     }
@@ -17,7 +19,8 @@ class CommunityMapViewEventListener: MapView.MapViewEventListener {
     }
 
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-        Log.d(TAG, "onMapViewZoomLevelChanged: ")
+        mapViewMarkerEventListener.zoomLevelChanged()
+        Log.d(TAG, "zoom Level Changed ")
     }
 
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
@@ -41,6 +44,7 @@ class CommunityMapViewEventListener: MapView.MapViewEventListener {
     }
 
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
+        mapViewMarkerEventListener.move()
         Log.d(TAG, "onMapViewMoveFinished: ")
     }
 }

@@ -1,4 +1,4 @@
-package com.ssafy.campinity.data.remote.datasource.CommunityCampsite
+package com.ssafy.campinity.data.remote.datasource.communitycampsite
 
 import com.ssafy.campinity.data.remote.service.CommunityApiService
 import javax.inject.Inject
@@ -24,13 +24,17 @@ class CommunityRemoteDataSourceImpl @Inject constructor(
             topLeftLng
         )
 
-    override suspend fun getCampsiteMessagesByScope(
+    override suspend fun getCampsiteMessagesBriefInfoByScope(
         bottomRightLat: Double,
         bottomRightLng: Double,
         campsiteId: String,
         topLeftLat: Double,
         topLeftLng: Double
-    ): List<CommunityCampsiteMessageResponse> {
-        TODO("Not yet implemented")
-    }
+    ): List<CommunityCampsiteBriefInfoMessageResponse> = communityApiService.getCampsiteMessagesByScope(
+        campsiteId,
+        bottomRightLat,
+        bottomRightLng,
+        topLeftLat,
+        topLeftLng
+    )
 }

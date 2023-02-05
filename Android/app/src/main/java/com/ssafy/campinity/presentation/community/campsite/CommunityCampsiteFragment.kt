@@ -18,6 +18,7 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.CustomDialog
 import com.ssafy.campinity.common.util.CustomDialogInterface
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
+import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
@@ -27,7 +28,8 @@ import net.daum.mf.map.api.MapView
 @AndroidEntryPoint
 class CommunityCampsiteFragment :
     BaseFragment<FragmentCommunityCampsiteBinding>(R.layout.fragment_community_campsite),
-    CustomDialogInterface {
+    CustomDialogInterface,
+    MapViewMarkerEventListener {
 
     private lateinit var viewList: List<View>
     private lateinit var fabList: List<ConstraintLayout>
@@ -56,9 +58,11 @@ class CommunityCampsiteFragment :
 
         mapView = MapView(activity)
 
-        val listener = CommunityMapViewEventListener()
+        val listener = CommunityMapViewEventListener(this)
         mapView.setMapViewEventListener(listener)
+        mapView.setZoomLevel(1, true)
 
+        initMapView()
         binding.clCommunityMap.addView(mapView)
     }
 
@@ -71,6 +75,73 @@ class CommunityCampsiteFragment :
         onDestroyView()
     }
 
+    override fun move() {
+        //ApplicationClass.preferences.userRecentCampsiteId
+
+        communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
+            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+            mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
+            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+            mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+        )
+    }
+
+    override fun zoomLevelChanged() {
+        communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
+            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+            mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
+            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+            mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+        )
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun initMapView() {
+
+        //mapView.setMapCenterPoint()
+        /*mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving*/
+
+        // 현재 위치 기준으로 맵 이동
+        val lm: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        //위도 , 경도
+        val uLatitude = userNowLocation?.latitude
+        val uLongitude = userNowLocation?.longitude
+        val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
+        mapView.setMapCenterPoint(uNowPosition, true)
+
+
+        // 현 위치에 마커 찍기
+        /*val marker = MapPOIItem()
+
+        marker.apply {
+            itemName = "현 위치"
+            mapPoint = uNowPosition
+            markerType = MapPOIItem.MarkerType.CustomImage
+            customImageResourceId = R.drawable.ic_community_campsite_marker
+            selectedMarkerType = MapPOIItem.MarkerType.RedPin
+        }
+        mapView.addPOIItem(marker)*/
+    }
+
+    private fun initRecyclerView() {
+
+        binding.rvCampsiteList.apply {
+            adapter = communityCampsiteTitleListAdapter
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+        }
+
+        communityCampsiteViewModel.campsiteBriefInfo.observe(viewLifecycleOwner) { response ->
+            response.let { communityCampsiteTitleListAdapter.setCampsiteBriefInfo(it) }
+        }
+    }
+
+    @SuppressLint("MissingPermission")
     private fun initListener() {
         binding.apply {
 
@@ -89,12 +160,25 @@ class CommunityCampsiteFragment :
 
             clSearchByUserLocation.setOnClickListener {
                 //추적 시작
-                Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "사용자의 위치와 지도 기준으로 검색 합니다.", Toast.LENGTH_SHORT)
+                    .show()
                 mapView.currentLocationTrackingMode =
-                    MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-                if (!isTracking) {
-                    isTracking = true
+                    MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                if (isTracking) {
+                    isTracking = false
                 }
+                // 현재 내위치 기준으로 맵 포인트 가운데로 옮기기
+                // 추후 맵 레벨 바꿔서 검색 진행
+                val lm: LocationManager =
+                    requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                val userNowLocation: Location? =
+                    lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                //위도 , 경도
+                val uLatitude = userNowLocation?.latitude
+                val uLongitude = userNowLocation?.longitude
+                val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
+                mapView.setMapCenterPoint(uNowPosition, true)
+
                 mapView.mapCenterPoint.mapPointScreenLocation
 
                 communityCampsiteViewModel.getCampsiteBriefInfoByUserLocation(
@@ -103,10 +187,17 @@ class CommunityCampsiteFragment :
                     mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
                     mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
                 )
+
+                Log.d(
+                    "abcde",
+                    "initListener: ${mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude}  " +
+                            "${mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude}" +
+                            "${mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude}  " +
+                            "${mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude}  "
+                )
             }
 
             tvSearchCampsiteByName.setOnClickListener {
-                Log.d("name search", "initListener: ${etInputCampsiteName.text.toString()}")
                 communityCampsiteViewModel.getCampsiteBriefInfoByCampName(etInputCampsiteName.text.toString())
             }
 
@@ -208,15 +299,6 @@ class CommunityCampsiteFragment :
         ObjectAnimator.ofFloat(clFab, "translationY", -moveValue).apply { start() }
     }
 
-    private fun initRecyclerView() {
-        binding.rvCampsiteList.apply {
-            adapter = communityCampsiteTitleListAdapter
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        }
-        communityCampsiteViewModel.campsiteBriefInfo.observe(viewLifecycleOwner) { response ->
-            response.let { communityCampsiteTitleListAdapter.setCampsiteBriefInfo(it) }
-        }
-    }
 
     private fun getCampsiteTitle(campsiteId: String, campsiteName: String?) {
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
@@ -226,6 +308,30 @@ class CommunityCampsiteFragment :
         ApplicationClass.preferences.userRecentCampsiteName = campsiteName
 
         binding.slCommunityFrame.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+
+        // 싸피 캠핑장 기준으로 맵 가운데 지점 옮기기
+        // 추후 받아온 위 경도 활용
+        val uLatitude = 36.1071
+        val uLongitude = 128.4164
+        val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude, uLongitude)
+        mapView.setMapCenterPoint(uNowPosition, true)
+
+        // 쪽지 그릴 리스트 가져오기
+        communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
+            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+            mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
+            campsiteId,
+            mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+        )
+
+        communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
+            markers(response)
+        }
+
+        /*// 리스너 다시 달기
+        val listener = CommunityMapViewEventListener(this@CommunityCampsiteFragment)
+        mapView.setMapViewEventListener(listener)*/
     }
 
     // 이벤트 리스너
@@ -239,38 +345,18 @@ class CommunityCampsiteFragment :
             previousState: SlidingUpPanelLayout.PanelState?,
             newState: SlidingUpPanelLayout.PanelState?
         ) {
+            /*Log.d("MapViewEventListener:", "onPanelStateChanged: ")
+            val listener = CommunityMapViewEventListener(this@CommunityCampsiteFragment)
+            mapView.setMapViewEventListener(listener)*/
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun initMapView() {
-        // 마커 찍는 부분
-        val lm: LocationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val userNowLocation: Location? =
-            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        //위도 , 경도
-        val uLatitude = userNowLocation?.latitude
-        val uLongitude = userNowLocation?.longitude
-        val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
-
-        // 현 위치에 마커 찍기
-        val marker = MapPOIItem()
-
-        marker.apply {
-            itemName = "현 위치"
-            mapPoint = uNowPosition
-            markerType = MapPOIItem.MarkerType.CustomImage
-            customImageResourceId = R.drawable.ic_community_campsite_marker
-            selectedMarkerType = MapPOIItem.MarkerType.RedPin
-        }
-        mapView.addPOIItem(marker)
-    }
 
     // 마커를 그리는 함수
-    private fun markers(markerLocationList: List<Location>) {
+    private fun markers(markerLocationList: List<CampsiteMessageBriefInfo>) {
         for (i in markerLocationList) {
-            val markerPosition = MapPoint.mapPointWithGeoCoord(i.latitude, i.longitude)
+            val markerPosition =
+                MapPoint.mapPointWithGeoCoord(i.latitude.toDouble(), i.longitude.toDouble())
             val marker = MapPOIItem()
             marker.apply {
                 itemName = "현 위치"
