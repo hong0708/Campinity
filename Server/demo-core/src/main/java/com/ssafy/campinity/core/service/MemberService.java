@@ -9,4 +9,5 @@ public interface MemberService {
     Member findMemberByUUID(UUID uuid);
     Member save(Member member);
     Boolean checkNicknameDuplicate(String nickname);
+    Integer deleteMemberHard(Integer memberId);
 }
