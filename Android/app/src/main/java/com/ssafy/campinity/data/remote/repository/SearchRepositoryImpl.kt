@@ -17,4 +17,18 @@ class SearchRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             searchRemoteDataSource.getCampsitesByFiltering(filter).map { it.toDomainModel() }
         }
+
+    override suspend fun getCampsitesByScope(
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        topLeftLat: Double,
+        topLeftLng: Double
+    ): Resource<List<CampsiteBriefInfo>> = wrapToResource(Dispatchers.IO) {
+        searchRemoteDataSource.getCampsitesByScope(
+            bottomRightLat,
+            bottomRightLng,
+            topLeftLat,
+            topLeftLng
+        ).map { it.toDomainModel() }
+    }
 }

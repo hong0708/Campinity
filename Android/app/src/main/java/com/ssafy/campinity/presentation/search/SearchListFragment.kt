@@ -53,10 +53,10 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
 
     private fun observeCampsiteListData() {
         searchViewModel.campsiteListData.observe(viewLifecycleOwner) {
-            if (campsiteList.isEmpty())
-                binding.tvCampsiteNotFound.visibility = View.VISIBLE
+            if (it == null || it.isEmpty())
+                binding.tvCampsiteNotFound.setText(R.string.content_campsite_not_found)
             else
-                binding.tvCampsiteNotFound.visibility = View.GONE
+                binding.tvCampsiteNotFound.text = ""
 
             searchListAdapter.setData(it ?: listOf())
         }

@@ -12,6 +12,7 @@ import com.ssafy.campinity.domain.entity.search.AreaListItem
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.search.GugunItem
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByFilteringUseCase
+import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getCampsitesByFilteringUseCase: GetCampsitesByFilteringUseCase,
+    private val getCampsitesByScopeUseCase: GetCampsitesByScopeUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
@@ -29,6 +31,9 @@ class SearchViewModel @Inject constructor(
 
     private val _stateBehaviorFilter: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorFilter: LiveData<Boolean> = _stateBehaviorFilter
+
+    private val _isSearchAgain: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isSearchAgain: LiveData<Boolean> = _isSearchAgain
 
     private val _sido: MutableLiveData<String> = MutableLiveData()
     val sido: LiveData<String> = _sido
@@ -58,6 +63,10 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             _sido.value = sido
         }
+    }
+
+    fun setIsSearchAgain(flag: Boolean) {
+        _isSearchAgain.value = flag
     }
 
     fun setAreaList(context: Context) {
@@ -109,6 +118,31 @@ class SearchViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 Log.e("getCampsitesByFiltering", "getCampsitesByFiltering: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun getCampsitesByScope(
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        topLeftLat: Double,
+        topLeftLng: Double
+    ) = viewModelScope.launch {
+        Log.d(
+            "getCampsitesByScope",
+            "getCampsitesByScope: $bottomRightLat, $bottomRightLng, $topLeftLat, $topLeftLng"
+        )
+        when (val value = getCampsitesByScopeUseCase(
+            bottomRightLat,
+            bottomRightLng,
+            topLeftLat,
+            topLeftLng
+        )) {
+            is Resource.Success<List<CampsiteBriefInfo>> -> {
+                _campsiteListData.value = value.data
+            }
+            is Resource.Error -> {
+                Log.e("getCampsitesByScope", "getCampsitesByScope: ${value.errorMessage}")
             }
         }
     }

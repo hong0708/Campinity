@@ -18,4 +18,12 @@ interface SearchApiService {
         @Query("sigunguName") sigunguName: String?,
         @Query("theme") theme: String?,
     ): List<SearchBriefResponse>
+
+    @GET("/api/v1/campsites/scope")
+    suspend fun getCampsitesByScope(
+        @Query("bottomRightLat") bottomRightLat: Double,
+        @Query("bottomRightLng") bottomRightLng: Double,
+        @Query("topLeftLat") topLeftLat: Double,
+        @Query("topLeftLng") topLeftLng: Double
+    ): List<SearchBriefResponse>
 }

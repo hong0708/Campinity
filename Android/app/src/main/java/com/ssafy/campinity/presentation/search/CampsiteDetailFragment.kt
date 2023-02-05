@@ -12,7 +12,7 @@ import com.ssafy.campinity.databinding.FragmentCampsiteDetailBinding
 import com.ssafy.campinity.domain.entity.search.FacilityAndLeisureItem
 import com.ssafy.campinity.presentation.base.BaseFragment
 
-class CampsiteDetailFragment() :
+class CampsiteDetailFragment :
     BaseFragment<FragmentCampsiteDetailBinding>(R.layout.fragment_campsite_detail) {
 
     private lateinit var contentTheme: Array<String>

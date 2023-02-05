@@ -128,4 +128,9 @@ object UseCaseModule {
     @Provides
     fun provideGetNotesUsecase(myPageRepository: MyPageRepository): GetNotesUseCase =
         GetNotesUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsitesByScopeUseCase(searchRepository: SearchRepository): GetCampsitesByScopeUseCase =
+        GetCampsitesByScopeUseCase(searchRepository)
 }

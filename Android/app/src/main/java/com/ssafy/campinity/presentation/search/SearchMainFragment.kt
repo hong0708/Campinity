@@ -87,6 +87,10 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                 return@setOnEditorActionListener handled
             }
         }
+
+        binding.rlSearchAgain.setOnClickListener {
+            searchViewModel.setIsSearchAgain(true)
+        }
     }
 
     private fun initBehaviorList() {
