@@ -56,6 +56,9 @@ class CollectionViewModel @Inject constructor(
     private val _isValid: MutableLiveData<Boolean> = MutableLiveData(false)
     val isValid: LiveData<Boolean> = _isValid
 
+    private val _imageChanged: MutableLiveData<Boolean> = MutableLiveData(false)
+    val imageChange: LiveData<Boolean> = _imageChanged
+
     private var imgMultiPart: MultipartBody.Part? = null
 
     fun getCollection(collectionId: String) = viewModelScope.launch {
@@ -93,7 +96,7 @@ class CollectionViewModel @Inject constructor(
 
     fun updateCollection(collectionId: String) = viewModelScope.launch {
         when (
-            val value = updateCollectionUseCase(
+            val value = updateCollectionUseCase.updateCollection(
                 collectionId,
                 campsiteName.value ?: "",
                 content.value ?: "",
@@ -101,6 +104,25 @@ class CollectionViewModel @Inject constructor(
                 imgMultiPart
             )) {
             is Resource.Success<CollectionItem> -> {
+                _isUpdated.value = true
+            }
+            is Resource.Error -> {
+                Log.e("updateCollection", "updateCollection: ${value.errorMessage}")
+                _isUpdated.value = false
+            }
+        }
+    }
+
+    fun updateCollectionWithoutImg(collectionId: String) = viewModelScope.launch {
+        when (
+            val value = updateCollectionUseCase.updateCollectionWithoutImg(
+                collectionId,
+                campsiteName.value ?: "",
+                content.value ?: "",
+                date.value ?: ""
+            )) {
+            is Resource.Success<CollectionItem> -> {
+                Log.e("updateCollectionWithoutImg", "updateCollectionWithoutImg:")
                 _isUpdated.value = true
             }
             is Resource.Error -> {
@@ -135,5 +157,9 @@ class CollectionViewModel @Inject constructor(
             imgMultiPart =
                 requestFile?.let { MultipartBody.Part.createFormData("file", file.name, it) }
         }
+    }
+
+    fun changeImgState() {
+        _imageChanged.value = true
     }
 }

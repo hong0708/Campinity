@@ -26,4 +26,11 @@ interface CollectionRepository {
         date: String,
         file: MultipartBody.Part?
     ): Resource<CollectionItem>
+
+    suspend fun updateCollectionWithoutImg(
+        collectionId: String,
+        campsiteName: String,
+        content: String,
+        date: String
+    ): Resource<CollectionItem>
 }

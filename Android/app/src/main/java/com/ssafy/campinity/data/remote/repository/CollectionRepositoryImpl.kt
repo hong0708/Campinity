@@ -58,4 +58,19 @@ class CollectionRepositoryImpl @Inject constructor(
                 )
             ).toDomainModel()
         }
+
+    override suspend fun updateCollectionWithoutImg(
+        collectionId: String,
+        campsiteName: String,
+        content: String,
+        date: String
+    ): Resource<CollectionItem> =
+        wrapToResource(Dispatchers.IO) {
+            collectionRemoteDataSource.updateCollection(
+                collectionId,
+                CollectionRequest(
+                    campsiteName, content, date, null
+                )
+            ).toDomainModel()
+        }
 }

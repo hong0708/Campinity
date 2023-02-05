@@ -30,11 +30,22 @@ class CollectionRemoteDataSourceImpl @Inject constructor(
     override suspend fun updateCollection(
         collectionId: String,
         body: CollectionRequest
-    ): CollectionResponse =
-        collectionApiService.updateCollection(
-            collectionId,
-            body.campsiteName,
-            body.content,
-            body.date,
-            body.file)
+    ): CollectionResponse {
+        val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
+        map["campsiteName"] = body.campsiteName.toRequestBody("text/plain".toMediaTypeOrNull())
+        map["content"] = body.content.toRequestBody("text/plain".toMediaTypeOrNull())
+        map["date"] = body.date.toRequestBody("text/plain".toMediaTypeOrNull())
+        return collectionApiService.updateCollection(collectionId, map, body.file)
+    }
+
+    override suspend fun updateCollectionWithoutImg(
+        collectionId: String,
+        body: CollectionRequest
+    ): CollectionResponse {
+        val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
+        map["campsiteName"] = body.campsiteName.toRequestBody("text/plain".toMediaTypeOrNull())
+        map["content"] = body.content.toRequestBody("text/plain".toMediaTypeOrNull())
+        map["date"] = body.date.toRequestBody("text/plain".toMediaTypeOrNull())
+        return collectionApiService.updateCollection(collectionId, map, null)
+    }
 }
