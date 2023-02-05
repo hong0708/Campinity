@@ -35,7 +35,6 @@ class ReviewNoteDialog(context: Context, private val detailInfo: CampsiteMessage
         setCanceledOnTouchOutside(true)
         setCancelable(true)
 
-
         binding.ivCloseWriteReviewNoteDialog.setOnClickListener { dismiss() }
         binding.detailInfo = detailInfo
     }
