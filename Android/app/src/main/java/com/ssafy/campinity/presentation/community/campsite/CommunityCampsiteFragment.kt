@@ -24,11 +24,13 @@ import dagger.hilt.android.AndroidEntryPoint
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import okhttp3.MultipartBody
 
 @AndroidEntryPoint
 class CommunityCampsiteFragment :
     BaseFragment<FragmentCommunityCampsiteBinding>(R.layout.fragment_community_campsite),
     CustomDialogInterface,
+    CommunityCampsiteFreeReviewDialogInterface,
     MapViewMarkerEventListener {
 
     private lateinit var viewList: List<View>
@@ -94,6 +96,16 @@ class CommunityCampsiteFragment :
             mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
             mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
         )
+    }
+
+    override fun createFreeReviewNote(
+        messageCategory: String,
+        file: MultipartBody.Part?,
+        latitude: Double,
+        content: String,
+        longitude: Double,
+    ) {
+        //communityCampsiteViewModel
     }
 
     @SuppressLint("MissingPermission")
@@ -366,7 +378,6 @@ class CommunityCampsiteFragment :
             mapView.addPOIItem(marker)
         }
     }
-
 
 
     // 내 위치 권한 허용 함수들
