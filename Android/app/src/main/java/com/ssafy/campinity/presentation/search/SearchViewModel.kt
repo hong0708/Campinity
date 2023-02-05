@@ -128,10 +128,6 @@ class SearchViewModel @Inject constructor(
         topLeftLat: Double,
         topLeftLng: Double
     ) = viewModelScope.launch {
-        Log.d(
-            "getCampsitesByScope",
-            "getCampsitesByScope: $bottomRightLat, $bottomRightLng, $topLeftLat, $topLeftLng"
-        )
         when (val value = getCampsitesByScopeUseCase(
             bottomRightLat,
             bottomRightLng,
