@@ -57,8 +57,8 @@ logging:
   config: classpath:log4j2.yml
 
 fcm:
-  certification: /firebase/campinity-5aa0b-firebase-adminsdk-ap06a-54d2b91c8b.json
-  url: https://fcm.googleapis.com/v1/projects/campinity-5aa0b/messages:send
+  certification: firebase/campinity-5ff94-firebase-adminsdk-a0uem-64c6576e75.json
+  url: https://fcm.googleapis.com/v1/projects/campinity-5ff94/messages:send
   scope: https://www.googleapis.com/auth/cloud-platform
 
 custom:

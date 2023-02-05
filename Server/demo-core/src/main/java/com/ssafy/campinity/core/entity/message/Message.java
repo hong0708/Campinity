@@ -29,11 +29,11 @@ public class Message extends BaseEntity {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @ToString.Exclude
     private Campsite campsite;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @ToString.Exclude
     private Member member;
 

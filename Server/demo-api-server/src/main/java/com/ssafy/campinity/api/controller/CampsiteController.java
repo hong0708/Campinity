@@ -38,7 +38,8 @@ public class CampsiteController {
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
-            @RequestParam double bottomRightLng) {
+            @RequestParam double bottomRightLng,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
                 .topLeftLat(topLeftLat)
@@ -47,9 +48,9 @@ public class CampsiteController {
                 .bottomRightLng(bottomRightLng)
                 .build();
 
-        List<Campsite> result = campsiteService.getMetaDataListByLatLng(locationInfoDTO);
+        List<Campsite> results = campsiteService.getMetaDataListByLatLng(locationInfoDTO);
 
-        return new ResponseEntity<>(result.stream().map(a -> CampsiteMetaDataDTO.builder()
+        return new ResponseEntity<>(results.stream().map(a -> CampsiteMetaDataDTO.builder()
                 .campsiteId(a.getUuid())
                 .campsiteName(a.getCampName())
                 .address(a.getAddress())

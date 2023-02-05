@@ -1,11 +1,14 @@
 package com.ssafy.campinity.api.config.security.jwt;
 
 import com.ssafy.campinity.api.service.MemberDetailService;
+import com.ssafy.campinity.core.repository.redis.RedisDao;
 import io.jsonwebtoken.JwtException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -19,10 +22,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final JwtProvider jwtProvider;
     private final MemberDetailService memberDetailService;
+    private final RedisDao redisDao;
 
-    public JwtAuthenticationFilter(JwtProvider jwtProvider, MemberDetailService memberDetailService) {
+    public JwtAuthenticationFilter(JwtProvider jwtProvider, MemberDetailService memberDetailService, RedisDao redisDao) {
         this.jwtProvider = jwtProvider;
         this.memberDetailService = memberDetailService;
+        this.redisDao = redisDao;
     }
 
     @Override
@@ -36,9 +41,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (subject.getType().equals("RTK") && !requestURI.equals("/api/v4/members/reissue")) {
                     throw new JwtException("토큰을 확인하세요.");
                 }
-                UserDetails userDetails = memberDetailService.loadUserByUsername(subject.getEmail());
-                Authentication token = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(token);
+
+                String isLogout = redisDao.getValues(atk);
+                if (ObjectUtils.isEmpty(isLogout)) {
+                    UserDetails userDetails = memberDetailService.loadUserByUsername(subject.getEmail());
+                    Authentication token = new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(token);
+                }
             } catch (JwtException e) {
                 request.setAttribute("exception", e.getMessage());
             }

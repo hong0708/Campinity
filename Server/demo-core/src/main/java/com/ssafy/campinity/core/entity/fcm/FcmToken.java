@@ -1,14 +1,11 @@
-package com.ssafy.campinity.core.entity.fcmToken;
+package com.ssafy.campinity.core.entity.fcm;
 
 
-import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.member.Member;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 
 /*
@@ -20,31 +17,37 @@ import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
+@ToString(callSuper = true)
+@EqualsAndHashCode
 @Entity
-public class FcmToken extends BaseEntity {
+public class FcmToken {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @OneToOne(mappedBy = "fcmToken", cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @ToString.Exclude
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Member member;
 
-    private String fcmToken;
+    private String token;
 
     private String campsiteUuid;
 
+    private LocalDate expiredDate;
+
     @Builder
-    public FcmToken(Member member, String fcmToken, String campsiteUuid) {
-        member.setFcmToken(this);
+    public FcmToken(Member member, String token, String campsiteUuid, LocalDate expiredDate) {
         this.member = member;
-        this.fcmToken = fcmToken;
+        this.token = token;
         this.campsiteUuid = campsiteUuid;
+        this.expiredDate = expiredDate;
     }
 
-    public void refreshMemberFcmToken(String fcmToken){
-       this.fcmToken = fcmToken;
+
+
+    public void refreshFcmToken(String token){
+        this.token = token;
+        this.expiredDate = LocalDate.now().plusMonths(1);
     }
 
     public void subscribeCamp(String campsiteUuid){
@@ -54,5 +57,4 @@ public class FcmToken extends BaseEntity {
     public void unsubscribeCamp(){
        this.campsiteUuid = "";
     }
-
 }

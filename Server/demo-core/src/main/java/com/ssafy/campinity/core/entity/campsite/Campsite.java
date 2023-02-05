@@ -61,7 +61,7 @@ public class Campsite extends BaseEntity {
     @ToString.Exclude
     private List<CampsiteAndIndustry> industries = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<CampsiteScrap> scraps = new ArrayList<>();
@@ -71,17 +71,17 @@ public class Campsite extends BaseEntity {
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<Message> messages = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<Question> questions = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<CampsiteImage> images = new ArrayList<>();
