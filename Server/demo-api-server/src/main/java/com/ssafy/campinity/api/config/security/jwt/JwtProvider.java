@@ -94,4 +94,12 @@ public class JwtProvider {
                 .tokenType("Bearer")
                 .isExist(true).build();
     }
+
+    public Long getExpiration(String atk) {
+        // accessToken 남은 유효시간
+        Date expiration = Jwts.parser().setSigningKey(key.getBytes()).parseClaimsJws(atk).getBody().getExpiration();
+        // 현재 시간
+        Long now = new Date().getTime();
+        return (expiration.getTime() - now);
+    }
 }
