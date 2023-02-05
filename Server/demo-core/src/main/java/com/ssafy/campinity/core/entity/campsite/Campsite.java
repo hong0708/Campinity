@@ -156,7 +156,15 @@ public class Campsite extends BaseEntity {
         this.getScraps().add(campsiteScrap);
     }
 
-    public void addCampsiteReview(Review review) {
-        this.getReviews().add(review);
+    public void removeCampsiteScrap(CampsiteScrap campsiteScrap) {
+        this.getScraps().remove(campsiteScrap);
+    }
+
+    public void addMessage(Message message) {
+        this.getMessages().add(message);
+    }
+
+    public void removeMessage(Message message) {
+        this.getMessages().remove(message);
     }
 }

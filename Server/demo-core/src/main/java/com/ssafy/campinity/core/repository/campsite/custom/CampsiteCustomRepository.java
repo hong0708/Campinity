@@ -23,7 +23,6 @@ public class CampsiteCustomRepository {
 
         JPAQueryFactory query = new JPAQueryFactory(em);
         QCampsite qcampsite = new QCampsite("c");
-        QCampsiteAndAmenity qCampsiteAndAmenity = new QCampsiteAndAmenity("caa");
 
         BooleanBuilder builder = new BooleanBuilder();
 
