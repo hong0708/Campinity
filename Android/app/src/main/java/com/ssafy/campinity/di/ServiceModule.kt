@@ -73,6 +73,13 @@ object ServiceModule {
 
     @Provides
     @Singleton
+    fun provideMyPageApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): MyPageApiService =
+        retrofit.create(MyPageApiService::class.java)
+
+    @Provides
+    @Singleton
     fun provideSearchApiService(
         @AuthInterceptorClient retrofit: Retrofit
     ): SearchApiService =

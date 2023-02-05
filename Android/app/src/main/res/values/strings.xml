@@ -537,4 +537,21 @@
     <string name="notification_channel_id">Channel_Id</string>
     <string name="notification_channel_name">campinity</string>
 
+    <!-- MyPage -->
+    <string name="title_my_page">My Page</string>
+    <string name="image_my_page_profile">image_my_page_profile</string>
+    <string name="image_edit_profile">image_edit_profile</string>
+    <string name="content_btn_edit_profile">프로필 수정</string>
+    <string name="content_my_note">내 쪽지</string>
+    <string name="content_terms">서비스 이용약관</string>
+    <string name="content_log_out">로그아웃</string>
+    <string name="content_version">버전</string>
+    <string name="content_confirm_edit_profile">회원 정보 수정 완료</string>
+    <string name="content_edit_profile">Campinity에서 사용할 정보를\n다시 입력해주세요!</string>
+
+    <!-- MyPage Category Spinner -->
+    <string-array name="category_array">
+        <item>리뷰</item>
+        <item>자유</item>
+    </string-array>
 </resources>

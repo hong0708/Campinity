@@ -19,7 +19,6 @@ import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.ssafy.campinity.common.util.Permission.ACCESS_FINE_LOCATION
-import com.ssafy.campinity.presentation.join.JoinFragment
 
 @AndroidEntryPoint
 class CommunityActivity : AppCompatActivity() {
@@ -31,26 +30,29 @@ class CommunityActivity : AppCompatActivity() {
         binding = ActivityCommunityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_community) as NavHostFragment
-        navController = navHostFragment.navController
-        val navGraph = navController.navInflater.inflate(R.navigation.navigation_community)
-        navController.graph = navGraph
-
         if (checkLocationService()) {
             // GPS가 켜져있을 경우
-            permissionCheck()
+            if (permissionCheck()) {
+                val navHostFragment =
+                    supportFragmentManager.findFragmentById(R.id.nav_community) as NavHostFragment
+                navController = navHostFragment.navController
+                val navGraph = navController.navInflater.inflate(R.navigation.navigation_community)
+                navController.graph = navGraph
+            } else {
+                permissionCheck()
+            }
         } else {
             // GPS가 꺼져있을 경우
             Toast.makeText(this, "GPS를 켜주세요", Toast.LENGTH_SHORT).show()
         }
     }
 
-
     // 위치 권한 확인
-    private fun permissionCheck() {
+    private fun permissionCheck(): Boolean {
         val preference = getPreferences(MODE_PRIVATE)
+
         val isFirstCheck = preference.getBoolean("isFirstPermissionCheck", true)
+
         if (ContextCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
@@ -64,7 +66,7 @@ class CommunityActivity : AppCompatActivity() {
             ) {
                 // 권한 거절 (다시 한 번 물어봄)
                 val builder = AlertDialog.Builder(this)
-                builder.setMessage("현재 위치를 확인하시려면 위치 권한을 허용해주세요.")
+                builder.setMessage("지도를 확인 하시려면 위치 권한을 허용해주세요.")
                 builder.setPositiveButton("확인") { dialog, which ->
                     ActivityCompat.requestPermissions(
                         this,
@@ -76,6 +78,9 @@ class CommunityActivity : AppCompatActivity() {
 
                 }
                 builder.show()
+
+                return false
+
             } else {
                 if (isFirstCheck) {
                     // 최초 권한 요청
@@ -85,6 +90,7 @@ class CommunityActivity : AppCompatActivity() {
                         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                         ACCESS_FINE_LOCATION
                     )
+                    return false
                 } else {
                     // 다시 묻지 않음 클릭 (앱 정보 화면으로 이동)
                     val builder = AlertDialog.Builder(this)
@@ -100,11 +106,12 @@ class CommunityActivity : AppCompatActivity() {
 
                     }
                     builder.show()
+                    return false
                 }
             }
         } else {
             // 권한이 있는 상태
-
+            return true
         }
     }
 

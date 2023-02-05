@@ -1,4 +1,4 @@
-package com.ssafy.campinity.data.remote.datasource.CommunityCampsite
+package com.ssafy.campinity.data.remote.datasource.communitycampsite
 
 import com.google.gson.annotations.SerializedName
 import com.ssafy.campinity.data.remote.datasource.base.DataToDomainMapper
