@@ -69,11 +69,10 @@ public class ImageUtil {
     public boolean removeImage(String imagePath){
 
         boolean result;
-        String absolutePath = new File("demo-core" + File.separator + "src" + File.separator +
-                "main" + File.separator + "resources" + File.separator + "static").getAbsolutePath();
 
-        File file = new File(absolutePath + imagePath);
+        File file = new File(uploadImagePath + imagePath);
         result = file.delete();
+        logger.info("is_deleted : " + result);
         return result;
 
     }

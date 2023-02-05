@@ -11,8 +11,12 @@ import com.ssafy.campinity.core.repository.message.LikeMessageRepository;
 import com.ssafy.campinity.core.repository.message.MessageRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.MessageService;
+import com.ssafy.campinity.core.utils.ErrorMessageEnum;
 import com.ssafy.campinity.core.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.tomcat.jni.Error;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,15 +36,16 @@ public class MessageServiceImpl implements MessageService {
     private final ImageUtil imageUtil;
     private final MemberRepository memberRepository;
     private final LikeMessageRepository likeMessageRepository;
+    private static Logger logger = LogManager.getLogger(MessageServiceImpl.class);
 
     @Transactional
     @Override
     public Message createMessage(MessageReqDTO messageReqDTO, int memberId) {
 
         Campsite campsite = campsiteRepository.findByUuid(messageReqDTO.getCampsiteId())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.CAMPSITE_NOT_FOUND.getMessage()));
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.MESSAGE_NOT_EXIST.getMessage()));
 
         String imagePath = "";
         if (messageReqDTO.getFile().getSize() != 0){
@@ -72,7 +77,7 @@ public class MessageServiceImpl implements MessageService {
     public List<Message> getMessagesByCampsiteUuidBetweenLatLng(String campsiteUuid, LatLngDTO latLngDTO) {
 
         Campsite campsite = campsiteRepository.findByUuid(UUID.fromString(campsiteUuid))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.CAMPSITE_NOT_FOUND.getMessage()));
 
         List<Message> messages = messageRepository
                 .findMessagesByCampsiteAndLatitudeBetweenAndLongitudeBetweenAndExpiredIsFalse(
@@ -90,7 +95,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public Message getMessage(String messageId) {
         return messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageId))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.MESSAGE_NOT_EXIST.getMessage()));
     }
 
     @Transactional
@@ -103,9 +108,10 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void deleteMessage(String messageId,int memberId) throws FileNotFoundException {
         Message message = messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageId))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.MESSAGE_NOT_EXIST.getMessage()));
         String imagePath = message.getImagePath();
 
+        logger.info(imagePath);
         if (message.getMember().getId() == memberId) {
             if (!imagePath.isEmpty()){
                 try {
@@ -124,9 +130,9 @@ public class MessageServiceImpl implements MessageService {
     public boolean likeMessage(int memberId, String messageUuid) {
 
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.MESSAGE_NOT_EXIST.getMessage()));
         Message message = messageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(messageUuid))
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.MESSAGE_NOT_EXIST.getMessage()));
 
         boolean likeCheck;
         Optional<LikeMessage> likeMessage = likeMessageRepository.findByMemberAndMessage(member, message);

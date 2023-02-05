@@ -53,8 +53,11 @@ public class MemberController {
                                                @RequestPart String fcmToken,
                                                @AuthenticationPrincipal MemberDetails memberDetails) throws IOException, NoSuchElementException {
         Member member = memberService.findMemberByUUID(memberDetails.getMember().getUuid());
+        String profileImgPath = "";
 
-        String profileImgPath = imageUtil.uploadImage(profileImg, "member");
+        if (profileImg != null) {
+            profileImgPath = imageUtil.uploadImage(profileImg, "member");
+        }
 
         member.setProfileImage(profileImgPath);
         member.setName(nickName);
