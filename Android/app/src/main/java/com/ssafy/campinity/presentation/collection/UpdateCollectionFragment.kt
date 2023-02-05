@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -100,6 +101,7 @@ class UpdateCollectionFragment :
         viewModel.isSucceed.observe(viewLifecycleOwner) {
             when (it) {
                 true -> popBackStack()
+                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
                 else -> {}
             }
         }

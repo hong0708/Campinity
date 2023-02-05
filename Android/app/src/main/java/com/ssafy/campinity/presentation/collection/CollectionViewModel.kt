@@ -122,7 +122,6 @@ class CollectionViewModel @Inject constructor(
                 date.value ?: ""
             )) {
             is Resource.Success<CollectionItem> -> {
-                Log.e("updateCollectionWithoutImg", "updateCollectionWithoutImg:")
                 _isUpdated.value = true
             }
             is Resource.Error -> {
