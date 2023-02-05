@@ -61,9 +61,8 @@ class CommunityCampsiteFragment :
         val listener = CommunityMapViewEventListener(this)
         mapView.setMapViewEventListener(listener)
         mapView.setZoomLevel(1, true)
-
-        initMapView()
         binding.clCommunityMap.addView(mapView)
+        //initMapView()
     }
 
     override fun onPause() {
@@ -114,7 +113,6 @@ class CommunityCampsiteFragment :
         val uLongitude = userNowLocation?.longitude
         val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
         mapView.setMapCenterPoint(uNowPosition, true)
-
 
         // 현 위치에 마커 찍기
         /*val marker = MapPOIItem()
@@ -326,7 +324,7 @@ class CommunityCampsiteFragment :
         )
 
         communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
-            markers(response)
+            drawMarkers(response)
         }
 
         /*// 리스너 다시 달기
@@ -353,7 +351,7 @@ class CommunityCampsiteFragment :
 
 
     // 마커를 그리는 함수
-    private fun markers(markerLocationList: List<CampsiteMessageBriefInfo>) {
+    private fun drawMarkers(markerLocationList: List<CampsiteMessageBriefInfo>) {
         for (i in markerLocationList) {
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(i.latitude.toDouble(), i.longitude.toDouble())
@@ -368,4 +366,10 @@ class CommunityCampsiteFragment :
             mapView.addPOIItem(marker)
         }
     }
+
+
+
+    // 내 위치 권한 허용 함수들
+
+
 }

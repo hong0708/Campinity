@@ -19,4 +19,8 @@ interface CommunityRemoteDataSource {
         topLeftLat: Double,
         topLeftLng: Double
     ): List<CommunityCampsiteBriefInfoMessageResponse>
+
+    suspend fun createCampsiteMessage(
+        body: CommunityCampsiteMessageRequest
+    ): CommunityCampsiteDetailInfoMessageResponse
 }
