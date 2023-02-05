@@ -59,7 +59,13 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
                     }
                 }
             }
-            btnCheckDuplication.setOnClickListener { viewModel.checkDuplication() }
+            btnCheckDuplication.setOnClickListener {
+                if (viewModel.nickname.value == null) {
+                    Toast.makeText(requireContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.checkDuplication()
+                }
+            }
         }
     }
 
