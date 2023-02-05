@@ -23,9 +23,6 @@
         android:name="com.ssafy.campinity.presentation.search.CampsiteDetailFragment"
         android:label="fragment_campsite_detail"
         tools:layout="@layout/fragment_campsite_detail">
-        <argument
-            android:name="campsiteId"
-            app:argType="string" />
         <action
             android:id="@+id/action_campsiteDetailFragment_to_searchPostboxFragment"
             app:destination="@id/searchPostboxFragment" />

@@ -1,7 +1,9 @@
 package com.ssafy.campinity.data.remote.service
 
 import com.ssafy.campinity.data.remote.datasource.search.SearchBriefResponse
+import com.ssafy.campinity.data.remote.datasource.search.SearchDetailResponse
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface SearchApiService {
@@ -26,4 +28,7 @@ interface SearchApiService {
         @Query("topLeftLat") topLeftLat: Double,
         @Query("topLeftLng") topLeftLng: Double
     ): List<SearchBriefResponse>
+
+    @GET("/api/v1/campsites/detail/{campsiteId}")
+    suspend fun getCampsiteDetail(@Path("campsiteId") campsiteId: String): SearchDetailResponse
 }

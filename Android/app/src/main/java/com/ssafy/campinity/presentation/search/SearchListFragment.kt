@@ -33,17 +33,16 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
             searchListAdapter = SearchListAdapter(
                 campsiteList,
                 this@SearchListFragment::navigationToCampsiteDetailFragment,
-                this@SearchListFragment::navigationToSearchPostboxFragment
+                this@SearchListFragment::navigationToSearchPostboxFragment,
+                this@SearchListFragment::campsiteItemClickListener
             )
             adapter = searchListAdapter
         }
     }
 
-    private fun navigationToCampsiteDetailFragment(campsiteId: String) {
+    private fun navigationToCampsiteDetailFragment() {
         navigate(
-            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(
-                campsiteId
-            )
+            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment()
         )
     }
 
@@ -60,5 +59,9 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
 
             searchListAdapter.setData(it ?: listOf())
         }
+    }
+
+    private fun campsiteItemClickListener(campsiteId: String) {
+        searchViewModel.getCampsiteDetail(campsiteId)
     }
 }

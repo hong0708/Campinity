@@ -5,9 +5,9 @@ data class CampsiteDetailInfo(
     val amenities: List<Int>,
     val caravanFacilities: List<Int>,
     val glampingFacilities: List<Int>,
-    val openSeasons: List<Int>,
+    val openSeasons: List<String>,
     val themes: List<Int>,
-    val industries: List<Int>,
+    val industries: List<String>,
     val isScraped: Boolean,
     val campsiteName: String,
     val address: String,
@@ -22,5 +22,5 @@ data class CampsiteDetailInfo(
     val allowAnimal: String,
     val images: List<String>,
     val reviews: List<Review>,
-    val total_rate: Double
+    val totalRate: Double
 )

@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="item"
+            type="com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -105,6 +112,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/roboto_bold"
+                        android:text="@{item.campsiteName}"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="@id/tv_campsite_industry"
@@ -117,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
                         android:fontFamily="@font/roboto_regular"
+                        android:text="@{item.lineIntro}"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/tv_campsite_name"
@@ -141,6 +150,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="9dp"
                         android:fontFamily="@font/roboto_bold"
+                        android:text="@{item.address}"
                         android:textColor="@color/grey"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/iv_location"
@@ -166,6 +176,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="9dp"
                         android:fontFamily="@font/roboto_bold"
+                        android:text="@{item.phoneNumber}"
                         android:textColor="@color/grey"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="@id/iv_call"
@@ -207,6 +218,7 @@
                         android:ellipsize="end"
                         android:fontFamily="@font/roboto_regular"
                         android:maxLines="2"
+                        android:text="@{item.intro}"
                         android:textColor="@color/grey"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -303,6 +315,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
+                        android:text="@{item.allowAnimal}"
                         android:textColor="@color/grey"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@id/gl_content"
@@ -324,6 +337,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
+                        android:text="@{item.reserveType}"
                         android:textColor="@color/grey"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@id/gl_content"
@@ -347,6 +361,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/roboto_regular"
+                        android:text="@{item.homepage}"
                         android:textColor="@color/grey"
                         android:textSize="12sp"
                         app:layout_constraintStart_toStartOf="@id/gl_content"
@@ -439,6 +454,7 @@
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="32dp"
                         android:fontFamily="@font/roboto_regular"
+                        android:text="@{Double.toString(item.totalRate)}"
                         android:textColor="@color/black"
                         android:textSize="20sp"
                         app:layout_constraintStart_toStartOf="parent"

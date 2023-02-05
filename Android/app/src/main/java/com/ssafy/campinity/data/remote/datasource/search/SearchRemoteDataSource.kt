@@ -10,4 +10,6 @@ interface SearchRemoteDataSource {
         topLeftLat: Double,
         topLeftLng: Double
     ): List<SearchBriefResponse>
+
+    suspend fun getCampsiteDetail(campsiteId: String): SearchDetailResponse
 }

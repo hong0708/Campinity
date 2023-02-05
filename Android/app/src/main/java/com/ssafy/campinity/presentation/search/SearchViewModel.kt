@@ -10,7 +10,9 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.domain.entity.search.AreaListItem
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
+import com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo
 import com.ssafy.campinity.domain.entity.search.GugunItem
+import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByFilteringUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,11 +22,15 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val getCampsitesByFilteringUseCase: GetCampsitesByFilteringUseCase,
-    private val getCampsitesByScopeUseCase: GetCampsitesByScopeUseCase
+    private val getCampsitesByScopeUseCase: GetCampsitesByScopeUseCase,
+    private val getCampsiteDetailUseCase: GetCampsiteDetailUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
     val campsiteListData: LiveData<List<CampsiteBriefInfo>?> = _campsiteListData
+
+    private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
+    val campsiteDate: LiveData<CampsiteDetailInfo?> = _campsiteData
 
     private val _stateBehaviorArea: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorArea: LiveData<Boolean> = _stateBehaviorArea
@@ -139,6 +145,17 @@ class SearchViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 Log.e("getCampsitesByScope", "getCampsitesByScope: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun getCampsiteDetail(campsiteId: String) = viewModelScope.launch {
+        when (val value = getCampsiteDetailUseCase(campsiteId)) {
+            is Resource.Success<CampsiteDetailInfo> -> {
+                _campsiteData.value = value.data
+            }
+            is Resource.Error -> {
+                Log.e("getCampsiteDetailInfo", "getCampsiteDetailInfo: ${value.errorMessage}")
             }
         }
     }

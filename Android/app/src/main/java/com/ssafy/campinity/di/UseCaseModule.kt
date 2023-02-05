@@ -133,4 +133,9 @@ object UseCaseModule {
     @Provides
     fun provideGetCampsitesByScopeUseCase(searchRepository: SearchRepository): GetCampsitesByScopeUseCase =
         GetCampsitesByScopeUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsiteDetailUseCase(searchRepository: SearchRepository): GetCampsiteDetailUseCase =
+        GetCampsiteDetailUseCase(searchRepository)
 }
