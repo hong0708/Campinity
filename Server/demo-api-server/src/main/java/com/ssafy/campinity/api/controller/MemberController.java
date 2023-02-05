@@ -6,7 +6,7 @@ import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
 import com.ssafy.campinity.api.service.KakaoUserService;
 import com.ssafy.campinity.core.dto.MemberResDTO;
-import com.ssafy.campinity.core.entity.fcmToken.FcmToken;
+import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.service.MemberService;
 import com.ssafy.campinity.core.utils.ImageUtil;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 @Api(tags = "유저 관련 API")
 @RestController
@@ -61,7 +62,10 @@ public class MemberController {
 
         member.setProfileImage(profileImgPath);
         member.setName(nickName);
-        member.setFcmToken(FcmToken.builder().fcmToken(fcmToken).member(member).build());
+        member.addFcmToken(FcmToken.builder()
+                .token(fcmToken)
+                .member(member)
+                .expiredDate(LocalDate.now().plusMonths(1)).build());
         memberService.save(member);
 
         return new ResponseEntity<>(MemberResDTO.builder()
