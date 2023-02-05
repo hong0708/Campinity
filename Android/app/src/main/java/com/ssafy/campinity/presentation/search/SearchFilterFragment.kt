@@ -97,7 +97,7 @@ class SearchFilterFragment : Fragment() {
         pet = resources.getStringArray(R.array.content_campsite_pet)
         season = resources.getStringArray(R.array.content_campsite_season)
 
-        for (i in 0 until 4) {
+        for (i in industry.indices) {
             industryBtnList[i].let { btn ->
                 btn.text = industry[i]
                 btn.setOnClickListener {
@@ -115,7 +115,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 9) {
+        for (i in facility.indices) {
             facilityBtnList[i].let { btn ->
                 btn.text = facility[i]
                 btn.setOnClickListener {
@@ -133,7 +133,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 11) {
+        for (i in amenity.indices) {
             amenityBtnList[i].let { btn ->
                 btn.text = amenity[i]
                 btn.setOnClickListener {
@@ -151,7 +151,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 12) {
+        for (i in theme.indices) {
             themeBtnList[i].let { btn ->
                 btn.text = theme[i]
                 btn.setOnClickListener {
@@ -169,7 +169,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 3) {
+        for (i in pet.indices) {
             petBtnList[i].let { btn ->
                 btn.text = pet[i]
                 btn.setOnClickListener {
@@ -187,7 +187,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 4) {
+        for (i in season.indices) {
             seasonBtnList[i].let { btn ->
                 btn.text = season[i]
                 btn.setOnClickListener {
@@ -207,7 +207,7 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun resetBtn() {
-        for (i in 0 until 4) {
+        for (i in industry.indices) {
             industryBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -215,7 +215,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 9) {
+        for (i in facility.indices) {
             facilityBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -223,7 +223,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 11) {
+        for (i in amenity.indices) {
             amenityBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -231,7 +231,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 12) {
+        for (i in theme.indices) {
             themeBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -239,7 +239,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 3) {
+        for (i in pet.indices) {
             petBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -247,7 +247,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in 0 until 4) {
+        for (i in season.indices) {
             seasonBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -265,7 +265,9 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun toggleSubmitButton() {
-        if (selectedIndustry.size == 0) {
+        val countSelected =
+            selectedIndustry.size + selectedFacility.size + selectedAmenity.size + selectedTheme.size + selectedPet.size + selectedSeason.size
+        if (countSelected == 0) {
             binding.btnSubmit.let {
                 it.isClickable = false
                 it.setBackgroundResource(R.drawable.bg_rect_white_smoke_radius10)
@@ -289,10 +291,7 @@ class SearchFilterFragment : Fragment() {
                     amenity = selectedAmenity.toFilter(),
                     theme = selectedTheme.toFilter(),
                     allowAnimal = selectedPet.toFilter(),
-                    openSeason = selectedSeason.toFilter(),
-                    doName = this.filter.doName,
-                    sigunguName = this.filter.sigunguName,
-                    keyword = this.filter.keyword
+                    openSeason = selectedSeason.toFilter()
                 )
 
                 this.getCampsitesByFiltering(this.filter)
