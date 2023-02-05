@@ -28,7 +28,7 @@ public class FcmMessageToOneDTO {
     public static class Notification {
         private String title;
         private String body;
-        private String click_action = "android_indent_filter";
+//        private String click_action = "android_indent_filter";
 
     }
 }

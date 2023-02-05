@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.exception;
 
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
