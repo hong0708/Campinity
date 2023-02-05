@@ -12,6 +12,7 @@ import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageBriefInfoB
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
+import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
@@ -116,4 +117,9 @@ object UseCaseModule {
     fun provideCreateCommunityCampsiteMessageUseCase(communityRepository: CommunityRepository)
             : CreateCampsiteMessageUseCase =
         CreateCampsiteMessageUseCase(communityRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetNotesUsecase(myPageRepository: MyPageRepository): GetNotesUseCase =
+        GetNotesUseCase(myPageRepository)
 }

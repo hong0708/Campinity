@@ -34,5 +34,10 @@ interface CommunityApiService {
     suspend fun createCampsiteMessage(
         @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part file: MultipartBody.Part?
-    ):CommunityCampsiteDetailInfoMessageResponse
+    ): CommunityCampsiteDetailInfoMessageResponse
+
+    @GET("/api/v2/messages/{messageId}")
+    suspend fun getCampsiteMessageDetailInfo(
+        @Path("messageId") messageId: String
+    ): CommunityCampsiteDetailInfoMessageResponse
 }
