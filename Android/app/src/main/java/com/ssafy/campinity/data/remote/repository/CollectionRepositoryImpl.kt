@@ -36,15 +36,41 @@ class CollectionRepositoryImpl @Inject constructor(
     override suspend fun getCollection(collectionId: String): Resource<CollectionItem> =
         wrapToResource(Dispatchers.IO) {
             collectionRemoteDataSource.getCollection(collectionId).toDomainModel()
-    }
+        }
 
     override suspend fun deleteCollection(collectionId: String): Resource<String> =
         wrapToResource(Dispatchers.IO) {
             collectionRemoteDataSource.deleteCollection(collectionId)
         }
 
-    override suspend fun updateCollection(collectionId: String): Resource<CollectionItem> =
+    override suspend fun updateCollection(
+        collectionId: String,
+        campsiteName: String,
+        content: String,
+        date: String,
+        file: MultipartBody.Part?
+    ): Resource<CollectionItem> =
         wrapToResource(Dispatchers.IO) {
-            collectionRemoteDataSource.updateCollection(collectionId).toDomainModel()
+            collectionRemoteDataSource.updateCollection(
+                collectionId,
+                CollectionRequest(
+                    campsiteName, content, date, file
+                )
+            ).toDomainModel()
+        }
+
+    override suspend fun updateCollectionWithoutImg(
+        collectionId: String,
+        campsiteName: String,
+        content: String,
+        date: String
+    ): Resource<CollectionItem> =
+        wrapToResource(Dispatchers.IO) {
+            collectionRemoteDataSource.updateCollection(
+                collectionId,
+                CollectionRequest(
+                    campsiteName, content, date, null
+                )
+            ).toDomainModel()
         }
 }

@@ -10,5 +10,10 @@ interface CollectionRemoteDataSource {
 
     suspend fun deleteCollection(collectionId: String): String
 
-    suspend fun updateCollection(collectionId: String): CollectionResponse
+    suspend fun updateCollection(collectionId: String, body: CollectionRequest): CollectionResponse
+
+    suspend fun updateCollectionWithoutImg(
+        collectionId: String,
+        body: CollectionRequest
+    ): CollectionResponse
 }

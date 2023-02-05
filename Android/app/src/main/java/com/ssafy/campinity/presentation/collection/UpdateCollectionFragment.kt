@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -38,6 +39,11 @@ class UpdateCollectionFragment :
                 viewModel.setPicture(
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
+                )
+                viewModel.changeImgState()
+            } else {
+                viewModel.setPicture(
+                    null, null
                 )
             }
         }
@@ -80,12 +86,26 @@ class UpdateCollectionFragment :
             ivArrowLeft.setOnClickListener { popBackStack() }
             clAddPhoto.setOnClickListener { setAlbumView() }
             tvDateInput.setOnClickListener { getDate() }
-            tvMakeReview.setOnClickListener { viewModel.updateCollection(args.collectionId) }
+            tvMakeReview.setOnClickListener {
+                viewModel.imageChange.observe(viewLifecycleOwner) {
+                    when (it) {
+                        true -> viewModel.updateCollection(args.collectionId)
+                        false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+                    }
+                }
+            }
         }
     }
 
     private fun observeState() {
         viewModel.isSucceed.observe(viewLifecycleOwner) {
+            when (it) {
+                true -> popBackStack()
+                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
+                else -> {}
+            }
+        }
+        viewModel.isUpdated.observe(viewLifecycleOwner) {
             when (it) {
                 true -> popBackStack()
                 else -> {}
