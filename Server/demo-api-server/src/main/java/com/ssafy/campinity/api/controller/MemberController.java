@@ -14,7 +14,6 @@ import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.redis.RedisDao;
 import com.ssafy.campinity.core.service.MemberService;
 import com.ssafy.campinity.core.utils.ImageUtil;
-import com.ssafy.campinity.core.utils.JwtTokenUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -137,7 +136,6 @@ public class MemberController {
     }
 
     /**
-     *
      * @param memberDetails
      * 로그인 직후 이기 때문에 반드시 accessToken은 유효하다. 따라서 memberDetails에 유효한 객체가 삽입됨.
      * @return

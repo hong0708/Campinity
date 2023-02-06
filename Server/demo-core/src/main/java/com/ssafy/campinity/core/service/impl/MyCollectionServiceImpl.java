@@ -66,7 +66,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
             throw new BadRequestException("수정 권한이 없습니다.");
         }
 
-        if (myCollectionReqDTO.getFile().getSize() != 0){
+        if (!myCollectionReqDTO.getFile().isEmpty()){
             if (!imagePath.isEmpty()){
                 try {
                     boolean result = imageUtil.removeImage(imagePath);
@@ -79,7 +79,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
                     throw new FileNotFoundException();
                 }
             }
-            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
+            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "myCollection"); }
             catch (IOException e) { throw new RuntimeException(e); }
         }
 
@@ -111,7 +111,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
 
-        List<MyCollection> myCollections = myCollectionRepository.findAllByMemberAndExpiredIsFalse(member);
+        List<MyCollection> myCollections = myCollectionRepository.findByMemberAndExpiredIsFalse(member);
 
         if (myCollections.isEmpty()) return new ArrayList<>();
         return myCollections;
