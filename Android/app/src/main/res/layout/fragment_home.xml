@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/iv_my_page"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginStart="18dp"
             android:layout_marginTop="18dp"
             android:contentDescription="@string/image_home_mypage_btn"
@@ -116,6 +116,7 @@
                         android:text="@string/content_search_button"
                         android:textColor="@color/bilbao"
                         android:textSize="10sp"
+                        android:fontFamily="@font/roboto_light"
                         app:layout_constraintStart_toStartOf="@+id/tv_title_search"
                         app:layout_constraintTop_toBottomOf="@+id/tv_title_search"
                         tools:ignore="SmallSp" />
@@ -163,6 +164,7 @@
                         android:text="@string/content_community_button"
                         android:textColor="@color/bilbao"
                         android:textSize="10sp"
+                        android:fontFamily="@font/roboto_light"
                         app:layout_constraintStart_toStartOf="@+id/tv_title_community"
                         app:layout_constraintTop_toBottomOf="@+id/tv_title_community"
                         tools:ignore="SmallSp" />

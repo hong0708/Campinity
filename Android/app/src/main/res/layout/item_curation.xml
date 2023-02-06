@@ -11,7 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="170dp"
+        android:layout_width="match_parent"
         android:layout_height="240dp">
 
         <ImageView
@@ -20,9 +20,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image_curation"
             android:normalImgUri="@{curation.firstImagePath}"
-            android:scaleType="fitXY"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="0dp" />
+            android:scaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_curation"
