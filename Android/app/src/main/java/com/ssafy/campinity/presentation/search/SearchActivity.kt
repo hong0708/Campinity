@@ -30,5 +30,6 @@ class SearchActivity : AppCompatActivity() {
         navController.graph = navGraph
 
         searchViewModel.setAreaList(this)
+        searchViewModel.setIndustry(this)
     }
 }

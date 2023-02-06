@@ -36,8 +36,8 @@ data class SearchDetailResponse(
     val isScraped: Boolean,
     @SerializedName("lineIntro")
     val lineIntro: String,
-    @SerializedName("operSeasons")
-    val operSeasons: List<String>,
+    @SerializedName("openSeasons")
+    val openSeasons: List<String>,
     @SerializedName("phoneNumber")
     val phoneNumber: String,
     @SerializedName("reserveType")
@@ -67,7 +67,7 @@ data class SearchDetailResponse(
         intro = intro,
         isScraped = isScraped,
         lineIntro = lineIntro,
-        openSeasons = operSeasons,
+        openSeasons = openSeasons,
         phoneNumber = phoneNumber,
         reserveType = reserveType,
         reviews = review,

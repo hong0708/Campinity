@@ -9,9 +9,8 @@ import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 
 class SearchListAdapter(
     private var campsites: List<CampsiteBriefInfo>,
-    private val navigationToCampsiteDetailFragment: () -> Unit,
+    private val onCampsiteClickListener: (String) -> Unit,
     private val navigationToSearchPostboxFragment: () -> Unit,
-    private val campsiteItemClickListener: (String) -> Unit
 ) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
 
     private lateinit var binding: ItemSearchListBinding
@@ -53,8 +52,7 @@ class SearchListAdapter(
             }
 
             binding.rlCampsite.setOnClickListener {
-                campsiteItemClickListener(item.campsiteId)
-                navigationToCampsiteDetailFragment()
+                onCampsiteClickListener(item.campsiteId)
             }
         }
 

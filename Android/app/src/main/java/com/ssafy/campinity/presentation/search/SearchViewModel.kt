@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.domain.entity.search.AreaListItem
@@ -16,6 +17,7 @@ import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByFilteringUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -30,7 +32,7 @@ class SearchViewModel @Inject constructor(
     val campsiteListData: LiveData<List<CampsiteBriefInfo>?> = _campsiteListData
 
     private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
-    val campsiteDate: LiveData<CampsiteDetailInfo?> = _campsiteData
+    val campsiteData: LiveData<CampsiteDetailInfo?> = _campsiteData
 
     private val _stateBehaviorArea: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorArea: LiveData<Boolean> = _stateBehaviorArea
@@ -47,6 +49,18 @@ class SearchViewModel @Inject constructor(
     var filter: SearchFilterRequest = SearchFilterRequest()
 
     var areaList = arrayListOf<AreaListItem>()
+
+    var industry: Array<String> = arrayOf()
+
+    var facility: Array<String> = arrayOf()
+
+    var amenity: Array<String> = arrayOf()
+
+    var theme: Array<String> = arrayOf()
+
+    var pet: Array<String> = arrayOf()
+
+    var season: Array<String> = arrayOf()
 
     fun mapGugun(gugun: List<String>): String {
         val result = StringBuilder()
@@ -117,6 +131,15 @@ class SearchViewModel @Inject constructor(
         }
     }
 
+    fun setIndustry(context: Context) {
+        industry = context.resources.getStringArray(R.array.content_campsite_industry)
+        facility = context.resources.getStringArray(R.array.content_campsite_facility)
+        amenity = context.resources.getStringArray(R.array.content_campsite_amenity)
+        theme = context.resources.getStringArray(R.array.content_campsite_theme)
+        pet = context.resources.getStringArray(R.array.content_campsite_pet)
+        season = context.resources.getStringArray(R.array.content_campsite_season)
+    }
+
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {
         when (val value = getCampsitesByFilteringUseCase(filter)) {
             is Resource.Success<List<CampsiteBriefInfo>> -> {
@@ -129,16 +152,10 @@ class SearchViewModel @Inject constructor(
     }
 
     fun getCampsitesByScope(
-        bottomRightLat: Double,
-        bottomRightLng: Double,
-        topLeftLat: Double,
-        topLeftLng: Double
+        bottomRightLat: Double, bottomRightLng: Double, topLeftLat: Double, topLeftLng: Double
     ) = viewModelScope.launch {
         when (val value = getCampsitesByScopeUseCase(
-            bottomRightLat,
-            bottomRightLng,
-            topLeftLat,
-            topLeftLng
+            bottomRightLat, bottomRightLng, topLeftLat, topLeftLng
         )) {
             is Resource.Success<List<CampsiteBriefInfo>> -> {
                 _campsiteListData.value = value.data
@@ -149,13 +166,16 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getCampsiteDetail(campsiteId: String) = viewModelScope.launch {
+    fun getCampsiteDetailAsync(campsiteId: String) = viewModelScope.async {
         when (val value = getCampsiteDetailUseCase(campsiteId)) {
             is Resource.Success<CampsiteDetailInfo> -> {
                 _campsiteData.value = value.data
+                Log.e("getCampsiteDetailInfo", "getCampsiteDetailInfo: ${value.data.images.size}")
+                return@async 1
             }
             is Resource.Error -> {
                 Log.e("getCampsiteDetailInfo", "getCampsiteDetailInfo: ${value.errorMessage}")
+                return@async 0
             }
         }
     }

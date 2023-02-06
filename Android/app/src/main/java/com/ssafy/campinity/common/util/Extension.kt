@@ -31,10 +31,25 @@ fun getStatusBarHeight(context: Context): Int {
 
 @SuppressLint("InternalInsetResource")
 fun getNaviBarHeight(context: Context): Int {
-    val resourceId: Int = context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
+    val resourceId: Int =
+        context.resources.getIdentifier("navigation_bar_height", "dimen", "android")
     return if (resourceId > 0) {
         context.resources.getDimensionPixelSize(resourceId)
     } else {
         0
     }
+}
+
+fun List<*>.toString(regex: String): String {
+    val stringBuilder = StringBuilder()
+
+    this.forEachIndexed { index, d ->
+        if (index == 0) {
+            stringBuilder.append(d)
+        } else {
+            stringBuilder.append("$regex$d")
+        }
+    }
+
+    return stringBuilder.toString()
 }

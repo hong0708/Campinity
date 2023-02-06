@@ -23,4 +23,8 @@ data class CampsiteDetailInfo(
     val images: List<String>,
     val reviews: List<Review>,
     val totalRate: Double
-)
+) {
+    override fun toString(): String {
+        return "CampsiteDetailInfo(campsiteId='$campsiteId', amenities=$amenities, caravanFacilities=$caravanFacilities, glampingFacilities=$glampingFacilities, openSeasons=$openSeasons, themes=$themes, industries=$industries, isScraped=$isScraped, campsiteName='$campsiteName', address='$address', phoneNumber='$phoneNumber', homepage='$homepage', reserveType='$reserveType', intro='$intro', lineIntro='$lineIntro', experienceProgram='$experienceProgram', subFacilityEtc='$subFacilityEtc', dayOperation='$dayOperation', allowAnimal='$allowAnimal', images=$images, reviews=$reviews, totalRate=$totalRate)"
+    }
+}

@@ -83,20 +83,12 @@
             tools:text="50" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_bookmark"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/ic_bookmark_off" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_postbox"
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="9dp"
-            android:layout_toStartOf="@id/btn_bookmark"
+            android:layout_alignParentEnd="true"
             android:background="@drawable/ic_postbox" />
 
         <androidx.recyclerview.widget.RecyclerView

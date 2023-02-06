@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.toString
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchFilterBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -17,12 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class SearchFilterFragment : Fragment() {
 
     private lateinit var binding: FragmentSearchFilterBinding
-    private lateinit var industry: Array<String>
-    private lateinit var facility: Array<String>
-    private lateinit var amenity: Array<String>
-    private lateinit var theme: Array<String>
-    private lateinit var pet: Array<String>
-    private lateinit var season: Array<String>
     private val industryBtnList: ArrayList<TextView> = arrayListOf()
     private val facilityBtnList: ArrayList<TextView> = arrayListOf()
     private val amenityBtnList: ArrayList<TextView> = arrayListOf()
@@ -90,16 +85,9 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun initBtnListener() {
-        industry = resources.getStringArray(R.array.content_campsite_industry)
-        facility = resources.getStringArray(R.array.content_campsite_facility)
-        amenity = resources.getStringArray(R.array.content_campsite_amenity)
-        theme = resources.getStringArray(R.array.content_campsite_theme)
-        pet = resources.getStringArray(R.array.content_campsite_pet)
-        season = resources.getStringArray(R.array.content_campsite_season)
-
-        for (i in industry.indices) {
+        for (i in searchViewModel.industry.indices) {
             industryBtnList[i].let { btn ->
-                btn.text = industry[i]
+                btn.text = searchViewModel.industry[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -115,9 +103,9 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in facility.indices) {
+        for (i in searchViewModel.facility.indices) {
             facilityBtnList[i].let { btn ->
-                btn.text = facility[i]
+                btn.text = searchViewModel.facility[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -133,9 +121,9 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in amenity.indices) {
+        for (i in searchViewModel.amenity.indices) {
             amenityBtnList[i].let { btn ->
-                btn.text = amenity[i]
+                btn.text = searchViewModel.amenity[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -151,9 +139,9 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in theme.indices) {
+        for (i in searchViewModel.theme.indices) {
             themeBtnList[i].let { btn ->
-                btn.text = theme[i]
+                btn.text = searchViewModel.theme[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -169,9 +157,9 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in pet.indices) {
+        for (i in searchViewModel.pet.indices) {
             petBtnList[i].let { btn ->
-                btn.text = pet[i]
+                btn.text = searchViewModel.pet[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -187,9 +175,9 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in season.indices) {
+        for (i in searchViewModel.season.indices) {
             seasonBtnList[i].let { btn ->
-                btn.text = season[i]
+                btn.text = searchViewModel.season[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -207,7 +195,7 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun resetBtn() {
-        for (i in industry.indices) {
+        for (i in searchViewModel.industry.indices) {
             industryBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -215,7 +203,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in facility.indices) {
+        for (i in searchViewModel.facility.indices) {
             facilityBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -223,7 +211,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in amenity.indices) {
+        for (i in searchViewModel.amenity.indices) {
             amenityBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -231,7 +219,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in theme.indices) {
+        for (i in searchViewModel.theme.indices) {
             themeBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -239,7 +227,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in pet.indices) {
+        for (i in searchViewModel.pet.indices) {
             petBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -247,7 +235,7 @@ class SearchFilterFragment : Fragment() {
             }
         }
 
-        for (i in season.indices) {
+        for (i in searchViewModel.season.indices) {
             seasonBtnList[i].let { btn ->
                 btn.isSelected = false
                 btn.setBackgroundResource(R.drawable.bg_rect_white_grey_alpha30_radius10_stroke1)
@@ -286,33 +274,17 @@ class SearchFilterFragment : Fragment() {
         binding.btnSubmit.setOnClickListener {
             with(searchViewModel) {
                 this.filter = SearchFilterRequest(
-                    industry = selectedIndustry.toFilter(),
-                    fclty = selectedFacility.toFilter(),
-                    amenity = selectedAmenity.toFilter(),
-                    theme = selectedTheme.toFilter(),
-                    allowAnimal = selectedPet.toFilter(),
-                    openSeason = selectedSeason.toFilter()
+                    industry = selectedIndustry.toString(" "),
+                    fclty = selectedFacility.toString(" "),
+                    amenity = selectedAmenity.toString(" "),
+                    theme = selectedTheme.toString(" "),
+                    allowAnimal = selectedPet.toString(" "),
+                    openSeason = selectedSeason.toString(" ")
                 )
-
                 this.getCampsitesByFiltering(this.filter)
-
                 resetBtn()
                 this.setStateBehaviorFilter(false)
             }
         }
-    }
-
-    private fun ArrayList<*>.toFilter(): String {
-        val stringBuilder = StringBuilder()
-
-        this.forEachIndexed { index, d ->
-            if (index == 0) {
-                stringBuilder.append(d)
-            } else {
-                stringBuilder.append(" $d")
-            }
-        }
-
-        return stringBuilder.toString()
     }
 }
