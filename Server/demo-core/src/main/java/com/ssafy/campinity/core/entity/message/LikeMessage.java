@@ -22,7 +22,7 @@ public class LikeMessage extends BaseEntity {
     @ToString.Exclude
     private Message message;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @ToString.Exclude
     private Member member;
 
