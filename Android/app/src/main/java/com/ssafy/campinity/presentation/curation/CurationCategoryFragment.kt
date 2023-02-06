@@ -2,9 +2,8 @@ package com.ssafy.campinity.presentation.curation
 
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.RecyclerviewItemDecoration
+import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.databinding.FragmentCurationCategoryBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 
@@ -20,7 +19,7 @@ class CurationCategoryFragment :
 
     private fun initData() {
         curationViewModel.categoryState.observe(viewLifecycleOwner) {
-            when(it) {
+            when (it) {
                 "전체" -> curationViewModel.getCurations("")
                 "튜토리얼" -> curationViewModel.getCurations("튜토리얼")
                 "레시피" -> curationViewModel.getCurations("레시피")
@@ -34,9 +33,7 @@ class CurationCategoryFragment :
             adapter = curationCategoryAdapter
             layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            addItemDecoration(
-                RecyclerviewItemDecoration(context, RecyclerView.VERTICAL, 4)
-            )
+            addItemDecoration(GridItemDecoration(context, 2, 4, 0))
         }
         curationViewModel.curationListData.observe(viewLifecycleOwner) {
             it?.let { curationCategoryAdapter.setCuration(it) }

@@ -35,38 +35,7 @@ class CommunityCampsiteFreeReviewDetailDialog(
         setCancelable(true)
 
         initListener()
-        initData()
-    }
-
-    private fun initData() {
-        binding.apply {
-            tvReviewContent.text = messageDetailInfo.content
-            tvUserName.text = messageDetailInfo.authorName
-            if (messageDetail?.messageCategory == "리뷰") {
-                tvReviewTitle.text = "리뷰 쪽지"
-            } else {
-                tvReviewTitle.text = "자유 쪽지"
-            }
-            tvMessageDate.text = messageDetailInfo.createdAt
-            //ivReviewImg.setImageURI(messageDetailInfo.imagePath)
-            ivReviewImg.apply {
-                if (messageDetailInfo.imagePath?.isEmpty() == true) {
-                    Glide.with(context)
-                        .load(R.drawable.bg_image_not_found)
-                        .override(getDeviceWidthPx(context))
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(this)
-                } else {
-                    Glide.with(context)
-                        .load("http://i8d101.p.ssafy.io:8003/images" + messageDetailInfo.imagePath)
-                        .override(getDeviceWidthPx(context))
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(this)
-                }
-            }
-        }
+        binding.detailInfo = messageDetailInfo
     }
 
     private fun initListener() {

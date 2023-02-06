@@ -13,6 +13,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.Permission.REQUEST_READ_STORAGE_PERMISSION
 import com.ssafy.campinity.databinding.FragmentJoinBinding
@@ -39,9 +40,17 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
 
     override fun initView() {
         binding.vm = viewModel
+        viewModel.requestCurrentToken()
         initListener()
         setTextWatcher()
         observeState()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (viewModel.cancelSignUp()) {
+            ApplicationClass.preferences.clearPreferences()
+        }
     }
 
     private fun initListener() {
@@ -50,16 +59,19 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
             etNickname.addTextChangedListener { viewModel.setNickname(it.toString()) }
             btnBack.setOnClickListener { navigate(JoinFragmentDirections.actionJoinFragmentToOnBoardingFragment()) }
             btnConfirm.setOnClickListener {
-                viewModel.requestCurrentToken()
-                viewModel.fcmToken.observe(viewLifecycleOwner) {
-                    if (viewModel.profileImgUri.value == null) {
-                        viewModel.updateProfileWithoutImg(it)
-                    } else {
-                        viewModel.updateProfile(it)
-                    }
+                if (viewModel.profileImgUri.value == null) {
+                    viewModel.updateProfileWithoutImg(ApplicationClass.preferences.fcmToken!!)
+                } else {
+                    viewModel.updateProfile(ApplicationClass.preferences.fcmToken!!)
                 }
             }
-            btnCheckDuplication.setOnClickListener { viewModel.checkDuplication() }
+            btnCheckDuplication.setOnClickListener {
+                if (viewModel.nickname.value == null) {
+                    Toast.makeText(requireContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.checkDuplication()
+                }
+            }
         }
     }
 

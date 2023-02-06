@@ -21,17 +21,20 @@ class CampsiteBriefImageAdapter(private val images: List<String>) :
     }
 
     override fun onBindViewHolder(holder: SearchImageViewHolder, position: Int) {
-        holder.bind(images[position])
-    }
-
-    override fun getItemCount(): Int = images.size
-
-    inner class SearchImageViewHolder(private val binding: ItemCampsiteBriefImageBinding) :
-        RecyclerView.ViewHolder(binding.root) {
-
-        fun bind(url: String) {
+        if (images.isEmpty()) {
             Glide.with(binding.ivCampsiteImage.context)
-                .load(url)
+                .load(R.drawable.bg_image_not_found)
+                .override(
+                    120.px(binding.ivCampsiteImage.context), 150.px(binding.ivCampsiteImage.context)
+                )
+                .centerCrop()
+                .placeholder(R.drawable.bg_image_not_found)
+                .error(R.drawable.bg_image_not_found)
+                .fallback(R.drawable.bg_image_not_found)
+                .into(binding.ivCampsiteImage)
+        } else {
+            Glide.with(binding.ivCampsiteImage.context)
+                .load(images[position])
                 .override(
                     120.px(binding.ivCampsiteImage.context), 150.px(binding.ivCampsiteImage.context)
                 )
@@ -42,4 +45,9 @@ class CampsiteBriefImageAdapter(private val images: List<String>) :
                 .into(binding.ivCampsiteImage)
         }
     }
+
+    override fun getItemCount(): Int = if (images.isEmpty()) 1 else images.size
+
+    inner class SearchImageViewHolder(binding: ItemCampsiteBriefImageBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

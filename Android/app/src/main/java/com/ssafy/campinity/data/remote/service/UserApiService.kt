@@ -17,4 +17,6 @@ interface UserApiService {
     @GET("/api/v4/members/nicknames/{nickname}/exists")
     suspend fun checkDuplication(@Path("nickname") nickname: String): Boolean
 
+    @POST("/api/v4/members/cancel-sign-up")
+    suspend fun cancelSignUp(): Boolean
 }

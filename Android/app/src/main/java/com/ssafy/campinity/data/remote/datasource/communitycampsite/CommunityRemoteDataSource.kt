@@ -24,7 +24,7 @@ interface CommunityRemoteDataSource {
         body: CommunityCampsiteMessageRequest
     ): CommunityCampsiteDetailInfoMessageResponse
 
-    suspend fun getCampsiteMessageDetail(
+    suspend fun getCampsiteMessageDetailInfo(
         messageId: String
     ): CommunityCampsiteDetailInfoMessageResponse
 }

@@ -34,7 +34,7 @@ class CommunityCampsiteFragment :
     MapViewMarkerEventListener,
     MapView.MapViewEventListener,
     MapView.POIItemEventListener,
-    CommunityCampsiteFreeReviewDetailDialogInterface{
+    CommunityCampsiteFreeReviewDetailDialogInterface {
 
     val TAG = "MapViewEventListener"
 
@@ -333,7 +333,12 @@ class CommunityCampsiteFragment :
     }
 
 
-    private fun getCampsiteTitle(campsiteId: String, campsiteName: String?) {
+    private fun getCampsiteTitle(
+        campsiteId: String,
+        campsiteName: String?,
+        longitude: String,
+        latitude: String
+    ) {
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
         // ApplicationClass.preferences.
         binding.tvCampsiteCondition.text = campsiteName
@@ -344,8 +349,8 @@ class CommunityCampsiteFragment :
 
         // 싸피 캠핑장 기준으로 맵 가운데 지점 옮기기
         // 추후 받아온 위 경도 활용
-        val uLatitude = 36.1071
-        val uLongitude = 128.4164
+        val uLatitude = latitude.toDouble()
+        val uLongitude = longitude.toDouble()
         val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude, uLongitude)
         mapView.setMapCenterPoint(uNowPosition, true)
 
@@ -379,9 +384,6 @@ class CommunityCampsiteFragment :
             previousState: SlidingUpPanelLayout.PanelState?,
             newState: SlidingUpPanelLayout.PanelState?
         ) {
-            /*Log.d("MapViewEventListener:", "onPanelStateChanged: ")
-            val listener = CommunityMapViewEventListener(this@CommunityCampsiteFragment)
-            mapView.setMapViewEventListener(listener)*/
         }
     }
 

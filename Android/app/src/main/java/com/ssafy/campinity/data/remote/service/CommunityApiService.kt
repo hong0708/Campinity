@@ -38,6 +38,7 @@ interface CommunityApiService {
     ): CommunityCampsiteDetailInfoMessageResponse
 
     @GET("/api/v2/messages/{messageId}")
-    suspend fun getCampsiteMessageDetail(@Path("messageId") messageId: String)
-            : CommunityCampsiteDetailInfoMessageResponse
+    suspend fun getCampsiteMessageDetailInfo(
+        @Path("messageId") messageId: String
+    ): CommunityCampsiteDetailInfoMessageResponse
 }

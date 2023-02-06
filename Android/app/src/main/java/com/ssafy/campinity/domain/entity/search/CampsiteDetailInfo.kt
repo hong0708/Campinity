@@ -2,11 +2,11 @@ package com.ssafy.campinity.domain.entity.search
 
 data class CampsiteDetailInfo(
     val campsiteId: String,
-    val amenities: List<String>,
-    val caravanFacilities: List<String>,
-    val glampingFacilities: List<String>,
+    val amenities: List<Int>,
+    val caravanFacilities: List<Int>,
+    val glampingFacilities: List<Int>,
     val openSeasons: List<String>,
-    val themes: List<String>,
+    val themes: List<Int>,
     val industries: List<String>,
     val isScraped: Boolean,
     val campsiteName: String,
@@ -22,5 +22,5 @@ data class CampsiteDetailInfo(
     val allowAnimal: String,
     val images: List<String>,
     val reviews: List<Review>,
-    val total_rate: Double
+    val totalRate: Double
 )

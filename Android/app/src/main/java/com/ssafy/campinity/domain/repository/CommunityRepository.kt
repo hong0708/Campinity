@@ -35,5 +35,7 @@ interface CommunityRepository {
         longitude: Double,
     ): Resource<CampsiteMessageDetailInfo>
 
-    suspend fun getCampsiteMessageDetail(messageId: String): Resource<CampsiteMessageDetailInfo>
+    suspend fun getCampsiteMessageDetailInfo(
+        messageId: String
+    ): Resource<CampsiteMessageDetailInfo>
 }

@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="messageDetail"
+            name="detailInfo"
             type="com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo" />
     </data>
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="@string/title_review_note"
+                android:text="@{@string/note_format(detailInfo.messageCategory)}"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,15 +54,17 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="13dp"
                 android:contentDescription="@string/image_user_profile"
+                android:normalImgUri="@{detailInfo.profilePath}"
                 android:src="@drawable/ic_profile_default"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_review_title" />
 
             <TextView
-                android:id="@+id/tv_user_name"
+                android:id="@+id/tv_nickname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="12dp"
+                android:text="@{detailInfo.authorName}"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="@id/iv_user_profile"
@@ -77,6 +79,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_rect_white_smoke_radius15"
                 android:padding="4dp"
+                android:text="@{detailInfo.createdAt.substring(0, 10)}"
                 app:layout_constraintBottom_toTopOf="@id/iv_review_img"
                 app:layout_constraintEnd_toEndOf="@id/iv_review_img"
                 tools:text="2023.01.10" />
@@ -90,7 +93,7 @@
                 android:layout_marginEnd="23dp"
                 android:background="@drawable/bg_rect_bilbao_radius10"
                 android:contentDescription="@string/image_review_content"
-
+                android:normalImgUri="@{detailInfo.imagePath}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/iv_user_profile" />
@@ -104,6 +107,7 @@
                 android:layout_marginBottom="31dp"
                 android:background="@drawable/bg_rect_light_yellow_radius10"
                 android:padding="11dp"
+                android:text="@{detailInfo.content}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

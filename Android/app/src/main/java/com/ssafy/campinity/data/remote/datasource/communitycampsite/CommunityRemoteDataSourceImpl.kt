@@ -54,7 +54,8 @@ class CommunityRemoteDataSourceImpl @Inject constructor(
         return communityApiService.createCampsiteMessage(map, body.file)
     }
 
-    override suspend fun getCampsiteMessageDetail(messageId: String)
-            : CommunityCampsiteDetailInfoMessageResponse =
-        communityApiService.getCampsiteMessageDetail(messageId)
+    override suspend fun getCampsiteMessageDetailInfo(
+        messageId: String
+    ): CommunityCampsiteDetailInfoMessageResponse =
+        communityApiService.getCampsiteMessageDetailInfo(messageId)
 }

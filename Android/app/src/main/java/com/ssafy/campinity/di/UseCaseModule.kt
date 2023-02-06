@@ -9,10 +9,15 @@ import com.ssafy.campinity.domain.usecase.community.*
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
+import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
+import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
+import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
+import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
+import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -116,7 +121,26 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideGetCampsiteMessageDetailInfoUseCase(communityRepository: CommunityRepository)
-            : GetCampsiteMessageDetailInfoUseCase =
-        GetCampsiteMessageDetailInfoUseCase(communityRepository)
+    fun provideGetNotesUseCase(myPageRepository: MyPageRepository): GetNotesUseCase =
+        GetNotesUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserInfoUseCase(myPageRepository: MyPageRepository): GetUserInfoUseCase =
+        GetUserInfoUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestLogoutUseCase(myPageRepository: MyPageRepository): RequestLogoutUseCase =
+        RequestLogoutUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsitesByScopeUseCase(searchRepository: SearchRepository): GetCampsitesByScopeUseCase =
+        GetCampsitesByScopeUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsiteDetailUseCase(searchRepository: SearchRepository): GetCampsiteDetailUseCase =
+        GetCampsiteDetailUseCase(searchRepository)
 }
