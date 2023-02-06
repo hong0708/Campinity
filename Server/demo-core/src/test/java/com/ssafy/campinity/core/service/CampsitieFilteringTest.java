@@ -129,23 +129,23 @@ public class CampsitieFilteringTest {
     @Transactional
     public void filteringdoNameTest () {
 
-        Campsite campsite1 = Campsite.builder().doName("싸피군").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite campsite1 = Campsite.builder().doName("캠핑군").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
         Campsite savedCampsite1 = campsiteRepository.save(campsite1);
 
-        Campsite campsite2 = Campsite.builder().doName("싸피시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite campsite2 = Campsite.builder().doName("캠핑시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
         Campsite savedCampsite2 = campsiteRepository.save(campsite2);
 
-        Campsite campsite3 = Campsite.builder().doName("삼성시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite campsite3 = Campsite.builder().doName("나무시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
         Campsite savedCampsite3 = campsiteRepository.save(campsite3);
 
         Member member = Member.builder().name("lmj").build();
         Member savedMember = memberRepository.save(member);
 
-        List<CampsiteListResDTO> result1 = campsiteService.getCampsiteListByFiltering("", "싸피군 ", new String[0], new String[0],
+        List<CampsiteListResDTO> result1 = campsiteService.getCampsiteListByFiltering("", "캠핑군 ", new String[0], new String[0],
                 new String[0], new String[0], new String[0], new String[0], new String[0], savedMember.getId());
 
         Assertions.assertThat(result1.size()).isEqualTo(1);
-        Assertions.assertThat(result1.get(0).getDoName()).isEqualTo("싸피군");
+        Assertions.assertThat(result1.get(0).getDoName()).isEqualTo("캠핑군");
     }
 
     @Test
@@ -153,19 +153,19 @@ public class CampsitieFilteringTest {
     @Transactional
     public void filteringSigunguTest () {
 
-        Campsite campsite1 = Campsite.builder().sigunguName("싸피군").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite campsite1 = Campsite.builder().sigunguName("캠핑군").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
         Campsite savedCampsite1 = campsiteRepository.save(campsite1);
 
-        Campsite campsite2 = Campsite.builder().sigunguName("싸피시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite campsite2 = Campsite.builder().sigunguName("캠핑시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
         Campsite savedCampsite2 = campsiteRepository.save(campsite2);
 
-        Campsite campsite3 = Campsite.builder().sigunguName("삼성시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite campsite3 = Campsite.builder().sigunguName("나무시").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
         Campsite savedCampsite3 = campsiteRepository.save(campsite3);
 
         Member member = Member.builder().name("lmj").build();
         Member savedMember = memberRepository.save(member);
 
-        String[] conditions = {"싸피군", "싸피시"};
+        String[] conditions = {"캠핑군", "캠핑시"};
 
         List<CampsiteListResDTO> result1 = campsiteService.getCampsiteListByFiltering("", "", conditions, new String[0],
                 new String[0], new String[0], new String[0], new String[0], new String[0], savedMember.getId());

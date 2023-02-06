@@ -71,7 +71,7 @@ public class MessageServiceImpl implements MessageService {
         try {
             Message saved = messageRepository.save(message);
             campsite.addMessage(saved);
-            return messageRepository.save(message);
+            return saved;
         }
         catch (Exception e){ throw new IllegalArgumentException(e); }
     }
