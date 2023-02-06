@@ -57,4 +57,5 @@ public class FcmToken {
     public void unsubscribeCamp(){
        this.campsiteUuid = "";
     }
+
 }

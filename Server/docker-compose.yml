@@ -29,6 +29,11 @@ services:
       - database
     volumes:
       - ${HOME}/images:/var/lib/images
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "100m"
   redis:
     image: redis:alpine
     command: redis-server --port 6379
