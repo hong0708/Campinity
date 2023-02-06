@@ -1,110 +1,54 @@
 package com.ssafy.campinity.core.repository.campsite.custom;
 
-import com.ssafy.campinity.core.dto.CampsiteListResDTO;
+import com.querydsl.core.BooleanBuilder;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.campinity.core.entity.campsite.*;
-import com.ssafy.campinity.core.entity.member.Member;
-import com.ssafy.campinity.core.repository.campsite.CampsiteImageRepository;
-import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
-import com.ssafy.campinity.core.repository.member.MemberRepository;
-import com.ssafy.campinity.core.repository.message.MessageRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
 public class CampsiteCustomRepository {
 
     private final EntityManager em;
-    private final MemberRepository memberRepository;
-    private final CampsiteScrapRepository campsiteScrapRepository;
-    private final MessageRepository messageRepository;
-    private final CampsiteImageRepository campsiteImageRepository;
 
-
-    public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
+    public List<Campsite> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
                                                                String[] fclties, String[] amenities, String[] industries,
-                                                               String[] themes, String[] allowAnimals, String[] openSeasons, int requestMemberId) {
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
-        String query = "Select c From Campsite c ";
+                                                               String[] themes, String[] allowAnimals, String[] openSeasons) {
 
-        // join절
-        String joinClause = "";
-        String tableName = "";
-        String nickname = "";
+        JPAQueryFactory query = new JPAQueryFactory(em);
+        QCampsite qcampsite = new QCampsite("c");
 
-        // 부대시설
-        if (0 < amenities.length && amenities.length < 11) {
-            tableName = "CampsiteAndAmenity";
-            for (int i = 0; i < amenities.length; i++) {
-                nickname = "ca" + Integer.toString(i);
-                joinClause = joinClause + " JOIN " + tableName + " AS " + nickname + " ON " + nickname + ".amenity.id = " + amenities[i] +
-                        " AND " + "c.id = " + nickname + ".campsite.id ";
-            }
+        BooleanBuilder builder = new BooleanBuilder();
+
+        // NPE를 해결하기 위한 기본 조건
+        builder.and(qcampsite.uuid.isNotNull());
+
+        // 캠핑장 이름 검색
+        if (keyword != null && !keyword.equals("")) {
+            builder.and(qcampsite.campName.contains(keyword));
         }
 
-        // where절
-        String whereClause = "";
-        boolean before = false;
-        if (keyword != null && !keyword.trim().isEmpty()) { // 검색어
-            whereClause += " c.campName LIKE '%" + keyword +"%'";
-            before = true;
+        // 도 검색
+        if (doName != null && !doName.equals("")) {
+            builder.and(qcampsite.doName.eq(doName));
         }
 
-        if (doName != null && !doName.trim().isEmpty()) {  // 도
-            if (before) {
-                whereClause += " And";
-            }
-            whereClause += " c.doName = '" + doName + "'";
-            before = true;
+        // 시군구 검색
+        if (sigunguNames != null && sigunguNames.length > 0) {
+            builder.and(qcampsite.sigunguName.in(sigunguNames));
         }
 
-        if (sigunguNames.length > 0) { // 시군구
-            if (before) {
-                whereClause += " And";
-            }
-            whereClause += " c.sigunguName IN (";
-            for (int i = 0; i < sigunguNames.length; i++) {
-                whereClause = whereClause + "'" + sigunguNames[i] + "'";
-                if (i < sigunguNames.length - 1) {
-                    whereClause = whereClause + " , ";
-                }
-            }
-            whereClause += ")";
-            before = true;
-        }
-
-        if (allowAnimals.length > 0) { // 반려동물 가능 여부(수정)
-            if (before) {
-                whereClause += " And ";
-            }
-            whereClause = whereClause + "(";
-            for (int i = 0; i < allowAnimals.length; i++) {
-                whereClause = whereClause + "c.allowAnimal = '" + allowAnimals[i] + "'";
-                if (i < (allowAnimals.length - 1)) {
-                    whereClause = whereClause + " OR ";
-                }
-            }
-            whereClause += ")";
-            before = true;
-        }
-
-        if (before) {
-            whereClause = " Where " + whereClause;
-        }
-
-        query = query + joinClause + whereClause;
-
-        List<Campsite> result = em.createQuery(query, Campsite.class).getResultList();
+        List<Campsite> result = query.select(qcampsite).from(qcampsite).where(builder).fetch();
 
 
         // 후처리
-        List<CampsiteListResDTO> completedResult = new ArrayList<>();
+        List<Campsite> completedResult = new ArrayList<>();
 
         boolean[] isInduties = new boolean[5];
         for (String item: industries) {
@@ -210,21 +154,34 @@ public class CampsiteCustomRepository {
                 }
             }
 
-            Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(member.getId(), camp.getId());
+            // amenities
+            if (0 < amenities.length && amenities.length < 11) {
+                boolean[] isAmenityCampsite = new boolean[12];
+                for (CampsiteAndAmenity item: camp.getAmenities()) {
+                    isAmenityCampsite[item.getAmenity().getId()] = true;
+                }
 
-            Boolean isScraped = false;
-            if (campsiteScrap.isPresent()) {
-                isScraped = true;
+                boolean passAmenity = true;
+                for (String amenity: amenities) {
+                    if (!isAmenityCampsite[Integer.parseInt(amenity)]) {
+                        passAmenity = false;
+                        break;
+                    }
+                }
+
+                if (!passAmenity) {
+                    continue;
+                }
             }
 
-            int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+            completedResult.add(camp);
 
-            List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
-                return image.getImagePath();
-            }).collect(Collectors.toList());
-
-            completedResult.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).images(images).messageCnt(messageCnt).build());
+            if (completedResult.size() >= 100) {
+                break;
+            }
         }
         return completedResult;
     }
+
+
 }

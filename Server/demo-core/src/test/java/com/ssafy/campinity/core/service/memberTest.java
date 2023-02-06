@@ -37,7 +37,7 @@ public class memberTest {
         member.addFcmToken(fcmToken2);
         Member member1 = memberRepository.save(member);
 
-        ProfileResDTO profileResDTO = memberService.findMemberById(member1.getId());
+        ProfileResDTO profileResDTO = memberService.getMemberProfile(member1.getId());
         System.out.println(profileResDTO.toString());
     }
 }
