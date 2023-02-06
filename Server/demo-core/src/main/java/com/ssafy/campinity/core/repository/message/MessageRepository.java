@@ -3,7 +3,9 @@ package com.ssafy.campinity.core.repository.message;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.message.Message;
 import com.ssafy.campinity.core.entity.message.MessageCategory;
+import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
@@ -29,4 +31,7 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     void deleteById(Integer id);
 
     List<Message> findByMessageCategoryAndCreatedAtBeforeAndExpiredIsFalse(MessageCategory etc, LocalDateTime standard);
+
+//    @Query(value = "SELECT COUNT(*) FROM message INNER JOIN campsite ON message.campsite_id = :campsiteId AND campsite.id = :campsiteId", nativeQuery = true)
+//    int countMessageByCampsite(@Param("campsiteId") int campsiteId);
 }
