@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -44,6 +45,14 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
         initListener()
         setTextWatcher()
         observeState()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        if (viewModel.cancelSignUp()) {
+            Log.d("clearPreferences", "clearPreferences: ")
+            ApplicationClass.preferences.clearPreferences()
+        }
     }
 
     private fun initListener() {
