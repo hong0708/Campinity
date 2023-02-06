@@ -3,12 +3,11 @@ package com.ssafy.campinity.presentation.mypage
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.fragment.app.viewModels
-import androidx.navigation.NavController
-import androidx.navigation.fragment.NavHostFragment
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
@@ -17,15 +16,17 @@ import com.ssafy.campinity.presentation.community.note.CommunityNoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
+class MyPageFragment :
+    BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page),
+    LogoutDialogListener {
 
-    private val navController: NavController get() = NavHostFragment.findNavController(this)
-    private val myPageViewModel by viewModels<MyPageViewModel>()
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private val communityNoteListAdapter by lazy {
         CommunityNoteListAdapter(this::showDialog)
     }
 
     override fun initView() {
+        myPageViewModel.isSuccess.value = false
         setData()
         initRecyclerView()
         initListener()
@@ -34,13 +35,17 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private fun initListener() {
         binding.clEditProfile.setOnClickListener {
-            //navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
-            if (navController.currentDestination?.id == R.id.myPageFragment) {
-                navController.navigate(R.id.action_myPageFragment_to_editProfileFragment)
-            }
+            navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
         }
-        binding.ivArrowLeft.setOnClickListener { popBackStack() }
+        binding.ivArrowLeft.setOnClickListener {
+            popBackStack()
+        }
+        binding.tvLogOut.setOnClickListener {
+            val dialog = LogoutDialog(requireContext(), this)
+            dialog.show()
+        }
     }
+
 
     private fun initRecyclerView() {
         myPageViewModel.getNotes()
@@ -108,12 +113,19 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.getInfo()
         myPageViewModel.userInfo.observe(viewLifecycleOwner) {
             binding.profileInfo = it
-            Glide.with(this)
-                .load(it?.imagePath)
-                .placeholder(R.drawable.ic_profile_default)
-                .error(R.drawable.ic_profile_default)
-                .circleCrop()
-                .into(binding.ivProfile)
+        }
+    }
+
+    override fun onSubmitButtonClicked() {
+        myPageViewModel.requestLogout()
+        myPageViewModel.isLoggedOut.observe(viewLifecycleOwner) {
+            if (it == true) {
+                ApplicationClass.preferences.clearPreferences()
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToOnBoardingFragment())
+                Toast.makeText(requireContext(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

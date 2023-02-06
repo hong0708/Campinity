@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.data.remote.Resource
+import com.ssafy.campinity.data.remote.datasource.mypage.LogoutRequest
 import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 import com.ssafy.campinity.domain.entity.mypage.MyPageNote
@@ -15,6 +17,7 @@ import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageDetailInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
+import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,12 +29,13 @@ import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
-class MyPageViewModel @Inject  constructor(
+class MyPageViewModel @Inject constructor(
     private val getNotesUseCase: GetNotesUseCase,
     private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val editUserUseCase: EditUserUseCase,
-    private val checkDuplicationUseCase: CheckDuplicationUseCase
+    private val checkDuplicationUseCase: CheckDuplicationUseCase,
+    private val requestLogoutUseCase: RequestLogoutUseCase
     ) : ViewModel() {
 
     private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
@@ -52,23 +56,20 @@ class MyPageViewModel @Inject  constructor(
     private val _isSame: MutableLiveData<Boolean?> = MutableLiveData()
     val isSame: MutableLiveData<Boolean?> = _isSame
 
-    private val _isSuccess: MutableLiveData<Boolean?> = MutableLiveData(null)
+    private val _isSuccess: MutableLiveData<Boolean?> = MutableLiveData()
     val isSuccess: MutableLiveData<Boolean?> = _isSuccess
 
-    private val _nickname: MutableLiveData<String> = MutableLiveData(null)
+    private val _nickname: MutableLiveData<String> = MutableLiveData()
     val nickname: MutableLiveData<String> = _nickname
 
-    private val _profileImgUri: MutableLiveData<Uri?> = MutableLiveData(null)
+    private val _profileImgUri: MutableLiveData<Uri?> = MutableLiveData()
     val profileImgUri: LiveData<Uri?> = _profileImgUri
 
+    private val _isLoggedOut: MutableLiveData<Boolean?> = MutableLiveData()
+    val isLoggedOut: LiveData<Boolean?> = _isLoggedOut
+
+
     private var profileImgMultiPart: MultipartBody.Part? = null
-
-    val fcmToken: MutableLiveData<String> = MutableLiveData()
-
-    fun requestCurrentToken() = viewModelScope.launch {
-        val result = FirebaseService().getCurrentToken()
-        fcmToken.postValue(result)
-    }
 
     fun setNickname(nickname: String) {
         viewModelScope.launch {
@@ -150,7 +151,6 @@ class MyPageViewModel @Inject  constructor(
                 }
                 is Resource.Error -> {
                     Log.e("updateprofile", "updateProfile: ${value.errorMessage}")
-
                 }
             }
         }
@@ -169,5 +169,24 @@ class MyPageViewModel @Inject  constructor(
 
     fun checkSame() {
         _isSame.value = _nickname.value == _userInfo.value?.name
+    }
+
+    fun requestLogout() {
+        viewModelScope.launch {
+            when (val value = requestLogoutUseCase(
+                LogoutRequest(
+                    ApplicationClass.preferences.accessToken!!,
+                    FirebaseService().getCurrentToken(),
+                    ApplicationClass.preferences.refreshToken!!)
+                )
+            ) {
+                is Resource.Success<Boolean> -> {
+                    _isLoggedOut.value = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("requestLogout", "requestLogout: ${value.errorMessage}")
+                }
+            }
+        }
     }
 }

@@ -44,7 +44,7 @@ class JoinViewModel @Inject constructor(
 
     fun requestCurrentToken() = viewModelScope.launch {
         val result = FirebaseService().getCurrentToken()
-        fcmToken.postValue(result)
+        ApplicationClass.preferences.fcmToken = result
     }
 
     fun setNickname(nickname: String) {

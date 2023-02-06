@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.Permission
 import com.ssafy.campinity.databinding.FragmentEditProfileBinding
@@ -42,20 +43,22 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
         setData()
         initListener()
         setTextWatcher()
-        observeState()
+        myPageViewModel.checkSame()
     }
 
     private fun setData() {
-        myPageViewModel.getInfo()
         binding.vm = myPageViewModel
         myPageViewModel.userInfo.observe(viewLifecycleOwner) {
-
-            Glide.with(requireContext())
-                .load("http://i8d101.p.ssafy.io:8003/images" + it?.imagePath)
-                .placeholder(R.drawable.ic_profile_default)
-                .error(R.drawable.ic_profile_default)
-                .circleCrop()
-                .into(binding.ivProfileImage)
+            binding.apply {
+                if (it != null) {
+                    Glide.with(requireContext())
+                        .load("http://i8d101.p.ssafy.io:8003/images" + it.imagePath)
+                        .placeholder(R.drawable.ic_profile_default)
+                        .error(R.drawable.ic_profile_default)
+                        .circleCrop()
+                        .into(binding.ivProfileImage)
+                }
+            }
         }
     }
 
@@ -65,13 +68,15 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             etNickname.addTextChangedListener { myPageViewModel.setNickname(it.toString()) }
             btnBack.setOnClickListener { popBackStack() }
             btnConfirm.setOnClickListener {
-                myPageViewModel.requestCurrentToken()
-                myPageViewModel.fcmToken.observe(viewLifecycleOwner) {
-                    if (myPageViewModel.profileImgUri.value == null) {
-                        myPageViewModel.updateProfileWithoutImg(it)
-                    } else {
-                        myPageViewModel.updateProfile(it)
-                    }
+                if (myPageViewModel.profileImgUri.value == null) {
+                    myPageViewModel.updateProfileWithoutImg(ApplicationClass.preferences.fcmToken.toString())
+                } else {
+                    myPageViewModel.updateProfile(ApplicationClass.preferences.fcmToken.toString())
+                }
+                if (myPageViewModel.isSuccess.value == true) {
+                    popBackStack()
+                } else {
+                    Toast.makeText(requireContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                 }
             }
             btnCheckDuplication.setOnClickListener {
@@ -85,26 +90,6 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                         Toast.makeText(requireContext(), "사용할 수 있는 닉네임입니다.", Toast.LENGTH_SHORT).show()
                     }
                 }
-            }
-        }
-    }
-
-    private fun observeState() {
-        myPageViewModel.checkSame()
-//        myPageViewModel.isDuplicate.observe(viewLifecycleOwner) {
-//            when (it) {
-//                true -> Toast.makeText(requireContext(), "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show()
-//                false -> Toast.makeText(requireContext(), "사용할 수 있는 닉네임입니다.", Toast.LENGTH_SHORT)
-//                    .show()
-//                else -> {}
-//            }
-//        }
-
-        myPageViewModel.isSuccess.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> popBackStack()
-                false -> Toast.makeText(requireContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
-                else -> {}
             }
         }
     }
