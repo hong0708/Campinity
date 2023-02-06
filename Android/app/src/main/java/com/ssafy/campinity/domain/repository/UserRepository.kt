@@ -12,4 +12,6 @@ interface UserRepository {
 
     suspend fun checkDuplication(nickName: String): Resource<Boolean>
 
+    suspend fun cancelSignUp(): Resource<Boolean>
+
 }

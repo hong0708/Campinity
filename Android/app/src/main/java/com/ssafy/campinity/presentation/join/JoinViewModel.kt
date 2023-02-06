@@ -12,6 +12,7 @@ import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
+import com.ssafy.campinity.domain.usecase.user.RequestCancelSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class JoinViewModel @Inject constructor(
     private val editUserUseCase: EditUserUseCase,
-    private val checkDuplicationUseCase: CheckDuplicationUseCase
+    private val checkDuplicationUseCase: CheckDuplicationUseCase,
+    private val requestCancelSignUpUseCase: RequestCancelSignUpUseCase
 ) : ViewModel() {
 
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(null)
@@ -41,6 +43,8 @@ class JoinViewModel @Inject constructor(
     private var profileImgMultiPart: MultipartBody.Part? = null
 
     val fcmToken: MutableLiveData<String> = MutableLiveData()
+
+    private var state = false
 
     fun requestCurrentToken() = viewModelScope.launch {
         val result = FirebaseService().getCurrentToken()
@@ -107,8 +111,24 @@ class JoinViewModel @Inject constructor(
                 is Resource.Success<Boolean> -> {
                     _isDuplicate.value = value.data
                 }
-                is Resource.Error -> {}
+                is Resource.Error -> {
+                    Log.e("checkDuplication", "checkDuplication: ${value.errorMessage}")
+                }
             }
         }
+    }
+
+    fun cancelSignUp(): Boolean {
+        viewModelScope.launch {
+            when (val value = requestCancelSignUpUseCase()) {
+                is Resource.Success<Boolean> -> {
+                    state = value.data
+                }
+                is Resource.Error -> {
+                    Log.e("cancelSignUp", "cancelSignUp: ${value.errorMessage}")
+                }
+            }
+        }
+        return state
     }
 }

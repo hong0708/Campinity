@@ -29,7 +29,10 @@ class UserRemoteDataSourceImpl @Inject constructor(
         return userApiService.editUserInfo(map, null)
     }
 
-    override suspend fun checkDuplication(nickName: String): Boolean {
-        return userApiService.checkDuplication(nickName)
-    }
+    override suspend fun checkDuplication(nickName: String): Boolean =
+        userApiService.checkDuplication(nickName)
+
+
+    override suspend fun cancelSignUp(): Boolean =
+        userApiService.cancelSignUp()
 }

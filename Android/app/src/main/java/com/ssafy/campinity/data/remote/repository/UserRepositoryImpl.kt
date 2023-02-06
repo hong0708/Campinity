@@ -34,4 +34,9 @@ class UserRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             userRemoteDataSource.checkDuplication(nickName)
         }
+
+    override suspend fun cancelSignUp(): Resource<Boolean> =
+        wrapToResource(Dispatchers.IO) {
+            userRemoteDataSource.cancelSignUp()
+        }
 }
