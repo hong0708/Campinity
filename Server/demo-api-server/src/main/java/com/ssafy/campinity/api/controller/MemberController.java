@@ -3,6 +3,7 @@ package com.ssafy.campinity.api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.campinity.api.config.security.jwt.JwtProvider;
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.api.dto.req.EditMemberInfoReqDTO;
 import com.ssafy.campinity.api.dto.req.LogoutReqDTO;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
 import com.ssafy.campinity.api.service.KakaoUserService;
@@ -17,6 +18,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -93,6 +96,40 @@ public class MemberController {
                         .nickName(member.getName())
                         .profileImg(member.getProfileImage())
                         .email(member.getEmail()).build(), HttpStatus.OK);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "정상적으로 수정 됐을경우"),
+            @ApiResponse(code = 400, message = "요청 파라미터 오류")
+    })
+    @ApiOperation(value = "회원정보 수정 API")
+    @Transactional
+    @PostMapping(value = "/edit-member-info", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<MemberResDTO> editMemberInfo(
+            @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) EditMemberInfoReqDTO editMemberInfoReqDTO,
+            @AuthenticationPrincipal MemberDetails memberDetails) throws IOException, NoSuchElementException {
+        Member member = memberService.findMemberByUUID(memberDetails.getMember().getUuid());
+        String profileImgPath = member.getProfileImage();
+        MultipartFile profileImg = editMemberInfoReqDTO.getProfileImg();
+        String nickName = editMemberInfoReqDTO.getNickName();
+
+        // 유저가 프로필 이미지를 바꾼 경우 (profileImg에 파일 존재)
+        if (editMemberInfoReqDTO.getIsChanged()) {
+            if (!ObjectUtils.isEmpty(member.getProfileImage()) && profileImg != null) {
+                // 기존 프로필 이미지 제거
+                imageUtil.removeImage(member.getProfileImage());
+            }
+            profileImgPath = imageUtil.uploadImage(profileImg, "member");
+        }
+
+        member.setProfileImage(profileImgPath);
+        member.setName(nickName);;
+        memberService.save(member);
+
+        return new ResponseEntity<>(MemberResDTO.builder()
+                .nickName(member.getName())
+                .profileImg(member.getProfileImage())
+                .email(member.getEmail()).build(), HttpStatus.OK);
     }
 
     @GetMapping("/nicknames/{nickname}/exists")

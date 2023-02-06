@@ -28,7 +28,7 @@ public class Member extends BaseEntity {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @ToString.Exclude
     private List<FcmToken> fcmTokenList;
 
