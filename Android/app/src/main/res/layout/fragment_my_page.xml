@@ -7,7 +7,7 @@
 
         <variable
             name="profileInfo"
-            type="com.ssafy.campinity.domain.entity.user.User" />
+            type="com.ssafy.campinity.domain.entity.mypage.MyPageUser" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -24,8 +24,8 @@
 
         <ImageView
             android:id="@+id/iv_arrow_left"
-            android:layout_width="26dp"
-            android:layout_height="26dp"
+            android:layout_width="14dp"
+            android:layout_height="34dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:backgroundTint="@color/wild_willow"
@@ -53,7 +53,7 @@
             android:layout_height="80dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/image_my_page_profile"
-            android:profileImgString="@{profileInfo.profileImg}"
+            android:profileImgString="@{profileInfo.imagePath}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title_my_page" />
@@ -63,7 +63,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:text="@{profileInfo.nickName}"
+            android:text="@{profileInfo.name}"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent "

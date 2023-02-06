@@ -4,8 +4,11 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
@@ -16,12 +19,14 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
 
+    private val navController: NavController get() = NavHostFragment.findNavController(this)
     private val myPageViewModel by viewModels<MyPageViewModel>()
     private val communityNoteListAdapter by lazy {
         CommunityNoteListAdapter(this::showDialog)
     }
 
     override fun initView() {
+        setData()
         initRecyclerView()
         initListener()
         initSpinner()
@@ -29,7 +34,10 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
 
     private fun initListener() {
         binding.clEditProfile.setOnClickListener {
-            navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
+            //navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
+            if (navController.currentDestination?.id == R.id.myPageFragment) {
+                navController.navigate(R.id.action_myPageFragment_to_editProfileFragment)
+            }
         }
         binding.ivArrowLeft.setOnClickListener { popBackStack() }
     }
@@ -93,6 +101,19 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.detailData.observe(viewLifecycleOwner) {
             val dialog = ReviewNoteDialog(requireContext(), it!!)
             dialog.show()
+        }
+    }
+
+    private fun setData() {
+        myPageViewModel.getInfo()
+        myPageViewModel.userInfo.observe(viewLifecycleOwner) {
+            binding.profileInfo = it
+            Glide.with(this)
+                .load(it?.imagePath)
+                .placeholder(R.drawable.ic_profile_default)
+                .error(R.drawable.ic_profile_default)
+                .circleCrop()
+                .into(binding.ivProfile)
         }
     }
 }
