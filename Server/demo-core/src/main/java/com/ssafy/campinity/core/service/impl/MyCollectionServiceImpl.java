@@ -79,7 +79,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
                     throw new FileNotFoundException();
                 }
             }
-            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "myCollection"); }
+            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
             catch (IOException e) { throw new RuntimeException(e); }
         }
 
