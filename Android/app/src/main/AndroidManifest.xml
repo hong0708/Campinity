@@ -28,6 +28,8 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
         <service
             android:name=".data.remote.service.FirebaseService"
             android:exported="false">
@@ -61,11 +63,6 @@
                     android:scheme="@string/KAKAO_APP_KEY" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".presentation.mypage.MyPageActivity"
-            android:exported="true"
-            android:theme="@style/Theme.Campinity.TransparentStatusBar" />
 
         <activity
             android:name=".presentation.search.SearchActivity"

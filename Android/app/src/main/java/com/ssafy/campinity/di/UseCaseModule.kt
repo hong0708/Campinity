@@ -14,6 +14,7 @@ import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
+import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
@@ -128,4 +129,9 @@ object UseCaseModule {
     @Provides
     fun provideGetUserInfoUseCase(myPageRepository: MyPageRepository): GetUserInfoUseCase =
         GetUserInfoUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestLogoutUseCase(myPageRepository: MyPageRepository): RequestLogoutUseCase =
+        RequestLogoutUseCase(myPageRepository)
 }
