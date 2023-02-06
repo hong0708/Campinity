@@ -149,8 +149,8 @@ public class MessageServiceImpl implements MessageService {
         else {
             LikeMessage newLikeMessage = LikeMessage.builder()
                     .member(member).message(message).build();
-            likeMessageRepository.save(newLikeMessage);
             message.addLikeMessage(newLikeMessage);
+            likeMessageRepository.save(newLikeMessage);
             likeCheck = true;
         }
 

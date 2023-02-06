@@ -2,14 +2,12 @@ package com.ssafy.campinity.api.controller;
 
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.api.dto.req.SubscribeCamReqDTO;
 import com.ssafy.campinity.core.dto.FcmMessageReqDTO;
 import com.ssafy.campinity.core.dto.FcmTokenResDTO;
 import com.ssafy.campinity.core.service.FcmMessageService;
 import com.ssafy.campinity.core.service.FcmTokenService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,7 +24,6 @@ public class FcmController {
     private final FcmMessageService fcmMessageService;
     private final FcmTokenService fcmTokenService;
 
-
     @ApiResponses({
             @ApiResponse(code = 200, message = "fcm token 저장 성공 시 응답"),
             @ApiResponse(code = 400, message = "유저가 존재하지 않을 경우 응답"),
@@ -37,6 +34,16 @@ public class FcmController {
             @AuthenticationPrincipal MemberDetails memberDetails,
             @RequestBody String token) {
         FcmTokenResDTO fcmTokenResDTO = fcmTokenService.saveFcmToken(memberDetails.getMember().getId(), token);
+        return ResponseEntity.ok().body(fcmTokenResDTO);
+    }
+
+    @PutMapping("/subscribe/{campsiteId}")
+    public ResponseEntity<FcmTokenResDTO> subscribeCamp(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @ApiParam(value = "알람 신청할 캠핑장 Id", required = true, type = "String")
+            @PathVariable String campsiteId,
+            @RequestBody SubscribeCamReqDTO ReqcampDTO) {
+        FcmTokenResDTO fcmTokenResDTO = fcmTokenService.subscribeCamp(campsiteId, memberDetails.getMember().getId(), fcmToken);
         return ResponseEntity.ok().body(fcmTokenResDTO);
     }
 

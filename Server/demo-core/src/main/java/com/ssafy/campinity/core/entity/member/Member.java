@@ -2,15 +2,14 @@ package com.ssafy.campinity.core.entity.member;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
 import com.ssafy.campinity.core.entity.fcm.FcmToken;
-import com.ssafy.campinity.core.entity.message.LikeMessage;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -29,10 +28,10 @@ public class Member extends BaseEntity {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @ToString.Exclude
     private List<FcmToken> fcmTokenList;
-    
+
     private String name;
 
     private String email;

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface FcmTokenRepository extends JpaRepository<FcmToken, Integer> {
     void deleteFcmTokenByMember_Id(int memberId);
-    void deleteByToken(String token);
+    boolean deleteByToken(String token);
     Optional<FcmToken> findByMember_Id(int memberId);
     Optional<FcmToken> findByToken(String token);
 
