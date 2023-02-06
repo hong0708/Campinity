@@ -47,19 +47,12 @@ class SearchViewModel @Inject constructor(
     val sido: LiveData<String> = _sido
 
     var filter: SearchFilterRequest = SearchFilterRequest()
-
     var areaList = arrayListOf<AreaListItem>()
-
     var industry: Array<String> = arrayOf()
-
     var facility: Array<String> = arrayOf()
-
     var amenity: Array<String> = arrayOf()
-
     var theme: Array<String> = arrayOf()
-
     var pet: Array<String> = arrayOf()
-
     var season: Array<String> = arrayOf()
 
     fun mapGugun(gugun: List<String>): String {
@@ -170,7 +163,6 @@ class SearchViewModel @Inject constructor(
         when (val value = getCampsiteDetailUseCase(campsiteId)) {
             is Resource.Success<CampsiteDetailInfo> -> {
                 _campsiteData.value = value.data
-                Log.e("getCampsiteDetailInfo", "getCampsiteDetailInfo: ${value.data.images.size}")
                 return@async 1
             }
             is Resource.Error -> {

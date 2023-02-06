@@ -177,7 +177,7 @@ class CampsiteDetailFragment :
                     ), contentFacility[4]
                 )
             )
-        ) facilityAndLeisureList.add(
+        ) facilityAndLeisureList.remove(
             FacilityAndLeisureItem(
                 resources.getIdentifier(
                     "ic_campsite_amenity_8", "drawable", requireContext().packageName

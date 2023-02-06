@@ -24,7 +24,6 @@ class SearchBriefResponse(
     @SerializedName("sigunguName")
     val sigunguName: String
 ) : DataToDomainMapper<CampsiteBriefInfo> {
-
     override fun toDomainModel(): CampsiteBriefInfo = CampsiteBriefInfo(
         campsiteId,
         campName,
@@ -35,5 +34,4 @@ class SearchBriefResponse(
         latitude,
         longitude
     )
-
 }
