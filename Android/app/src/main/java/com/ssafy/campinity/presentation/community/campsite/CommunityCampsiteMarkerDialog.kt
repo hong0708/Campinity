@@ -36,6 +36,8 @@ class CommunityCampsiteMarkerDialog(
 
         /*val listener = CommunityMapViewEventListener(this)
         mapView.setMapViewEventListener(listener)*/
+
+
         mapView.setZoomLevel(2, true)
         binding.clMapMarker.addView(mapView)
 

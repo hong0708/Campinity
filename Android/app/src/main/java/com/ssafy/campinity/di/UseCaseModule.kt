@@ -5,10 +5,7 @@ import com.ssafy.campinity.domain.usecase.auth.GetNewTokenUseCase
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
-import com.ssafy.campinity.domain.usecase.community.CreateCampsiteMessageUseCase
-import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByCampNameUseCase
-import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByUserLocationUseCase
-import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageBriefInfoByScopeUseCase
+import com.ssafy.campinity.domain.usecase.community.*
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
@@ -116,4 +113,10 @@ object UseCaseModule {
     fun provideCreateCommunityCampsiteMessageUseCase(communityRepository: CommunityRepository)
             : CreateCampsiteMessageUseCase =
         CreateCampsiteMessageUseCase(communityRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsiteMessageDetailInfoUseCase(communityRepository: CommunityRepository)
+            : GetCampsiteMessageDetailInfoUseCase =
+        GetCampsiteMessageDetailInfoUseCase(communityRepository)
 }

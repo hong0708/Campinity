@@ -55,7 +55,6 @@ class CommunityRepositoryImpl @Inject constructor(
             ).map { it.toDomainModel() }
         }
 
-
     override suspend fun createCampsiteMessage(
         messageCategory: String,
         file: MultipartBody.Part?,
@@ -74,6 +73,13 @@ class CommunityRepositoryImpl @Inject constructor(
                     content,
                     longitude
                 )
+            ).toDomainModel()
+        }
+
+    override suspend fun getCampsiteMessageDetail(messageId: String): Resource<CampsiteMessageDetailInfo> =
+        wrapToResource(Dispatchers.IO) {
+            communityRemoteDataSource.getCampsiteMessageDetail(
+                messageId
             ).toDomainModel()
         }
 }
