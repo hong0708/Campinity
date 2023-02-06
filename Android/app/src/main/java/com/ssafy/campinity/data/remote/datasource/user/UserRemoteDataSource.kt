@@ -9,4 +9,6 @@ interface UserRemoteDataSource {
     suspend fun editUserInfoWithoutImg(nickName: String, fcmToken: String): UserResponse
 
     suspend fun checkDuplication(nickName: String): Boolean
+
+    suspend fun cancelSignUp(): Boolean
 }

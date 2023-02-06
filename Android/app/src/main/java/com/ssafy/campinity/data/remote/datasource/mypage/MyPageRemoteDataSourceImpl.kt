@@ -9,4 +9,10 @@ class MyPageRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getNotes(): MyPageNoteResponse =
         myPageApiService.getNotes()
+
+    override suspend fun getUserInfo(): MyPageUserResponse =
+        myPageApiService.getUserInfo()
+
+    override suspend fun requestLogout(body: LogoutRequest): Boolean =
+        myPageApiService.requestLogout(body)
 }

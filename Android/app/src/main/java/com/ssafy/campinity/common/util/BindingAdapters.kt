@@ -33,7 +33,7 @@ object BindingAdapters {
     @BindingAdapter("android:profileImgString")
     fun ImageView.setProfileImgString(imgUri: String?) {
         Glide.with(this.context)
-            .load(imgUri)
+            .load("http://i8d101.p.ssafy.io:8003/images$imgUri")
             .placeholder(R.drawable.ic_profile_default)
             .error(R.drawable.ic_profile_default)
             .circleCrop()
