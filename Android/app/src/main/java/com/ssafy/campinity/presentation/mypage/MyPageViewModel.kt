@@ -133,7 +133,6 @@ class MyPageViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     Log.e("updateprofile", "updateProfile: ${value.errorMessage}")
-
                 }
             }
         }
