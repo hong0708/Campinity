@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -39,9 +40,9 @@ public class CampsiteServiceImpl implements CampsiteService {
     private final MemberRepository memberRepository;
     private final ReviewRepository reviewRepository;
     private final CampsiteImageRepository campsiteImageRepository;
-    private final MessageRepository messageRepository;
     private final RedisDao redisDao;
     private final ObjectMapper objectMapper;
+    private final MessageRepository messageRepository;
 
     @Override
     @Transactional
@@ -69,23 +70,20 @@ public class CampsiteServiceImpl implements CampsiteService {
         List<CampsiteListResDTO> results = new ArrayList<>();
         for (Campsite camp: campsites) {
 
-            List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
+            List<String> images = camp.getImages().stream().map(image -> {
                 return image.getImagePath();
             }).collect(Collectors.toList());
 
-            Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(memberId, camp.getId());
+            boolean isScraped = camp.getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getMember().getId() == memberId);
 
-            Boolean isScraped = false;
-            if (campsiteScrap.isPresent()) {
-                isScraped = true;
-            }
-
-            int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+            int messageCnt = camp.getMessages().size();
 
             results.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).images(images).build());
 
+            if (results.size() >= 100) {
+                break;
+            }
         }
-
         return results;
     }
 
@@ -96,7 +94,24 @@ public class CampsiteServiceImpl implements CampsiteService {
                                                                String[] themes, String[] allowAnimals, String[] openSeasons,
                                                                int memberId) {
 
-        return campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames, fclties, amenities, industries, themes, allowAnimals, openSeasons, memberId);
+
+
+        List<Campsite> campsites = campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames,
+                fclties, amenities, industries, themes, allowAnimals, openSeasons);
+
+        List<CampsiteListResDTO> results = campsites.stream().map(camp -> {
+            boolean isScraped = camp.getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getMember().getId() == memberId);
+
+            int messageCnt = camp.getMessages().size();
+
+            List<String> images = camp.getImages().stream().map(image -> {
+                return image.getImagePath();
+            }).collect(Collectors.toList());
+
+            return CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).images(images).build();
+        }).collect(Collectors.toList());
+
+        return results;
     }
 
     @Transactional
@@ -104,18 +119,13 @@ public class CampsiteServiceImpl implements CampsiteService {
     public CampsiteListResDTO getCampsiteMetaData(UUID campsiteId, int memberId) {
         Campsite camp = campsiteRepository.findByUuid(campsiteId).orElseThrow(IllegalAccessError::new);
 
-        List<String> images = campsiteImageRepository.findByCampsite_id(camp.getId()).stream().map(image -> {
+        List<String> images = camp.getImages().stream().map(image -> {
             return image.getImagePath();
         }).collect(Collectors.toList());
 
-        Optional<CampsiteScrap> campsiteScrap = campsiteScrapRepository.findByMember_idAndCampsite_id(memberId, camp.getId());
+        boolean isScraped = camp.getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getMember().getId() == memberId);
 
-        Boolean isScraped = false;
-        if (campsiteScrap.isPresent()) {
-            isScraped = true;
-        }
-
-        int messageCnt = messageRepository.findByCampsite_idAndExpiredIsFalse(camp.getId()).size();
+        int messageCnt = camp.getMessages().size();
 
         return CampsiteListResDTO.builder().camp(camp).images(images).isScraped(isScraped).messageCnt(messageCnt).build();
     }
@@ -130,9 +140,11 @@ public class CampsiteServiceImpl implements CampsiteService {
 
         if (campsiteScrap.isPresent()) {
             campsiteScrapRepository.delete(campsiteScrap.get());
+            campsite.removeCampsiteScrap(campsiteScrap.get());
             return false;
         } else {
-            campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).member(member).build());
+            CampsiteScrap saved = campsiteScrapRepository.save(CampsiteScrap.builder().campsite(campsite).member(member).build());
+            campsite.addCampsiteScrap(saved);
             return true;
         }
     }

@@ -68,7 +68,11 @@ public class MessageServiceImpl implements MessageService {
                 .longitude(messageReqDTO.getLongitude())
                 .build();
 
-        try { return messageRepository.save(message); }
+        try {
+            Message saved = messageRepository.save(message);
+            campsite.addMessage(saved);
+            return saved;
+        }
         catch (Exception e){ throw new IllegalArgumentException(e); }
     }
 
@@ -121,6 +125,7 @@ public class MessageServiceImpl implements MessageService {
                     throw new FileNotFoundException();
                 }
             }
+            message.getCampsite().removeMessage(message);
             messageRepository.deleteById(message.getId());
         }
     }
