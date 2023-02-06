@@ -4,14 +4,16 @@ services:
     container_name: database
     image: mariadb
     volumes:
-      - ~/docker/mariadb/etc/mysql/conf.d:/etc/mysql/conf.d:ro
-      - ~/docker/mariadb/var/lib/mysql:/var/lib/mysql
-      - ~/docker/mariadb/var/log/maria:/var/log/maria
+      - /etc/timezone:/etc/timezone:ro
+      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
+      - ./mysql/conf.d:/etc/mysql/conf.d
+      - ./mysql/db:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=campinity
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_ROOT_HOST=%
-    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    command: ['--character-set-server=utf8mb4',
+              '--collation-server=utf8mb4_unicode_ci']
     ports:
       - 3306:3306
 
@@ -22,9 +24,16 @@ services:
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root
     ports:
-      - 8080:8080
+      - 8003:8003
     depends_on:
       - database
+    volumes:
+      - ${HOME}/images:/var/lib/images
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "100m"
   redis:
     image: redis:alpine
     command: redis-server --port 6379

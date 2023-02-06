@@ -59,15 +59,16 @@ public class MessageController {
     })
     @ApiOperation(value = "캠핑장별 범위 내에 쪽지 조회 API")
     @GetMapping("/{campsiteId}/scope")
-    public ResponseEntity<List<MessageResDTO>> getMessagesByCampsiteIdLatLngBetweenScope(
+    @Transactional
+    public ResponseEntity<List<MessageMetaDataDTO>> getMessagesByCampsiteIdLatLngBetweenScope(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "캠핑장 식별 아이디", required = true, type = "String")
             @PathVariable String campsiteId,
             LatLngDTO latLngDTO){
 
         List<Message> messages = messageService.getMessagesByCampsiteUuidBetweenLatLng(campsiteId, latLngDTO);
-        List<MessageResDTO> messageResDTOList = messages.stream().map(message -> new MessageResDTO(message, memberDetails.getMember().getUuid())).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(messageResDTOList);
+        List<MessageMetaDataDTO> messageMetaDataList = messages.stream().map(message -> new MessageMetaDataDTO(message)).collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(messageMetaDataList);
     }
 
     @ApiResponses({
@@ -77,6 +78,7 @@ public class MessageController {
     })
     @ApiOperation(value = "쪽지 상세 조회 API")
     @GetMapping("/{messageId}")
+    @Transactional
     public ResponseEntity<MessageResDTO> getMessage(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "쪽지 식별 아이디", required = true, type = "String")

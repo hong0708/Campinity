@@ -20,6 +20,9 @@ public class MessageResDTO {
     @ApiModelProperty(example = "유저 이름")
     private String authorName;
 
+    @ApiModelProperty(example = "유저 이미지 경로")
+    private String profilePath;
+
     @ApiModelProperty(example = "리뷰 / 자유")
     private String messageCategory;
 
@@ -57,6 +60,7 @@ public class MessageResDTO {
         this.messageId = String.valueOf(message.getUuid());
         this.campsiteName = message.getCampsite().getCampName();
         this.authorName = message.getMember().getName();
+        this.profilePath = message.getMember().getProfileImage();
         this.messageCategory = message.getMessageCategory().getParam();
         this.countLikes = message.getLikeMessages() == null ? 0 : message.getLikeMessages().size();
         this.content =  message.getContent();

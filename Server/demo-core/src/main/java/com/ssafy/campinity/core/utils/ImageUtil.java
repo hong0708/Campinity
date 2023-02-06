@@ -1,71 +1,90 @@
 package com.ssafy.campinity.core.utils;
 
-import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.UUID;
 
 @Component
 public class ImageUtil {
+    private static final Logger logger = LogManager.getLogger(ImageUtil.class);
+    private final String uploadImagePath;
+    private String fileName = "";
+    private String uuid = "";
+    private String childPath = "";
+
+    public ImageUtil(@Value("${custom.path.upload-images}") String uploadImagePath) {
+        this.uploadImagePath = uploadImagePath;
+    }
 
     public String uploadImage(MultipartFile multipartFile, String table) throws IOException {
 
+        logger.info("uploadImagePath :" + uploadImagePath);
         String imagePath = "";
 
         if (multipartFile.isEmpty()){
             return imagePath;
         }
 
-        String absolutePath = new File("demo-core" + File.separator + "src" + File.separator +
-                "main" + File.separator + "resources" + File.separator + "static").getAbsolutePath() + File.separator;
-        String path = "images" + File.separator + table;
-        File file = new File(absolutePath + path);
+        String originalFileName = multipartFile.getOriginalFilename();
+        fileName = originalFileName.substring(originalFileName.lastIndexOf("\\") + 1);
+        this.uuid = UUID.randomUUID().toString();
+        String uploadFileName = uuid + "_" + fileName;
+        File folder = new File(uploadImagePath, File.separator + table);
 
-        if (!file.exists()) {
-            boolean isDirCreated = file.mkdirs();
-            if (!isDirCreated)
-                System.out.println("file: was not successful");
-        }
-
-        String originalFileExtension;
-        String contentType = multipartFile.getContentType();
-
-        if (ObjectUtils.isEmpty(contentType)){
-            System.out.println("contentType is not vaild");
-            return "";
-        }
-        else {
-            if (contentType.contains("image/jpeg"))
-                originalFileExtension = ".jpg";
-            else if (contentType.contains("image/png"))
-                originalFileExtension = ".png";
-            else {
-                throw new FileUploadException("해당 파일 확장자는 지원하지 않습니다.");
+        childPath = File.separator + table + File.separator + uploadFileName;
+        try {
+            if (!folder.exists()) {
+                folder.mkdirs();
             }
+        } catch (SecurityException e) {
+            throw new SecurityException("이미지 업로드 폴더 생성 오류");
+        }
+        File saveFile = null;
+        try {
+            saveFile = new File(uploadImagePath, childPath);
+        } catch (NullPointerException e) {
+            new NullPointerException("child 파일 생성 불가");
         }
 
-        String newFileName = UUID.randomUUID().toString() + "__" + multipartFile.getOriginalFilename();
+        logger.info("originalFileName : " + originalFileName);
+        logger.info("saveFile : " + saveFile);
 
-        file = new File(absolutePath + path + File.separator + newFileName);
-        multipartFile.transferTo(file);
+        try {
+            multipartFile.transferTo(saveFile);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
 
-        file.setWritable(true);
-        file.setReadable(true);
-
-        return File.separator + path + File.separator + newFileName;
+        return childPath;
     }
 
     public boolean removeImage(String imagePath){
 
         boolean result;
-        String absolutePath = new File("demo-core" + File.separator + "src" + File.separator +
-                "main" + File.separator + "resources" + File.separator + "static").getAbsolutePath();
-        File file = new File(absolutePath + imagePath);
+
+        File file = new File(uploadImagePath + imagePath);
         result = file.delete();
+        logger.info("is_deleted : " + result);
         return result;
+
+    }
+
+    private boolean checkImageType(File file) {
+        try {
+            String contentType = Files.probeContentType(file.toPath());
+            return contentType.startsWith("image");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 }

@@ -38,7 +38,8 @@ public class CampsiteController {
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
-            @RequestParam double bottomRightLng) {
+            @RequestParam double bottomRightLng,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
                 .topLeftLat(topLeftLat)
@@ -47,13 +48,14 @@ public class CampsiteController {
                 .bottomRightLng(bottomRightLng)
                 .build();
 
-        List<Campsite> result = campsiteService.getMetaDataListByLatLng(locationInfoDTO);
+        List<Campsite> results = campsiteService.getMetaDataListByLatLng(locationInfoDTO);
 
-        return new ResponseEntity<>(result.stream().map(a -> CampsiteMetaDataDTO.builder()
+        return new ResponseEntity<>(results.stream().map(a -> CampsiteMetaDataDTO.builder()
                 .campsiteId(a.getUuid())
                 .campsiteName(a.getCampName())
                 .address(a.getAddress())
-                .build()).collect(Collectors.toList()), HttpStatus.OK);
+                .longitude(a.getLongitude().toString())
+                .latitude(a.getLatitude().toString()).build()).collect(Collectors.toList()), HttpStatus.OK);
     }
 
     @ApiResponses({
@@ -168,10 +170,14 @@ public class CampsiteController {
     @GetMapping("/search")
     public ResponseEntity<List<CampsiteMetaDataDTO>> getCampsiteByCampName(@RequestParam String keyword) {
         List<CampsiteMetaDataDTO> result = campsiteService.getCampsiteByCampName(keyword).stream().map(campsite -> {
-            return CampsiteMetaDataDTO.builder().campsiteId(campsite.getUuid()).campsiteName(campsite.getCampName()).address(campsite.getAddress()).build();
+            return CampsiteMetaDataDTO.builder()
+                    .campsiteId(campsite.getUuid())
+                    .campsiteName(campsite.getCampName())
+                    .address(campsite.getAddress())
+                    .longitude(campsite.getLongitude().toString())
+                    .latitude(campsite.getLatitude().toString()).build();
         }).collect(Collectors.toList());
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 }

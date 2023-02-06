@@ -2,7 +2,6 @@ package com.ssafy.campinity.core.dto;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,7 +39,7 @@ public class FcmMessageToManyDTO {
     @Getter
     public static class FcmData {
         private String campsiteGroupId; // 캠핑장 그룹 redis 아이디
-        private String MessageId; // 발신 메세지 redis 아이디
+        private String fcmMessageId; // fcm Message Uuid
     }
 
     @Builder
