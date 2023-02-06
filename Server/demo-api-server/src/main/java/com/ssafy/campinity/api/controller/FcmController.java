@@ -37,13 +37,14 @@ public class FcmController {
         return ResponseEntity.ok().body(fcmTokenResDTO);
     }
 
-    @PutMapping("/subscribe/{campsiteId}")
+    @PutMapping("/subscribe/")
     public ResponseEntity<FcmTokenResDTO> subscribeCamp(
             @AuthenticationPrincipal MemberDetails memberDetails,
-            @ApiParam(value = "알람 신청할 캠핑장 Id", required = true, type = "String")
-            @PathVariable String campsiteId,
-            @RequestBody SubscribeCamReqDTO ReqcampDTO) {
-        FcmTokenResDTO fcmTokenResDTO = fcmTokenService.subscribeCamp(campsiteId, memberDetails.getMember().getId(), fcmToken);
+            @RequestBody SubscribeCamReqDTO subscribeCamReqDTO) {
+        FcmTokenResDTO fcmTokenResDTO = fcmTokenService.subscribeCamp(
+                subscribeCamReqDTO.getCampsiteId(),
+                memberDetails.getMember().getId(),
+                subscribeCamReqDTO.getFcmToken());
         return ResponseEntity.ok().body(fcmTokenResDTO);
     }
 

@@ -85,13 +85,13 @@ public class FcmTokenServiceImpl implements FcmTokenService {
                 t.getToken().equals(token)).collect(Collectors.toList());
 
         if (!fcmToken.isEmpty()) {
-            boolean isDeleted = fcmTokenRepository.deleteByToken(fcmToken.get(0).getToken());
+            fcmTokenRepository.deleteById(fcmToken.get(0).getId());
             member.removeFcmToken(fcmToken.get(0));
-            return isDeleted;
         }
         else{
-            return fcmTokenRepository.deleteByToken(token);
+            fcmTokenRepository.deleteByToken(token);
         }
+        return true;
     }
 
     /**
@@ -120,15 +120,20 @@ public class FcmTokenServiceImpl implements FcmTokenService {
         }
         else{
             if (!member.getFcmTokenList().contains(fcmToken)){
-                fcmTokenRepository.deleteByToken(token);
+                Member holder = memberRepository.findMemberByIdAndExpiredIsFalse(fcmToken.getMember().getId()).get();
+                fcmTokenRepository.deleteById(fcmToken.getId());
+                holder.removeFcmToken(fcmToken);
+
                 FcmToken newFcmToken = FcmToken.builder()
                         .campsiteUuid(campsiteUuid)
                         .token(token)
                         .member(member)
                         .expiredDate(LocalDate.now().plusMonths(1)).build();
                 member.addFcmToken(newFcmToken);
-                return FcmTokenResDTO.builder().fcmToken(newFcmToken).build();
+
+                return FcmTokenResDTO.builder().fcmToken(fcmTokenRepository.save(newFcmToken)).build();
             }
+            System.out.println("져거");
             fcmToken.subscribeCamp(campsiteUuid);
             fcmToken.refreshFcmToken(token);
             FcmToken savedToken = fcmTokenRepository.save(fcmToken);
