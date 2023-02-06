@@ -88,9 +88,6 @@ public class FcmTokenServiceImpl implements FcmTokenService {
             fcmTokenRepository.deleteById(fcmToken.get(0).getId());
             member.removeFcmToken(fcmToken.get(0));
         }
-        else{
-            fcmTokenRepository.deleteByToken(token);
-        }
         return true;
     }
 

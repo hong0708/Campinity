@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 @Service
 public interface FcmTokenService {
 
-    public FcmTokenResDTO saveFcmToken(int memberId, String token);
-    public boolean deleteFcmToken(int memberId, String token);
-    public FcmTokenResDTO subscribeCamp(String campsiteUuid, int memberId, String fcmToken);
+    FcmTokenResDTO saveFcmToken(int memberId, String token);
+    boolean deleteFcmToken(int memberId, String token);
+    FcmTokenResDTO subscribeCamp(String campsiteUuid, int memberId, String fcmToken);
 
 }

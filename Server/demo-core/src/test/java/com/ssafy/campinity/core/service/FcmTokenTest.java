@@ -134,15 +134,7 @@ public class FcmTokenTest {
         assertEquals(persistedFcmToken.getMember().getId(), testMember.getId());
     }
 
-    @Test
-    @DisplayName("fcm 전송 테스트")
-    void sendFcmMessageTest() throws IOException {
 
-        fcmMessageService.sendMessageToOne("e_siNmW0RaGYsPL7rWutNq:APA91bFVVGRIB5PSBqoAJlnGGBgWXIcNG_uLDVhoeKU3mJy5BNxWqxV-jWhCuQQlncXVZKOLlY06GwY2kQUh0oC8IlSXweaGRVBwWtanDMCLI9VUz0zOoelW-tg7BazCP3LvbEEaTRwH",
-                "test",
-                "testbody");
-
-    }
 
     /**
      * subscribeCamp 메서드 테스트
@@ -195,6 +187,38 @@ public class FcmTokenTest {
         assertEquals(1, fcmTokenRepository.findByToken(newToken).stream().count());
         assertEquals(savedNew.getId(), fcmTokenRepository.findByToken(newToken).get().getMember().getId());
 
+    }
+
+    /**
+     * deleteFcmToken 테스트
+     * 1. 요청 맴버가 가지고 있는 토큰 삭제
+     */
+    @Test
+    @DisplayName("토큰 삭제 기능 테스트")
+    void deleteTokenTest(){
+        Member member = Member.builder()
+                .email("test@Tset.com").name("test").profileImage("")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        String uuid = UUID.randomUUID().toString();
+        FcmToken fcmToken = FcmToken.builder().token(uuid).member(savedMember).expiredDate(LocalDate.now().plusMonths(1)).build();
+        savedMember.addFcmToken(fcmToken);
+        FcmToken savedFcmToken = fcmTokenRepository.save(fcmToken);
+
+        fcmTokenService.deleteFcmToken(savedFcmToken.getMember().getId(), savedFcmToken.getToken());
+
+        FcmToken deletedToken = fcmTokenRepository.findByToken(uuid).orElse(null);
+        assertEquals(null, deletedToken);
+    }
+
+    @Test
+    @DisplayName("fcm 전송 테스트")
+    void sendFcmMessageTest() throws IOException {
+
+        fcmMessageService.sendMessageToOne("e_siNmW0RaGYsPL7rWutNq:APA91bFVVGRIB5PSBqoAJlnGGBgWXIcNG_uLDVhoeKU3mJy5BNxWqxV-jWhCuQQlncXVZKOLlY06GwY2kQUh0oC8IlSXweaGRVBwWtanDMCLI9VUz0zOoelW-tg7BazCP3LvbEEaTRwH",
+                "test",
+                "testbody");
 
     }
 }
