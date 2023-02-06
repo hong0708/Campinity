@@ -45,13 +45,6 @@ public class MyCollectionController {
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
             MyCollectionReqDTO myCollectionReqDTO) {
 
-        logger.error("[createMyCollection] : DEBUG TEST error");
-        logger.info("[createMyCollection] : DEBUG TEST info");
-        logger.debug("[createMyCollection] : DEBUG TEST debug");
-        logger.trace("[createMyCollection] : DEBUG TEST trace");
-        logger.fatal("[createMyCollection] : DEBUG TEST fatal");
-        logger.warn("[createMyCollection] : DEBUG TEST warn");
-        System.out.println("[createMyCollection] sout");
         if (myCollectionReqDTO.getFile().isEmpty()) {
             logger.info("myCollectionReqDTO multipart file is empty");
         }
