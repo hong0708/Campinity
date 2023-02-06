@@ -17,6 +17,7 @@ import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
+import com.ssafy.campinity.domain.usecase.search.*
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -91,6 +92,11 @@ object UseCaseModule {
 
     @Singleton
     @Provides
+    fun provideGetCampsitesByFilteringUseCase(searchRepository: SearchRepository): GetCampsitesByFilteringUseCase =
+        GetCampsitesByFilteringUseCase(searchRepository)
+
+    @Singleton
+    @Provides
     fun provideGetCommunityCampsiteBriefInfoByCampNameUseCase(communityRepository: CommunityRepository)
             : GetCampsiteBriefInfoByCampNameUseCase =
         GetCampsiteBriefInfoByCampNameUseCase(communityRepository)
@@ -122,4 +128,14 @@ object UseCaseModule {
     @Provides
     fun provideGetNotesUsecase(myPageRepository: MyPageRepository): GetNotesUseCase =
         GetNotesUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsitesByScopeUseCase(searchRepository: SearchRepository): GetCampsitesByScopeUseCase =
+        GetCampsitesByScopeUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsiteDetailUseCase(searchRepository: SearchRepository): GetCampsiteDetailUseCase =
+        GetCampsiteDetailUseCase(searchRepository)
 }

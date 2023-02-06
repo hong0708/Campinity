@@ -1,6 +1,7 @@
 package com.ssafy.campinity.presentation.search
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -13,6 +14,7 @@ class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
     private lateinit var navController: NavController
+    private val searchViewModel by viewModels<SearchViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,5 +28,8 @@ class SearchActivity : AppCompatActivity() {
 
         navController = navHostFragment.navController
         navController.graph = navGraph
+
+        searchViewModel.setAreaList(this)
+        searchViewModel.setIndustry(this)
     }
 }

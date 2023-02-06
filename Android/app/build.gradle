@@ -89,7 +89,7 @@ dependencies {
 
     // room
     implementation libs.room
-    annotationProcessor libs.room.compiler
+    kapt libs.room.compiler
 
     implementation libs.firebase.messaging
 

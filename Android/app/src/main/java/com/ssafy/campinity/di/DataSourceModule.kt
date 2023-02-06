@@ -8,6 +8,7 @@ import com.ssafy.campinity.data.remote.datasource.home.HomeRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSource
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.search.SearchRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.user.UserRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.service.*
 import dagger.Module
@@ -44,6 +45,12 @@ object DataSourceModule {
     fun provideCollectionDataSource(
         collectionApiService: CollectionApiService
     ): CollectionRemoteDataSourceImpl = CollectionRemoteDataSourceImpl(collectionApiService)
+
+    @Provides
+    @Singleton
+    fun provideSearchDataSource(
+        searchApiService: SearchApiService
+    ): SearchRemoteDataSourceImpl = SearchRemoteDataSourceImpl(searchApiService)
 
     @Provides
     @Singleton
