@@ -13,7 +13,7 @@
             android:background="@drawable/ic_bg_postbox" />
 
         <ImageButton
-            android:id="@+id/iv_post_box_back"
+            android:id="@+id/btn_post_box_back"
             android:layout_width="26dp"
             android:layout_height="26dp"
             android:layout_marginStart="16dp"
