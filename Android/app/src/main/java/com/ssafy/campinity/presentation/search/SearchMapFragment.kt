@@ -142,8 +142,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
         if (p1 != null) {
-                val index = p1.itemName.split(" ")[1].toInt()
-                p1.isMoveToCenterOnSelect = true
+            val index = p1.itemName.split(" ")[1].toInt()
+            p1.isMoveToCenterOnSelect = true
 
             if (p1.itemName.split(" ")[0] == "캠핑장") {
                 if (searchViewModel.campsiteListData.value != null) {
@@ -160,7 +160,17 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 }
             } else {
                 if (searchViewModel.campsiteNoteList.value != null) {
+                    lifecycleScope.launch {
+                        val done =
+                            searchViewModel.getCampsiteMessageDetailInfoAsync(searchViewModel.campsiteNoteList.value!![index].messageId)
+                                .await()
 
+                        if (done)
+                            SearchReviewNoteDetailDialog(
+                                requireContext(),
+                                searchViewModel.campsiteMessageDetailInfo.value!!
+                            ).show()
+                    }
                 }
             }
         }
