@@ -11,18 +11,20 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import java.io.FileNotFoundException;
-import java.io.UnsupportedEncodingException;
+
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @Api(tags = "컬렉션 관련 API")
 @RequiredArgsConstructor
@@ -43,16 +45,11 @@ public class MyCollectionController {
     public ResponseEntity<MyCollectionResDTO> createMyCollection(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
-            MyCollectionReqDTO myCollectionReqDTO) {
-
-        if (myCollectionReqDTO.getFile().isEmpty()) {
-            logger.info("myCollectionReqDTO multipart file is empty");
-        }
+            MyCollectionReqDTO myCollectionReqDTO) throws IOException {
 
         MyCollection myCollection = myCollectionService.createMyCollection(myCollectionReqDTO, memberDetails.getMember().getId());
 
         MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
-
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
 
@@ -71,12 +68,11 @@ public class MyCollectionController {
             @ApiParam(value = "컬렉션 식별 아이디", required = true, type = "String")
             @PathVariable String collectionId,
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
-            MyCollectionReqDTO myCollectionReqDTO) throws FileNotFoundException, UnsupportedEncodingException {
+            MyCollectionReqDTO myCollectionReqDTO) throws IOException {
 
         MyCollection myCollection = myCollectionService.editMyCollection(myCollectionReqDTO, collectionId, memberDetails.getMember().getId());
 
         MyCollectionResDTO myCollectionResDTO = new MyCollectionResDTO(myCollection);
-
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Location", "/api/v5/my-collections/" + myCollection.getUuid().toString());
 
@@ -95,6 +91,15 @@ public class MyCollectionController {
     ){
         List<MyCollection> myCollections = myCollectionService.getMyCollections(memberDetails.getMember().getId());
         List<MyCollectionResDTO> myCollectionResDTOList = myCollections.stream().map(MyCollectionResDTO::new).collect(Collectors.toList());
+
+        Comparator<MyCollectionResDTO> comparator =  new Comparator<MyCollectionResDTO>(){
+            @Override
+            public int compare(MyCollectionResDTO a, MyCollectionResDTO b) {
+                return b.getCreatedAt().compareTo(a.getCreatedAt());
+            }
+        };
+        Collections.sort(myCollectionResDTOList, comparator);
+
         return ResponseEntity.status(HttpStatus.OK).body(myCollectionResDTOList);
     }
 
@@ -128,7 +133,7 @@ public class MyCollectionController {
     public ResponseEntity<MyCollectionDeleteDTO> deleteCollection(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @ApiParam(value = "컬렉션 식별 아이디", required = true, type = "String")
-            @PathVariable String collectionId) throws FileNotFoundException {
+            @PathVariable String collectionId) {
 
         myCollectionService.deleteMyCollection(collectionId, memberDetails.getMember().getId());
 
@@ -136,6 +141,4 @@ public class MyCollectionController {
                 .status(HttpStatus.OK)
                 .body(MyCollectionDeleteDTO.builder().collectionId(collectionId).build());
     }
-
-
 }
