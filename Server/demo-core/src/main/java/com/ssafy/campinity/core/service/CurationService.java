@@ -1,16 +1,16 @@
 package com.ssafy.campinity.core.service;
 
 import com.ssafy.campinity.core.dto.*;
-import com.ssafy.campinity.core.entity.curation.CurationCategory;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public interface CurationService {
 
-    CurationMetaResDTO createCuration(CurationReqDTO curationReqDTO);
+    CurationMetaResDTO createCuration(CurationReqDTO curationReqDTO) throws IOException;
 
     List<CurationMetaResDTO> getCurationBannerList();
 

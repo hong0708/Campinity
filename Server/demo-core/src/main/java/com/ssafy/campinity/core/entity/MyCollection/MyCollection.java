@@ -8,7 +8,6 @@ import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.UUID;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,6 +33,7 @@ public class MyCollection extends BaseEntity {
 
     private String campsiteName;
 
+    @Column(length = 1000)
     private String content;
 
     private String imagePath;
