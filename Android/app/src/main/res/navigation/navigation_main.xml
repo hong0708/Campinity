@@ -58,8 +58,8 @@
             android:id="@+id/action_homeFragment_to_collectionDetailFragment"
             app:destination="@id/collectionDetailFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_myPageActivity"
-            app:destination="@id/myPageActivity" />
+            android:id="@+id/action_homeFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
     </fragment>
 
     <fragment
@@ -138,6 +138,25 @@
     </fragment>
 
     <fragment
+        android:id="@+id/myPageFragment"
+        android:name="com.ssafy.campinity.presentation.mypage.MyPageFragment"
+        android:label="MyPageFragment"
+        tools:layout="@layout/fragment_my_page">
+        <action
+            android:id="@+id/action_myPageFragment_to_editProfileFragment"
+            app:destination="@id/editProfileFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/editProfileFragment"
+        android:name="com.ssafy.campinity.presentation.mypage.EditProfileFragment"
+        android:label="EditProfileFragment"
+        tools:layout="@layout/fragment_edit_profile" />
+
+    <fragment
         android:id="@+id/completeJoinFragment"
         android:name="com.ssafy.campinity.presentation.join.CompleteJoinFragment"
         android:label="CompleteJoinFragment"
@@ -162,12 +181,6 @@
         android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
         android:label="CreateCollectionFragment"
         tools:layout="@layout/fragment_create_collection" />
-
-    <activity
-        android:id="@+id/myPageActivity"
-        android:name="com.ssafy.campinity.presentation.mypage.MyPageActivity"
-        android:label="MyPageActivity"
-        tools:layout="@layout/activity_my_page"/>
 
     <activity
         android:id="@+id/communityActivity"

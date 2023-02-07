@@ -13,11 +13,14 @@ import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
+import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
+import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
-import com.ssafy.campinity.domain.usecase.search.*
+import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
+import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.Module
@@ -92,11 +95,6 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideGetCampsitesByFilteringUseCase(searchRepository: SearchRepository): GetCampsitesByFilteringUseCase =
-        GetCampsitesByFilteringUseCase(searchRepository)
-
-    @Singleton
-    @Provides
     fun provideGetCommunityCampsiteBriefInfoByCampNameUseCase(communityRepository: CommunityRepository)
             : GetCampsiteBriefInfoByCampNameUseCase =
         GetCampsiteBriefInfoByCampNameUseCase(communityRepository)
@@ -126,8 +124,18 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideGetNotesUsecase(myPageRepository: MyPageRepository): GetNotesUseCase =
+    fun provideGetNotesUseCase(myPageRepository: MyPageRepository): GetNotesUseCase =
         GetNotesUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserInfoUseCase(myPageRepository: MyPageRepository): GetUserInfoUseCase =
+        GetUserInfoUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestLogoutUseCase(myPageRepository: MyPageRepository): RequestLogoutUseCase =
+        RequestLogoutUseCase(myPageRepository)
 
     @Singleton
     @Provides

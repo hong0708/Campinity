@@ -548,6 +548,7 @@
     <string name="content_version">버전</string>
     <string name="content_confirm_edit_profile">회원 정보 수정 완료</string>
     <string name="content_edit_profile">Campinity에서 사용할 정보를\n다시 입력해주세요!</string>
+    <string name="content_logout">로그아웃하시겠습니까?</string>
 
     <!-- MyPage Category Spinner -->
     <string-array name="category_array">

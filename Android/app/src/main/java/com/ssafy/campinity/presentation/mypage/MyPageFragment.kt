@@ -3,9 +3,11 @@ package com.ssafy.campinity.presentation.mypage
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import androidx.fragment.app.viewModels
+import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
@@ -14,14 +16,18 @@ import com.ssafy.campinity.presentation.community.note.CommunityNoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page) {
+class MyPageFragment :
+    BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page),
+    LogoutDialogListener {
 
-    private val myPageViewModel by viewModels<MyPageViewModel>()
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private val communityNoteListAdapter by lazy {
         CommunityNoteListAdapter(this::showDialog)
     }
 
     override fun initView() {
+        myPageViewModel.isSuccess.value = false
+        setData()
         initRecyclerView()
         initListener()
         initSpinner()
@@ -31,8 +37,15 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         binding.clEditProfile.setOnClickListener {
             navigate(MyPageFragmentDirections.actionMyPageFragmentToEditProfileFragment())
         }
-        binding.ivArrowLeft.setOnClickListener { popBackStack() }
+        binding.ivArrowLeft.setOnClickListener {
+            popBackStack()
+        }
+        binding.tvLogOut.setOnClickListener {
+            val dialog = LogoutDialog(requireContext(), this)
+            dialog.show()
+        }
     }
+
 
     private fun initRecyclerView() {
         myPageViewModel.getNotes()
@@ -93,6 +106,26 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         myPageViewModel.detailData.observe(viewLifecycleOwner) {
             val dialog = ReviewNoteDialog(requireContext(), it!!)
             dialog.show()
+        }
+    }
+
+    private fun setData() {
+        myPageViewModel.getInfo()
+        myPageViewModel.userInfo.observe(viewLifecycleOwner) {
+            binding.profileInfo = it
+        }
+    }
+
+    override fun onSubmitButtonClicked() {
+        myPageViewModel.requestLogout()
+        myPageViewModel.isLoggedOut.observe(viewLifecycleOwner) {
+            if (it == true) {
+                ApplicationClass.preferences.clearPreferences()
+                navigate(MyPageFragmentDirections.actionMyPageFragmentToOnBoardingFragment())
+                Toast.makeText(requireContext(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
