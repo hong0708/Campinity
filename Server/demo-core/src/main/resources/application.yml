@@ -21,7 +21,7 @@ spring:
     poolName : HikariCP
     readOnly : false
   redis:
-    host: localhost
+    host: redis_boot
     port: 6379
 
   jpa:
