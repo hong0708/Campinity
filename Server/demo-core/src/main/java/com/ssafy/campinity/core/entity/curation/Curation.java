@@ -2,11 +2,9 @@ package com.ssafy.campinity.core.entity.curation;
 
 import com.ssafy.campinity.core.entity.BaseEntity;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -26,7 +24,8 @@ public class Curation extends BaseEntity {
 
     private String title;
 
-    private String content;
+    @Column(length = 1000)
+private String content;
 
     private String firstImagePath;
 

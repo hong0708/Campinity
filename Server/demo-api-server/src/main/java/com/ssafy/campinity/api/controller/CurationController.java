@@ -14,8 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 @Api(tags = "큐레이션 관련 API")
@@ -29,7 +29,7 @@ public class CurationController {
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<CurationMetaResDTO> createCuration(
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
-            CurationReqDTO curationReqDTO) {
+            CurationReqDTO curationReqDTO) throws IOException {
         CurationMetaResDTO result = curationService.createCuration(curationReqDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/api/v7/curations/" + result.getCurationId());
