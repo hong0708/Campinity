@@ -4,10 +4,15 @@ services:
     container_name: database
     image: mariadb
     volumes:
-      - /etc/timezone:/etc/timezone:ro
-      - ./mysql/initdb.d:/docker-entrypoint-initdb.d
-      - ./mysql/conf.d:/etc/mysql/conf.d
-      - ./mysql/db:/var/lib/mysql
+      - type: volume
+        source: initdb-volume
+        target: /docker-entrypoint-initdb.d
+      - type: volume
+        source: confd-volume
+        target: /etc/mysql/conf.d
+      - type: volume
+        source: data-volume
+        target: /var/lib/mysql
     environment:
       - MYSQL_DATABASE=campinity
       - MYSQL_ROOT_PASSWORD=root
@@ -16,6 +21,7 @@ services:
               '--collation-server=utf8mb4_unicode_ci']
     ports:
       - 3306:3306
+    restart: always
 
   application:
     build: ./demo-api-server
@@ -28,7 +34,7 @@ services:
     depends_on:
       - database
     volumes:
-      - ${HOME}/images:/var/lib/images
+      - upload-images:/var/lib/images
     logging:
       driver: "json-file"
       options:
@@ -44,3 +50,9 @@ services:
       - "mode=standalone"
     ports:
       - 6379:6379
+
+volumes:
+  upload-images:
+  initdb-volume:
+  confd-volume:
+  data-volume:
