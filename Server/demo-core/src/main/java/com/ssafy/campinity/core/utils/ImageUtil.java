@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.UUID;
 
 @Component
@@ -40,6 +39,7 @@ public class ImageUtil {
         File folder = new File(uploadImagePath, File.separator + table);
 
         childPath = File.separator + table + File.separator + uploadFileName;
+
         try {
             if (!folder.exists()) {
                 folder.mkdirs();
@@ -51,7 +51,7 @@ public class ImageUtil {
         try {
             saveFile = new File(uploadImagePath, childPath);
         } catch (NullPointerException e) {
-            new NullPointerException("child 파일 생성 불가");
+            throw new NullPointerException("child 파일 생성 불가");
         }
 
         logger.info("originalFileName : " + originalFileName);
@@ -59,8 +59,15 @@ public class ImageUtil {
 
         try {
             multipartFile.transferTo(saveFile);
-        } catch(IOException e) {
-            e.printStackTrace();
+        }
+        catch(IOException e) {
+            logger.info("IOEception : 이미지 저장 과정에서 에러가 발생했습니다.");
+            logger.info("이미지 저장 과정에서 에러가 발생했습니다.");
+            throw new IOException(e);
+        }
+        catch(IllegalStateException e) {
+            logger.info("IllegalStateException" + e.getMessage());
+            throw new IllegalStateException("the file has already been moved in the filesystem and is not available anymore for another transfer");
         }
 
         return childPath;
@@ -68,23 +75,27 @@ public class ImageUtil {
 
     public boolean removeImage(String imagePath){
 
-        boolean result;
-
         File file = new File(uploadImagePath + imagePath);
-        result = file.delete();
-        logger.info("is_deleted : " + result);
-        return result;
-
+        try {
+            file.delete();
+        }
+        catch (SecurityException e) {
+            logger.info("removeImage : the calling thread does not have permission to delete the file");
+            throw new SecurityException(e.getMessage());
+        }
+        catch (NullPointerException e) {
+            logger.info("removeImage : file argument is null");
+            throw new NullPointerException(e.getMessage());
+        }
+        return true;
     }
 
-    private boolean checkImageType(File file) {
+    private boolean checkImageType(File file) throws IOException {
         try {
             String contentType = Files.probeContentType(file.toPath());
             return contentType.startsWith("image");
         } catch(IOException e) {
-            e.printStackTrace();
+            throw new IOException(e);
         }
-
-        return false;
     }
 }
