@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentEditProfileBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -37,6 +39,12 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
                 )
+                Glide.with(requireContext())
+                    .load(it.data as Uri)
+                    .placeholder(R.drawable.ic_profile_image)
+                    .error(R.drawable.ic_profile_image)
+                    .circleCrop()
+                    .into(binding.ivProfileImage)
             }
         }
     }
@@ -50,34 +58,39 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     }
 
     private fun setData() {
-        myPageViewModel.userInfo.observe(viewLifecycleOwner) { response->
-            binding.etNickname.setText(response?.name.toString())
-            Glide.with(requireContext())
-                .load("http://i8d101.p.ssafy.io:8003/images" + response?.imagePath.toString())
-                .placeholder(R.drawable.ic_profile_default)
-                .error(R.drawable.ic_profile_default)
-                .circleCrop()
-                .into(binding.ivProfileImage)
-        }
-        myPageViewModel.getInfo()
+        //myPageViewModel.getInfo()
+        Glide.with(requireContext())
+            .load("http://i8d101.p.ssafy.io:8003/images" + ApplicationClass.preferences.profileImg.toString())
+            .placeholder(R.drawable.ic_profile_default)
+            .error(R.drawable.ic_profile_default)
+            .circleCrop()
+            .into(binding.ivProfileImage)
+        binding.etNickname.setText(ApplicationClass.preferences.nickname.toString())
     }
 
     private fun initListener() {
         binding.apply {
             ivProfileImage.setOnClickListener { setAlbumView() }
-            etNickname.addTextChangedListener { myPageViewModel.setNickname(it.toString()) }
+            etNickname.addTextChangedListener {
+                Log.d("imageprofile", "initListener: ${it.toString()}")
+                myPageViewModel.setNickname(it.toString())
+            }
             btnBack.setOnClickListener { popBackStack() }
             btnConfirm.setOnClickListener {
-                if (myPageViewModel.profileImgUri.value == null) {
+                if (ApplicationClass.preferences.profileImg == null) {
                     myPageViewModel.updateProfileWithoutImg()
-                    myPageViewModel.getInfo()
                 } else {
                     myPageViewModel.updateProfile()
-                    myPageViewModel.getInfo()
                 }
+//                if (myPageViewModel.profileImgUri.value == null) {
+//                    myPageViewModel.updateProfileWithoutImg()
+//                } else {
+//                    myPageViewModel.updateProfile()
+//                }
                 myPageViewModel.isSuccess.observe(viewLifecycleOwner) {
                     if (it == true) {
                         popBackStack()
+                        myPageViewModel.getInfo()
                     } else {
                         Toast.makeText(requireContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
                     }
@@ -105,7 +118,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     }
 
     private fun setAlbumView() {
-        if (myPageViewModel.profileImgUri.value == null) {
+        if (myPageViewModel.profileImgUri.value == null && myPageViewModel.profileImgStr.value == null) {
             when (PackageManager.PERMISSION_GRANTED) {
                 ContextCompat.checkSelfPermission(
                     requireContext(),
@@ -144,5 +157,13 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
 
     override fun onButtonClicked() {
         myPageViewModel.profileImgUri.value = null
+        myPageViewModel.profileImgStr.value = null
+        ApplicationClass.preferences.profileImg = null
+        Glide.with(requireContext())
+            .load("http://i8d101.p.ssafy.io:8003/images")
+            .placeholder(R.drawable.ic_profile_default)
+            .error(R.drawable.ic_profile_default)
+            .circleCrop()
+            .into(binding.ivProfileImage)
     }
 }

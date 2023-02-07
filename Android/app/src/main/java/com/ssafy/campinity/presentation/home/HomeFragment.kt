@@ -24,6 +24,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var callback: OnBackPressedCallback
 
     private val homeViewModel by viewModels<HomeViewModel>()
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
     private val homeCollectionAdapter by lazy { HomeCollectionAdapter(this::getCollection) }
@@ -35,6 +36,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private var waitTime = 0L
 
     override fun initView() {
+        myPageViewModel.getInfo()
         initListener()
         initCollection()
         initBanner()

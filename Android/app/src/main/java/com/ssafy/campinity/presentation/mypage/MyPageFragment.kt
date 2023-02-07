@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.mypage
 
+import android.util.Log
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
@@ -110,6 +112,28 @@ class MyPageFragment :
 
     private fun setData() {
         myPageViewModel.getInfo()
+        Log.d("imagenickname", "setData: ${ApplicationClass.preferences.profileImg}")
+        Log.d("imagenickname", "setData: ${ApplicationClass.preferences.nickname}")
+
+        Glide.with(requireContext())
+            .load("http://i8d101.p.ssafy.io:8003/images" + ApplicationClass.preferences.profileImg.toString())
+            .placeholder(R.drawable.ic_profile_default)
+            .error(R.drawable.ic_profile_default)
+            .circleCrop()
+            .into(binding.ivProfile)
+        binding.tvNickname.text = ApplicationClass.preferences.nickname.toString()
+
+//        myPageViewModel.profileImgStr.observe(viewLifecycleOwner) {
+//            Log.d("찍혀랏", myPageViewModel.profileImgStr.value.toString())
+//            Glide.with(requireContext())
+//                .load("http://i8d101.p.ssafy.io:8003/images" + it.toString())
+//                .placeholder(R.drawable.ic_profile_default)
+//                .error(R.drawable.ic_profile_default)
+//                .circleCrop()
+//                .into(binding.ivProfile)
+//        }
+//        Log.d("찍혀랏", myPageViewModel.profileImgStr.value.toString())
+
 
 //        CoroutineScope(Dispatchers.IO).launch {
 //            val deffered: Deferred<Int> = async {

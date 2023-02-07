@@ -69,7 +69,7 @@ class MyPageViewModel @Inject constructor(
     val isLoggedOut: LiveData<Boolean?> = _isLoggedOut
 
     private val _profileImgStr: MutableLiveData<String?> = MutableLiveData()
-    val profileImgStr: LiveData<String?> = _profileImgStr
+    val profileImgStr: MutableLiveData<String?> = _profileImgStr
 
 
     private var profileImgMultiPart: MultipartBody.Part? = null
@@ -117,9 +117,14 @@ class MyPageViewModel @Inject constructor(
     fun getInfo() = viewModelScope.launch {
         when (val value = getUserInfoUseCase()) {
             is Resource.Success<MyPageUser> -> {
-                _userInfo.value = value.data
-                _nickname.value = value.data.name
+                ApplicationClass.preferences.profileImg = value.data.imagePath
+                ApplicationClass.preferences.nickname = value.data.name
                 _profileImgStr.value = value.data.imagePath
+                Log.d("imageprofile", "getInfo: ${ApplicationClass.preferences.profileImg}")
+                Log.d("imageprofile", "getInfo: ${ApplicationClass.preferences.nickname}")
+//                _userInfo.value = value.data
+//                _nickname.value = value.data.name
+//                _profileImgStr.value = value.data.imagePath
             }
             is Resource.Error -> {
                 Log.e("getUserInfo", "getUserInfo: ${value.errorMessage}")
