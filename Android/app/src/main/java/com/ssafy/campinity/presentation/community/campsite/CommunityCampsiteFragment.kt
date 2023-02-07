@@ -3,6 +3,7 @@ package com.ssafy.campinity.presentation.community.campsite
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import android.util.Log
@@ -342,18 +343,6 @@ class CommunityCampsiteFragment :
     @SuppressLint("MissingPermission")
     private fun initListener() {
         binding.apply {
-            fabResetMapview.setOnClickListener {
-                mapView.removeAllPOIItems()
-                val recentCampsite =
-                    CampsiteBriefInfo(
-                        ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                        ApplicationClass.preferences.userRecentCampsiteName.toString(),
-                        ApplicationClass.preferences.userRecentCampsiteAddress.toString(),
-                        ApplicationClass.preferences.userRecentCampsiteLatitude.toString(),
-                        ApplicationClass.preferences.userRecentCampsiteLongitude.toString()
-                    )
-                getCampsiteTitle(recentCampsite)
-            }
 
             fabUserLocation.setOnClickListener {
                 if (isTracking) {
@@ -436,13 +425,19 @@ class CommunityCampsiteFragment :
                 ).show()*/
 
                 // 캠핑장 설정 먼저 해야함 후에 제한 두기
-                navigate(
+               /* navigate(
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogFragment(
                             "리뷰 쪽지",
                             ApplicationClass.preferences.userRecentCampsiteId.toString()
                         )
-                )
+                )*/
+                activity?.let{
+                    val intent= Intent(context, CommunityCampsiteDialogActivity::class.java)
+                    intent.putExtra("type","리뷰 쪽지")
+                    intent.putExtra("campsiteId",ApplicationClass.preferences.userRecentCampsiteId.toString())
+                    startActivity(intent)
+                }
             }
 
             fabFreeNote.setOnClickListener {
@@ -453,13 +448,19 @@ class CommunityCampsiteFragment :
                     R.id.iv_close_write_review_note_dialog,
                     R.id.tv_make_review
                 ).show()*/
-                navigate(
+                /*navigate(
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogFragment(
                             "자유 쪽지",
                             ApplicationClass.preferences.userRecentCampsiteId.toString()
                         )
-                )
+                )*/
+                activity?.let{
+                    val intent= Intent(context, CommunityCampsiteDialogActivity::class.java)
+                    intent.putExtra("type","자유 쪽지")
+                    intent.putExtra("campsiteId",ApplicationClass.preferences.userRecentCampsiteId.toString())
+                    startActivity(intent)
+                }
             }
 
             // SlidingUpPanel

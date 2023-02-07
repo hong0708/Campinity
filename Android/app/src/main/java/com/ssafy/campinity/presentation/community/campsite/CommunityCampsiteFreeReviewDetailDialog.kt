@@ -5,19 +5,13 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.TextUtils.isEmpty
 import android.view.WindowManager
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.google.android.gms.common.util.CollectionUtils.isEmpty
-import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.databinding.DialogReviewNoteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 
 class CommunityCampsiteFreeReviewDetailDialog(
     context: Context,
-    val messageDetailInfo: CampsiteMessageDetailInfo
+    private val messageDetailInfo: CampsiteMessageDetailInfo
 ) : Dialog(context) {
     private lateinit var binding: DialogReviewNoteBinding
 
