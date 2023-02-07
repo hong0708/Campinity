@@ -40,6 +40,9 @@ class SearchViewModel @Inject constructor(
     private val _stateBehaviorFilter: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorFilter: LiveData<Boolean> = _stateBehaviorFilter
 
+    private val _stateBehaviorList: MutableLiveData<Boolean> = MutableLiveData(false)
+    val stateBehaviorList: LiveData<Boolean> = _stateBehaviorList
+
     private val _isSearchAgain: MutableLiveData<Boolean> = MutableLiveData(false)
     val isSearchAgain: LiveData<Boolean> = _isSearchAgain
 
@@ -77,6 +80,10 @@ class SearchViewModel @Inject constructor(
 
     fun setStateBehaviorFilter(flag: Boolean) {
         _stateBehaviorFilter.value = flag
+    }
+
+    fun setStateBehaviorList(flag: Boolean) {
+        _stateBehaviorList.value = flag
     }
 
     fun setSido(sido: String) {

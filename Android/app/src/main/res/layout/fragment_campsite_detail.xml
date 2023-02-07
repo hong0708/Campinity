@@ -78,26 +78,29 @@
 
                     <TextView
                         android:id="@+id/tv_campsite_industry"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="25dp"
                         android:fontFamily="@font/roboto_regular"
                         android:textColor="@color/bilbao"
                         android:textSize="14sp"
+                        app:layout_constraintEnd_toStartOf="@id/btn_postbox"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="일반야영장 | 글램핑 | 자동차야영장 | 카라반" />
 
                     <TextView
                         android:id="@+id/tv_campsite_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:fontFamily="@font/roboto_bold"
                         android:textColor="@color/black"
                         android:textSize="20sp"
-                        app:layout_constraintStart_toStartOf="@id/tv_campsite_industry"
+                        app:layout_constraintEnd_toStartOf="@id/btn_postbox"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_campsite_industry"
                         tools:text="W 글램핑" />
 
@@ -105,13 +108,14 @@
                         android:id="@+id/tv_campsite_short_content"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="3dp"
                         android:layout_marginEnd="16dp"
                         android:fontFamily="@font/roboto_regular"
-                        android:layout_marginTop="3dp"
                         android:textColor="@color/black"
                         android:textSize="12sp"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/tv_campsite_name"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_campsite_name"
                         tools:text="사랑하는 반려견과 함께 글램핑에서 하루를." />
 
@@ -119,10 +123,11 @@
                         android:id="@+id/iv_location"
                         android:layout_width="14dp"
                         android:layout_height="14dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:contentDescription="@string/image_campsite_location"
                         android:src="@drawable/ic_location_dodger_blue"
-                        app:layout_constraintStart_toStartOf="@id/tv_campsite_industry"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tv_campsite_short_content" />
 
                     <TextView
@@ -142,12 +147,13 @@
                         android:id="@+id/iv_call"
                         android:layout_width="14dp"
                         android:layout_height="14dp"
+                        android:layout_marginStart="16dp"
                         android:layout_marginTop="12dp"
                         android:layout_marginBottom="28dp"
                         android:contentDescription="@string/image_campsite_location"
                         android:src="@drawable/ic_call"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="@id/tv_campsite_industry"
+                        app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/iv_location" />
 
                     <TextView
@@ -197,6 +203,7 @@
                         android:layout_marginTop="21dp"
                         android:ellipsize="end"
                         android:fontFamily="@font/roboto_regular"
+                        android:lineSpacingExtra="5dp"
                         android:maxLines="2"
                         android:textColor="@color/grey"
                         android:textSize="12sp"
