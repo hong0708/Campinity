@@ -7,11 +7,13 @@ import com.ssafy.campinity.api.dto.req.EditMemberInfoReqDTO;
 import com.ssafy.campinity.api.dto.req.LogoutReqDTO;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
 import com.ssafy.campinity.api.service.KakaoUserService;
+import com.ssafy.campinity.core.dto.FcmTokenResDTO;
 import com.ssafy.campinity.core.dto.MemberResDTO;
 import com.ssafy.campinity.core.dto.ProfileResDTO;
 import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.redis.RedisDao;
+import com.ssafy.campinity.core.service.FcmTokenService;
 import com.ssafy.campinity.core.service.MemberService;
 import com.ssafy.campinity.core.utils.ImageUtil;
 import io.swagger.annotations.Api;
@@ -48,6 +50,7 @@ public class MemberController {
     private final MemberService memberService;
     private final ImageUtil imageUtil;
     private final RedisDao redisDao;
+    private final FcmTokenService fcmTokenService;
 
     /**
      *
@@ -162,6 +165,9 @@ public class MemberController {
         if(redisDao.getValues(memberDetails.getMember().getEmail()) != null) {
             redisDao.deleteValues(memberDetails.getMember().getEmail());
         }
+
+        // 유저가 가진 fcm token 삭제
+        fcmTokenService.deleteFcmToken(memberDetails.getMember().getId(), logoutDTO.getFcmToken());
 
         // 해당 Access Token 유효시간 가지고 와서 BlackList 로 저장하기
         Long expiration = jwtProvider.getExpiration(logoutDTO.getAtk());

@@ -41,7 +41,7 @@ public class Question extends BaseEntity {
     @ToString.Exclude
     private Campsite campsite;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
     @ToString.Exclude
     private List<Answer> answers = new ArrayList<>();
 
