@@ -16,7 +16,6 @@ import com.ssafy.campinity.core.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.tomcat.jni.Error;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -130,8 +129,8 @@ public class MessageServiceImpl implements MessageService {
         }
     }
 
-    @Transactional
     @Override
+    @Transactional
     public boolean likeMessage(int memberId, String messageUuid) {
 
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
@@ -143,8 +142,8 @@ public class MessageServiceImpl implements MessageService {
         Optional<LikeMessage> likeMessage = likeMessageRepository.findByMemberAndMessage(member, message);
 
         if (likeMessage.isPresent()) {
-            message.removeLikeMessage(likeMessage.get());
             likeMessageRepository.deleteByMemberAndMessage(member, message);
+            message.removeLikeMessage(likeMessage.get());
             likeCheck = false;
         }
         else {

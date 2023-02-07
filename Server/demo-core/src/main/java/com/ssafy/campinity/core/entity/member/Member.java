@@ -8,8 +8,8 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.ArrayList;
-import java.util.UUID;
 import java.util.List;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -31,8 +31,6 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})
     @ToString.Exclude
     private List<FcmToken> fcmTokenList;
-
-    private String subscribeCamp;
 
     private String name;
 
@@ -57,4 +55,5 @@ public class Member extends BaseEntity {
     public void removeFcmToken(FcmToken fcmToken){
         this.fcmTokenList.remove(fcmToken);
     }
+
 }

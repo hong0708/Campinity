@@ -6,6 +6,8 @@ import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.fcm.FcmTokenRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @SpringBootTest
 public class FcmTokenTest {
+
 
     @Autowired
     FcmTokenRepository fcmTokenRepository;
@@ -132,11 +135,88 @@ public class FcmTokenTest {
     }
 
 
+
+    /**
+     * subscribeCamp 메서드 테스트
+     * 1. 캠핑장 구독 / 취소 과정
+     * 2. 다른 유저가 동일한 토큰으로 구독 시 기존 토큰 삭제 및 요청 유저에 할당
+     * 3. 기존에 없는 토큰 요청 시 생성 후 구독
+     */
+    @Test
+    @DisplayName("특정 캠핑장 알람 신청 및 해제 기능 테스트")
+    void subscribeCampTest(){
+
+        Member member = Member.builder()
+                .email("test@Tset.com").name("test").profileImage("")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        String uuid = UUID.randomUUID().toString();
+        FcmToken fcmToken = FcmToken.builder().token(uuid).member(savedMember).expiredDate(LocalDate.now().plusMonths(1)).build();
+        savedMember.addFcmToken(fcmToken);
+        FcmToken savedFcmToken = fcmTokenRepository.save(fcmToken);
+        // 1
+        FcmTokenResDTO subscribeCampToken = fcmTokenService.subscribeCamp("Camp", savedMember.getId(), uuid);
+        assertEquals("Camp", subscribeCampToken.getSubscribeCampId());
+
+        FcmTokenResDTO unsubscribeCampToken = fcmTokenService.subscribeCamp("", savedMember.getId(), uuid);
+        assertEquals("", unsubscribeCampToken.getSubscribeCampId());
+
+        FcmTokenResDTO resubscribeCampToken = fcmTokenService.subscribeCamp("Camp", savedMember.getId(), uuid);
+        assertEquals("Camp", resubscribeCampToken.getSubscribeCampId());
+
+        // 2
+        Member otherMember = Member.builder()
+                .email("other@other.com").name("other").profileImage("")
+                .build();
+        Member savedOther = memberRepository.save(otherMember);
+
+        FcmTokenResDTO subscribeCampOther = fcmTokenService.subscribeCamp("CampOther", savedOther.getId(), uuid);
+        assertEquals("CampOther", subscribeCampOther.getSubscribeCampId());
+        assertEquals(1, fcmTokenRepository.findByToken(uuid).stream().count());
+        assertEquals(savedOther.getId(), fcmTokenRepository.findByToken(uuid).get().getMember().getId());
+
+        // 3
+        Member newMember = Member.builder()
+                .email("other@other.com").name("other").profileImage("")
+                .build();
+        Member savedNew = memberRepository.save(newMember);
+        String newToken = UUID.randomUUID().toString();
+        FcmTokenResDTO subscribeCampNew = fcmTokenService.subscribeCamp("CampNew", savedNew.getId(), newToken);
+        assertEquals("CampNew", subscribeCampNew.getSubscribeCampId());
+        assertEquals(1, fcmTokenRepository.findByToken(newToken).stream().count());
+        assertEquals(savedNew.getId(), fcmTokenRepository.findByToken(newToken).get().getMember().getId());
+
+    }
+
+    /**
+     * deleteFcmToken 테스트
+     * 1. 요청 맴버가 가지고 있는 토큰 삭제
+     */
+    @Test
+    @DisplayName("토큰 삭제 기능 테스트")
+    void deleteTokenTest(){
+        Member member = Member.builder()
+                .email("test@Tset.com").name("test").profileImage("")
+                .build();
+        Member savedMember = memberRepository.save(member);
+
+        String uuid = UUID.randomUUID().toString();
+        FcmToken fcmToken = FcmToken.builder().token(uuid).member(savedMember).expiredDate(LocalDate.now().plusMonths(1)).build();
+        savedMember.addFcmToken(fcmToken);
+        FcmToken savedFcmToken = fcmTokenRepository.save(fcmToken);
+
+        fcmTokenService.deleteFcmToken(savedFcmToken.getMember().getId(), savedFcmToken.getToken());
+
+        FcmToken deletedToken = fcmTokenRepository.findByToken(uuid).orElse(null);
+        assertEquals(null, deletedToken);
+    }
+
     @Test
     @DisplayName("fcm 전송 테스트")
     void sendFcmMessageTest() throws IOException {
 
-        fcmMessageService.sendMessageToOne("erkssoKnQfeeN-cBIwBIZk:APA91bF2ITJVctOph17ekaU8Ik-ytx4oorjtuhUFT6FqVaOAPMMMnIiuxq0ZTPyl5JuvVahwGpDZZhaDsMYFDdED_Bk0RBQ37i7tMImmyMDNF4hkgRkPVt-THBpIV2Jumbac58rxlRQW",
+        fcmMessageService.sendMessageToOne("e_siNmW0RaGYsPL7rWutNq:APA91bFVVGRIB5PSBqoAJlnGGBgWXIcNG_uLDVhoeKU3mJy5BNxWqxV-jWhCuQQlncXVZKOLlY06GwY2kQUh0oC8IlSXweaGRVBwWtanDMCLI9VUz0zOoelW-tg7BazCP3LvbEEaTRwH",
                 "test",
                 "testbody");
 

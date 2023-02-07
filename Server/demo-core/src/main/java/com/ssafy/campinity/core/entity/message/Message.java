@@ -40,7 +40,7 @@ public class Message extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private MessageCategory messageCategory;
 
-    @OneToMany(cascade = CascadeType.REMOVE)
+    @OneToMany
     @JoinColumn(name = "message_id")
     @ToString.Exclude
     private List<LikeMessage> likeMessages = new ArrayList<>();

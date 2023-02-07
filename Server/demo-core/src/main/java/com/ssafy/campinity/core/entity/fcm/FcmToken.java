@@ -27,7 +27,6 @@ public class FcmToken {
     private Integer id;
 
     @ManyToOne(cascade = CascadeType.MERGE)
-    @ToString.Exclude
     private Member member;
 
     private String token;
@@ -44,8 +43,6 @@ public class FcmToken {
         this.expiredDate = expiredDate;
     }
 
-
-
     public void refreshFcmToken(String token){
         this.token = token;
         this.expiredDate = LocalDate.now().plusMonths(1);
@@ -53,9 +50,5 @@ public class FcmToken {
 
     public void subscribeCamp(String campsiteUuid){
        this.campsiteUuid = campsiteUuid;
-    }
-
-    public void unsubscribeCamp(){
-       this.campsiteUuid = "";
     }
 }
