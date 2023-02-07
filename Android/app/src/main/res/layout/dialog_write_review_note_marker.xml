@@ -12,8 +12,8 @@
         android:background="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="284dp"
-            android:layout_height="343dp"
+            android:layout_width="300dp"
+            android:layout_height="400dp"
             android:background="@drawable/bg_rect_white_radius15_dialog"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +46,7 @@
                 android:text="@string/content_select_marker"
                 android:textColor="@color/white"
                 android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/cl_map_marker"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
 
@@ -60,6 +61,7 @@
                 android:text="@string/content_cancel_marker"
                 android:textColor="@color/grey"
                 android:textSize="16sp"
+                app:layout_constraintTop_toTopOf="@id/tv_make_event_note_marker"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@id/tv_make_event_note_marker" />
         </androidx.constraintlayout.widget.ConstraintLayout>

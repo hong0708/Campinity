@@ -253,6 +253,8 @@ class CommunityCampsiteFragment :
             mapView.setMapCenterPoint(uNowPosition, true)
 
         } else {
+            mapView.removeAllPOIItems()
+
             val recentCampsite =
                 CampsiteBriefInfo(
                     ApplicationClass.preferences.userRecentCampsiteId.toString(),
@@ -273,11 +275,7 @@ class CommunityCampsiteFragment :
             )
 
             drawPostBox(recentCampsite)
-            val listmarker = communityCampsiteViewModel.campsiteMessageBriefInfo.value
-            if (listmarker != null) {
-                Log.d(TAG, "initMapView: drawing")
-                drawMarkers(listmarker)
-            }
+
             CoroutineScope(Dispatchers.Main).launch {
                 val deffered: Deferred<Int> = async {
                     communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
@@ -291,6 +289,11 @@ class CommunityCampsiteFragment :
                 }
                 deffered.await()
             }
+            /*val listmarker = communityCampsiteViewModel.campsiteMessageBriefInfo.value
+            if (listmarker != null) {
+                Log.d(TAG, "initMapView: drawing")
+                drawMarkers(listmarker)
+            }*/
             // 쪽지 그릴 리스트 가져오기
             /*communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
                 mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
@@ -339,6 +342,18 @@ class CommunityCampsiteFragment :
     @SuppressLint("MissingPermission")
     private fun initListener() {
         binding.apply {
+            fabResetMapview.setOnClickListener {
+                mapView.removeAllPOIItems()
+                val recentCampsite =
+                    CampsiteBriefInfo(
+                        ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                        ApplicationClass.preferences.userRecentCampsiteName.toString(),
+                        ApplicationClass.preferences.userRecentCampsiteAddress.toString(),
+                        ApplicationClass.preferences.userRecentCampsiteLatitude.toString(),
+                        ApplicationClass.preferences.userRecentCampsiteLongitude.toString()
+                    )
+                getCampsiteTitle(recentCampsite)
+            }
 
             fabUserLocation.setOnClickListener {
                 if (isTracking) {
@@ -512,11 +527,6 @@ class CommunityCampsiteFragment :
     }
 
     private fun getCampsiteTitle(
-        /*campsiteId: String,
-        campsiteName: String,
-        address: String,
-        longitude: String,
-        latitude: String*/
         campsiteBriefInfo: CampsiteBriefInfo
     ) {
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
@@ -571,9 +581,9 @@ class CommunityCampsiteFragment :
             previousState: SlidingUpPanelLayout.PanelState?,
             newState: SlidingUpPanelLayout.PanelState?
         ) {
-            communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
+            /*communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
                 if (response.isNotEmpty()) drawMarkers(response)
-            }
+            }*/
         }
     }
 
@@ -616,8 +626,7 @@ class CommunityCampsiteFragment :
             mapPoint = markerPosition
             markerType = MapPOIItem.MarkerType.CustomImage
             customImageResourceId = R.drawable.ic_community_campsite_marker
-            isCustomImageAutoscale = false
-            setCustomImageAnchor(0.7f, 0.7f)
+            isCustomImageAutoscale = true
             userObject = campsite
             tag = 1
         }
