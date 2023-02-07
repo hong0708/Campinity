@@ -2,16 +2,15 @@ package com.ssafy.campinity.presentation.search
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Location
 import android.location.LocationManager
-import android.util.Log
-import android.view.WindowManager
+import android.view.Gravity
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentSearchMapBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 import com.ssafy.campinity.presentation.base.BaseFragment
-import com.ssafy.campinity.presentation.community.campsite.CommunityCampsiteViewModel
+import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
@@ -21,7 +20,6 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     private lateinit var mapView: MapView
     private val searchViewModel by activityViewModels<SearchViewModel>()
-    private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
 
     override fun initView() {}
 
@@ -44,12 +42,16 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     private fun initFragment() {
         val lm: LocationManager =
             requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        val userNowLocation: Location? = lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-        val uLatitude = userNowLocation?.latitude
-        val uLongitude = userNowLocation?.longitude
-        val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
 
-        mapView.setMapCenterPoint(uNowPosition, true)
+        lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).apply {
+            if (this != null) {
+                val uLatitude = this.latitude
+                val uLongitude = this.longitude
+                val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude, uLongitude)
+
+                mapView.setMapCenterPoint(uNowPosition, true)
+            }
+        }
         mapView.setZoomLevel(1, true)
         mapView.setPOIItemEventListener(this)
     }
@@ -99,27 +101,25 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
             val index = p1.itemName.split(" ")[1].toInt()
             p1.isMoveToCenterOnSelect = true
 
-            Log.d(
-                "onPOIItemSelected",
-                "onPOIItemSelected: ${searchViewModel.campsiteListData.value!![index]}"
-            )
-
             if (searchViewModel.campsiteListData.value != null) {
-                val dialog = CampsiteBriefDialog(
+                CampsiteBriefDialog(
                     requireContext(),
                     searchViewModel.campsiteListData.value!![index],
-                    this::actionSearchMainFragmentToSearchPostboxFragment
-                )
-                val params = dialog.window!!.attributes
-                params.width = WindowManager.LayoutParams.MATCH_PARENT
-                params.height = WindowManager.LayoutParams.MATCH_PARENT
-                dialog.window!!.attributes = params
-                dialog.show()
+                    this::navigationToSearchPostboxFragment,
+                    this::onCampsiteClickListener
+                ).apply {
+                    window?.setGravity(Gravity.BOTTOM)
+                    window?.setDimAmount(0f)
+                    show()
+                }
             }
         }
     }
 
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
+
+    @Deprecated("Deprecated in Java")
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
 
     override fun onCalloutBalloonOfPOIItemTouched(
         p0: MapView?,
@@ -130,7 +130,18 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
 
-    private fun actionSearchMainFragmentToSearchPostboxFragment() {
+    private fun navigationToSearchPostboxFragment() {
         navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment())
+    }
+
+    private fun navigationToCampsiteDetailFragment(async: Int) {
+        navigate(
+            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(async)
+        )
+    }
+
+    private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
+        val async = searchViewModel.getCampsiteDetailAsync(campsiteId).await()
+        navigationToCampsiteDetailFragment(async)
     }
 }
