@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_yellow">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/ic_bg_postbox" />
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginEnd="30dp"
+            android:contentDescription="@string/img_post_box_color"
+            android:src="@drawable/ic_postbox_color"
+            app:layout_constraintBottom_toTopOf="@id/cl_letter_list"
+            app:layout_constraintEnd_toEndOf="@id/cl_letter_list" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_letter_list"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="18dp"
+            android:layout_marginTop="110dp"
+            android:layout_marginEnd="18dp"
+            android:layout_marginBottom="45dp"
+            android:background="@drawable/bg_rect_white_radius30"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/iv_close_letter_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:contentDescription="@string/image_close_dialog"
+                android:src="@drawable/ic_cancel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_letter_question_content"
+                android:layout_width="0dp"
+                android:layout_height="152dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginEnd="22dp"
+                android:background="@drawable/bg_rect_light_yellow_radius15"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingStart="17dp"
+                android:paddingTop="24dp"
+                android:paddingEnd="17dp"
+                android:paddingBottom="24dp"
+                android:textColor="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_close_letter_detail"
+                tools:text="개수대는 넉넉한가용?" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_letter_detail_answer"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="22dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="22dp"
+                android:layout_marginBottom="17dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:listitem="@layout/item_note_answer_list"
+                app:layout_constraintTop_toBottomOf="@id/tv_letter_question_content" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
