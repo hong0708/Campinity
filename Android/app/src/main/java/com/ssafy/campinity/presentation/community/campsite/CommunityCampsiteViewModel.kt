@@ -40,9 +40,6 @@ class CommunityCampsiteViewModel @Inject constructor(
     val campsiteMessageDetailInfo: LiveData<CampsiteMessageDetailInfo> =
         _campsiteMessageDetailInfo
 
-    /*private val _date: MutableLiveData<String> = MutableLiveData("")
-    val date: MutableLiveData<String> = _date*/
-
     private val _file: MutableLiveData<Uri?> = MutableLiveData(null)
     val file: MutableLiveData<Uri?> = _file
 
@@ -53,22 +50,19 @@ class CommunityCampsiteViewModel @Inject constructor(
     private val _isSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
     val isSucceed: LiveData<Boolean> = _isSucceed
 
-    private val _imageChanged: MutableLiveData<Boolean> = MutableLiveData(false)
-    val imageChange: LiveData<Boolean> = _imageChanged
-
     private val _content: MutableLiveData<String> = MutableLiveData("")
     val content: MutableLiveData<String> = _content
 
     private var imgMultiPart: MultipartBody.Part? = null
 
-    fun getCampsiteBriefInfoByCampName(campsiteName: String) = viewModelScope.launch {
-        when (val value = getCampsiteBriefInfoByCampNameUseCase(campsiteName)) {
+    fun getCampsiteBriefInfoByCampName() = viewModelScope.launch {
+        when (val value = getCampsiteBriefInfoByCampNameUseCase(requireNotNull(content.value))) {
             is Resource.Success<List<CampsiteBriefInfo>> -> {
                 val campsiteBriefInfoList = value.data
                 _campsiteBriefInfo.value = campsiteBriefInfoList
             }
             is Resource.Error -> {
-                Log.d("requestNoteQuestions", "NoteQuestions: ${value.errorMessage}")
+                Log.d("getCampsiteBriefInfoByCampName", "NoteQuestions: ${value.errorMessage}")
                 _campsiteBriefInfo.value = listOf()
             }
         }
@@ -89,13 +83,12 @@ class CommunityCampsiteViewModel @Inject constructor(
             is Resource.Success<List<CampsiteBriefInfo>> -> {
                 val campsiteBriefInfoList = value.data
                 _campsiteBriefInfo.value = campsiteBriefInfoList
-                Log.d(
-                    "getCampsiteBriefInfoByUserLocation",
-                    "getCampsiteBriefInfoByUserLocation: ${value.data}"
-                )
             }
             is Resource.Error -> {
-                Log.d("getCampsiteBriefInfoByUserLocation", "NoteQuestions: ${value.errorMessage}")
+                Log.d(
+                    "getCampsiteBriefInfoByUserLocation",
+                    "getCampsiteBriefInfoByUserLocation: ${value.errorMessage}"
+                )
                 _campsiteBriefInfo.value = listOf()
             }
         }
@@ -118,10 +111,6 @@ class CommunityCampsiteViewModel @Inject constructor(
             is Resource.Success<List<CampsiteMessageBriefInfo>> -> {
                 val campsiteMessageBriefInfoList = value.data
                 _campsiteMessageBriefInfo.value = campsiteMessageBriefInfoList
-                Log.d(
-                    "getCampsiteMessageBriefInfoByScope",
-                    "getCampsiteMessageBriefInfoByScope: ${value.data}"
-                )
             }
             is Resource.Error -> {
                 Log.d(
@@ -138,17 +127,12 @@ class CommunityCampsiteViewModel @Inject constructor(
             is Resource.Success<CampsiteMessageDetailInfo> -> {
                 val campsiteMessageDetailInfo = value.data
                 _campsiteMessageDetailInfo.value = campsiteMessageDetailInfo
-                Log.d(
-                    "getCampsiteMessageBriefInfoByScope",
-                    "getCampsiteMessageBriefInfoByScope: ${value.data}"
-                )
             }
             is Resource.Error -> {
                 Log.d(
-                    "getCampsiteMessageBriefInfoByScope",
-                    "getCampsiteMessageBriefInfoByScope: ${value.errorMessage}"
+                    "getCampsiteMessageDetailInfo",
+                    "getCampsiteMessageDetailInfo: ${value.errorMessage}"
                 )
-                //_campsiteMessageDetailInfo.value = CampsiteMessageDetailInfo()
             }
         }
     }
@@ -171,7 +155,10 @@ class CommunityCampsiteViewModel @Inject constructor(
                 _isSucceed.value = true
             }
             is Resource.Error -> {
-                Log.e("createCollection", "createCollection: ${value.errorMessage}")
+                Log.e(
+                    "createCommunityCampsiteMessage",
+                    "createCommunityCampsiteMessage: ${value.errorMessage}"
+                )
                 _isSucceed.value = false
             }
         }
@@ -184,9 +171,5 @@ class CommunityCampsiteViewModel @Inject constructor(
             imgMultiPart =
                 requestFile?.let { MultipartBody.Part.createFormData("file", file.name, it) }
         }
-    }
-
-    fun changeImgState() {
-        _imageChanged.value = true
     }
 }

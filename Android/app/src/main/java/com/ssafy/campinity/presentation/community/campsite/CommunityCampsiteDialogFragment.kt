@@ -73,7 +73,6 @@ class CommunityCampsiteDialogFragment :
                 tvSelectMarkerLocation.setOnClickListener {
                     CommunityCampsiteMarkerDialog(
                         requireActivity(),
-                        requireActivity(),
                         this@CommunityCampsiteDialogFragment
                     ).show()
                 }

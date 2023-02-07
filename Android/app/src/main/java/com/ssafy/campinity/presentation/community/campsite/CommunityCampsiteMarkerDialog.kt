@@ -2,7 +2,6 @@ package com.ssafy.campinity.presentation.community.campsite
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -12,10 +11,9 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 class CommunityCampsiteMarkerDialog(
-    context: Context,
     val activity: Activity,
     private val listener: CommunityCampsiteMarkerDialogListener
-) : Dialog(context) {
+) : Dialog(activity){
 
     private lateinit var binding: DialogWriteReviewNoteMarkerBinding
     private lateinit var mapView: MapView
@@ -33,10 +31,6 @@ class CommunityCampsiteMarkerDialog(
         setCancelable(true)
 
         mapView = MapView(activity)
-
-        /*val listener = CommunityMapViewEventListener(this)
-        mapView.setMapViewEventListener(listener)*/
-
 
         mapView.setZoomLevel(2, true)
         binding.clMapMarker.addView(mapView)
