@@ -39,7 +39,7 @@ class MyPageViewModel @Inject constructor(
     ) : ViewModel() {
 
     private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
-    val etcNotesListdata: LiveData<List<CampsiteMessageDetailInfo>?> = _etcNotesListData
+    val etcNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _etcNotesListData
 
     private val _reviewNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
     val reviewNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _reviewNotesListData
@@ -63,7 +63,7 @@ class MyPageViewModel @Inject constructor(
     val nickname: MutableLiveData<String> = _nickname
 
     private val _profileImgUri: MutableLiveData<Uri?> = MutableLiveData()
-    val profileImgUri: LiveData<Uri?> = _profileImgUri
+    val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
 
     private val _isLoggedOut: MutableLiveData<Boolean?> = MutableLiveData()
     val isLoggedOut: LiveData<Boolean?> = _isLoggedOut

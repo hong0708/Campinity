@@ -2,7 +2,6 @@ package com.ssafy.campinity.presentation.join
 
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -38,7 +37,7 @@ class JoinViewModel @Inject constructor(
     val nickname: MutableLiveData<String> = _nickname
 
     private val _profileImgUri: MutableLiveData<Uri?> = MutableLiveData(null)
-    val profileImgUri: LiveData<Uri?> = _profileImgUri
+    val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
 
     private var profileImgMultiPart: MultipartBody.Part? = null
 

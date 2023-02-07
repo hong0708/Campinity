@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.view.WindowManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -14,22 +13,17 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.getDeviceWidthPx
-import com.ssafy.campinity.databinding.FragmentUpdateCollectionBinding
+import com.ssafy.campinity.databinding.FragmentCreateCollectionBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class UpdateCollectionFragment :
-    BaseFragment<FragmentUpdateCollectionBinding>(R.layout.fragment_update_collection),
-    CollectionDatePickerDialogListener, CollectionDeleteDialogListener {
+class CreateFileFragment :
+    BaseFragment<FragmentCreateCollectionBinding>(R.layout.fragment_create_collection),
+    CollectionDatePickerDialogListener, FileDeleteDialogListener {
 
-    private val args by navArgs<CollectionDetailFragmentArgs>()
     private val viewModel by viewModels<CollectionViewModel>()
     private val fromAlbumActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -40,18 +34,12 @@ class UpdateCollectionFragment :
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
                 )
-                viewModel.changeImgState()
-            } else {
-                viewModel.setPicture(
-                    null, null
-                )
             }
         }
     }
 
     override fun initView() {
         binding.vm = viewModel
-        setData()
         initListener()
         setTextWatcher()
         observeState()
@@ -62,63 +50,32 @@ class UpdateCollectionFragment :
         viewModel.date.value = date
     }
 
-    private fun setData() {
-        viewModel.getCollection(args.collectionId)
-        viewModel.collectionData.observe(viewLifecycleOwner) {
-            binding.apply {
-                if (it != null) {
-                    Glide.with(requireContext())
-                        .load("http://i8d101.p.ssafy.io:8003/images" + it.imagePath)
-                        .override(getDeviceWidthPx(requireContext()))
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(ivPhoto)
-                    tvDateInput.text = it.date
-                    etLocation.setText(it.campsiteName)
-                    etDescription.setText(it.content)
-                }
-            }
-        }
-    }
-
     private fun initListener() {
         binding.apply {
             ivArrowLeft.setOnClickListener { popBackStack() }
             clAddPhoto.setOnClickListener { setAlbumView() }
             tvDateInput.setOnClickListener { getDate() }
             tvMakeReview.setOnClickListener {
-                if (binding.tvDateInput.text == "" ||
-                    binding.etDescription.text.toString() == "" ||
-                    binding.tvMakeReview.text == ""
+                if (viewModel.file.value == null ||
+                    viewModel.date.value == "" ||
+                    viewModel.campsiteName.value == "" ||
+                    viewModel.content.value == ""
                 ) {
                     Toast.makeText(requireContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
                 } else {
-                    viewModel.imageChange.observe(viewLifecycleOwner) {
-                        when (it) {
-                            true -> viewModel.updateCollection(args.collectionId)
-                            false -> viewModel.updateCollectionWithoutImg(args.collectionId)
-                        }
-                    }
+                    viewModel.createCollection()
                 }
-
-//                viewModel.imageChange.observe(viewLifecycleOwner) {
-//                    when (it) {
-//                        true -> viewModel.updateCollection(args.collectionId)
-//                        false -> viewModel.updateCollectionWithoutImg(args.collectionId)
-//                    }
-//                }
             }
         }
     }
 
     private fun observeState() {
-        viewModel.isUpdated.observe(viewLifecycleOwner) {
+        viewModel.isSucceed.observe(viewLifecycleOwner) {
             when (it) {
                 true -> {
                     popBackStack()
-                    Toast.makeText(requireContext(), "컬렉션이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "컬렉션이 추가되었습니다.", Toast.LENGTH_SHORT).show()
                 }
-                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
                 else -> {}
             }
         }
@@ -126,12 +83,7 @@ class UpdateCollectionFragment :
 
     private fun getDate() {
         val dialog = CollectionDatePickerDialog(requireContext(), this)
-        dialog.setCanceledOnTouchOutside(true)
         dialog.show()
-        dialog.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
     }
 
     private fun setTextWatcher() {
@@ -169,14 +121,8 @@ class UpdateCollectionFragment :
             }
         } else {
             val dialog = CollectionDeleteFileDialog(requireContext(), this)
-            dialog.setCanceledOnTouchOutside(true)
             dialog.show()
-            dialog.window?.setLayout(
-                WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT
-            )
         }
-
     }
 
     private fun absolutelyPath(path: Uri?, context: Context): String {
@@ -193,7 +139,7 @@ class UpdateCollectionFragment :
         const val REQUEST_READ_STORAGE_PERMISSION = 1
     }
 
-    override fun onSubmitButtonClicked() {
+    override fun onButtonClicked() {
         viewModel.file.value = null
     }
 }

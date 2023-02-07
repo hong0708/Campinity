@@ -13,7 +13,7 @@ import com.ssafy.campinity.databinding.DialogCollectionDeleteBinding
 
 class CollectionDeleteDialog(
     context: Context,
-    private val listener: CollectionDeleteDialogListener
+    private val listener: FileDeleteDialogListener
 ) : Dialog(context) {
 
     private lateinit var binding: DialogCollectionDeleteBinding
@@ -39,7 +39,7 @@ class CollectionDeleteDialog(
 
         binding.apply {
             btnConfirm.setOnClickListener {
-                listener.onSubmitButtonClicked()
+                listener.onButtonClicked()
                 dismiss()
             }
             btnCancel.setOnClickListener {

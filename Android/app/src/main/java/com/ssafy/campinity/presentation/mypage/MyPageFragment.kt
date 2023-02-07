@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
@@ -26,7 +27,6 @@ class MyPageFragment :
     }
 
     override fun initView() {
-        myPageViewModel.isSuccess.value = false
         setData()
         initRecyclerView()
         initListener()
@@ -69,7 +69,7 @@ class MyPageFragment :
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     if (p0?.getItemAtPosition(p2).toString() == "자유") {
-                        myPageViewModel.etcNotesListdata.observe(viewLifecycleOwner) { response ->
+                        myPageViewModel.etcNotesListData.observe(viewLifecycleOwner) { response ->
                             response?.let {
                                 communityNoteListAdapter.setNote(it.map { info ->
                                     NoteQuestionTitle(
@@ -110,10 +110,16 @@ class MyPageFragment :
     }
 
     private fun setData() {
-        myPageViewModel.getInfo()
-        myPageViewModel.userInfo.observe(viewLifecycleOwner) {
-            binding.profileInfo = it
+        myPageViewModel.userInfo.observe(viewLifecycleOwner){ response->
+            binding.tvNickname.text = response?.name.toString()
+            Glide.with(requireContext())
+                .load("http://i8d101.p.ssafy.io:8003/images" + response?.imagePath.toString())
+                .placeholder(R.drawable.ic_profile_default)
+                .error(R.drawable.ic_profile_default)
+                .circleCrop()
+                .into(binding.ivProfile)
         }
+        myPageViewModel.getInfo()
     }
 
     override fun onSubmitButtonClicked() {
