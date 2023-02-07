@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import com.ssafy.campinity.data.remote.datasource.base.DataToDomainMapper
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 
-class SearchBriefResponse(
+data class SearchBriefResponse(
     @SerializedName("campName")
     val campName: String,
     @SerializedName("campsiteId")

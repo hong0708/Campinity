@@ -1,5 +1,6 @@
 package com.ssafy.campinity.data.remote.datasource.search
 
+import com.ssafy.campinity.data.remote.datasource.note.NoteBriefResponse
 import com.ssafy.campinity.data.remote.service.SearchApiService
 import javax.inject.Inject
 
@@ -34,4 +35,18 @@ class SearchRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getCampsiteDetail(campsiteId: String): SearchDetailResponse =
         searchApiService.getCampsiteDetail(campsiteId)
+
+    override suspend fun getCampsiteReviewNotes(
+        campsiteId: String,
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        topLeftLat: Double,
+        topLeftLng: Double,
+    ): List<NoteBriefResponse> = searchApiService.getCampsiteReviewNotes(
+        campsiteId,
+        bottomRightLat,
+        bottomRightLng,
+        topLeftLat,
+        topLeftLng,
+    )
 }
