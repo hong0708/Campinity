@@ -30,7 +30,7 @@ class CommunityNoteQuestionDialog(
         binding.apply {
             tvMakeEventNoteMarker.setOnClickListener {
                 communityNoteDialogInterface.postNote(
-                    "47f55bf6-19e2-42a2-a5d8-a1a4552dd845",
+                    "613f51f2-8942-4d84-bb60-7dc29b3487a6",
                     etInputMakeQuestion.text.toString()
                 )
                 dismiss()
