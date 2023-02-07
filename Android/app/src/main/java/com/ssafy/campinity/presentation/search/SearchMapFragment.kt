@@ -2,8 +2,11 @@ package com.ssafy.campinity.presentation.search
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.LocationManager
+import android.util.Log
 import android.view.Gravity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import com.ssafy.campinity.R
@@ -41,18 +44,31 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     @SuppressLint("MissingPermission")
     private fun initFragment() {
-        val lm: LocationManager =
-            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if (ContextCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_DENIED
+            && ContextCompat.checkSelfPermission(
+                requireActivity(),
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_DENIED
+        ) {
+            Log.d("SearchMapFragment", "PermissionCheck is denied")
+        } else {
+            val lm: LocationManager =
+                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-        lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).apply {
-            if (this != null) {
-                val uLatitude = this.latitude
-                val uLongitude = this.longitude
-                val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude, uLongitude)
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER).apply {
+                if (this != null) {
+                    val uLatitude = this.latitude
+                    val uLongitude = this.longitude
+                    val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude, uLongitude)
 
-                mapView.setMapCenterPoint(uNowPosition, true)
+                    mapView.setMapCenterPoint(uNowPosition, true)
+                }
             }
         }
+
         mapView.setZoomLevel(1, true)
         mapView.setPOIItemEventListener(this)
     }
