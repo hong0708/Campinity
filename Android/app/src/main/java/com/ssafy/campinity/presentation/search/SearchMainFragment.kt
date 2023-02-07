@@ -1,10 +1,12 @@
 package com.ssafy.campinity.presentation.search
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.FragmentContainerView
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -20,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.fragment_search_main) {
 
+    private lateinit var callback: OnBackPressedCallback
     private lateinit var behaviorList: BottomSheetBehavior<LinearLayout>
     private lateinit var behaviorArea: BottomSheetBehavior<FragmentContainerView>
     private lateinit var behaviorFilter: BottomSheetBehavior<FragmentContainerView>
@@ -35,6 +38,24 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         initBehaviorArea()
         initBehaviorFilter()
         observeStateBehavior()
+        initBehaviorState()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Log.d("SearchMainFragment", "SearchMainFragment back pressed")
+                searchViewModel.setStateBehaviorList(false)
+                requireActivity().finish()
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     private fun initListener() {
@@ -100,11 +121,13 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                     BottomSheetBehavior.STATE_COLLAPSED -> {
                         binding.rlShowList.visibility = View.VISIBLE
                         binding.rlShowMap.visibility = View.GONE
+                        searchViewModel.setStateBehaviorList(false)
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         binding.viewEmptySpace.visibility = View.VISIBLE
                         binding.clSearch.setBackgroundResource(R.drawable.bg_rect_bilbao_under_radius30)
                         binding.rlSearchAgain.visibility = View.GONE
+                        searchViewModel.setStateBehaviorList(true)
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> {
                         binding.viewEmptySpace.visibility = View.INVISIBLE
@@ -202,5 +225,19 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                 behaviorFilter.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
+    }
+
+    private fun initBehaviorState() {
+        if (searchViewModel.stateBehaviorList.value!!) {
+            behaviorList.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.apply {
+                viewEmptySpace.visibility = View.VISIBLE
+                clSearch.setBackgroundResource(R.drawable.bg_rect_bilbao_under_radius30)
+                rlSearchAgain.visibility = View.GONE
+                rlShowList.visibility = View.GONE
+                rlShowMap.visibility = View.VISIBLE
+            }
+        } else
+            behaviorList.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 }

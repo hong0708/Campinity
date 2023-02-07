@@ -43,14 +43,24 @@ class CampsiteDetailFragment :
 
         searchViewModel.campsiteData.value.let { campsiteDetailInfo ->
             initViewPager()
-            binding.tvCampsiteIndustry.text = campsiteDetailInfo?.industries?.toString(" | ")
+            binding.tvCampsiteIndustry.text =
+                if (campsiteDetailInfo != null && campsiteDetailInfo.industries.isNotEmpty()) {
+                    campsiteDetailInfo.industries.toString(" | ")
+                } else {
+                    binding.tvCampsiteIndustry.visibility = View.GONE
+                    ""
+                }
             binding.tvCampsiteName.text =
                 if (campsiteDetailInfo != null && campsiteDetailInfo.campsiteName.isNotEmpty())
                     campsiteDetailInfo.campsiteName
                 else
                     "이름 미등록 캠핑장"
             binding.tvCampsiteShortContent.text = campsiteDetailInfo?.lineIntro
-            binding.tvCampsiteLocation.text = campsiteDetailInfo?.address
+            binding.tvCampsiteLocation.text =
+                if (campsiteDetailInfo != null && campsiteDetailInfo.address.isNotEmpty())
+                    campsiteDetailInfo.address
+                else
+                    "미등록"
             binding.tvCampsiteCall.text =
                 if (campsiteDetailInfo != null && campsiteDetailInfo.phoneNumber.isNotEmpty())
                     campsiteDetailInfo.phoneNumber

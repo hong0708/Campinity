@@ -530,7 +530,7 @@
     <!-- Search filter -->
     <string name="title_filter">관심 필터 설정</string>
     <string name="title_my_letter">내 편지함</string>
-    <string name="content_new_letter">새 쪽지</string>
+    <string name="content_new_letter">새 편지</string>
     <string name="title_filter_industry">사업</string>
 
     <!-- Notification -->
