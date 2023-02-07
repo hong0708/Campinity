@@ -9,10 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
+import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
 import com.ssafy.campinity.domain.entity.search.AreaListItem
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo
 import com.ssafy.campinity.domain.entity.search.GugunItem
+import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageBriefInfoByScopeUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByFilteringUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
@@ -25,7 +27,8 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val getCampsitesByFilteringUseCase: GetCampsitesByFilteringUseCase,
     private val getCampsitesByScopeUseCase: GetCampsitesByScopeUseCase,
-    private val getCampsiteDetailUseCase: GetCampsiteDetailUseCase
+    private val getCampsiteDetailUseCase: GetCampsiteDetailUseCase,
+    private val getCampsiteMessageBriefInfoByScopeUseCase: GetCampsiteMessageBriefInfoByScopeUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
@@ -33,6 +36,10 @@ class SearchViewModel @Inject constructor(
 
     private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
     val campsiteData: LiveData<CampsiteDetailInfo?> = _campsiteData
+
+    private val _campsiteNoteList: MutableLiveData<List<CampsiteMessageBriefInfo>?> =
+        MutableLiveData()
+    val campsiteNoteList: LiveData<List<CampsiteMessageBriefInfo>?> = _campsiteNoteList
 
     private val _stateBehaviorArea: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorArea: LiveData<Boolean> = _stateBehaviorArea
@@ -171,4 +178,38 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
+
+    /*
+    fun getCampsiteMessageBriefInfoByScope(
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        campsiteId: String,
+        topLeftLat: Double,
+        topLeftLng: Double
+    ) = viewModelScope.launch {
+        when (val value = getCampsiteMessageBriefInfoByScopeUseCase(
+            bottomRightLat,
+            bottomRightLng,
+            campsiteId,
+            topLeftLat,
+            topLeftLng
+        )) {
+            is Resource.Success<List<CampsiteMessageBriefInfo>> -> {
+                val campsiteMessageBriefInfoList = value.data
+                _campsiteListData.value = campsiteMessageBriefInfoList
+                Log.d(
+                    "getCampsiteMessageBriefInfoByScope",
+                    "getCampsiteMessageBriefInfoByScope: ${value.data}"
+                )
+            }
+            is Resource.Error -> {
+                Log.d(
+                    "getCampsiteMessageBriefInfoByScope",
+                    "getCampsiteMessageBriefInfoByScope: ${value.errorMessage}"
+                )
+                _campsiteMessageBriefInfo.value = listOf()
+            }
+        }
+    }
+    */
 }
