@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentSearchMapBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
+import com.ssafy.campinity.domain.entity.search.CampsiteNoteBriefInfo
 import com.ssafy.campinity.presentation.base.BaseFragment
 import kotlinx.coroutines.launch
 import net.daum.mf.map.api.MapPOIItem
@@ -70,17 +71,31 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 }
         }
 
-        searchViewModel.campsiteListData.observe(viewLifecycleOwner) {
-            if (it != null && it.isNotEmpty()) {
-                drawMarkers(it)
-                val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(it[0].lat, it[0].lng)
+        searchViewModel.campsiteListData.observe(viewLifecycleOwner) { campsiteBriefInfoList ->
+            if (campsiteBriefInfoList != null && campsiteBriefInfoList.isNotEmpty()) {
+                campsiteBriefInfoList.forEach {
+                    searchViewModel.getCampsiteReviewNotes(
+                        it.campsiteId,
+                    )
+                }
+
+                drawCampsiteMarkers(campsiteBriefInfoList)
+                val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
+                    campsiteBriefInfoList[0].lat,
+                    campsiteBriefInfoList[0].lng
+                )
                 mapView.setMapCenterPoint(campsiteMainPoint, true)
                 mapView.setZoomLevel(3, true)
             }
         }
+
+        searchViewModel.campsiteNoteList.observe(viewLifecycleOwner) {
+            if (it != null && it.isNotEmpty())
+                drawReviewNoteMarkers(it)
+        }
     }
 
-    private fun drawMarkers(markerLocationList: List<CampsiteBriefInfo>) {
+    private fun drawCampsiteMarkers(markerLocationList: List<CampsiteBriefInfo>) {
         markerLocationList.forEachIndexed { index, campsiteBriefInfo ->
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(campsiteBriefInfo.lat, campsiteBriefInfo.lng)
@@ -96,26 +111,65 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         }
     }
 
+    private fun drawReviewNoteMarkers(markerLocationList: List<CampsiteNoteBriefInfo>) {
+        markerLocationList.forEachIndexed { index, campsiteNoteBriefInfo ->
+            val markerPosition =
+                MapPoint.mapPointWithGeoCoord(
+                    campsiteNoteBriefInfo.latitude,
+                    campsiteNoteBriefInfo.longitude
+                )
+            val marker = MapPOIItem()
+            marker.apply {
+                itemName = "쪽지 $index"
+                mapPoint = markerPosition
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageResourceId = R.drawable.ic_review_note_marker
+                isShowCalloutBalloonOnTouch = false
+            }
+            mapView.addPOIItem(marker)
+        }
+    }
+
+    private fun navigationToSearchPostboxFragment() {
+        navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment())
+    }
+
+    private fun navigationToCampsiteDetailFragment(async: Int) {
+        navigate(
+            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(async)
+        )
+    }
+
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
         if (p1 != null) {
-            val index = p1.itemName.split(" ")[1].toInt()
-            p1.isMoveToCenterOnSelect = true
+                val index = p1.itemName.split(" ")[1].toInt()
+                p1.isMoveToCenterOnSelect = true
 
-            if (searchViewModel.campsiteListData.value != null) {
-                CampsiteBriefDialog(
-                    requireContext(),
-                    searchViewModel.campsiteListData.value!![index],
-                    this::navigationToSearchPostboxFragment,
-                    this::onCampsiteClickListener
-                ).apply {
-                    window?.setGravity(Gravity.BOTTOM)
-                    window?.setDimAmount(0f)
-                    show()
+            if (p1.itemName.split(" ")[0] == "캠핑장") {
+                if (searchViewModel.campsiteListData.value != null) {
+                    CampsiteBriefDialog(
+                        requireContext(),
+                        searchViewModel.campsiteListData.value!![index],
+                        this::navigationToSearchPostboxFragment,
+                        this::onCampsiteClickListener
+                    ).apply {
+                        window?.setGravity(Gravity.BOTTOM)
+                        window?.setDimAmount(0f)
+                        show()
+                    }
+                }
+            } else {
+                if (searchViewModel.campsiteNoteList.value != null) {
+
                 }
             }
         }
     }
 
+    private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
+        val async = searchViewModel.getCampsiteDetailAsync(campsiteId).await()
+        navigationToCampsiteDetailFragment(async)
+    }
 
     @Deprecated("Deprecated in Java")
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
@@ -129,19 +183,4 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     }
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
-
-    private fun navigationToSearchPostboxFragment() {
-        navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment())
-    }
-
-    private fun navigationToCampsiteDetailFragment(async: Int) {
-        navigate(
-            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(async)
-        )
-    }
-
-    private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
-        val async = searchViewModel.getCampsiteDetailAsync(campsiteId).await()
-        navigationToCampsiteDetailFragment(async)
-    }
 }

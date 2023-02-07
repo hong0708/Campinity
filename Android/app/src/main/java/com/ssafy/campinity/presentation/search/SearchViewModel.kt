@@ -9,13 +9,9 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
-import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
-import com.ssafy.campinity.domain.entity.search.AreaListItem
-import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
-import com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo
-import com.ssafy.campinity.domain.entity.search.GugunItem
-import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageBriefInfoByScopeUseCase
+import com.ssafy.campinity.domain.entity.search.*
 import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
+import com.ssafy.campinity.domain.usecase.search.GetCampsiteReviewNotesUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByFilteringUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -28,7 +24,7 @@ class SearchViewModel @Inject constructor(
     private val getCampsitesByFilteringUseCase: GetCampsitesByFilteringUseCase,
     private val getCampsitesByScopeUseCase: GetCampsitesByScopeUseCase,
     private val getCampsiteDetailUseCase: GetCampsiteDetailUseCase,
-    private val getCampsiteMessageBriefInfoByScopeUseCase: GetCampsiteMessageBriefInfoByScopeUseCase
+    private val getCampsiteReviewNotesUseCase: GetCampsiteReviewNotesUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
@@ -37,9 +33,9 @@ class SearchViewModel @Inject constructor(
     private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
     val campsiteData: LiveData<CampsiteDetailInfo?> = _campsiteData
 
-    private val _campsiteNoteList: MutableLiveData<List<CampsiteMessageBriefInfo>?> =
+    private val _campsiteNoteList: MutableLiveData<ArrayList<CampsiteNoteBriefInfo>?> =
         MutableLiveData()
-    val campsiteNoteList: LiveData<List<CampsiteMessageBriefInfo>?> = _campsiteNoteList
+    val campsiteNoteList: LiveData<ArrayList<CampsiteNoteBriefInfo>?> = _campsiteNoteList
 
     private val _stateBehaviorArea: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorArea: LiveData<Boolean> = _stateBehaviorArea
@@ -186,37 +182,38 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    /*
-    fun getCampsiteMessageBriefInfoByScope(
-        bottomRightLat: Double,
-        bottomRightLng: Double,
+    fun getCampsiteReviewNotes(
         campsiteId: String,
-        topLeftLat: Double,
-        topLeftLng: Double
     ) = viewModelScope.launch {
-        when (val value = getCampsiteMessageBriefInfoByScopeUseCase(
-            bottomRightLat,
-            bottomRightLng,
+        when (val value = getCampsiteReviewNotesUseCase(
             campsiteId,
-            topLeftLat,
-            topLeftLng
+            33.0,
+            132.0,
+            43.0,
+            124.0,
         )) {
-            is Resource.Success<List<CampsiteMessageBriefInfo>> -> {
-                val campsiteMessageBriefInfoList = value.data
-                _campsiteListData.value = campsiteMessageBriefInfoList
-                Log.d(
-                    "getCampsiteMessageBriefInfoByScope",
-                    "getCampsiteMessageBriefInfoByScope: ${value.data}"
-                )
+            is Resource.Success<List<CampsiteNoteBriefInfo>> -> {
+                val arrayList = arrayListOf<CampsiteNoteBriefInfo>()
+
+                if (campsiteNoteList.value == null)
+                    _campsiteNoteList.value = arrayListOf()
+                else {
+                    arrayList.addAll(campsiteNoteList.value!!)
+                }
+
+                value.data.forEach {
+                    if (it.messageCategory == "리뷰")
+                        arrayList.add(it)
+                }
+
+                _campsiteNoteList.value = arrayList
             }
             is Resource.Error -> {
                 Log.d(
-                    "getCampsiteMessageBriefInfoByScope",
-                    "getCampsiteMessageBriefInfoByScope: ${value.errorMessage}"
+                    "getCampsiteMessageBriefInfo",
+                    "getCampsiteMessageBriefInfo: ${value.errorMessage}"
                 )
-                _campsiteMessageBriefInfo.value = listOf()
             }
         }
     }
-    */
 }
