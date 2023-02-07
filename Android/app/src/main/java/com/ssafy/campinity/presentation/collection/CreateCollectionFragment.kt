@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -55,14 +56,27 @@ class CreateCollectionFragment :
             ivArrowLeft.setOnClickListener { popBackStack() }
             clAddPhoto.setOnClickListener { setAlbumView() }
             tvDateInput.setOnClickListener { getDate() }
-            tvMakeReview.setOnClickListener { viewModel.createCollection() }
+            tvMakeReview.setOnClickListener {
+                if (viewModel.file.value == null ||
+                    viewModel.date.value == "" ||
+                    viewModel.campsiteName.value == "" ||
+                    viewModel.content.value == ""
+                ) {
+                    Toast.makeText(requireContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.createCollection()
+                }
+            }
         }
     }
 
     private fun observeState() {
         viewModel.isSucceed.observe(viewLifecycleOwner) {
             when (it) {
-                true -> popBackStack()
+                true -> {
+                    popBackStack()
+                    Toast.makeText(requireContext(), "컬렉션이 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                }
                 else -> {}
             }
         }
@@ -70,12 +84,7 @@ class CreateCollectionFragment :
 
     private fun getDate() {
         val dialog = CollectionDatePickerDialog(requireContext(), this)
-        dialog.setCanceledOnTouchOutside(true)
         dialog.show()
-        dialog.window?.setLayout(
-            WindowManager.LayoutParams.MATCH_PARENT,
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
     }
 
     private fun setTextWatcher() {

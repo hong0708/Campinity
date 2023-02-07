@@ -27,7 +27,7 @@
                 android:layout_marginBottom="16dp"
                 android:calendarViewShown="false"
                 android:datePickerMode="spinner"
-                android:startYear="2023"
+                android:startYear="2022"
                 app:layout_constraintBottom_toTopOf="@id/tv_confirm"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

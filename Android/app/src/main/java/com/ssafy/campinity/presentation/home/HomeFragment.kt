@@ -1,9 +1,12 @@
 package com.ssafy.campinity.presentation.home
 
+import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
@@ -15,8 +18,11 @@ import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.mypage.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+
+    private lateinit var callback: OnBackPressedCallback
 
     private val homeViewModel by viewModels<HomeViewModel>()
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
@@ -28,6 +34,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         true
     }
     private var currentPage = 0
+    private var waitTime = 0L
 
     override fun initView() {
         initListener()
@@ -39,6 +46,29 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         homeViewModel.getHomeBanners()
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if(System.currentTimeMillis() - waitTime >=2500 ) {
+                    waitTime = System.currentTimeMillis()
+                    Toast.makeText(requireContext(),"뒤로가기 버튼을\n한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+                } else {
+                    activity?.supportFragmentManager
+                        ?.beginTransaction()
+                        ?.remove(this@HomeFragment)
+                        ?.commit()
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
     }
 
     private fun setMyPageIcon() {

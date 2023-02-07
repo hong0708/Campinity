@@ -44,13 +44,13 @@ class CollectionViewModel @Inject constructor(
     private val _file: MutableLiveData<Uri?> = MutableLiveData(null)
     val file: MutableLiveData<Uri?> = _file
 
-    private val _isSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _isSucceed: MutableLiveData<Boolean> = MutableLiveData()
     val isSucceed: LiveData<Boolean> = _isSucceed
 
     private val _isDeleted: MutableLiveData<Boolean> = MutableLiveData(false)
     val isDeleted: LiveData<Boolean> = _isDeleted
 
-    private val _isUpdated: MutableLiveData<Boolean> = MutableLiveData(false)
+    private val _isUpdated: MutableLiveData<Boolean> = MutableLiveData()
     val isUpdated: LiveData<Boolean> = _isUpdated
 
     private val _isValid: MutableLiveData<Boolean> = MutableLiveData(false)

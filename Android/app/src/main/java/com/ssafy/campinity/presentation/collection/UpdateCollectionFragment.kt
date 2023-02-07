@@ -87,27 +87,38 @@ class UpdateCollectionFragment :
             clAddPhoto.setOnClickListener { setAlbumView() }
             tvDateInput.setOnClickListener { getDate() }
             tvMakeReview.setOnClickListener {
-                viewModel.imageChange.observe(viewLifecycleOwner) {
-                    when (it) {
-                        true -> viewModel.updateCollection(args.collectionId)
-                        false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+                if (binding.tvDateInput.text == "" ||
+                    binding.etDescription.text.toString() == "" ||
+                    binding.tvMakeReview.text == ""
+                ) {
+                    Toast.makeText(requireContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.imageChange.observe(viewLifecycleOwner) {
+                        when (it) {
+                            true -> viewModel.updateCollection(args.collectionId)
+                            false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+                        }
                     }
                 }
+
+//                viewModel.imageChange.observe(viewLifecycleOwner) {
+//                    when (it) {
+//                        true -> viewModel.updateCollection(args.collectionId)
+//                        false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+//                    }
+//                }
             }
         }
     }
 
     private fun observeState() {
-        viewModel.isSucceed.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> popBackStack()
-                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
-                else -> {}
-            }
-        }
         viewModel.isUpdated.observe(viewLifecycleOwner) {
             when (it) {
-                true -> popBackStack()
+                true -> {
+                    popBackStack()
+                    Toast.makeText(requireContext(), "컬렉션이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                }
+                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
                 else -> {}
             }
         }
