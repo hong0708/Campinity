@@ -39,7 +39,7 @@ public class MessageServiceImpl implements MessageService {
 
     @Transactional
     @Override
-    public Message createMessage(MessageReqDTO messageReqDTO, int memberId) {
+    public Message createMessage(MessageReqDTO messageReqDTO, int memberId) throws IOException {
 
         Campsite campsite = campsiteRepository.findByUuid(messageReqDTO.getCampsiteId())
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.CAMPSITE_NOT_FOUND.getMessage()));
@@ -51,9 +51,8 @@ public class MessageServiceImpl implements MessageService {
             try {
                 imagePath = imageUtil.uploadImage(messageReqDTO.getFile(), "message");
             }
-            catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            catch(IOException e) { throw new IOException(e);}
+            catch(IllegalStateException e) { throw new IllegalStateException(e);}
         }
 
         Message message = Message.builder()

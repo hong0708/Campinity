@@ -6,13 +6,14 @@ import org.springframework.stereotype.Service;
 import com.ssafy.campinity.core.dto.MessageReqDTO;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public interface MessageService {
 
-    Message createMessage(MessageReqDTO messageReqDTO, int memberId);
+    Message createMessage(MessageReqDTO messageReqDTO, int memberId) throws IOException;
 
     List<Message> getMessagesByCampsiteUuidBetweenLatLng(String campsiteUuid, LatLngDTO latLngDTO);
     List<Message> getMyMessages(int memberId);

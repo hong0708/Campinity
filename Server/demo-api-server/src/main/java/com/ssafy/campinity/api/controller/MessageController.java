@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,7 +41,7 @@ public class MessageController {
     public ResponseEntity<MessageResDTO> createMessage(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
-            MessageReqDTO messageReqDTO){
+            MessageReqDTO messageReqDTO) throws IOException {
 
         Message message = messageService.createMessage(messageReqDTO, memberDetails.getMember().getId());
 
@@ -49,7 +50,6 @@ public class MessageController {
         responseHeaders.set("Location", "/api/v2/messages/" + message.getUuid().toString());
 
         return ResponseEntity.status(HttpStatus.CREATED).headers(responseHeaders).body(messageResDTO);
-
     }
 
     @ApiResponses({

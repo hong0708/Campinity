@@ -13,13 +13,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class MyCollectionServiceImpl implements MyCollectionService {
@@ -28,9 +27,8 @@ public class MyCollectionServiceImpl implements MyCollectionService {
     private final MemberRepository memberRepository;
     private final ImageUtil imageUtil;
 
-    @Transactional
     @Override
-    public MyCollection createMyCollection(MyCollectionReqDTO myCollectionReqDTO, int memberId) {
+    public MyCollection createMyCollection(MyCollectionReqDTO myCollectionReqDTO, int memberId) throws IOException {
 
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(IllegalArgumentException::new);
@@ -38,7 +36,8 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         String imagePath = "";
         if (myCollectionReqDTO.getFile().getSize() != 0){
             try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
-            catch (IOException e) { throw new RuntimeException(e); }
+            catch(IOException e) { throw new IOException(e);}
+            catch(IllegalStateException e) { throw new IllegalStateException(e);}
         }
 
         MyCollection myCollection = MyCollection.builder()
@@ -54,9 +53,8 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         catch (Exception e) { throw new IllegalArgumentException(e); }
     }
 
-    @Transactional
     @Override
-    public MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, int memberId) throws FileNotFoundException {
+    public MyCollection editMyCollection(MyCollectionReqDTO myCollectionReqDTO, String collectionUuid, int memberId) throws IOException {
 
         MyCollection myCollection = myCollectionRepository.findByUuidAndExpiredIsFalse(UUID.fromString(collectionUuid))
                 .orElseThrow(IllegalArgumentException::new);
@@ -66,21 +64,22 @@ public class MyCollectionServiceImpl implements MyCollectionService {
             throw new BadRequestException("수정 권한이 없습니다.");
         }
 
-        if (!myCollectionReqDTO.getFile().isEmpty()){
+        if (myCollectionReqDTO.getFile().getSize() != 0){
             if (!imagePath.isEmpty()){
                 try {
-                    boolean result = imageUtil.removeImage(imagePath);
-                    if (result) {
-                        imagePath = "";
-                        myCollection.setImagePath(imagePath);
-                    }
+                    imageUtil.removeImage(imagePath);
+                    imagePath = "";
+                    myCollection.setImagePath(imagePath);
                 }
-                catch (Exception e){
-                    throw new FileNotFoundException();
-                }
+                catch (SecurityException e) {throw new SecurityException(e.getMessage());}
+                catch (NullPointerException e) { throw new NullPointerException(e.getMessage()); }
             }
-            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
-            catch (IOException e) { throw new RuntimeException(e); }
+
+            try {
+                imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection");
+            }
+            catch(IOException e) { throw new IOException(e);}
+            catch(IllegalStateException e) { throw new IllegalStateException(e);}
         }
 
         myCollection.setImagePath(imagePath);
@@ -91,7 +90,6 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         return myCollectionRepository.save(myCollection);
     }
 
-    @Transactional
     @Override
     public List<MyCollection> getLatestMyCollections(int memberId) {
 
@@ -104,7 +102,6 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         return myCollections;
     }
 
-    @Transactional
     @Override
     public List<MyCollection> getMyCollections(int memberId) {
 
@@ -117,7 +114,6 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         return myCollections;
     }
 
-    @Transactional
     @Override
     public MyCollection getMyCollection(String collectionUuid) {
 
@@ -125,9 +121,8 @@ public class MyCollectionServiceImpl implements MyCollectionService {
                 .orElseThrow(IllegalArgumentException::new);
     }
 
-    @Transactional
     @Override
-    public void deleteMyCollection(String collectionUuid, int memberId) throws FileNotFoundException {
+    public void deleteMyCollection(String collectionUuid, int memberId) {
         MyCollection myCollection = myCollectionRepository.findByUuidAndExpiredIsFalse(UUID.fromString(collectionUuid))
                 .orElseThrow(IllegalArgumentException::new);
 
@@ -143,9 +138,8 @@ public class MyCollectionServiceImpl implements MyCollectionService {
                 myCollection.setImagePath(imagePath);
             }
         }
-        catch (Exception e){
-            throw new FileNotFoundException("이미지 파일 삭제를 실패했습니다.");
-        }
+        catch (SecurityException e) {throw new SecurityException(e.getMessage());}
+        catch (NullPointerException e) {throw new NullPointerException(e.getMessage());}
         myCollectionRepository.deleteById(myCollection.getId());
     }
 }

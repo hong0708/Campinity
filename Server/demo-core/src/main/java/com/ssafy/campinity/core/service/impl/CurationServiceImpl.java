@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +34,7 @@ public class CurationServiceImpl implements CurationService {
     private final MemberRepository memberRepository;
 
     @Override
-    public CurationMetaResDTO createCuration(CurationReqDTO curationReqDTO) {
+    public CurationMetaResDTO createCuration(CurationReqDTO curationReqDTO) throws IOException {
         List<MultipartFile> files = curationReqDTO.getFiles();
         List<String> imagePaths = new ArrayList<>();
 
@@ -43,9 +42,9 @@ public class CurationServiceImpl implements CurationService {
             try {
                 String imagePath = imageUtil.uploadImage(file, "curation");
                 imagePaths.add(imagePath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
             }
+            catch(IOException e) { throw new IOException(e);}
+            catch(IllegalStateException e) { throw new IllegalStateException(e);}
         }
 
         String firstImagePath = null;
