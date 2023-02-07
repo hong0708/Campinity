@@ -10,7 +10,7 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
-import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
+import com.ssafy.campinity.domain.usecase.user.CreateUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.user.RequestCancelSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -22,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val editUserUseCase: EditUserUseCase,
+    private val createUserInfoUseCase: CreateUserInfoUseCase,
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val requestCancelSignUpUseCase: RequestCancelSignUpUseCase
 ) : ViewModel() {
@@ -68,7 +68,7 @@ class JoinViewModel @Inject constructor(
     fun updateProfile(fcmToken: String) {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfo(
+                createUserInfoUseCase.createUserInfo(
                     requireNotNull(nickname.value),
                     profileImgMultiPart,
                     fcmToken
@@ -88,7 +88,7 @@ class JoinViewModel @Inject constructor(
     fun updateProfileWithoutImg(fcmToken: String) {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfoWithoutimg(
+                createUserInfoUseCase.createUserInfoWithoutImg(
                     requireNotNull(nickname.value),
                     fcmToken
                 )) {

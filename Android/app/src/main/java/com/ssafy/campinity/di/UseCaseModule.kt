@@ -22,7 +22,7 @@ import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
-import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
+import com.ssafy.campinity.domain.usecase.user.CreateUserInfoUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,8 +45,8 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideEditUserUseCase(userRepository: UserRepository): EditUserUseCase =
-        EditUserUseCase(userRepository)
+    fun provideCreateUserInfoUseCase(userRepository: UserRepository): CreateUserInfoUseCase =
+        CreateUserInfoUseCase(userRepository)
 
     @Singleton
     @Provides

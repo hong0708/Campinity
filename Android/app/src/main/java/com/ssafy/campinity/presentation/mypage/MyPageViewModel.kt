@@ -15,11 +15,11 @@ import com.ssafy.campinity.domain.entity.mypage.MyPageNote
 import com.ssafy.campinity.domain.entity.mypage.MyPageUser
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageDetailInfoUseCase
+import com.ssafy.campinity.domain.usecase.mypage.EditUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
-import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -33,9 +33,9 @@ class MyPageViewModel @Inject constructor(
     private val getNotesUseCase: GetNotesUseCase,
     private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val editUserUseCase: EditUserUseCase,
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
-    private val requestLogoutUseCase: RequestLogoutUseCase
+    private val requestLogoutUseCase: RequestLogoutUseCase,
+    private val editUserInfoUseCase: EditUserInfoUseCase
     ) : ViewModel() {
 
     private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
@@ -68,22 +68,27 @@ class MyPageViewModel @Inject constructor(
     private val _isLoggedOut: MutableLiveData<Boolean?> = MutableLiveData()
     val isLoggedOut: LiveData<Boolean?> = _isLoggedOut
 
+    private val _profileImgStr: MutableLiveData<String?> = MutableLiveData()
+    val profileImgStr: LiveData<String?> = _profileImgStr
+
 
     private var profileImgMultiPart: MultipartBody.Part? = null
 
     fun setNickname(nickname: String) {
-        viewModelScope.launch {
-            _nickname.value = nickname
-        }
+        _nickname.value = nickname
     }
 
     fun setProfileImg(uri: Uri, file: File) {
-        viewModelScope.launch {
-            _profileImgUri.value = uri
-            val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            profileImgMultiPart =
-                MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
-        }
+        _profileImgUri.value = uri
+        val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+        profileImgMultiPart =
+            MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
+//        viewModelScope.launch {
+//            _profileImgUri.value = uri
+//            val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+//            profileImgMultiPart =
+//                MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
+//        }
     }
 
     fun getNotes() = viewModelScope.launch {
@@ -113,6 +118,8 @@ class MyPageViewModel @Inject constructor(
         when (val value = getUserInfoUseCase()) {
             is Resource.Success<MyPageUser> -> {
                 _userInfo.value = value.data
+                _nickname.value = value.data.name
+                _profileImgStr.value = value.data.imagePath
             }
             is Resource.Error -> {
                 Log.e("getUserInfo", "getUserInfo: ${value.errorMessage}")
@@ -120,13 +127,13 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile(fcmToken: String) {
+    fun updateProfile() {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfo(
+                editUserInfoUseCase(
                     requireNotNull(nickname.value),
-                    profileImgMultiPart,
-                    fcmToken
+                    true,
+                    profileImgMultiPart
                 )) {
                 is Resource.Success<User> -> {
                     _isSuccess.value = true
@@ -138,12 +145,13 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun updateProfileWithoutImg(fcmToken: String) {
+    fun updateProfileWithoutImg() {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfoWithoutimg(
-                    requireNotNull(nickname.value),
-                    fcmToken
+                editUserInfoUseCase(
+                    requireNotNull(_nickname.value),
+                    false,
+                    profileImgMultiPart
                 )) {
                 is Resource.Success<User> -> {
                     _isSuccess.value = true

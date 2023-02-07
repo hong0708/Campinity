@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -15,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import com.bumptech.glide.Glide
-import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentEditProfileBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -44,6 +42,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     }
 
     override fun initView() {
+        binding.vm = myPageViewModel
         setData()
         initListener()
         setTextWatcher()
@@ -51,7 +50,7 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
     }
 
     private fun setData() {
-        myPageViewModel.userInfo.observe(viewLifecycleOwner){ response->
+        myPageViewModel.userInfo.observe(viewLifecycleOwner) { response->
             binding.etNickname.setText(response?.name.toString())
             Glide.with(requireContext())
                 .load("http://i8d101.p.ssafy.io:8003/images" + response?.imagePath.toString())
@@ -70,14 +69,13 @@ class EditProfileFragment : BaseFragment<FragmentEditProfileBinding>(R.layout.fr
             btnBack.setOnClickListener { popBackStack() }
             btnConfirm.setOnClickListener {
                 if (myPageViewModel.profileImgUri.value == null) {
-                    myPageViewModel.updateProfileWithoutImg(ApplicationClass.preferences.fcmToken.toString())
+                    myPageViewModel.updateProfileWithoutImg()
                     myPageViewModel.getInfo()
                 } else {
-                    myPageViewModel.updateProfile(ApplicationClass.preferences.fcmToken.toString())
+                    myPageViewModel.updateProfile()
                     myPageViewModel.getInfo()
                 }
                 myPageViewModel.isSuccess.observe(viewLifecycleOwner) {
-                    Log.d("myPageViewModel.isSuccess", "initListener: ${myPageViewModel.isSuccess.value}")
                     if (it == true) {
                         popBackStack()
                     } else {

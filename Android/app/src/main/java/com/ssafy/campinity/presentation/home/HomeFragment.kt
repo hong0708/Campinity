@@ -11,7 +11,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.bumptech.glide.Glide
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentHomeBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -25,7 +24,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private lateinit var callback: OnBackPressedCallback
 
     private val homeViewModel by viewModels<HomeViewModel>()
-    private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
     private val homeCollectionAdapter by lazy { HomeCollectionAdapter(this::getCollection) }
@@ -40,7 +38,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initListener()
         initCollection()
         initBanner()
-        setMyPageIcon()
     }
 
     override fun onResume() {
@@ -69,16 +66,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onDetach() {
         super.onDetach()
         callback.remove()
-    }
-
-    private fun setMyPageIcon() {
-        myPageViewModel.getInfo()
-        Glide.with(requireContext())
-            .load("http://i8d101.p.ssafy.io:8003/images" + myPageViewModel.userInfo.value?.imagePath)
-            .placeholder(R.drawable.ic_profile_default)
-            .error(R.drawable.ic_profile_default)
-            .circleCrop()
-            .into(binding.ivMyPage)
     }
 
     private fun initListener() {

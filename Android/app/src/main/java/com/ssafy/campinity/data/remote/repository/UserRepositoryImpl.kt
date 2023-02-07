@@ -13,21 +13,21 @@ class UserRepositoryImpl @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource
 ) : UserRepository {
 
-    override suspend fun editUserInfo(
+    override suspend fun createUserInfo(
         nickName: String,
         profileImg: MultipartBody.Part?,
         fcmToken: String
     ): Resource<User> =
         wrapToResource(Dispatchers.IO) {
-            userRemoteDataSource.editUserInfo(nickName, profileImg, fcmToken).toDomainModel()
+            userRemoteDataSource.createUserInfo(nickName, profileImg, fcmToken).toDomainModel()
         }
 
-    override suspend fun editUserInfoWithoutImg(
+    override suspend fun createUserInfoWithoutImg(
         nickName: String,
         fcmToken: String
     ): Resource<User> =
         wrapToResource(Dispatchers.IO) {
-            userRemoteDataSource.editUserInfoWithoutImg(nickName, fcmToken).toDomainModel()
+            userRemoteDataSource.createUserInfoWithoutImg(nickName, fcmToken).toDomainModel()
         }
 
     override suspend fun checkDuplication(nickName: String): Resource<Boolean> =

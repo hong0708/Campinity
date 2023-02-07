@@ -7,7 +7,6 @@ import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
@@ -27,6 +26,7 @@ class MyPageFragment :
     }
 
     override fun initView() {
+        binding.vm = myPageViewModel
         setData()
         initRecyclerView()
         initListener()
@@ -45,7 +45,6 @@ class MyPageFragment :
             dialog.show()
         }
     }
-
 
     private fun initRecyclerView() {
         myPageViewModel.getNotes()
@@ -110,16 +109,38 @@ class MyPageFragment :
     }
 
     private fun setData() {
-        myPageViewModel.userInfo.observe(viewLifecycleOwner){ response->
-            binding.tvNickname.text = response?.name.toString()
-            Glide.with(requireContext())
-                .load("http://i8d101.p.ssafy.io:8003/images" + response?.imagePath.toString())
-                .placeholder(R.drawable.ic_profile_default)
-                .error(R.drawable.ic_profile_default)
-                .circleCrop()
-                .into(binding.ivProfile)
-        }
         myPageViewModel.getInfo()
+
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val deffered: Deferred<Int> = async {
+//                myPageViewModel.getInfo()
+//                1
+//            }
+//            deffered.await()
+//        }
+//        binding.tvNickname.text = myPageViewModel.userInfo.value?.name
+//        Log.d("엥", "setData: ${myPageViewModel.userInfo.value?.name}")
+//        Glide.with(requireContext())
+//            .load("http://i8d101.p.ssafy.io:8003/images" + myPageViewModel.userInfo.value?.imagePath.toString())
+//            .placeholder(R.drawable.ic_profile_default)
+//            .error(R.drawable.ic_profile_default)
+//            .circleCrop()
+//            .into(binding.ivProfile)
+
+
+//        CoroutineScope(Dispatchers.Main).launch {
+//            CoroutineScope(Dispatchers.IO).launch {
+//                myPageViewModel.getInfo()
+//            }.join()
+//            binding.tvNickname.text = myPageViewModel.userInfo.value?.name
+//            Log.d("엥", "setData: ${myPageViewModel.userInfo.value?.name}")
+//            Glide.with(requireContext())
+//                .load("http://i8d101.p.ssafy.io:8003/images" + myPageViewModel.userInfo.value?.imagePath.toString())
+//                .placeholder(R.drawable.ic_profile_default)
+//                .error(R.drawable.ic_profile_default)
+//                .circleCrop()
+//                .into(binding.ivProfile)
+//        }
     }
 
     override fun onSubmitButtonClicked() {

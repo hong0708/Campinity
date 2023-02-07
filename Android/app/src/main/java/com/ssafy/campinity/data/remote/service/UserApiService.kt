@@ -9,7 +9,7 @@ interface UserApiService {
 
     @Multipart
     @POST("/api/v4/members/sign-up")
-    suspend fun editUserInfo(
+    suspend fun createUserInfo(
         @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part image: MultipartBody.Part?
     ): UserResponse
