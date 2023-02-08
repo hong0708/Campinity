@@ -175,7 +175,7 @@ class MyPageFragment :
 
     private fun initRecyclerView() {
         myPageViewModel.getNotes()
-        binding.rvCommunityMyNote.apply {
+        binding.rvMyNote.apply {
             adapter = communityNoteListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
@@ -197,25 +197,37 @@ class MyPageFragment :
                     if (p0?.getItemAtPosition(p2).toString() == "자유") {
                         myPageViewModel.etcNotesListData.observe(viewLifecycleOwner) { response ->
                             response?.let {
-                                communityNoteListAdapter.setNote(it.map { info ->
-                                    NoteQuestionTitle(
-                                        info.content,
-                                        info.createdAt,
-                                        info.messageId
-                                    )
-                                })
+                                if (response.isEmpty()) {
+                                    binding.rvMyNote.visibility = View.GONE
+                                    binding.clEmptyCollection.visibility = View.VISIBLE
+                                } else {
+                                    binding.clEmptyCollection.visibility = View.GONE
+                                    communityNoteListAdapter.setNote(it.map { info ->
+                                        NoteQuestionTitle(
+                                            info.content,
+                                            info.createdAt,
+                                            info.messageId
+                                        )
+                                    })
+                                }
                             }
                         }
                     } else {
                         myPageViewModel.reviewNotesListData.observe(viewLifecycleOwner) { response ->
                             response?.let {
-                                communityNoteListAdapter.setNote(it.map { info ->
-                                    NoteQuestionTitle(
-                                        info.content,
-                                        info.createdAt,
-                                        info.messageId
-                                    )
-                                })
+                                if (response.isEmpty()) {
+                                    binding.rvMyNote.visibility = View.GONE
+                                    binding.clEmptyCollection.visibility = View.VISIBLE
+                                } else {
+                                    binding.clEmptyCollection.visibility = View.GONE
+                                    communityNoteListAdapter.setNote(it.map { info ->
+                                        NoteQuestionTitle(
+                                            info.content,
+                                            info.createdAt,
+                                            info.messageId
+                                        )
+                                    })
+                                }
                             }
                         }
                     }

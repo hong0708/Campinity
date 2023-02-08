@@ -102,7 +102,15 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun initCollection() {
         binding.rvCollectionHome.adapter = homeCollectionAdapter
         homeViewModel.homeCollections.observe(viewLifecycleOwner) { response ->
-            response?.let { homeCollectionAdapter.setCollection(it) }
+            response?.let {
+                if (response.isEmpty()) {
+                    binding.rvCollectionHome.visibility = View.GONE
+                    binding.clEmptyCollection.visibility = View.VISIBLE
+                } else {
+                    binding.clEmptyCollection.visibility = View.GONE
+                    homeCollectionAdapter.setCollection(response)
+                }
+            }
         }
         homeViewModel.getHomeCollections()
     }
