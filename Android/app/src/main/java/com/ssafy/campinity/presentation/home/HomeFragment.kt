@@ -5,17 +5,20 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
+import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.databinding.FragmentHomeBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.mypage.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -37,6 +40,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun initView() {
         myPageViewModel.getInfo()
+        homeViewModel.requestCurrentToken()
+        getFCMToken()
         initListener()
         initCollection()
         initBanner()
@@ -53,7 +58,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             override fun handleOnBackPressed() {
                 if(System.currentTimeMillis() - waitTime >=2500 ) {
                     waitTime = System.currentTimeMillis()
-                    Toast.makeText(requireContext(),"뒤로가기 버튼을\n한번 더 누르면 종료됩니다.",Toast.LENGTH_SHORT).show()
+                    showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
                 } else {
                     activity?.supportFragmentManager
                         ?.beginTransaction()
@@ -68,6 +73,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onDetach() {
         super.onDetach()
         callback.remove()
+    }
+
+    private fun getFCMToken() {
+        lifecycleScope.launch {
+            val result = FirebaseService().getCurrentToken()
+            ApplicationClass.preferences.fcmToken = result
+        }
     }
 
     private fun initListener() {

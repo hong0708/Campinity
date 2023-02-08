@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -61,7 +60,7 @@ class CreateFileFragment :
                     viewModel.campsiteName.value == "" ||
                     viewModel.content.value == ""
                 ) {
-                    Toast.makeText(requireContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    showToast("정보를 모두 입력해주세요.")
                 } else {
                     viewModel.createCollection()
                 }
@@ -74,7 +73,7 @@ class CreateFileFragment :
             when (it) {
                 true -> {
                     popBackStack()
-                    Toast.makeText(requireContext(), "컬렉션이 추가되었습니다.", Toast.LENGTH_SHORT).show()
+                    showToast("컬렉션이 추가되었습니다.")
                 }
                 else -> {}
             }
