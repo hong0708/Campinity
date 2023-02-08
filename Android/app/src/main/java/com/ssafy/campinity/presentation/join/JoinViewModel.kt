@@ -2,7 +2,6 @@ package com.ssafy.campinity.presentation.join
 
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,7 +10,7 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
-import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
+import com.ssafy.campinity.domain.usecase.user.CreateUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.user.RequestCancelSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,7 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class JoinViewModel @Inject constructor(
-    private val editUserUseCase: EditUserUseCase,
+    private val createUserInfoUseCase: CreateUserInfoUseCase,
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val requestCancelSignUpUseCase: RequestCancelSignUpUseCase
 ) : ViewModel() {
@@ -38,7 +37,7 @@ class JoinViewModel @Inject constructor(
     val nickname: MutableLiveData<String> = _nickname
 
     private val _profileImgUri: MutableLiveData<Uri?> = MutableLiveData(null)
-    val profileImgUri: LiveData<Uri?> = _profileImgUri
+    val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
 
     private var profileImgMultiPart: MultipartBody.Part? = null
 
@@ -69,12 +68,13 @@ class JoinViewModel @Inject constructor(
     fun updateProfile(fcmToken: String) {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfo(
-                    requireNotNull(nickname.value),
+                createUserInfoUseCase.createUserInfo(
+                    requireNotNull(_nickname.value),
                     profileImgMultiPart,
                     fcmToken
                 )) {
                 is Resource.Success<User> -> {
+                    ApplicationClass.preferences.nickname = _nickname.value
                     ApplicationClass.preferences.isLoggedIn = true
                     _isSuccess.value = true
                 }
@@ -89,11 +89,12 @@ class JoinViewModel @Inject constructor(
     fun updateProfileWithoutImg(fcmToken: String) {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfoWithoutimg(
-                    requireNotNull(nickname.value),
+                createUserInfoUseCase.createUserInfoWithoutImg(
+                    requireNotNull(_nickname.value),
                     fcmToken
                 )) {
                 is Resource.Success<User> -> {
+                    ApplicationClass.preferences.nickname = _nickname.value
                     ApplicationClass.preferences.isLoggedIn = true
                     _isSuccess.value = true
                 }

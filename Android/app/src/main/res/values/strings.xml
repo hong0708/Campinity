@@ -45,7 +45,7 @@
     <string name="content_hint_join">닉네임을 입력해주세요</string>
     <string name="content_duplicate_check">중복 확인</string>
     <string name="content_btn_confirm">회원 정보 작성 완료</string>
-    <string name="content_existing_user">안녕하세요. 김싸피님!\n오랜만에 뵙네요.</string>
+    <string name="content_existing_user">안녕하세요. %s님!\n오랜만에 뵙네요.</string>
     <string name="image_complete_join">image_complete_join</string>
     <string name="content_join_cancle_dialog_1">닉네임만 입력하면\n회원가입은 완료됩니다.</string>
     <string name="content_join_cancle_dialog_2">정말</string>

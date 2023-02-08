@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CollectionDetailFragment :
     BaseFragment<FragmentCollectionDetailBinding>(R.layout.fragment_collection_detail),
-    CollectionDeleteDialogListener {
+    FileDeleteDialogListener {
 
     private val args by navArgs<CollectionDetailFragmentArgs>()
     private val collectionViewModel by activityViewModels<CollectionViewModel>()
@@ -25,7 +25,7 @@ class CollectionDetailFragment :
         getData()
     }
 
-    override fun onSubmitButtonClicked() {
+    override fun onButtonClicked() {
         collectionViewModel.deleteCollection(args.collectionId)
         collectionViewModel.isDeleted.observe(viewLifecycleOwner) {
             if (it) Toast.makeText(requireContext(), "컬렉션이 삭제되었습니다.", Toast.LENGTH_SHORT).show()

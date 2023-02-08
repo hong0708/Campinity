@@ -25,9 +25,9 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class UpdateCollectionFragment :
+class UpdateFileFragment :
     BaseFragment<FragmentUpdateCollectionBinding>(R.layout.fragment_update_collection),
-    CollectionDatePickerDialogListener, CollectionDeleteDialogListener {
+    CollectionDatePickerDialogListener, FileDeleteDialogListener {
 
     private val args by navArgs<CollectionDetailFragmentArgs>()
     private val viewModel by viewModels<CollectionViewModel>()
@@ -87,10 +87,17 @@ class UpdateCollectionFragment :
             clAddPhoto.setOnClickListener { setAlbumView() }
             tvDateInput.setOnClickListener { getDate() }
             tvMakeReview.setOnClickListener {
-                viewModel.imageChange.observe(viewLifecycleOwner) {
-                    when (it) {
-                        true -> viewModel.updateCollection(args.collectionId)
-                        false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+                if (binding.tvDateInput.text == "" ||
+                    binding.etDescription.text.toString() == "" ||
+                    binding.tvMakeReview.text == ""
+                ) {
+                    Toast.makeText(requireContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+                } else {
+                    viewModel.imageChange.observe(viewLifecycleOwner) {
+                        when (it) {
+                            true -> viewModel.updateCollection(args.collectionId)
+                            false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+                        }
                     }
                 }
             }
@@ -98,16 +105,13 @@ class UpdateCollectionFragment :
     }
 
     private fun observeState() {
-        viewModel.isSucceed.observe(viewLifecycleOwner) {
-            when (it) {
-                true -> popBackStack()
-                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
-                else -> {}
-            }
-        }
         viewModel.isUpdated.observe(viewLifecycleOwner) {
             when (it) {
-                true -> popBackStack()
+                true -> {
+                    popBackStack()
+                    Toast.makeText(requireContext(), "컬렉션이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                }
+                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
                 else -> {}
             }
         }
@@ -182,7 +186,7 @@ class UpdateCollectionFragment :
         const val REQUEST_READ_STORAGE_PERMISSION = 1
     }
 
-    override fun onSubmitButtonClicked() {
+    override fun onButtonClicked() {
         viewModel.file.value = null
     }
 }
