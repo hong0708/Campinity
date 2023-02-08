@@ -1,15 +1,18 @@
 package com.ssafy.campinity.presentation.community.campsite
 
+import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.CustomDialog
 import com.ssafy.campinity.common.util.CustomDialogInterface
+import com.ssafy.campinity.common.util.Permission
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
@@ -63,7 +66,7 @@ class CommunityCampsiteFragment :
         mapView.setPOIItemEventListener(this)
         mapView.setZoomLevel(1, true)
         binding.clCommunityMap.addView(mapView)
-        initMapView()
+        checkPermission()
     }
 
     override fun onPause() {
@@ -94,13 +97,10 @@ class CommunityCampsiteFragment :
         onDestroyView()
     }
 
-    override fun onMapViewInitialized(p0: MapView?) {
+    // 맵뷰 이벤트 관련
+    override fun onMapViewInitialized(p0: MapView?) {}
 
-    }
-
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-
-    }
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
 
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
         communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
@@ -112,25 +112,15 @@ class CommunityCampsiteFragment :
         )
     }
 
-    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
+    override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {}
 
-    }
+    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
 
-    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
+    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
 
-    }
+    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
 
-    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
-
-    }
+    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
 
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
         communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
@@ -142,9 +132,8 @@ class CommunityCampsiteFragment :
         )
     }
 
-    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
-
-    }
+    // 마커 클릭 관련
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
 
     @Deprecated("Deprecated in Java")
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
@@ -155,7 +144,6 @@ class CommunityCampsiteFragment :
         p1: MapPOIItem?,
         p2: MapPOIItem.CalloutBalloonButtonType?
     ) {
-        Log.d("클릭??", "onCalloutBalloonOfPOIItemTouched: ")
         if (p1!!.tag == 1) {
             navigate(
                 CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteFragment()
@@ -166,34 +154,20 @@ class CommunityCampsiteFragment :
         }
     }
 
-    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {
-
-    }
+    override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
 
     override fun getFreeReviewDetail(messageId: String) {
         communityCampsiteViewModel.getCampsiteMessageDetailInfo(messageId)
     }
 
-    @SuppressLint("MissingPermission")
     private fun initMapView() {
-        // 추후 최근 검색으로 초기화 작업 추가 진행
         if (ApplicationClass.preferences.userRecentCampsiteName == null) {
             binding.tvCampsiteCondition.text = "미 지정"
-
-            // 현재 위치 기준으로 맵 이동
-            val lm: LocationManager =
-                requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            val userNowLocation: Location? =
-                lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-            //위도 , 경도
-            val uLatitude = userNowLocation?.latitude
-            val uLongitude = userNowLocation?.longitude
-            val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
-            mapView.setMapCenterPoint(uNowPosition, true)
-
+            setMapPosition()
         } else {
             mapView.removeAllPOIItems()
 
+            // 최근 검색 기준으로 초기화
             val recentCampsite =
                 CampsiteBriefInfo(
                     ApplicationClass.preferences.userRecentCampsiteId.toString(),
@@ -204,7 +178,6 @@ class CommunityCampsiteFragment :
                 )
             binding.tvCampsiteCondition.text = recentCampsite.campsiteName
 
-            // 있는 경우 해당 캠핑장 기준으로 맵 이동
             mapView.setMapCenterPoint(
                 MapPoint.mapPointWithGeoCoord(
                     recentCampsite.latitude.toDouble(),
@@ -212,7 +185,6 @@ class CommunityCampsiteFragment :
                 ),
                 true
             )
-
             drawPostBox(recentCampsite)
 
             CoroutineScope(Dispatchers.Main).launch {
@@ -241,7 +213,6 @@ class CommunityCampsiteFragment :
         }
     }
 
-    @SuppressLint("MissingPermission")
     private fun initListener() {
         binding.apply {
 
@@ -251,17 +222,16 @@ class CommunityCampsiteFragment :
             slCommunityFrame.addPanelSlideListener(PanelEventListener())
 
             ibBackToMain.setOnClickListener {
-                //Log.d("tlqkf", "initListener: need to go back")
-                //navigate(CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToMainActivity())
+                activity?.onBackPressed()
             }
 
             fabUserLocation.setOnClickListener {
                 if (isTracking) {
-                    Toast.makeText(requireContext(), "위치 추적을 멈춥니다.", Toast.LENGTH_SHORT).show()
+                    showToast("위치 추적을 멈춥니다.")
                     mapView.currentLocationTrackingMode =
                         MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
                 } else {
-                    Toast.makeText(requireContext(), "사용자의 위치를 추적합니다.", Toast.LENGTH_SHORT).show()
+                    showToast("사용자의 위치를 추적합니다.")
                     mapView.currentLocationTrackingMode =
                         MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
                 }
@@ -280,16 +250,7 @@ class CommunityCampsiteFragment :
                         isTracking = false
                     }
                     // 현재 내위치 기준으로 맵 포인트 가운데로 옮기기
-                    // 추후 맵 레벨 바꿔서 검색 진행
-                    val lm: LocationManager =
-                        requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                    val userNowLocation: Location? =
-                        lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                    //위도 , 경도
-                    val uLatitude = userNowLocation?.latitude
-                    val uLongitude = userNowLocation?.longitude
-                    val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
-                    mapView.setMapCenterPoint(uNowPosition, true)
+                    setMapPosition()
                     mapView.setZoomLevel(6, true)
                     mapView.mapCenterPoint.mapPointScreenLocation
                     delay(1000)
@@ -307,18 +268,13 @@ class CommunityCampsiteFragment :
                 communityCampsiteViewModel.getCampsiteBriefInfoByCampName()
             }
 
+            // 도움 주기 받기 기능 추후 추가
             fabHelp.setOnClickListener {
-
+                showToast("추후 추가되는 기능입니다.")
             }
 
             fabGetHelp.setOnClickListener {
-                CustomDialog(
-                    requireContext(),
-                    this@CommunityCampsiteFragment,
-                    R.layout.dialog_write_event_note,
-                    R.id.iv_cancel_help_dialog,
-                    R.id.btn_make_note_help
-                ).show()
+                showToast("추후 추가되는 기능입니다.")
             }
 
             fabReview.setOnClickListener {
@@ -340,8 +296,6 @@ class CommunityCampsiteFragment :
                         )
                 )
             }
-
-            slCommunityFrame.addPanelSlideListener(PanelEventListener())
 
             clCampsiteCondition.setOnClickListener {
                 // 닫힌 상태일 경우 열기
@@ -400,6 +354,7 @@ class CommunityCampsiteFragment :
         campsiteBriefInfo: CampsiteBriefInfo
     ) {
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
+        // 최근 검색 기록을 위한 캠핑장 저장
         binding.tvCampsiteCondition.text = campsiteBriefInfo.campsiteName
         ApplicationClass.preferences.userRecentCampsiteId = campsiteBriefInfo.campsiteId
         ApplicationClass.preferences.userRecentCampsiteName = campsiteBriefInfo.campsiteName
@@ -424,6 +379,7 @@ class CommunityCampsiteFragment :
             mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
             mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
         )
+        mapView.setZoomLevel(3, true)
     }
 
     private fun setTextWatcher() {
@@ -483,20 +439,49 @@ class CommunityCampsiteFragment :
                 itemName = i.content
                 mapPoint = markerPosition
                 markerType = MapPOIItem.MarkerType.CustomImage
-
-                if (i.campsiteName == ApplicationClass.preferences.userRecentCampsiteName) {
-                    customImageResourceId = R.drawable.ic_community_campsite_open_note
+                if (i.messageCategory == "리뷰") {
+                    customImageResourceId = R.drawable.ic_review_note_marker
                 } else {
                     customImageResourceId = R.drawable.ic_community_campsite_close_note
                 }
-
                 isCustomImageAutoscale = false
-                setCustomImageAnchor(0.5f, 0.5f)
-
                 userObject = i
                 tag = 2
             }
             mapView.addPOIItem(marker)
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setMapPosition() {
+        val lm: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        //위도 , 경도
+        val userLatitude = userNowLocation?.latitude
+        val userLongitude = userNowLocation?.longitude
+        val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude!!, userLongitude!!)
+        mapView.setMapCenterPoint(uNowPosition, true)
+    }
+
+    private fun checkPermission() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            initMapView()
+        } else {
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                Permission.ACCESS_FINE_LOCATION
+            )
+            checkPermission()
         }
     }
 

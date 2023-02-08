@@ -2,7 +2,6 @@ package com.ssafy.campinity.presentation.collection
 
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
@@ -15,7 +14,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CollectionDetailFragment :
     BaseFragment<FragmentCollectionDetailBinding>(R.layout.fragment_collection_detail),
-    CollectionDeleteDialogListener {
+    FileDeleteDialogListener {
 
     private val args by navArgs<CollectionDetailFragmentArgs>()
     private val collectionViewModel by activityViewModels<CollectionViewModel>()
@@ -28,7 +27,7 @@ class CollectionDetailFragment :
     override fun onConfirmButtonClicked() {
         collectionViewModel.deleteCollection(args.collectionId)
         collectionViewModel.isDeleted.observe(viewLifecycleOwner) {
-            if (it) Toast.makeText(requireContext(), "컬렉션이 삭제되었습니다.", Toast.LENGTH_SHORT).show()
+            if (it) showToast("컬렉션이 삭제되었습니다.")
         }
         popBackStack()
     }

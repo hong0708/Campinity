@@ -1,5 +1,6 @@
 package com.ssafy.campinity.data.remote.service
 
+import com.ssafy.campinity.data.remote.datasource.note.NoteBriefResponse
 import com.ssafy.campinity.data.remote.datasource.search.SearchBriefResponse
 import com.ssafy.campinity.data.remote.datasource.search.SearchDetailResponse
 import retrofit2.http.GET
@@ -31,4 +32,13 @@ interface SearchApiService {
 
     @GET("/api/v1/campsites/detail/{campsiteId}")
     suspend fun getCampsiteDetail(@Path("campsiteId") campsiteId: String): SearchDetailResponse
+
+    @GET("/api/v2/messages/{campsiteId}/scope")
+    suspend fun getCampsiteReviewNotes(
+        @Path("campsiteId") campsiteId: String,
+        @Query("bottomRightLat") bottomRightLat: Double,
+        @Query("bottomRightLng") bottomRightLng: Double,
+        @Query("topLeftLat") topLeftLat: Double,
+        @Query("topLeftLng") topLeftLng: Double,
+    ): List<NoteBriefResponse>
 }

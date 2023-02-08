@@ -1,5 +1,5 @@
 package com.ssafy.campinity.presentation.collection
 
-interface CollectionDeleteDialogListener {
+interface FileDeleteDialogListener {
     fun onConfirmButtonClicked()
 }

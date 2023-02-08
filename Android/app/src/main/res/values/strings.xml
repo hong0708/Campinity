@@ -45,7 +45,7 @@
     <string name="content_hint_join">닉네임을 입력해주세요</string>
     <string name="content_duplicate_check">중복 확인</string>
     <string name="content_btn_confirm">회원 정보 작성 완료</string>
-    <string name="content_existing_user">안녕하세요. 김싸피님!\n오랜만에 뵙네요.</string>
+    <string name="content_existing_user">안녕하세요. %s님!\n오랜만에 뵙네요.</string>
     <string name="image_complete_join">image_complete_join</string>
     <string name="content_join_cancle_dialog_1">닉네임만 입력하면\n회원가입은 완료됩니다.</string>
     <string name="content_join_cancle_dialog_2">정말</string>
@@ -278,7 +278,7 @@
         <item name="gangwon_content_14">태백시(6)</item>
         <item name="gangwon_content_15">평창군(40)</item>
         <item name="gangwon_content_16">홍천군(91)</item>
-        <item name="gangwon_content_17">회천군(19)</item>
+        <item name="gangwon_content_17">화천군(19)</item>
         <item name="gangwon_content_18">횡성군(47)</item>
     </string-array>
     <string-array name="area_gyeonggi">
@@ -531,7 +531,7 @@
     <!-- Search filter -->
     <string name="title_filter">관심 필터 설정</string>
     <string name="title_my_letter">내 편지함</string>
-    <string name="content_new_letter">새 쪽지</string>
+    <string name="content_new_letter">새 편지</string>
     <string name="title_filter_industry">사업</string>
 
     <!-- Notification -->
@@ -550,6 +550,10 @@
     <string name="content_confirm_edit_profile">회원 정보 수정 완료</string>
     <string name="content_edit_profile">Campinity에서 사용할 정보를\n다시 입력해주세요!</string>
     <string name="content_logout">로그아웃하시겠습니까?</string>
+    <string name="content_app_version">v1.0.0</string>
+
+    <!-- Custom Toast -->
+    <string name="image_custom_toast">image_custom_toast</string>
 
     <!-- MyPage Category Spinner -->
     <string-array name="category_array">

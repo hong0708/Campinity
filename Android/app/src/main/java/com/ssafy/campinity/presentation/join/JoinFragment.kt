@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -15,14 +14,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.Permission.REQUEST_READ_STORAGE_PERMISSION
 import com.ssafy.campinity.databinding.FragmentJoinBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
+import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
+import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
+import com.ssafy.campinity.presentation.collection.CreateFileFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
+class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join),
+    FileDeleteDialogListener {
 
     private val viewModel by viewModels<JoinViewModel>()
     private val fromAlbumActivityLauncher = registerForActivityResult(
@@ -67,7 +69,7 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
             }
             btnCheckDuplication.setOnClickListener {
                 if (viewModel.nickname.value == null) {
-                    Toast.makeText(requireContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    showToast("닉네임을 입력해주세요.")
                 } else {
                     viewModel.checkDuplication()
                 }
@@ -78,9 +80,8 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
     private fun observeState() {
         viewModel.isDuplicate.observe(viewLifecycleOwner) {
             when (it) {
-                true -> Toast.makeText(requireContext(), "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show()
-                false -> Toast.makeText(requireContext(), "사용할 수 있는 닉네임입니다.", Toast.LENGTH_SHORT)
-                    .show()
+                true -> showToast("중복된 닉네임입니다.")
+                false -> showToast("사용할 수 있는 닉네임입니다.")
                 else -> {}
             }
         }
@@ -100,25 +101,30 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
     }
 
     private fun setAlbumView() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                fromAlbumActivityLauncher.launch(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        if (viewModel.profileImgUri.value == null) {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) -> {
+                    fromAlbumActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
                     )
-                )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        CreateFileFragment.REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
-            else -> {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_READ_STORAGE_PERMISSION
-                )
-            }
+        } else {
+            val dialog = CollectionDeleteFileDialog(requireContext(), this)
+            dialog.show()
         }
     }
 
@@ -130,5 +136,9 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
         val result = c?.getString(index!!)
         c?.close()
         return result!!
+    }
+
+    override fun onConfirmButtonClicked() {
+        viewModel.profileImgUri.value = null
     }
 }

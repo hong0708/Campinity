@@ -9,11 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
-import com.ssafy.campinity.domain.entity.search.AreaListItem
-import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
-import com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo
-import com.ssafy.campinity.domain.entity.search.GugunItem
+import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
+import com.ssafy.campinity.domain.entity.search.*
+import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageDetailInfoUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
+import com.ssafy.campinity.domain.usecase.search.GetCampsiteReviewNotesUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByFilteringUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +25,9 @@ import javax.inject.Inject
 class SearchViewModel @Inject constructor(
     private val getCampsitesByFilteringUseCase: GetCampsitesByFilteringUseCase,
     private val getCampsitesByScopeUseCase: GetCampsitesByScopeUseCase,
-    private val getCampsiteDetailUseCase: GetCampsiteDetailUseCase
+    private val getCampsiteDetailUseCase: GetCampsiteDetailUseCase,
+    private val getCampsiteReviewNotesUseCase: GetCampsiteReviewNotesUseCase,
+    private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
@@ -34,11 +36,22 @@ class SearchViewModel @Inject constructor(
     private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
     val campsiteData: LiveData<CampsiteDetailInfo?> = _campsiteData
 
+    private val _campsiteNoteList: MutableLiveData<ArrayList<CampsiteNoteBriefInfo>?> =
+        MutableLiveData()
+    val campsiteNoteList: LiveData<ArrayList<CampsiteNoteBriefInfo>?> = _campsiteNoteList
+
+    private val _campsiteMessageDetailInfo: MutableLiveData<CampsiteMessageDetailInfo?> =
+        MutableLiveData()
+    val campsiteMessageDetailInfo: LiveData<CampsiteMessageDetailInfo?> = _campsiteMessageDetailInfo
+
     private val _stateBehaviorArea: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorArea: LiveData<Boolean> = _stateBehaviorArea
 
     private val _stateBehaviorFilter: MutableLiveData<Boolean> = MutableLiveData(false)
     val stateBehaviorFilter: LiveData<Boolean> = _stateBehaviorFilter
+
+    private val _stateBehaviorList: MutableLiveData<Boolean> = MutableLiveData(false)
+    val stateBehaviorList: LiveData<Boolean> = _stateBehaviorList
 
     private val _isSearchAgain: MutableLiveData<Boolean> = MutableLiveData(false)
     val isSearchAgain: LiveData<Boolean> = _isSearchAgain
@@ -70,6 +83,10 @@ class SearchViewModel @Inject constructor(
 
     fun setStateBehaviorFilter(flag: Boolean) {
         _stateBehaviorFilter.value = flag
+    }
+
+    fun setStateBehaviorList(flag: Boolean) {
+        _stateBehaviorList.value = flag
     }
 
     fun setSido(sido: String) {
@@ -119,7 +136,6 @@ class SearchViewModel @Inject constructor(
                     )
                 )
             }
-
             areaList.add(AreaListItem(sidoName, gugunList, campsiteCountAll))
         }
     }
@@ -168,6 +184,57 @@ class SearchViewModel @Inject constructor(
             is Resource.Error -> {
                 Log.e("getCampsiteDetailInfo", "getCampsiteDetailInfo: ${value.errorMessage}")
                 return@async 0
+            }
+        }
+    }
+
+    fun getCampsiteReviewNotes(
+        campsiteId: String,
+    ) = viewModelScope.launch {
+        when (val value = getCampsiteReviewNotesUseCase(
+            campsiteId,
+            33.0,
+            132.0,
+            43.0,
+            124.0,
+        )) {
+            is Resource.Success<List<CampsiteNoteBriefInfo>> -> {
+                val arrayList = arrayListOf<CampsiteNoteBriefInfo>()
+
+                if (campsiteNoteList.value == null)
+                    _campsiteNoteList.value = arrayListOf()
+                else {
+                    arrayList.addAll(campsiteNoteList.value!!)
+                }
+
+                value.data.forEach {
+                    if (it.messageCategory == "리뷰")
+                        arrayList.add(it)
+                }
+
+                _campsiteNoteList.value = arrayList
+            }
+            is Resource.Error -> {
+                Log.d(
+                    "getCampsiteMessageBriefInfo",
+                    "getCampsiteMessageBriefInfo: ${value.errorMessage}"
+                )
+            }
+        }
+    }
+
+    fun getCampsiteMessageDetailInfoAsync(messageId: String) = viewModelScope.async {
+        when (val value = getCampsiteMessageDetailInfoUseCase(messageId)) {
+            is Resource.Success<CampsiteMessageDetailInfo> -> {
+                _campsiteMessageDetailInfo.value = value.data
+                return@async true
+            }
+            is Resource.Error -> {
+                Log.d(
+                    "getCampsiteMessageDetailInfo",
+                    "getCampsiteMessageDetailInfo: ${value.errorMessage}"
+                )
+                return@async false
             }
         }
     }

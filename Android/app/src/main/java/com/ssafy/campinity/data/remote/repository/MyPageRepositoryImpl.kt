@@ -6,8 +6,10 @@ import com.ssafy.campinity.data.remote.datasource.mypage.LogoutRequest
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSource
 import com.ssafy.campinity.domain.entity.mypage.MyPageNote
 import com.ssafy.campinity.domain.entity.mypage.MyPageUser
+import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.repository.MyPageRepository
 import kotlinx.coroutines.Dispatchers
+import okhttp3.MultipartBody
 import javax.inject.Inject
 
 class MyPageRepositoryImpl @Inject constructor(
@@ -27,5 +29,14 @@ class MyPageRepositoryImpl @Inject constructor(
     override suspend fun requestLogout(body: LogoutRequest): Resource<Boolean> =
         wrapToResource(Dispatchers.IO) {
             myPageRemoteDataSource.requestLogout(body)
+        }
+
+    override suspend fun editUserInfo(
+        nickName: String,
+        isChanged: Boolean,
+        profileImg: MultipartBody.Part?
+    ): Resource<User> =
+        wrapToResource(Dispatchers.IO) {
+            myPageRemoteDataSource.editUserInfo(nickName, isChanged, profileImg).toDomainModel()
         }
 }

@@ -42,6 +42,10 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("userRecentCampsiteAddress", null)
         set(value) = prefs.edit().putString("userRecentCampsiteAddress", value).apply()
 
+    var nickname: String?
+        get() = prefs.getString("nickname", null)
+        set(value) = prefs.edit().putString("nickname", value).apply()
+
     fun clearPreferences() {
         prefs.edit().clear().apply()
     }

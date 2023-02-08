@@ -6,6 +6,7 @@ import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchRemoteDataSource
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo
+import com.ssafy.campinity.domain.entity.search.CampsiteNoteBriefInfo
 import com.ssafy.campinity.domain.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
@@ -37,4 +38,20 @@ class SearchRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             searchRemoteDataSource.getCampsiteDetail(campsiteId).toDomainModel()
         }
+
+    override suspend fun getCampsiteReviewNotes(
+        campsiteId: String,
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        topLeftLat: Double,
+        topLeftLng: Double,
+    ): Resource<List<CampsiteNoteBriefInfo>> = wrapToResource(Dispatchers.IO) {
+        searchRemoteDataSource.getCampsiteReviewNotes(
+            campsiteId,
+            bottomRightLat,
+            bottomRightLng,
+            topLeftLat,
+            topLeftLng,
+        ).map { it.toDomainModel() }
+    }
 }

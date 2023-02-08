@@ -33,7 +33,7 @@ class CurationCategoryFragment :
             adapter = curationCategoryAdapter
             layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            addItemDecoration(GridItemDecoration(context, 2, 4, 0))
+            addItemDecoration(GridItemDecoration(context, 2, 4, 4))
         }
         curationViewModel.curationListData.observe(viewLifecycleOwner) {
             it?.let { curationCategoryAdapter.setCuration(it) }

@@ -34,7 +34,8 @@
 
         <service
             android:name=".data.remote.service.FirebaseService"
-            android:exported="false">
+            android:exported="false"
+            android:foregroundServiceType="location">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

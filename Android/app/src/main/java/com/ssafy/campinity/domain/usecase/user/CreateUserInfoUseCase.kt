@@ -10,21 +10,21 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class EditUserUseCase @Inject constructor(
+class CreateUserInfoUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {
-    suspend fun editUserInfo(
+    suspend fun createUserInfo(
         nickname: String,
         profileImg: MultipartBody.Part?,
         fcmToken: String
     ): Resource<User> = withContext(Dispatchers.IO) {
-        userRepository.editUserInfo(nickname, profileImg, fcmToken)
+        userRepository.createUserInfo(nickname, profileImg, fcmToken)
     }
 
-    suspend fun editUserInfoWithoutimg(
+    suspend fun createUserInfoWithoutImg(
         nickname: String,
         fcmToken: String
     ): Resource<User> = withContext(Dispatchers.IO) {
-        userRepository.editUserInfoWithoutImg(nickname, fcmToken)
+        userRepository.createUserInfoWithoutImg(nickname, fcmToken)
     }
 }

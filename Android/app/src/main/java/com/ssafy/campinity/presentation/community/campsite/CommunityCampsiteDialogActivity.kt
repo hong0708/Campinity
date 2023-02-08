@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.view.WindowManager
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -20,15 +21,15 @@ import com.ssafy.campinity.common.util.BindingAdapters.setCollectionImgUri
 import com.ssafy.campinity.common.util.Permission
 import com.ssafy.campinity.databinding.ActivityCommunityCampsiteMessageDialogBinding
 import com.ssafy.campinity.domain.entity.community.MarkerLocation
-import com.ssafy.campinity.presentation.collection.CollectionDeleteDialogListener
 import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
+import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
 class CommunityCampsiteDialogActivity :
     AppCompatActivity(),
-    CollectionDeleteDialogListener,
+    FileDeleteDialogListener,
     CommunityCampsiteMarkerDialogListener {
 
     private val args by navArgs<CommunityCampsiteDialogActivityArgs>()
@@ -160,6 +161,10 @@ class CommunityCampsiteDialogActivity :
             val dialog = CollectionDeleteFileDialog(this, this)
             dialog.setCanceledOnTouchOutside(true)
             dialog.show()
+            dialog.window?.setLayout(
+                WindowManager.LayoutParams.MATCH_PARENT,
+                WindowManager.LayoutParams.WRAP_CONTENT
+            )
         }
     }
 

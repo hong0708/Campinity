@@ -13,18 +13,22 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.Permission.REQUEST_READ_STORAGE_PERMISSION
-import com.ssafy.campinity.databinding.FragmentCreateCollectionBinding
+import com.ssafy.campinity.common.util.getDeviceWidthPx
+import com.ssafy.campinity.databinding.FragmentUpdateCollectionBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class CreateCollectionFragment :
-    BaseFragment<FragmentCreateCollectionBinding>(R.layout.fragment_create_collection),
-    CollectionDatePickerDialogListener, CollectionDeleteDialogListener {
+class UpdateFileFragment :
+    BaseFragment<FragmentUpdateCollectionBinding>(R.layout.fragment_update_collection),
+    CollectionDatePickerDialogListener, FileDeleteDialogListener {
 
+    private val args by navArgs<CollectionDetailFragmentArgs>()
     private val viewModel by viewModels<CollectionViewModel>()
     private val fromAlbumActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -35,12 +39,18 @@ class CreateCollectionFragment :
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
                 )
+                viewModel.changeImgState()
+            } else {
+                viewModel.setPicture(
+                    null, null
+                )
             }
         }
     }
 
     override fun initView() {
         binding.vm = viewModel
+        setData()
         initListener()
         setTextWatcher()
         observeState()
@@ -51,8 +61,23 @@ class CreateCollectionFragment :
         viewModel.date.value = date
     }
 
-    override fun onConfirmButtonClicked() {
-        viewModel.file.value = null
+    private fun setData() {
+        viewModel.getCollection(args.collectionId)
+        viewModel.collectionData.observe(viewLifecycleOwner) {
+            binding.apply {
+                if (it != null) {
+                    Glide.with(requireContext())
+                        .load("http://i8d101.p.ssafy.io:8003/images" + it.imagePath)
+                        .override(getDeviceWidthPx(requireContext()))
+                        .centerCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .into(ivPhoto)
+                    tvDateInput.text = it.date
+                    etLocation.setText(it.campsiteName)
+                    etDescription.setText(it.content)
+                }
+            }
+        }
     }
 
     private fun initListener() {
@@ -60,14 +85,32 @@ class CreateCollectionFragment :
             ivArrowLeft.setOnClickListener { popBackStack() }
             clAddPhoto.setOnClickListener { setAlbumView() }
             tvDateInput.setOnClickListener { getDate() }
-            tvMakeReview.setOnClickListener { viewModel.createCollection() }
+            tvMakeReview.setOnClickListener {
+                if (binding.tvDateInput.text == "" ||
+                    binding.etDescription.text.toString() == "" ||
+                    binding.tvMakeReview.text == ""
+                ) {
+                    showToast("정보를 모두 입력해주세요.")
+                } else {
+                    viewModel.imageChange.observe(viewLifecycleOwner) {
+                        when (it) {
+                            true -> viewModel.updateCollection(args.collectionId)
+                            false -> viewModel.updateCollectionWithoutImg(args.collectionId)
+                        }
+                    }
+                }
+            }
         }
     }
 
     private fun observeState() {
-        viewModel.isSucceed.observe(viewLifecycleOwner) {
+        viewModel.isUpdated.observe(viewLifecycleOwner) {
             when (it) {
-                true -> popBackStack()
+                true -> {
+                    popBackStack()
+                    showToast("컬렉션이 수정되었습니다.")
+                }
+                false -> showToast("다시 시도해 주세요.")
                 else -> {}
             }
         }
@@ -136,5 +179,13 @@ class CreateCollectionFragment :
         val result = c?.getString(index!!)
         c?.close()
         return result!!
+    }
+
+    companion object {
+        const val REQUEST_READ_STORAGE_PERMISSION = 1
+    }
+
+    override fun onConfirmButtonClicked() {
+        viewModel.file.value = null
     }
 }
