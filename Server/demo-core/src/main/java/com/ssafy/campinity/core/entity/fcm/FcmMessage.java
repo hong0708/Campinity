@@ -7,7 +7,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.SQLDelete;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,7 +14,6 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Entity
-//@SQLDelete(sql = "update fcm_message set expired = true where id = ?")
 public class FcmMessage extends BaseEntity {
 
     @Id
@@ -24,11 +22,17 @@ public class FcmMessage extends BaseEntity {
 
     private UUID uuid;
 
+    private String campsiteUuid;
+
     private String title;
 
     private String body;
 
     private String hiddenBody;
+
+    private Double longitude;
+
+    private Double latitude;
 
     @OneToOne
     @ToString.Exclude
@@ -36,17 +40,19 @@ public class FcmMessage extends BaseEntity {
 
     private String appointeeToken;
 
-    private boolean expired;
-
     @Builder
-    public FcmMessage(String title, String body, String hiddenBody, Member member) {
+    public FcmMessage(UUID uuid, String title, String body, String hiddenBody, Double longitude, Double latitude, Member member, String appointeeToken) {
+        this.uuid = uuid;
         this.title = title;
-        this.uuid = UUID.randomUUID();
         this.body = body;
         this.hiddenBody = hiddenBody;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.member = member;
-        this.expired = false;
+        this.appointeeToken = appointeeToken;
     }
+
+
 
     public void appointReciever(String fcmToken){
         this.appointeeToken = fcmToken;

@@ -43,7 +43,7 @@ public class FcmTokenServiceImpl implements FcmTokenService {
         FcmTokenResDTO fcmTokenResDTO;
 
         if (fcmToken != null){ // token이 기존에 존재할 경우
-            if (fcmToken.getMember().getId() != memberId){ // 토큰 소유자가 요청 유저와 다를 경우 삭제
+            if (fcmToken.getMember().getId() != memberId){ // 요청 유저와 다를 경우 삭제
                 Member otherMember = memberRepository.findMemberByIdAndExpiredIsFalse(fcmToken.getMember().getId()).get();
                 fcmTokenRepository.deleteById(fcmToken.getId());
                 otherMember.removeFcmToken(fcmToken);

@@ -3,6 +3,7 @@ package com.ssafy.campinity.api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.campinity.api.dto.ErrorMessage;
 import com.ssafy.campinity.core.exception.BadRequestException;
+import com.ssafy.campinity.core.exception.FcmMessagingException;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +43,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorMessage> handle(FileUploadException e) {
         ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FcmMessagingException.class)
+    public ResponseEntity<ErrorMessage> handle(FcmMessagingException e) {
+        ErrorMessage errorMessage = new ErrorMessage(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(errorMessage, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(Exception.class)
