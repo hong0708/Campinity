@@ -40,7 +40,6 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="25dp"
-            android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title_home">
 
@@ -103,10 +102,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
+                        android:fontFamily="@font/roboto_light"
                         android:text="@string/content_search_button"
                         android:textColor="@color/bilbao"
                         android:textSize="10sp"
-                        android:fontFamily="@font/roboto_light"
                         app:layout_constraintStart_toStartOf="@+id/tv_title_search"
                         app:layout_constraintTop_toBottomOf="@+id/tv_title_search"
                         tools:ignore="SmallSp" />
@@ -151,10 +150,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
+                        android:fontFamily="@font/roboto_light"
                         android:text="@string/content_community_button"
                         android:textColor="@color/bilbao"
                         android:textSize="10sp"
-                        android:fontFamily="@font/roboto_light"
                         app:layout_constraintStart_toStartOf="@+id/tv_title_community"
                         app:layout_constraintTop_toBottomOf="@+id/tv_title_community"
                         tools:ignore="SmallSp" />
@@ -207,6 +206,17 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_title_collection" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginTop="30dp"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/rv_collection_home"
+                    app:lottie_autoPlay="true"
+                    app:lottie_loop="true"
+                    app:lottie_rawRes="@raw/lottie_home" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
