@@ -119,12 +119,13 @@ public class MessageServiceImpl implements MessageService {
                 try {
                     imageUtil.removeImage(imagePath);
                 }
-                catch (Exception e){
-                    throw new FileNotFoundException();
-                }
+                catch (SecurityException e) {throw new SecurityException(e.getMessage());}
+                catch (NullPointerException e) {throw new NullPointerException(e.getMessage());}
             }
             message.getCampsite().removeMessage(message);
-            messageRepository.deleteById(message.getId());
+            message.deleteMessageImage();
+            message.softDeleteEtcMessage();
+            messageRepository.save(message);
         }
     }
 
