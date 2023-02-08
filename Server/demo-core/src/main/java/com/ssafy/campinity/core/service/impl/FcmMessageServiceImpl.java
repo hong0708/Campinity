@@ -23,6 +23,7 @@ import java.util.Arrays;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class FcmMessageServiceImpl implements FcmMessageService {
 
     private final String GOOGLE_APPLICATION_CREDENTIALS = "firebase/campinity-5ff94-firebase-adminsdk-a0uem-64c6576e75.json";

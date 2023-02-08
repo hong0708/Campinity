@@ -26,13 +26,13 @@ public class CampsiteHottestRankingReqDTO {
 
     private int answerCnt;
 
-//    private int event_cnt;
+    private int fcmTokenCnt;
 
     private int messageCnt;
 
     @Builder
     public CampsiteHottestRankingReqDTO(String campsiteId, String firstImageUrl, String campName, String doName,
-                                        String sigunguName, BigInteger questionCnt, BigInteger answerCnt, BigInteger messageCnt) {
+                                        String sigunguName, BigInteger questionCnt, BigInteger answerCnt, BigInteger messageCnt, BigInteger fcmTokenCnt) {
         this.campsiteId = campsiteId;
         this.firstImageUrl = firstImageUrl;
         this.campName = campName;
@@ -41,5 +41,6 @@ public class CampsiteHottestRankingReqDTO {
         this.questionCnt = questionCnt.intValue();
         this.answerCnt = answerCnt.intValue();
         this.messageCnt = messageCnt.intValue();
+        this.fcmTokenCnt = fcmTokenCnt.intValue();
     }
 }

@@ -30,8 +30,9 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
     List<Message> findByCampsite_idAndExpiredIsFalse(int campsiteId);
     void deleteById(Integer id);
 
+    void deleteByExpired(boolean expired);
+
     List<Message> findByMessageCategoryAndCreatedAtBeforeAndExpiredIsFalse(MessageCategory etc, LocalDateTime standard);
 
-//    @Query(value = "SELECT COUNT(*) FROM message INNER JOIN campsite ON message.campsite_id = :campsiteId AND campsite.id = :campsiteId", nativeQuery = true)
-//    int countMessageByCampsite(@Param("campsiteId") int campsiteId);
+    List<Message> findByCampsite_id(int campsiteId);
 }

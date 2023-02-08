@@ -140,6 +140,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
         }
         catch (SecurityException e) {throw new SecurityException(e.getMessage());}
         catch (NullPointerException e) {throw new NullPointerException(e.getMessage());}
-        myCollectionRepository.deleteById(myCollection.getId());
+        myCollection.softDeleteMyCollection();
+        myCollectionRepository.save(myCollection);
     }
 }
