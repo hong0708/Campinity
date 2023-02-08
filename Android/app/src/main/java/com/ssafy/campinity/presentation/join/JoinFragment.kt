@@ -18,7 +18,7 @@ import com.ssafy.campinity.databinding.FragmentJoinBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
 import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
-import com.ssafy.campinity.presentation.collection.CreateFileFragment
+import com.ssafy.campinity.presentation.collection.CreateCollectionFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -118,7 +118,7 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join),
                     ActivityCompat.requestPermissions(
                         requireActivity(),
                         arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                        CreateFileFragment.REQUEST_READ_STORAGE_PERMISSION
+                        CreateCollectionFragment.REQUEST_READ_STORAGE_PERMISSION
                     )
                 }
             }

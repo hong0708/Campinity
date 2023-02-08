@@ -56,14 +56,11 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(System.currentTimeMillis() - waitTime >=2500 ) {
+                if (System.currentTimeMillis() - waitTime >= 2500) {
                     waitTime = System.currentTimeMillis()
                     showToast("뒤로가기 버튼을\n한번 더 누르면 종료됩니다.")
                 } else {
-                    activity?.supportFragmentManager
-                        ?.beginTransaction()
-                        ?.remove(this@HomeFragment)
-                        ?.commit()
+                    requireActivity().finishAffinity()
                 }
             }
         }
