@@ -9,7 +9,6 @@ import android.provider.MediaStore
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -76,7 +75,7 @@ class MyPageFragment :
 
     private fun observeState() {
         myPageViewModel.isSuccess.observe(viewLifecycleOwner) {
-            if (it == true) Toast.makeText(requireContext(), "프로필이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+            if (it == true) showToast("프로필이 수정되었습니다.")
         }
         myPageViewModel.isDuplicate.observe(viewLifecycleOwner) {
             if (it == false) {
@@ -144,13 +143,13 @@ class MyPageFragment :
             btnBack.setOnClickListener { popBackStack() }
             btnCheckDuplication.setOnClickListener {
                 if (myPageViewModel.nickname.value == null) {
-                    Toast.makeText(requireContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    showToast("닉네임을 입력해주세요.")
                 } else {
                     myPageViewModel.checkDuplication()
                     if (myPageViewModel.isDuplicate.value == true) {
-                        Toast.makeText(requireContext(), "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show()
+                        showToast("중복된 닉네임입니다.")
                     } else {
-                        Toast.makeText(requireContext(), "사용할 수 있는 닉네임입니다.", Toast.LENGTH_SHORT).show()
+                        showToast("사용할 수 있는 닉네임입니다.")
                     }
                 }
             }
@@ -241,11 +240,16 @@ class MyPageFragment :
         myPageViewModel.requestLogout()
         myPageViewModel.isLoggedOut.observe(viewLifecycleOwner) {
             if (it == true) {
-                ApplicationClass.preferences.clearPreferences()
+                ApplicationClass.preferences.apply {
+                    accessToken = null
+                    refreshToken = null
+                    fcmToken = null
+                    isLoggedIn = false
+                }
                 navigate(MyPageFragmentDirections.actionMyPageFragmentToOnBoardingFragment())
-                Toast.makeText(requireContext(), "로그아웃되었습니다.", Toast.LENGTH_SHORT).show()
+                showToast("로그아웃 되었습니다.")
             } else {
-                Toast.makeText(requireContext(), "다시 시도해주세요.", Toast.LENGTH_SHORT).show()
+                showToast("다시 시도해주세요.")
             }
         }
     }

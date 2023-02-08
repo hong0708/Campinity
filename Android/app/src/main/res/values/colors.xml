@@ -21,4 +21,5 @@
     <color name="gainsboro">#D9D9D9</color>
     <color name="grey_alpha30">#4D7C7A7A</color>
     <color name="black_transparent60">#99000000</color>
+    <color name="grey_transparent80">#CC7C7A7A</color>
 </resources>

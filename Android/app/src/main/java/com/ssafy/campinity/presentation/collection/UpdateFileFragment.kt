@@ -7,7 +7,6 @@ import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.WindowManager
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -91,7 +90,7 @@ class UpdateFileFragment :
                     binding.etDescription.text.toString() == "" ||
                     binding.tvMakeReview.text == ""
                 ) {
-                    Toast.makeText(requireContext(), "정보를 모두 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    showToast("정보를 모두 입력해주세요.")
                 } else {
                     viewModel.imageChange.observe(viewLifecycleOwner) {
                         when (it) {
@@ -109,9 +108,9 @@ class UpdateFileFragment :
             when (it) {
                 true -> {
                     popBackStack()
-                    Toast.makeText(requireContext(), "컬렉션이 수정되었습니다.", Toast.LENGTH_SHORT).show()
+                    showToast("컬렉션이 수정되었습니다.")
                 }
-                false -> Toast.makeText(requireContext(), "다시 시도해 주세요.", Toast.LENGTH_SHORT).show()
+                false -> showToast("다시 시도해 주세요.")
                 else -> {}
             }
         }

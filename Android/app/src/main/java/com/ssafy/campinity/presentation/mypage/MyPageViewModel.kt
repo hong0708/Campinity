@@ -9,7 +9,6 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.mypage.LogoutRequest
-import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 import com.ssafy.campinity.domain.entity.mypage.MyPageNote
 import com.ssafy.campinity.domain.entity.mypage.MyPageUser
@@ -194,7 +193,7 @@ class MyPageViewModel @Inject constructor(
             when (val value = requestLogoutUseCase(
                 LogoutRequest(
                     ApplicationClass.preferences.accessToken!!,
-                    FirebaseService().getCurrentToken(),
+                    ApplicationClass.preferences.fcmToken!!,
                     ApplicationClass.preferences.refreshToken!!)
                 )
             ) {
