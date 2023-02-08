@@ -1,12 +1,12 @@
 package com.ssafy.campinity.demo.batch.job;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ssafy.campinity.core.dto.CampsiteHottestRankingReqDTO;
 import com.ssafy.campinity.core.dto.CampsiteRankingResDTO;
-import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
 import com.ssafy.campinity.core.repository.redis.RedisDao;
 import com.ssafy.campinity.demo.batch.campinityRepository.CampinityCampsiteCustomRepository;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.log4j.Log4j2;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
@@ -22,13 +22,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 @Configuration
-@Slf4j
+@Log4j2
 public class HottestCampsiteConfig {
 
     @Autowired
@@ -43,9 +40,11 @@ public class HottestCampsiteConfig {
     @Autowired
     private CampinityCampsiteCustomRepository campinityCampsiteCustomRepository;
 
+    private static Logger logger = LogManager.getLogger(HottestCampsiteConfig.class);
+
     @Bean
     public Job HottestCampsiteJob() {
-        log.info("********** This is HottestCampsiteJob");
+        logger.info("********** This is HottestCampsiteJob");
 
         return jobBuilderFactory.get("HottestCampsiteJob")
                 .preventRestart()
@@ -54,7 +53,7 @@ public class HottestCampsiteConfig {
     }
 
     public Step HottestCampsiteStep() {
-        log.info("********** This is HottestCampsiteStep");
+        logger.info("********** This is HottestCampsiteStep");
         return stepBuilderFactory.get("HottestCampsiteStep")
                 .tasklet(HottestCampsiteTasklet(null))
                 .build();
@@ -70,34 +69,17 @@ public class HottestCampsiteConfig {
                 LocalDate start = today.minusDays(7);
                 LocalDate end = today.minusDays(1);
 
-                List<CampsiteHottestRankingReqDTO> campsiteRankingDatas = campinityCampsiteCustomRepository.findCampsiteHottestRankingData(start, end);
+                List<CampsiteRankingResDTO> campsiteRankingDatas = campinityCampsiteCustomRepository.findCampsiteHottestRankingData(start, end);
 
-                log.info("----------------start DATE: " + start);
-                log.info("----------------end DATE: " + end);
+                logger.info("----------------start DATE: " + start);
+                logger.info("----------------end DATE: " + end);
 
-                Collections.sort(campsiteRankingDatas, new Comparator<CampsiteHottestRankingReqDTO>() {
-                    @Override
-                    public int compare(CampsiteHottestRankingReqDTO o1, CampsiteHottestRankingReqDTO o2) {
-                        return (3 * (o2.getQuestionCnt() + o2.getAnswerCnt()) + 2 * o2.getMessageCnt()) -
-                                (3 * (o1.getQuestionCnt() + o1.getAnswerCnt()) + 2 * o1.getMessageCnt());
-                    }
-                });
-
-                List<CampsiteRankingResDTO> result = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
-                    CampsiteHottestRankingReqDTO camp = campsiteRankingDatas.get(i);
-                    result.add(CampsiteRankingResDTO.builder().campsiteId(camp.getCampsiteId()).campName(camp.getCampName())
-                            .doName(camp.getDoName()).sigunguName(camp.getSigunguName()).firstImageUrl(camp.getFirstImageUrl())
-                            .ranking(i + 1).build());
-
-                    log.info(camp.getCampsiteId() + " : " + camp.getAnswerCnt() + " " + camp.getQuestionCnt() + " " + camp.getMessageCnt());
-                }
 
                 ObjectMapper mapper = new ObjectMapper();
-                String value = mapper.writeValueAsString(result);
+                String value = mapper.writeValueAsString(campsiteRankingDatas);
                 redisDao.setValues("hottestCampsite", value);
 
-//                log.info("--------------hottestCampsite: " + redisDao.getValues("hottestCampsite")); // 제대로 저장되었는지 확인용
+                logger.info("--------------hottestCampsite: " + redisDao.getValues("hottestCampsite")); // 제대로 저장되었는지 확인용
 
                 return RepeatStatus.FINISHED;
             }

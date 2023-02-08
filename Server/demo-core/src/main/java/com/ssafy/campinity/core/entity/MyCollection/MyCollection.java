@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@SQLDelete(sql =  "update my_collection set expired = true where id = ?")
+//@SQLDelete(sql =  "update my_collection set expired = true where id = ?")
 public class MyCollection extends BaseEntity {
 
     @Id
@@ -50,5 +50,15 @@ public class MyCollection extends BaseEntity {
         this.content = content;
         this.imagePath = imagePath;
         this.date = date;
+    }
+
+    public MyCollection softDeleteMyCollection() {
+        this.expired = true;
+        return this;
+    }
+
+    public MyCollection deleteImage() {
+        this.imagePath = "";
+        return this;
     }
 }

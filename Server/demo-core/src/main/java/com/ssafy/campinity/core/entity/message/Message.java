@@ -18,7 +18,7 @@ import java.util.List;
 @ToString(callSuper = true)
 @EqualsAndHashCode(callSuper = true)
 @Entity
-@SQLDelete(sql = "update message set expired = true where id = ?")
+//@SQLDelete(sql = "update message set expired = true where id = ?")
 public class Message extends BaseEntity {
 
     @Id
@@ -29,18 +29,18 @@ public class Message extends BaseEntity {
     @Type(type = "uuid-char")
     private UUID uuid;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @ToString.Exclude
     private Campsite campsite;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     @ToString.Exclude
     private Member member;
 
     @Enumerated(value = EnumType.STRING)
     private MessageCategory messageCategory;
 
-    @OneToMany
+    @OneToMany(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "message_id")
     @ToString.Exclude
     private List<LikeMessage> likeMessages = new ArrayList<>();
@@ -78,5 +78,9 @@ public class Message extends BaseEntity {
     public Message softDeleteEtcMessage() {
         this.expired = true;
         return this;
+    }
+
+    public void deleteMessageImage() {
+        this.imagePath = "";
     }
 }
