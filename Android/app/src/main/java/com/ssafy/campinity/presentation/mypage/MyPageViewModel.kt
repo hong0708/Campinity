@@ -15,11 +15,11 @@ import com.ssafy.campinity.domain.entity.mypage.MyPageNote
 import com.ssafy.campinity.domain.entity.mypage.MyPageUser
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageDetailInfoUseCase
+import com.ssafy.campinity.domain.usecase.mypage.EditUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
-import com.ssafy.campinity.domain.usecase.user.EditUserUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -33,13 +33,13 @@ class MyPageViewModel @Inject constructor(
     private val getNotesUseCase: GetNotesUseCase,
     private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
     private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val editUserUseCase: EditUserUseCase,
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
-    private val requestLogoutUseCase: RequestLogoutUseCase
+    private val requestLogoutUseCase: RequestLogoutUseCase,
+    private val editUserInfoUseCase: EditUserInfoUseCase
     ) : ViewModel() {
 
     private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
-    val etcNotesListdata: LiveData<List<CampsiteMessageDetailInfo>?> = _etcNotesListData
+    val etcNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _etcNotesListData
 
     private val _reviewNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
     val reviewNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _reviewNotesListData
@@ -47,43 +47,34 @@ class MyPageViewModel @Inject constructor(
     private val _detailData: MutableLiveData<CampsiteMessageDetailInfo?> = MutableLiveData()
     val detailData: LiveData<CampsiteMessageDetailInfo?> = _detailData
 
-    private val _userInfo: MutableLiveData<MyPageUser?> = MutableLiveData()
-    val userInfo: LiveData<MyPageUser?> = _userInfo
-
     private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData()
     val isDuplicate: MutableLiveData<Boolean?> = _isDuplicate
 
+    private val _isLoggedOut: MutableLiveData<Boolean?> = MutableLiveData()
+    val isLoggedOut: LiveData<Boolean?> = _isLoggedOut
+
     private val _isSame: MutableLiveData<Boolean?> = MutableLiveData()
     val isSame: MutableLiveData<Boolean?> = _isSame
-
-    private val _isSuccess: MutableLiveData<Boolean?> = MutableLiveData()
-    val isSuccess: MutableLiveData<Boolean?> = _isSuccess
 
     private val _nickname: MutableLiveData<String> = MutableLiveData()
     val nickname: MutableLiveData<String> = _nickname
 
     private val _profileImgUri: MutableLiveData<Uri?> = MutableLiveData()
-    val profileImgUri: LiveData<Uri?> = _profileImgUri
+    val profileImgUri: MutableLiveData<Uri?> = _profileImgUri
 
-    private val _isLoggedOut: MutableLiveData<Boolean?> = MutableLiveData()
-    val isLoggedOut: LiveData<Boolean?> = _isLoggedOut
+    private val _profileImgStr: MutableLiveData<String?> = MutableLiveData()
+    val profileImgStr: MutableLiveData<String?> = _profileImgStr
 
+    private val _isSuccess: MutableLiveData<Boolean?> = MutableLiveData()
+    val isSuccess: MutableLiveData<Boolean?> = _isSuccess
 
-    private var profileImgMultiPart: MultipartBody.Part? = null
-
-    fun setNickname(nickname: String) {
-        viewModelScope.launch {
-            _nickname.value = nickname
-        }
-    }
+    var profileImgMultiPart: MultipartBody.Part? = null
 
     fun setProfileImg(uri: Uri, file: File) {
-        viewModelScope.launch {
-            _profileImgUri.value = uri
-            val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            profileImgMultiPart =
-                MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
-        }
+        _profileImgUri.value = uri
+        val requestFile = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
+        profileImgMultiPart =
+            MultipartBody.Part.createFormData("profileImg", file.name, requestFile)
     }
 
     fun getNotes() = viewModelScope.launch {
@@ -112,7 +103,8 @@ class MyPageViewModel @Inject constructor(
     fun getInfo() = viewModelScope.launch {
         when (val value = getUserInfoUseCase()) {
             is Resource.Success<MyPageUser> -> {
-                _userInfo.value = value.data
+                _nickname.value = value.data.name
+                _profileImgStr.value = value.data.imagePath
             }
             is Resource.Error -> {
                 Log.e("getUserInfo", "getUserInfo: ${value.errorMessage}")
@@ -120,15 +112,17 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun updateProfile(fcmToken: String) {
+    // 프로필 이미지를 바꿔 등록
+    fun updateProfile() {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfo(
-                    requireNotNull(nickname.value),
-                    profileImgMultiPart,
-                    fcmToken
+                editUserInfoUseCase(
+                    requireNotNull(_nickname.value),
+                    true,
+                    profileImgMultiPart
                 )) {
                 is Resource.Success<User> -> {
+                    ApplicationClass.preferences.nickname = _nickname.value
                     _isSuccess.value = true
                 }
                 is Resource.Error -> {
@@ -138,18 +132,41 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun updateProfileWithoutImg(fcmToken: String) {
+    // 프로필 이미지를 바꾸지 않고 등록
+    fun updateProfileWithExistingImg() {
         viewModelScope.launch {
             when (val value =
-                editUserUseCase.editUserInfoWithoutimg(
-                    requireNotNull(nickname.value),
-                    fcmToken
+                editUserInfoUseCase(
+                    requireNotNull(_nickname.value),
+                    false,
+                    null
                 )) {
                 is Resource.Success<User> -> {
+                    ApplicationClass.preferences.nickname = _nickname.value
                     _isSuccess.value = true
                 }
                 is Resource.Error -> {
-                    Log.e("updateprofile", "updateProfile: ${value.errorMessage}")
+                    Log.e("updateProfileWithExistingImg", "updateProfile: ${value.errorMessage}")
+                }
+            }
+        }
+    }
+
+    // 프로필 이미지를 지우고 등록
+    fun updateProfileWithoutImg() {
+        viewModelScope.launch {
+            when (val value =
+                editUserInfoUseCase(
+                    requireNotNull(_nickname.value),
+                    true,
+                    null
+                )) {
+                is Resource.Success<User> -> {
+                    ApplicationClass.preferences.nickname = _nickname.value
+                    _isSuccess.value = true
+                }
+                is Resource.Error -> {
+                    Log.e("updateprofileWithoutImg", "updateProfile: ${value.errorMessage}")
                 }
             }
         }
@@ -157,17 +174,19 @@ class MyPageViewModel @Inject constructor(
 
     fun checkDuplication() {
         viewModelScope.launch {
-            when (val value = checkDuplicationUseCase.checkDuplication(nickname.value!!)) {
+            when (val value = checkDuplicationUseCase.checkDuplication(_nickname.value!!)) {
                 is Resource.Success<Boolean> -> {
                     _isDuplicate.value = value.data
                 }
-                is Resource.Error -> {}
+                is Resource.Error -> {
+                    Log.e("checkDuplication", "checkDuplication: ${value.errorMessage}")
+                }
             }
         }
     }
 
     fun checkSame() {
-        _isSame.value = _nickname.value == _userInfo.value?.name
+        _isSame.value = _nickname.value == ApplicationClass.preferences.nickname
     }
 
     fun requestLogout() {

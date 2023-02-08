@@ -15,14 +15,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.Permission.REQUEST_READ_STORAGE_PERMISSION
 import com.ssafy.campinity.databinding.FragmentJoinBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
+import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
+import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
+import com.ssafy.campinity.presentation.collection.CreateFileFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
 @AndroidEntryPoint
-class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
+class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join),
+    FileDeleteDialogListener {
 
     private val viewModel by viewModels<JoinViewModel>()
     private val fromAlbumActivityLauncher = registerForActivityResult(
@@ -100,25 +103,30 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
     }
 
     private fun setAlbumView() {
-        when (PackageManager.PERMISSION_GRANTED) {
-            ContextCompat.checkSelfPermission(
-                requireContext(),
-                android.Manifest.permission.READ_EXTERNAL_STORAGE
-            ) -> {
-                fromAlbumActivityLauncher.launch(
-                    Intent(
-                        Intent.ACTION_PICK,
-                        MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+        if (viewModel.profileImgUri.value == null) {
+            when (PackageManager.PERMISSION_GRANTED) {
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    android.Manifest.permission.READ_EXTERNAL_STORAGE
+                ) -> {
+                    fromAlbumActivityLauncher.launch(
+                        Intent(
+                            Intent.ACTION_PICK,
+                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+                        )
                     )
-                )
+                }
+                else -> {
+                    ActivityCompat.requestPermissions(
+                        requireActivity(),
+                        arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
+                        CreateFileFragment.REQUEST_READ_STORAGE_PERMISSION
+                    )
+                }
             }
-            else -> {
-                ActivityCompat.requestPermissions(
-                    requireActivity(),
-                    arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                    REQUEST_READ_STORAGE_PERMISSION
-                )
-            }
+        } else {
+            val dialog = CollectionDeleteFileDialog(requireContext(), this)
+            dialog.show()
         }
     }
 
@@ -130,5 +138,9 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join) {
         val result = c?.getString(index!!)
         c?.close()
         return result!!
+    }
+
+    override fun onButtonClicked() {
+        viewModel.profileImgUri.value = null
     }
 }

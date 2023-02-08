@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -52,8 +53,8 @@
             android:id="@+id/cl_card_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="34dp"
-            android:layout_marginBottom="85dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="100dp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_content_collection">
@@ -73,9 +74,8 @@
             android:id="@+id/cl_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginStart="17dp"
             android:layout_marginTop="34dp"
-            android:layout_marginEnd="23dp"
+            android:layout_marginBottom="34dp"
             android:visibility="visible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_content_collection">
@@ -84,8 +84,11 @@
                 android:id="@+id/rv_collection"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginHorizontal="23dp"
                 android:orientation="vertical"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="2"
+                tools:listitem="@layout/item_collection_grid" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

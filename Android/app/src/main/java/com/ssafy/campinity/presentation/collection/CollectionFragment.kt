@@ -1,12 +1,11 @@
 package com.ssafy.campinity.presentation.collection
 
-import android.graphics.Rect
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.databinding.FragmentCollectionBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,7 +17,6 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
     private val collectionViewPagerAdapter by lazy { CollectionViewPagerAdapter(this::getCollection) }
     private val gridAdapter by lazy { GridAdapter(this::getCollection) }
     private var pageState = true
-    private val spaceDecoration = VerticalSpaceItemDecoration(20)
 
     override fun initView() {
         initRecyclerView()
@@ -87,7 +85,7 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
             adapter = gridAdapter
             layoutManager =
                 GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-            addItemDecoration(spaceDecoration)
+            addItemDecoration(GridItemDecoration(context, 2, 12, 10))
         }
         collectionViewModel.collectionListData.observe(viewLifecycleOwner) { response ->
             response?.let { gridAdapter.setCollection(it) }
@@ -101,15 +99,5 @@ class CollectionFragment : BaseFragment<FragmentCollectionBinding>(R.layout.frag
                 collectionId
             )
         )
-    }
-
-    inner class VerticalSpaceItemDecoration(private val verticalSpaceHeight: Int) :
-        RecyclerView.ItemDecoration() {
-        override fun getItemOffsets(
-            outRect: Rect, view: View, parent: RecyclerView,
-            state: RecyclerView.State
-        ) {
-            outRect.bottom = verticalSpaceHeight
-        }
     }
 }

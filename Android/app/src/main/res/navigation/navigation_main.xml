@@ -168,7 +168,7 @@
 
     <fragment
         android:id="@+id/updateCollectionFragment"
-        android:name="com.ssafy.campinity.presentation.collection.UpdateCollectionFragment"
+        android:name="com.ssafy.campinity.presentation.collection.UpdateFileFragment"
         android:label="UpdateCollectionFragment"
         tools:layout="@layout/fragment_update_collection">
         <argument
@@ -178,7 +178,7 @@
 
     <fragment
         android:id="@+id/createCollectionFragment"
-        android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
+        android:name="com.ssafy.campinity.presentation.collection.CreateFileFragment"
         android:label="CreateCollectionFragment"
         tools:layout="@layout/fragment_create_collection" />
 
