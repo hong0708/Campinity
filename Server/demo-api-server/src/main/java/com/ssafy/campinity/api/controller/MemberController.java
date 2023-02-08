@@ -3,11 +3,10 @@ package com.ssafy.campinity.api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.campinity.api.config.security.jwt.JwtProvider;
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
-import com.ssafy.campinity.api.dto.req.EditMemberInfoReqDTO;
+import com.ssafy.campinity.core.dto.EditMemberInfoReqDTO;
 import com.ssafy.campinity.api.dto.req.LogoutReqDTO;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
 import com.ssafy.campinity.api.service.KakaoUserService;
-import com.ssafy.campinity.core.dto.FcmTokenResDTO;
 import com.ssafy.campinity.core.dto.MemberResDTO;
 import com.ssafy.campinity.core.dto.ProfileResDTO;
 import com.ssafy.campinity.core.entity.fcm.FcmToken;
@@ -110,32 +109,17 @@ public class MemberController {
             @Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE)) EditMemberInfoReqDTO editMemberInfoReqDTO,
             @AuthenticationPrincipal MemberDetails memberDetails) throws IOException, NoSuchElementException {
         Member member = memberService.findMemberByUUID(memberDetails.getMember().getUuid());
-        String profileImgPath = member.getProfileImage();
-        MultipartFile profileImg = editMemberInfoReqDTO.getProfileImg();
-        String nickName = editMemberInfoReqDTO.getNickName();
 
-        // 유저가 프로필 이미지를 바꾼 경우 (profileImg에 파일 존재)
-        if (editMemberInfoReqDTO.getIsChanged()) {
-            if (!ObjectUtils.isEmpty(member.getProfileImage()) && profileImg != null) {
-                // 기존 프로필 이미지 제거
-                imageUtil.removeImage(member.getProfileImage());
-            }
-            profileImgPath = imageUtil.uploadImage(profileImg, "member");
-        }
+        MemberResDTO memberResDTO = memberService.editUserInfo(editMemberInfoReqDTO, member);
 
-        member.setProfileImage(profileImgPath);
-        member.setName(nickName);;
-        memberService.save(member);
-
-        return new ResponseEntity<>(MemberResDTO.builder()
-                .nickName(member.getName())
-                .profileImg(member.getProfileImage())
-                .email(member.getEmail()).build(), HttpStatus.OK);
+        return new ResponseEntity<>(memberResDTO, HttpStatus.OK);
     }
 
     @GetMapping("/nicknames/{nickname}/exists")
-    public ResponseEntity<Boolean> checkNickname(@PathVariable String nickname) {
-        return new ResponseEntity<>(memberService.checkNicknameDuplicate(nickname), HttpStatus.OK);
+    public ResponseEntity<Boolean> checkNickname(@AuthenticationPrincipal MemberDetails memberDetails,
+                                                 @PathVariable String nickname) {
+        Integer memberId = memberDetails.getMember().getId();
+        return new ResponseEntity<>(memberService.checkNicknameDuplicate(nickname, memberId), HttpStatus.OK);
     }
 
     @ApiResponses({

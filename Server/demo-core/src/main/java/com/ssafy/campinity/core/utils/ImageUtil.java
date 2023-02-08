@@ -28,7 +28,7 @@ public class ImageUtil {
         logger.info("uploadImagePath :" + uploadImagePath);
         String imagePath = "";
 
-        if (multipartFile.isEmpty()){
+        if (multipartFile.getSize() == 0){
             return imagePath;
         }
 
@@ -61,7 +61,7 @@ public class ImageUtil {
             multipartFile.transferTo(saveFile);
         }
         catch(IOException e) {
-            logger.info("IOEception : 이미지 저장 과정에서 에러가 발생했습니다.");
+            logger.info("IOException : 이미지 저장 과정에서 에러가 발생했습니다.");
             logger.info("이미지 저장 과정에서 에러가 발생했습니다.");
             throw new IOException(e);
         }
