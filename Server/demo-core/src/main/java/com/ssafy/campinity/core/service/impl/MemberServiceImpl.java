@@ -10,8 +10,6 @@ import com.ssafy.campinity.core.utils.ErrorMessageEnum;
 import com.ssafy.campinity.core.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.OptimisticLockingFailureException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -21,6 +19,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.io.IOException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -48,8 +47,15 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Boolean checkNicknameDuplicate(String nickname) {
-        return memberRepository.existsByName(nickname);
+    public Boolean checkNicknameDuplicate(String currentNickName, Integer memberId) {
+        Boolean isExist = false;
+        Optional<Member> member = memberRepository.findByNameAndIdNot(currentNickName, memberId);
+
+        if (!member.isEmpty()) {
+            isExist = true;
+        }
+
+        return isExist;
     }
 
     @Override

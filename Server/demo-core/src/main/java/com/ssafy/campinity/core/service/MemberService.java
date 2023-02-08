@@ -12,9 +12,8 @@ public interface MemberService {
     Member findMemberById(Integer id);
     Member findMemberByUUID(UUID uuid);
     Member save(Member member);
-    Boolean checkNicknameDuplicate(String nickname);
+    Boolean checkNicknameDuplicate(String nickname, Integer memberId);
     Integer deleteMemberHard(Integer memberId);
     ProfileResDTO getMemberProfile(Integer id);
-
     MemberResDTO editUserInfo(EditMemberInfoReqDTO editMemberInfoReqDTO, Member member) throws IOException;
 }

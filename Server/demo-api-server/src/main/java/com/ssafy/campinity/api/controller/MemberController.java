@@ -116,8 +116,10 @@ public class MemberController {
     }
 
     @GetMapping("/nicknames/{nickname}/exists")
-    public ResponseEntity<Boolean> checkNickname(@PathVariable String nickname) {
-        return new ResponseEntity<>(memberService.checkNicknameDuplicate(nickname), HttpStatus.OK);
+    public ResponseEntity<Boolean> checkNickname(@AuthenticationPrincipal MemberDetails memberDetails,
+                                                 @PathVariable String nickname) {
+        Integer memberId = memberDetails.getMember().getId();
+        return new ResponseEntity<>(memberService.checkNicknameDuplicate(nickname, memberId), HttpStatus.OK);
     }
 
     @ApiResponses({
