@@ -27,7 +27,7 @@ import com.ssafy.campinity.databinding.FragmentMyPageBinding
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
-import com.ssafy.campinity.presentation.collection.CreateFileFragment
+import com.ssafy.campinity.presentation.collection.CreateCollectionFragment
 import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
 import com.ssafy.campinity.presentation.community.note.CommunityNoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -278,7 +278,7 @@ class MyPageFragment :
                     ActivityCompat.requestPermissions(
                         requireActivity(),
                         arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                        CreateFileFragment.REQUEST_READ_STORAGE_PERMISSION
+                        CreateCollectionFragment.REQUEST_READ_STORAGE_PERMISSION
                     )
                 }
             }
