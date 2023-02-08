@@ -29,7 +29,7 @@ public class FcmToken {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Member member;
 
-    private String token;
+    private String token = "";
 
     private String campsiteUuid;
 

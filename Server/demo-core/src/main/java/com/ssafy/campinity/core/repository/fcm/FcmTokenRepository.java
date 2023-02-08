@@ -13,5 +13,6 @@ public interface FcmTokenRepository extends JpaRepository<FcmToken, Integer> {
     Optional<FcmToken> findByMember_Id(int memberId);
     Optional<FcmToken> findByToken(String token);
     List<FcmToken> findAllByMember_Id(int memberId);
+    Optional<FcmToken> findByMember_IdAndToken(int memberId, String token);
 
 }

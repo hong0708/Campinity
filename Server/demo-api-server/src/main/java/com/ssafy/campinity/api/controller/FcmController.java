@@ -10,6 +10,8 @@ import com.ssafy.campinity.core.service.FcmMessageService;
 import com.ssafy.campinity.core.service.FcmTokenService;
 import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +28,7 @@ public class FcmController {
     private final FcmTokenService fcmTokenService;
 
     @ApiResponses({
-            @ApiResponse(code = 200, message = "fcm token 저장 성공 시 응답"),
+            @ApiResponse(code = 201, message = "fcm token 저장 성공 시 응답"),
             @ApiResponse(code = 400, message = "유저가 존재하지 않을 경우 응답"),
     })
     @ApiOperation(value = "fcm 저장 및 갱신 api")
@@ -36,7 +38,10 @@ public class FcmController {
             @RequestBody FcmTokenReqDTO fcmTokenReqDTO) {
         FcmTokenResDTO fcmTokenResDTO = fcmTokenService
                 .saveFcmToken(memberDetails.getMember().getId(), fcmTokenReqDTO.getFcmToken());
-        return ResponseEntity.ok().body(fcmTokenResDTO);
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set("Location", "/api/v9/fcm/" + fcmTokenResDTO.getToken());
+        return ResponseEntity.status(HttpStatus.CREATED).headers(httpHeaders).body(fcmTokenResDTO);
     }
 
     @ApiResponses({
@@ -55,14 +60,22 @@ public class FcmController {
         return ResponseEntity.ok().body(fcmTokenResDTO);
     }
 
-    @ApiOperation(value = "test용 단일 전송 api")
-    @PostMapping("/{targetToken}")
-    public void sendFcmMessageToOne(
-            @RequestBody FcmMessageReqDTO fcmMessageReqDTO,
-            @PathVariable String targetToken) throws IOException {
+    @ApiOperation(value = "해당 유저의 현재 사용하고 있는 기기의 구독 상태 조회 api")
+    @GetMapping("/{token}")
+    public ResponseEntity<FcmTokenResDTO> findMyFcmToken(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @PathVariable String token) {
 
-        fcmMessageService.sendMessageToOne(targetToken, fcmMessageReqDTO.getTitle(), fcmMessageReqDTO.getBody());
+        FcmTokenResDTO fcmTokenResDTO = fcmTokenService.findMyFcmToken(memberDetails.getMember().getId(), token);
+        return ResponseEntity.ok().body(fcmTokenResDTO);
     }
 
+    @ApiOperation(value = "구독한 캠핑장에 메시지 전송 api")
+    @PostMapping("/to-many")
+    public void sendFcmMessageToMany(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @RequestBody FcmMessageReqDTO fcmMessageReqDTO) throws IOException {
 
+        fcmMessageService.sendMessageToMany(memberDetails.getMember().getId(), fcmMessageReqDTO);
+    }
 }

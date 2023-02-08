@@ -13,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -87,8 +89,9 @@ public class FcmTokenServiceImpl implements FcmTokenService {
         if (!fcmToken.isEmpty()) {
             fcmTokenRepository.deleteById(fcmToken.get(0).getId());
             member.removeFcmToken(fcmToken.get(0));
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**
@@ -136,5 +139,21 @@ public class FcmTokenServiceImpl implements FcmTokenService {
             FcmToken savedToken = fcmTokenRepository.save(fcmToken);
             return FcmTokenResDTO.builder().fcmToken(savedToken).build();
         }
+    }
+
+    public FcmTokenResDTO findMyFcmToken(int memberId, String token){
+
+        FcmToken fcmToken = fcmTokenRepository.findByMember_IdAndToken(memberId, token).orElse(null);
+
+        if (fcmToken == null){
+            Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(() ->
+                    new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+            fcmToken = FcmToken.builder().member(member).token(token).expiredDate(LocalDate.now().plusMonths(1)).build();
+
+            member.addFcmToken(fcmToken);
+            FcmToken savedToken = fcmTokenRepository.save(fcmToken);
+            return FcmTokenResDTO.builder().fcmToken(savedToken).build();
+        }
+        return FcmTokenResDTO.builder().fcmToken(fcmToken).build();
     }
 }
