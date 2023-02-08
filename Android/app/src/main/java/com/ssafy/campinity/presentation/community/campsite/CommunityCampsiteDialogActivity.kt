@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
-import android.view.WindowManager
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -16,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.navigation.navArgs
+import com.ssafy.campinity.common.util.BindingAdapters.setCollectionImgUri
 import com.ssafy.campinity.common.util.Permission
 import com.ssafy.campinity.databinding.ActivityCommunityCampsiteMessageDialogBinding
 import com.ssafy.campinity.domain.entity.community.MarkerLocation
@@ -30,10 +31,12 @@ class CommunityCampsiteDialogActivity :
     CollectionDeleteDialogListener,
     CommunityCampsiteMarkerDialogListener {
 
+    private val args by navArgs<CommunityCampsiteDialogActivityArgs>()
     private lateinit var binding: ActivityCommunityCampsiteMessageDialogBinding
     private lateinit var type: String
     private lateinit var campsiteId: String
     private val viewModel by viewModels<CommunityCampsiteDialogViewModel>()
+
     private val fromAlbumActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
@@ -52,9 +55,8 @@ class CommunityCampsiteDialogActivity :
         binding = ActivityCommunityCampsiteMessageDialogBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val intent = intent
-        type = intent.getStringExtra("type").toString()
-        campsiteId = intent.getStringExtra("campsiteId").toString()
+        type = args.dialogType
+        campsiteId = args.campsiteId
 
         setTextWatcher()
         initView()
@@ -84,13 +86,19 @@ class CommunityCampsiteDialogActivity :
                 else -> {}
             }
         }
+
+        viewModel.file.observe(this) { response ->
+            response.let {
+                binding.ivCommunityUserPhoto.setCollectionImgUri(response)
+            }
+        }
     }
 
     private fun initView() {
-        binding.communityCampsiteDialogViewModel = viewModel
 
         binding.apply {
-            //tvReviewTitle.text = type
+            binding.tvReviewTitle.text = type
+            binding.communityCampsiteDialogViewModel = viewModel
 
             ivCloseWriteReviewNoteDialog.setOnClickListener {
                 onBackPressed()

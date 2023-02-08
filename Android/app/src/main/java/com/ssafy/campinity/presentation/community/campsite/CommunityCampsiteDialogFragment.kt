@@ -29,7 +29,7 @@ class CommunityCampsiteDialogFragment :
     CollectionDeleteDialogListener,
     CommunityCampsiteMarkerDialogListener {
 
-    private val args by navArgs<CommunityCampsiteDialogFragmentArgs>()
+    //private val args by navArgs<CommunityCampsiteDialogFragmentArgs>()
     private val viewModel by activityViewModels<CommunityCampsiteViewModel>()
     private val fromAlbumActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -53,13 +53,13 @@ class CommunityCampsiteDialogFragment :
     }
 
     override fun initView() {
-        setTextWatcher()
+       /* setTextWatcher()
         observeState()
 
         binding.communityCampsiteViewModel = viewModel
 
         binding.apply {
-            tvReviewTitle.text = args.dialogType
+            //tvReviewTitle.text = args.dialogType
 
             ivCloseWriteReviewNoteDialog.setOnClickListener {
                 popBackStack()
@@ -67,7 +67,7 @@ class CommunityCampsiteDialogFragment :
 
             clAddPhoto.setOnClickListener { setAlbumView() }
 
-            if (args.dialogType == "리뷰 쪽지") {
+            *//*if (args.dialogType == "리뷰 쪽지") {
                 tvSelectMarkerLocation.visibility = View.VISIBLE
 
                 tvSelectMarkerLocation.setOnClickListener {
@@ -96,7 +96,7 @@ class CommunityCampsiteDialogFragment :
                     //popBackStack()
                 }
             }
-        }
+        }*/
     }
 
     private fun setTextWatcher() {
