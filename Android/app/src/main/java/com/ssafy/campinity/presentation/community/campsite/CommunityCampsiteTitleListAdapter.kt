@@ -11,11 +11,6 @@ import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 
 class CommunityCampsiteTitleListAdapter(
     private val onCampsiteTitleClicked: (
-        /*campsiteId: String,
-        campsiteName: String,
-        address: String,
-        longitude: String,
-        latitude: String*/
         campsiteBriefInfo: CampsiteBriefInfo
     ) -> Unit
 ) : RecyclerView.Adapter<CommunityCampsiteTitleListAdapter.CommunityCampsiteTitleListViewHolder>() {
@@ -46,18 +41,11 @@ class CommunityCampsiteTitleListAdapter(
     class CommunityCampsiteTitleListViewHolder(
         val binding: ItemCampsiteTitleBinding,
         private val onCampsiteTitleClicked: (
-            /* campsiteId: String,
-             campsiteName: String,
-             address: String,
-             longitude: String,
-             latitude: String*/
             campsiteBriefInfo: CampsiteBriefInfo
         ) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CampsiteBriefInfo) {
             binding.apply {
-                /*tvCampsiteTitle.text = data.campsiteName
-                tvCampsiteAddress.text = data.address*/
                 binding.campsiteName = data
                 root.setOnClickListener {
                     onCampsiteTitleClicked(

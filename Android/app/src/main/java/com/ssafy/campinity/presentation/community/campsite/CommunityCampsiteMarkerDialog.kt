@@ -5,7 +5,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.WindowManager
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
@@ -23,8 +22,6 @@ class CommunityCampsiteMarkerDialog(
     private lateinit var binding: DialogWriteReviewNoteMarkerBinding
     private lateinit var mapView: MapView
     private var marker = MapPOIItem()
-
-    val TAG = "CommunityCampsiteMarkerDialog"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,9 +41,6 @@ class CommunityCampsiteMarkerDialog(
         mapView.setMapViewEventListener(this)
         binding.clMapMarker.addView(mapView)
 
-        //임의 중앙 값 찍음 후에 위치 기반으로 넘겨줘서 찍어야함
-        val uLatitude = 36.1071
-        val uLongitude = 128.4164
         val uNowPosition = MapPoint.mapPointWithGeoCoord(
             ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
             ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
@@ -69,20 +63,13 @@ class CommunityCampsiteMarkerDialog(
         }
     }
 
-    override fun onMapViewInitialized(p0: MapView?) {
+    override fun onMapViewInitialized(p0: MapView?) {}
 
-    }
+    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
 
-    override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {
-        Log.d(TAG, "onMapViewCenterPointMoved: ")
-    }
-
-    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-        Log.d(TAG, "onMapViewZoomLevelChanged: ")
-    }
+    override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {}
 
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {
-        Log.d(TAG, "onMapViewSingleTapped: ")
         mapView.removeAllPOIItems()
 
         val markerPosition =
@@ -103,24 +90,13 @@ class CommunityCampsiteMarkerDialog(
         mapView.addPOIItem(marker)
     }
 
-    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {
+    override fun onMapViewDoubleTapped(p0: MapView?, p1: MapPoint?) {}
 
-    }
+    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {}
 
-    override fun onMapViewLongPressed(p0: MapView?, p1: MapPoint?) {
-        Log.d(TAG, "onMapViewLongPressed: ")
+    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {}
 
-    }
+    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
 
-    override fun onMapViewDragStarted(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {
-
-    }
-
-    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-
-    }
+    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
 }

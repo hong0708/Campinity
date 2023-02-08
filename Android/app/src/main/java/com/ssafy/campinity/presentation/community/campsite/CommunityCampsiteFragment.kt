@@ -77,7 +77,7 @@ class CommunityCampsiteFragment :
             override fun handleOnBackPressed() {
                 if (binding.slCommunityFrame.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     binding.slCommunityFrame.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
-                }else{
+                } else {
                     onDetach()
                 }
             }
@@ -142,50 +142,13 @@ class CommunityCampsiteFragment :
         )
     }
 
-    // 마커 클릭 이벤트 리스너
-    /*class MarkerEventListener(val context: Context) : MapView.POIItemEventListener {
-        override fun onPOIItemSelected(mapView: MapView?, poiItem: MapPOIItem?) {
-            // 마커 클릭 시
-        }
-
-        override fun onCalloutBalloonOfPOIItemTouched(mapView: MapView?, poiItem: MapPOIItem?) {
-            // 말풍선 클릭 시 (Deprecated)
-            // 이 함수도 작동하지만 그냥 아래 있는 함수에 작성하자
-        }
-
-        override fun onCalloutBalloonOfPOIItemTouched(
-            mapView: MapView?,
-            poiItem: MapPOIItem?,
-            buttonType: MapPOIItem.CalloutBalloonButtonType?
-        ) {
-            // 말풍선 클릭 시
-            *//*val builder = AlertDialog.Builder(context)
-            val itemList = arrayOf("토스트", "마커 삭제", "취소")
-            builder.setTitle("${poiItem?.itemName}")
-            builder.setItems(itemList) { dialog, which ->
-                when(which) {
-                    0 -> Toast.makeText(context, "토스트", Toast.LENGTH_SHORT).show()  // 토스트
-                    1 -> mapView?.removePOIItem(poiItem)    // 마커 삭제
-                    2 -> dialog.dismiss()   // 대화상자 닫기
-                }
-            }
-            builder.show()*//*
-        }
-
-        override fun onDraggablePOIItemMoved(
-            mapView: MapView?,
-            poiItem: MapPOIItem?,
-            mapPoint: MapPoint?
-        ) {
-            // 마커의 속성 중 isDraggable = true 일 때 마커를 이동시켰을 경우
-        }
-    }*/
-
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
 
     }
 
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
+    @Deprecated("Deprecated in Java")
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
 
     override fun onCalloutBalloonOfPOIItemTouched(
         p0: MapView?,
@@ -198,7 +161,7 @@ class CommunityCampsiteFragment :
                 CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteFragment()
             )
         } else {
-            val message: CampsiteMessageBriefInfo = p1!!.userObject as CampsiteMessageBriefInfo
+            val message: CampsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
             getFreeReviewDetail(message.messageId)
         }
     }
@@ -273,10 +236,8 @@ class CommunityCampsiteFragment :
 
     private fun initRecyclerView() {
         binding.rvCampsiteTitleList.apply {
-            //isNestedScrollingEnabled
             adapter = communityCampsiteTitleListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-
         }
     }
 
@@ -284,7 +245,15 @@ class CommunityCampsiteFragment :
     private fun initListener() {
         binding.apply {
 
+            viewList =
+                listOf(tvFabHelp, tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
+            fabList = listOf(clFabHelp, clFabGetHelp, clFabReview, clFabFreeNote)
             slCommunityFrame.addPanelSlideListener(PanelEventListener())
+
+            ibBackToMain.setOnClickListener {
+                //Log.d("tlqkf", "initListener: need to go back")
+                //navigate(CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToMainActivity())
+            }
 
             fabUserLocation.setOnClickListener {
                 if (isTracking) {
@@ -300,46 +269,38 @@ class CommunityCampsiteFragment :
             }
 
             clSearchByUserLocation.setOnClickListener {
-                // 만약 맵이 더 작아져서 검색이 안된다면 레벨을 미리 저장해서 검색 진행 전 맵 레벨 설정해서 보내자
                 //추적 시작
-                Log.d("tlqkf", "initListener: ")
                 Toast.makeText(requireContext(), "사용자의 위치와 지도 기준으로 검색 합니다.", Toast.LENGTH_SHORT)
                     .show()
 
                 CoroutineScope(Dispatchers.Main).launch {
-                    val deffered: Deferred<Int> = async {
-                        mapView.currentLocationTrackingMode =
-                            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
-                        if (isTracking) {
-                            isTracking = false
-                        }
-                        // 현재 내위치 기준으로 맵 포인트 가운데로 옮기기
-                        // 추후 맵 레벨 바꿔서 검색 진행
-                        val lm: LocationManager =
-                            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
-                        val userNowLocation: Location? =
-                            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-                        //위도 , 경도
-                        var uLatitude = userNowLocation?.latitude
-                        var uLongitude = userNowLocation?.longitude
-                        val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
-                        mapView.setMapCenterPoint(uNowPosition, true)
-
-                        mapView.mapCenterPoint.mapPointScreenLocation
-                        1
+                    mapView.currentLocationTrackingMode =
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                    if (isTracking) {
+                        isTracking = false
                     }
-                    deffered.await()
+                    // 현재 내위치 기준으로 맵 포인트 가운데로 옮기기
+                    // 추후 맵 레벨 바꿔서 검색 진행
+                    val lm: LocationManager =
+                        requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+                    val userNowLocation: Location? =
+                        lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+                    //위도 , 경도
+                    val uLatitude = userNowLocation?.latitude
+                    val uLongitude = userNowLocation?.longitude
+                    val uNowPosition = MapPoint.mapPointWithGeoCoord(uLatitude!!, uLongitude!!)
+                    mapView.setMapCenterPoint(uNowPosition, true)
+                    mapView.setZoomLevel(6, true)
+                    mapView.mapCenterPoint.mapPointScreenLocation
+                    delay(1000)
 
-                    withContext(Dispatchers.Main){
-                        communityCampsiteViewModel.getCampsiteBriefInfoByUserLocation(
-                            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
-                            mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
-                            mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
-                            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
-                        )
-                    }
+                    communityCampsiteViewModel.getCampsiteBriefInfoByUserLocation(
+                        mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+                        mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
+                        mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+                        mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+                    )
                 }
-
             }
 
             tvSearchCampsiteByName.setOnClickListener {
@@ -382,19 +343,12 @@ class CommunityCampsiteFragment :
 
             slCommunityFrame.addPanelSlideListener(PanelEventListener())
 
-            // 패널 열고 닫기
             clCampsiteCondition.setOnClickListener {
-                //val state = slidePanel.panelState
                 // 닫힌 상태일 경우 열기
-                Log.d("왤까?", "initListener: ")
                 if (slCommunityFrame.panelState == SlidingUpPanelLayout.PanelState.COLLAPSED) {
                     slCommunityFrame.panelState = SlidingUpPanelLayout.PanelState.ANCHORED
                 }
             }
-
-            viewList =
-                listOf(tvFabHelp, tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
-            fabList = listOf(clFabHelp, clFabGetHelp, clFabReview, clFabFreeNote)
 
             clMapBackSite.setOnClickListener {
                 for (i in fabList) {
@@ -446,7 +400,6 @@ class CommunityCampsiteFragment :
         campsiteBriefInfo: CampsiteBriefInfo
     ) {
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
-        // ApplicationClass.preferences.
         binding.tvCampsiteCondition.text = campsiteBriefInfo.campsiteName
         ApplicationClass.preferences.userRecentCampsiteId = campsiteBriefInfo.campsiteId
         ApplicationClass.preferences.userRecentCampsiteName = campsiteBriefInfo.campsiteName
@@ -456,23 +409,14 @@ class CommunityCampsiteFragment :
 
         binding.slCommunityFrame.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
 
-        /*val campsite = CampsiteBriefInfo(
-            campsiteId,
-            campsiteName,
-            address,
-            latitude,
-            longitude,
-        )*/
         drawPostBox(campsiteBriefInfo)
-        // 싸피 캠핑장 기준으로 맵 가운데 지점 옮기기
-        // 추후 받아온 위 경도 활용
+        // 받아온 위경도 기준으로 캠핑장 그리기
         val userLatitude = campsiteBriefInfo.latitude.toDouble()
         val userLongitude = campsiteBriefInfo.longitude.toDouble()
         val userNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
         mapView.setMapCenterPoint(userNowPosition, true)
 
-
-        // 쪽지 그릴 리스트 가져오기
+        // 쪽지 리스트 업데이트
         communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
             mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
             mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
@@ -480,25 +424,6 @@ class CommunityCampsiteFragment :
             mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
             mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
         )
-
-        /*communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
-            drawMarkers(response)
-        }*/
-    }
-
-    // 이벤트 리스너
-    inner class PanelEventListener : SlidingUpPanelLayout.PanelSlideListener {
-        // 패널이 슬라이드 중일 때
-        override fun onPanelSlide(panel: View?, slideOffset: Float) {}
-
-        // 패널의 상태가 변했을 때
-        override fun onPanelStateChanged(
-            panel: View?,
-            previousState: SlidingUpPanelLayout.PanelState?,
-            newState: SlidingUpPanelLayout.PanelState?
-        ) {
-
-        }
     }
 
     private fun setTextWatcher() {
@@ -519,13 +444,10 @@ class CommunityCampsiteFragment :
         communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
             drawMarkers(response)
         }
-        /*communityCampsiteViewModel.campsiteMessageBriefInfo.value?.let { drawMarkers(it) }*/
+
         communityCampsiteViewModel.campsiteBriefInfo.observe(viewLifecycleOwner) { response ->
             response.let { communityCampsiteTitleListAdapter.setCampsiteBriefInfo(it) }
         }
-        /*communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
-                if (response.isNotEmpty()) drawMarkers(response)
-            }*/
     }
 
     private fun drawPostBox(campsite: CampsiteBriefInfo) {
@@ -550,13 +472,9 @@ class CommunityCampsiteFragment :
 
     // 마커를 그리는 함수
     private fun drawMarkers(markerLocationList: List<CampsiteMessageBriefInfo>) {
-
         // set 설정을 통해 이미 그려진 마커들은 다시 그리는 것을 막는다
         // 추가 구현 필요
-
-        // 리뷰는 다 열려있고 자유는 가깝게 다가 가면 열린다.
-        //
-
+        // 자유는 가깝게 다가 가면 열린다.
         for (i in markerLocationList) {
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(i.latitude.toDouble(), i.longitude.toDouble())
@@ -577,15 +495,23 @@ class CommunityCampsiteFragment :
 
                 userObject = i
                 tag = 2
-
-                /*selectedMarkerType = MapPOIItem.MarkerType.CustomImage
-                customSelectedImageResourceId = R.drawable.ic_community_campsite_marker*/
-
             }
             mapView.addPOIItem(marker)
         }
     }
 
-    // 내 위치 권한 허용 함수들
+    // 이벤트 리스너
+    inner class PanelEventListener : SlidingUpPanelLayout.PanelSlideListener {
+        // 패널이 슬라이드 중일 때
+        override fun onPanelSlide(panel: View?, slideOffset: Float) {}
 
+        // 패널의 상태가 변했을 때
+        override fun onPanelStateChanged(
+            panel: View?,
+            previousState: SlidingUpPanelLayout.PanelState?,
+            newState: SlidingUpPanelLayout.PanelState?
+        ) {
+
+        }
+    }
 }

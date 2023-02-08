@@ -10,14 +10,9 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
-import com.ssafy.campinity.domain.entity.community.MarkerLocation
 import com.ssafy.campinity.domain.usecase.community.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
-import okhttp3.MultipartBody
-import okhttp3.RequestBody.Companion.asRequestBody
-import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,7 +20,6 @@ class CommunityCampsiteViewModel @Inject constructor(
     private val getCampsiteBriefInfoByCampNameUseCase: GetCampsiteBriefInfoByCampNameUseCase,
     private val getCampsiteBriefInfoByUserLocationUseCase: GetCampsiteBriefInfoByUserLocationUseCase,
     private val getCampsiteMessageBriefInfoByScopeUseCase: GetCampsiteMessageBriefInfoByScopeUseCase,
-    private val createCampsiteMessageUseCase: CreateCampsiteMessageUseCase,
     private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase
 ) : ViewModel() {
 
@@ -43,17 +37,8 @@ class CommunityCampsiteViewModel @Inject constructor(
     private val _file: MutableLiveData<Uri?> = MutableLiveData(null)
     val file: MutableLiveData<Uri?> = _file
 
-    private val _markerLocation: MutableLiveData<MarkerLocation> =
-        MutableLiveData(MarkerLocation(0.0, 0.0))
-    val markerLocation: MutableLiveData<MarkerLocation> = _markerLocation
-
-    private val _isSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isSucceed: LiveData<Boolean> = _isSucceed
-
     private val _content: MutableLiveData<String> = MutableLiveData("")
     val content: MutableLiveData<String> = _content
-
-    private var imgMultiPart: MultipartBody.Part? = null
 
     fun getCampsiteBriefInfoByCampName() = viewModelScope.launch {
         when (val value = getCampsiteBriefInfoByCampNameUseCase(requireNotNull(content.value))) {
@@ -134,42 +119,6 @@ class CommunityCampsiteViewModel @Inject constructor(
                     "getCampsiteMessageDetailInfo: ${value.errorMessage}"
                 )
             }
-        }
-    }
-
-    fun createCommunityCampsiteMessage(
-        messageCategory: String,
-        campsiteId: String
-    ) = viewModelScope.launch {
-        when (
-            val value = createCampsiteMessageUseCase(
-                messageCategory,
-                imgMultiPart,
-                requireNotNull(markerLocation.value?.latitude),
-                campsiteId,
-                requireNotNull(content.value),
-                requireNotNull(markerLocation.value?.longitude),
-
-                )) {
-            is Resource.Success<CampsiteMessageDetailInfo> -> {
-                _isSucceed.value = true
-            }
-            is Resource.Error -> {
-                Log.e(
-                    "createCommunityCampsiteMessage",
-                    "createCommunityCampsiteMessage: ${value.errorMessage}"
-                )
-                _isSucceed.value = false
-            }
-        }
-    }
-
-    fun setPicture(uri: Uri?, file: File?) {
-        viewModelScope.launch {
-            _file.value = uri
-            val requestFile = file?.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            imgMultiPart =
-                requestFile?.let { MultipartBody.Part.createFormData("file", file.name, it) }
         }
     }
 }
