@@ -69,11 +69,12 @@ class JoinViewModel @Inject constructor(
         viewModelScope.launch {
             when (val value =
                 createUserInfoUseCase.createUserInfo(
-                    requireNotNull(nickname.value),
+                    requireNotNull(_nickname.value),
                     profileImgMultiPart,
                     fcmToken
                 )) {
                 is Resource.Success<User> -> {
+                    ApplicationClass.preferences.nickname = _nickname.value
                     ApplicationClass.preferences.isLoggedIn = true
                     _isSuccess.value = true
                 }
@@ -89,10 +90,11 @@ class JoinViewModel @Inject constructor(
         viewModelScope.launch {
             when (val value =
                 createUserInfoUseCase.createUserInfoWithoutImg(
-                    requireNotNull(nickname.value),
+                    requireNotNull(_nickname.value),
                     fcmToken
                 )) {
                 is Resource.Success<User> -> {
+                    ApplicationClass.preferences.nickname = _nickname.value
                     ApplicationClass.preferences.isLoggedIn = true
                     _isSuccess.value = true
                 }

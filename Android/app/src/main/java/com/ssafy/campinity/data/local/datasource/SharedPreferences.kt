@@ -30,10 +30,6 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("userRecentCampsiteName", null)
         set(value) = prefs.edit().putString("userRecentCampsiteName", value).apply()
 
-    var profileImg: String?
-        get() = prefs.getString("profileImg", null)
-        set(value) = prefs.edit().putString("profileImg", value).apply()
-
     var nickname: String?
         get() = prefs.getString("nickname", null)
         set(value) = prefs.edit().putString("nickname", value).apply()
