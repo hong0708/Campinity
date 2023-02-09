@@ -12,8 +12,8 @@ spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
     url: jdbc:mariadb://localhost:3306/campinity
-    username: root
-    password: root
+    username: server
+    password: ssafy123!
   hikari:
     connectionTimeout : 30000
     maximumPoolSize : 30
