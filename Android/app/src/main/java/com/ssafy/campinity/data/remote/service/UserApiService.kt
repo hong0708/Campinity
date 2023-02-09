@@ -19,4 +19,7 @@ interface UserApiService {
 
     @POST("/api/v4/members/cancel-sign-up")
     suspend fun cancelSignUp(): Boolean
+
+    @GET("/api/v4/members/member-image")
+    suspend fun getUserProfile(): String
 }
