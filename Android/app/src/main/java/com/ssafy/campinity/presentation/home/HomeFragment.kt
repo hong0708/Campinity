@@ -46,6 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initListener()
         initCollection()
         initBanner()
+        initObserver()
     }
 
     override fun onResume() {
@@ -157,6 +158,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 collectionId
             )
         )
+    }
+
+    private fun initObserver() {
+        myPageViewModel.profileImgStr.observe(viewLifecycleOwner) {
+            binding.ivMyPage.setProfileImgString(it)
+        }
     }
 
     inner class PagerRunnable : Runnable {

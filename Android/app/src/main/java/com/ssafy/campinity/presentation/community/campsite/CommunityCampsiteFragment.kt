@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -20,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
 import com.ssafy.campinity.common.util.CustomDialogInterface
 import com.ssafy.campinity.common.util.Permission
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
@@ -57,6 +57,8 @@ class CommunityCampsiteFragment :
         initListener()
         initRecyclerView()
         setTextWatcher()
+
+        communityCampsiteViewModel.getUserProfile()
     }
 
     override fun onResume() {
@@ -225,7 +227,7 @@ class CommunityCampsiteFragment :
                 activity?.onBackPressed()
             }
 
-            fabUserLocation.setOnClickListener {
+            ibUserLocation.setOnClickListener {
                 if (isTracking) {
                     showToast("위치 추적을 멈춥니다.")
                     mapView.currentLocationTrackingMode =
@@ -240,8 +242,7 @@ class CommunityCampsiteFragment :
 
             clSearchByUserLocation.setOnClickListener {
                 //추적 시작
-                Toast.makeText(requireContext(), "사용자의 위치와 지도 기준으로 검색 합니다.", Toast.LENGTH_SHORT)
-                    .show()
+                showToast("사용자의 위치와 지도 기준으로 검색 합니다.")
 
                 CoroutineScope(Dispatchers.Main).launch {
                     mapView.currentLocationTrackingMode =
@@ -404,6 +405,10 @@ class CommunityCampsiteFragment :
         communityCampsiteViewModel.campsiteBriefInfo.observe(viewLifecycleOwner) { response ->
             response.let { communityCampsiteTitleListAdapter.setCampsiteBriefInfo(it) }
         }
+
+        communityCampsiteViewModel.profileImgStr.observe(viewLifecycleOwner) { response ->
+            binding.ibUserLocation.setProfileImgString(response)
+        }
     }
 
     private fun drawPostBox(campsite: CampsiteBriefInfo) {
@@ -418,8 +423,8 @@ class CommunityCampsiteFragment :
             isShowDisclosureButtonOnCalloutBalloon = true
             mapPoint = markerPosition
             markerType = MapPOIItem.MarkerType.CustomImage
-            customImageResourceId = R.drawable.ic_community_campsite_marker
-            isCustomImageAutoscale = true
+            customImageResourceId = R.drawable.ic_community_campsite_marker3
+            //isCustomImageAutoscale = true
             userObject = campsite
             tag = 1
         }
@@ -442,9 +447,9 @@ class CommunityCampsiteFragment :
                 if (i.messageCategory == "리뷰") {
                     customImageResourceId = R.drawable.ic_review_note_marker
                 } else {
-                    customImageResourceId = R.drawable.ic_community_campsite_close_note
+                    customImageResourceId = R.drawable.ic_community_campsite_close_note3
                 }
-                isCustomImageAutoscale = false
+                //isCustomImageAutoscale = false
                 userObject = i
                 tag = 2
             }

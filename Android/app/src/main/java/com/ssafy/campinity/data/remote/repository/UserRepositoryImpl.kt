@@ -4,6 +4,7 @@ import com.ssafy.campinity.common.util.wrapToResource
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.user.UserRemoteDataSource
 import com.ssafy.campinity.domain.entity.user.User
+import com.ssafy.campinity.domain.entity.user.UserProfile
 import com.ssafy.campinity.domain.repository.UserRepository
 import kotlinx.coroutines.Dispatchers
 import okhttp3.MultipartBody
@@ -38,5 +39,10 @@ class UserRepositoryImpl @Inject constructor(
     override suspend fun cancelSignUp(): Resource<Boolean> =
         wrapToResource(Dispatchers.IO) {
             userRemoteDataSource.cancelSignUp()
+        }
+
+    override suspend fun getUserProfile(): Resource<UserProfile> =
+        wrapToResource(Dispatchers.IO){
+            userRemoteDataSource.getUserProfileImg().toDomainModel()
         }
 }

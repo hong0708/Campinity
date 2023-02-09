@@ -84,6 +84,7 @@ class MyPageFragment :
                     binding.slMyPage.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
                 } else {
                     onDetach()
+                    myPageViewModel.clearData()
                 }
             }
         }
@@ -142,6 +143,14 @@ class MyPageFragment :
                 binding.btnConfirm.apply {
                     setBackgroundResource(R.drawable.bg_rect_bilbao_radius10)
                     isEnabled = true
+                }
+            }
+        }
+
+        myPageViewModel.detailData.observe(viewLifecycleOwner) {response ->
+            response.let {
+                if (it != null) {
+                    ReviewNoteDialog(requireContext(), it).show()
                 }
             }
         }
@@ -314,10 +323,6 @@ class MyPageFragment :
 
     private fun showDialog(noteQuestionId: String) {
         myPageViewModel.getDetailData(noteQuestionId)
-        myPageViewModel.detailData.observe(viewLifecycleOwner) {
-            val dialog = ReviewNoteDialog(requireContext(), it!!)
-            dialog.show()
-        }
     }
 
     // 로그아웃
