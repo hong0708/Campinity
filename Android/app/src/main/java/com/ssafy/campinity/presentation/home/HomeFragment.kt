@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
 import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.databinding.FragmentHomeBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -39,7 +40,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private var waitTime = 0L
 
     override fun initView() {
-        myPageViewModel.getInfo()
+        setData()
         homeViewModel.requestCurrentToken()
         getFCMToken()
         initListener()
@@ -70,6 +71,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onDetach() {
         super.onDetach()
         callback.remove()
+    }
+
+    private fun setData() {
+        myPageViewModel.getInfo()
+        myPageViewModel.profileImgStr.observe(viewLifecycleOwner) {
+            binding.ivMyPage.setProfileImgString(it)
+        }
     }
 
     private fun getFCMToken() {
