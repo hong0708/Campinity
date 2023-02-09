@@ -110,4 +110,17 @@ public class QuestionController {
                 .body(QuestionDeleteDTO.builder().questionId(questionId.toString()).build());
 
     }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "질문 조회 성공시 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터 부적합(타입 및 입력값 부적절) 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "질문 목록 조회(유저 기준) API : mypage용")
+    @GetMapping("/lists/members")
+    public ResponseEntity<List<QuestionResDTO>> getQuestionListByMember(
+            @AuthenticationPrincipal MemberDetails memberDetails) {
+        List<QuestionResDTO> results = questionService.getQuestionListByMember(memberDetails.getMember().getId());
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
 }
