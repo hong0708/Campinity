@@ -69,7 +69,6 @@ class MyPageFragment :
         initSpinner()
         // edit
         setTextWatcher()
-        myPageViewModel.checkSame()
         observeState()
     }
 
