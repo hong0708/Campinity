@@ -17,4 +17,6 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
     void deleteById(int questionId);
 
     Optional<Question> findById(int questionId);
+
+    List<Question> findByMember_idAndExpiredIsFalseOrderByCreatedAtDesc(int memberId);
 }

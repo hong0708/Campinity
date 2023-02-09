@@ -85,7 +85,7 @@ public class MessageTest {
      */
     @Test
     @DisplayName("쪽지 작성 service 테스트")
-    void postMessageServiceTest(){
+    void postMessageServiceTest() throws IOException {
 
         Campsite campsite = Campsite.builder()
                 .address("전남 담양군 봉산면 탄금길 9-26")
@@ -133,7 +133,7 @@ public class MessageTest {
      */
     @Test
     @DisplayName("쪽지 좋아요 기능 영속성 전이 테스트")
-    void likeMessageCascadeTest(){
+    void likeMessageCascadeTest() throws IOException {
 
         Message message = createMessage();
 
@@ -166,7 +166,7 @@ public class MessageTest {
      * message 삭제 시 주인 테이블인 likeMessage 객체 삭제
      */
     @Test
-    void deleteMessageCascadeTest() throws FileNotFoundException {
+    void deleteMessageCascadeTest() throws IOException {
 
         Campsite campsite = Campsite.builder()
                 .address("전남 담양군 봉산면 탄금길 9-26")
@@ -214,7 +214,7 @@ public class MessageTest {
     }
 
     @Test
-    void getMyMessageTest(){
+    void getMyMessageTest() throws IOException {
         Campsite campsite = Campsite.builder()
                 .address("전남 담양군 봉산면 탄금길 9-26")
                 .allowAnimal("불가능")
@@ -312,7 +312,7 @@ public class MessageTest {
     }
 
     // 테스트 통과한 code 기반 쪽지 객체 생성 method
-    public Message createMessage() {
+    public Message createMessage() throws IOException {
 
         Campsite campsite = Campsite.builder()
                 .address("전남 담양군 봉산면 탄금길 9-26")

@@ -25,6 +25,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,9 @@ public class SoftDeleteTotalTest {
 
     @Autowired
     JobLauncherTestUtils jobLauncherTestUtils;
+
+    @PersistenceContext(unitName = "campinityEntityManager")
+    private EntityManager em;
 
     @Test
     @DisplayName("soft delete job 통합 테스트")
@@ -99,6 +104,10 @@ public class SoftDeleteTotalTest {
         Assertions.assertThat(messages.get(1).getExpired()).isEqualTo(true);
         Assertions.assertThat(messages.get(2).getExpired()).isEqualTo(false); // 리뷰는 삭제 대상 X
         Assertions.assertThat(messages.get(3).getExpired()).isEqualTo(false); // 시간이 2일 전이 아니라면 삭제 대상 X
+
+        messageRepository.deleteAllInBatch(messages);
+        memberRepository.delete(savedMember);
+        campsiteRepository.delete(savedCampsite);
     }
 
 }

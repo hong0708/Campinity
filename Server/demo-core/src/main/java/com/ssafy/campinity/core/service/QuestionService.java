@@ -19,4 +19,6 @@ public interface QuestionService {
     QuestionDetailResDTO getQuestionDetail(UUID questionId);
 
     void deleteQuestion(UUID questionId, UUID memberId) throws Exception;
+
+    List<QuestionResDTO> getQuestionListByMember(int memberId);
 }
