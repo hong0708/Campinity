@@ -1,5 +1,6 @@
 package com.ssafy.campinity.core.dto;
 
+import com.ssafy.campinity.core.utils.EmptyMultiPartFile;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,5 +28,10 @@ public class CurationReqDTO {
         this.content = content;
         this.curationCategory = curationCategory;
         this.files = files;
+        for (MultipartFile file : files) {
+            EmptyMultiPartFile emptyFile = new EmptyMultiPartFile();
+            if (file != null) continue;
+            file = (MultipartFile) emptyFile;
+        }
     }
 }

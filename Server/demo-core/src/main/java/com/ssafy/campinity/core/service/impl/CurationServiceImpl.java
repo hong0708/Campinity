@@ -39,12 +39,8 @@ public class CurationServiceImpl implements CurationService {
         List<String> imagePaths = new ArrayList<>();
 
         for (MultipartFile file: files) {
-            try {
-                String imagePath = imageUtil.uploadImage(file, "curation");
-                imagePaths.add(imagePath);
-            }
-            catch(IOException e) { throw new IOException(e);}
-            catch(IllegalStateException e) { throw new IllegalStateException(e);}
+            String imagePath = imageUtil.uploadImage(file, "curation");
+            imagePaths.add(imagePath);
         }
 
         String firstImagePath = null;
