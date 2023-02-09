@@ -117,12 +117,7 @@ class MyPageViewModel @Inject constructor(
     // 프로필 이미지를 바꿔 등록
     fun updateProfile(nickname: String) {
         viewModelScope.launch {
-            when (val value =
-                editUserInfoUseCase(
-                    nickname,
-                    true,
-                    profileImgMultiPart
-                )) {
+            when (val value = editUserInfoUseCase(nickname, true, profileImgMultiPart)) {
                 is Resource.Success<User> -> {
                     ApplicationClass.preferences.nickname = nickname
                     _nickname.value = nickname
@@ -138,12 +133,7 @@ class MyPageViewModel @Inject constructor(
     // 프로필 이미지를 바꾸지 않고 등록
     fun updateProfileWithExistingImg(nickname: String) {
         viewModelScope.launch {
-            when (val value =
-                editUserInfoUseCase(
-                    nickname,
-                    false,
-                    null
-                )) {
+            when (val value = editUserInfoUseCase(nickname, false, null)) {
                 is Resource.Success<User> -> {
                     ApplicationClass.preferences.nickname = nickname
                     _nickname.value = nickname
@@ -159,12 +149,7 @@ class MyPageViewModel @Inject constructor(
     // 프로필 이미지를 지우고 등록
     fun updateProfileWithoutImg(nickname: String) {
         viewModelScope.launch {
-            when (val value =
-                editUserInfoUseCase(
-                    nickname,
-                    true,
-                    null
-                )) {
+            when (val value = editUserInfoUseCase(nickname, true, null)) {
                 is Resource.Success<User> -> {
                     ApplicationClass.preferences.nickname = nickname
                     _nickname.value = nickname
