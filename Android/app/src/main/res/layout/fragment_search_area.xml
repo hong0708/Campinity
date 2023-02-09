@@ -51,6 +51,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sido"
             android:layout_width="wrap_content"
+            android:nestedScrollingEnabled="false"
             android:layout_height="0dp"
             android:background="@color/white_smoke"
             app:layout_constraintBottom_toTopOf="@id/view_divider_bottom"
@@ -90,16 +91,20 @@
                 tools:text="(113)" />
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_gugun"
+        <androidx.core.widget.NestedScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginVertical="11dp"
-            android:descendantFocusability="beforeDescendants"
             app:layout_constraintBottom_toTopOf="@id/view_divider_bottom"
             app:layout_constraintEnd_toEndOf="@id/ll_select_all"
             app:layout_constraintStart_toStartOf="@id/ll_select_all"
-            app:layout_constraintTop_toBottomOf="@id/ll_select_all" />
+            app:layout_constraintTop_toBottomOf="@id/ll_select_all">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_gugun"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </androidx.core.widget.NestedScrollView>
 
         <View
             android:id="@+id/view_divider_bottom"
