@@ -76,7 +76,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_search"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="44dp"
@@ -126,7 +126,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_community"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="44dp"
@@ -217,8 +217,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginStart="33dp"
-                    android:layout_marginEnd="33dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="33dp"
                     android:background="@drawable/bg_rect_white_smoke_radius15"
                     app:layout_constraintTop_toBottomOf="@id/tv_title_collection">
 
@@ -226,10 +226,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/content_home_empty_collection"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
