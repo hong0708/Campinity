@@ -72,17 +72,6 @@ public class MyCollectionServiceImpl implements MyCollectionService {
             imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection");
             myCollection.setImagePath(imagePath);
         }
-        // 업로드 파일 존재x
-        // case 1: 기존에 저장된 사진 있는 경우(삭제)
-        //  - 파일 삭제 후, 빈 문자열로 경로 설정
-        // case 2: 저장된 사진 없는 경우
-        //  - 빈 문자열로 경로 설정
-        else {
-            if (!imagePath.isEmpty()) {
-                imageUtil.removeImage(imagePath);
-            }
-            myCollection.setImagePath("");
-        }
 
         if (!myCollectionReqDTO.getDate().isEmpty()) myCollection.setDate(myCollectionReqDTO.getDate());
         if (!myCollectionReqDTO.getCampsiteName().isEmpty()) myCollection.setCampsiteName(myCollectionReqDTO.getCampsiteName());
