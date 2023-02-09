@@ -8,8 +8,10 @@ import android.os.Bundle
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ActivitySplashBinding
 import com.ssafy.campinity.presentation.MainActivity
@@ -24,6 +26,7 @@ class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
     private lateinit var fadeInAnim: Animation
     private val SPLASH_VIEW_TIME: Long = 5000
+    private val splashViewModel by viewModels<SplashViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,6 +34,14 @@ class SplashActivity : AppCompatActivity() {
         moveSunImg()
         fadeOutBackground()
         checkTokenValidation()
+        setNickname()
+    }
+
+    private fun setNickname() {
+        splashViewModel.getInfo()
+        splashViewModel.nickname.observe(this) {
+            ApplicationClass.preferences.nickname = it
+        }
     }
 
     private fun checkTokenValidation() {
