@@ -1,6 +1,7 @@
 package com.ssafy.campinity.core.service.impl;
 
 import com.ssafy.campinity.core.dto.EditMemberInfoReqDTO;
+import com.ssafy.campinity.core.dto.MemberProfileImageResDTO;
 import com.ssafy.campinity.core.dto.MemberResDTO;
 import com.ssafy.campinity.core.dto.ProfileResDTO;
 import com.ssafy.campinity.core.entity.member.Member;
@@ -115,5 +116,13 @@ public class MemberServiceImpl implements MemberService {
                 .nickName(member.getName())
                 .profileImg(member.getProfileImage())
                 .email(member.getEmail()).build();
+    }
+
+    @Override
+    public MemberProfileImageResDTO getMemberProfileImage(int memberId) {
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+
+        return MemberProfileImageResDTO.builder().profile(member.getProfileImage()).build();
     }
 }
