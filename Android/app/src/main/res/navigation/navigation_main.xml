@@ -143,18 +143,9 @@
         android:label="MyPageFragment"
         tools:layout="@layout/fragment_my_page">
         <action
-            android:id="@+id/action_myPageFragment_to_editProfileFragment"
-            app:destination="@id/editProfileFragment" />
-        <action
             android:id="@+id/action_myPageFragment_to_onBoardingFragment"
             app:destination="@id/onBoardingFragment" />
     </fragment>
-
-    <fragment
-        android:id="@+id/editProfileFragment"
-        android:name="com.ssafy.campinity.presentation.mypage.EditProfileFragment"
-        android:label="EditProfileFragment"
-        tools:layout="@layout/fragment_edit_profile" />
 
     <fragment
         android:id="@+id/completeJoinFragment"
@@ -168,7 +159,7 @@
 
     <fragment
         android:id="@+id/updateCollectionFragment"
-        android:name="com.ssafy.campinity.presentation.collection.UpdateFileFragment"
+        android:name="com.ssafy.campinity.presentation.collection.UpdateCollectionFragment"
         android:label="UpdateCollectionFragment"
         tools:layout="@layout/fragment_update_collection">
         <argument
@@ -178,7 +169,7 @@
 
     <fragment
         android:id="@+id/createCollectionFragment"
-        android:name="com.ssafy.campinity.presentation.collection.CreateFileFragment"
+        android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
         android:label="CreateCollectionFragment"
         tools:layout="@layout/fragment_create_collection" />
 

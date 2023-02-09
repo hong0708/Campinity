@@ -6,7 +6,6 @@ import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
 import android.provider.MediaStore
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
@@ -19,7 +18,7 @@ import com.ssafy.campinity.databinding.FragmentJoinBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
 import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
-import com.ssafy.campinity.presentation.collection.CreateFileFragment
+import com.ssafy.campinity.presentation.collection.CreateCollectionFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 
@@ -70,7 +69,7 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join),
             }
             btnCheckDuplication.setOnClickListener {
                 if (viewModel.nickname.value == null) {
-                    Toast.makeText(requireContext(), "닉네임을 입력해주세요.", Toast.LENGTH_SHORT).show()
+                    showToast("닉네임을 입력해주세요.")
                 } else {
                     viewModel.checkDuplication()
                 }
@@ -81,9 +80,8 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join),
     private fun observeState() {
         viewModel.isDuplicate.observe(viewLifecycleOwner) {
             when (it) {
-                true -> Toast.makeText(requireContext(), "중복된 닉네임입니다.", Toast.LENGTH_SHORT).show()
-                false -> Toast.makeText(requireContext(), "사용할 수 있는 닉네임입니다.", Toast.LENGTH_SHORT)
-                    .show()
+                true -> showToast("중복된 닉네임입니다.")
+                false -> showToast("사용할 수 있는 닉네임입니다.")
                 else -> {}
             }
         }
@@ -120,7 +118,7 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join),
                     ActivityCompat.requestPermissions(
                         requireActivity(),
                         arrayOf(android.Manifest.permission.READ_EXTERNAL_STORAGE),
-                        CreateFileFragment.REQUEST_READ_STORAGE_PERMISSION
+                        CreateCollectionFragment.REQUEST_READ_STORAGE_PERMISSION
                     )
                 }
             }
