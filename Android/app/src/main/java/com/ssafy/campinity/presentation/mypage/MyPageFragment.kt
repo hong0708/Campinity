@@ -13,7 +13,6 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -67,15 +66,10 @@ class MyPageFragment :
         initRecyclerView()
         initListener()
         initSpinner()
-        // edit
-        setTextWatcher()
         observeState()
     }
 
     private fun observeState() {
-        myPageViewModel.isSuccess.observe(viewLifecycleOwner) {
-            if (it == true) showToast("프로필이 수정되었습니다.")
-        }
         myPageViewModel.isDuplicate.observe(viewLifecycleOwner) {
             if (it == false) {
                 binding.btnConfirm.apply {
@@ -123,6 +117,7 @@ class MyPageFragment :
 
         val slidePanel = binding.slMyPage
         slidePanel.addPanelSlideListener(PanelEventListener())
+        slidePanel.isTouchEnabled = false
 
         binding.clEditProfile.setOnClickListener {
             // 닫힌 상태일 경우 열기
@@ -143,7 +138,11 @@ class MyPageFragment :
         // edit
         binding.apply {
             ivProfileImage.setOnClickListener { setAlbumView() }
-            btnBack.setOnClickListener { popBackStack() }
+            btnBack.setOnClickListener {
+                if (slidePanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidePanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                }
+            }
             btnCheckDuplication.setOnClickListener {
                 if (myPageViewModel.nickname.value == null) {
                     showToast("닉네임을 입력해주세요.")
@@ -159,6 +158,7 @@ class MyPageFragment :
             // 수정 확인 버튼을 눌렀을 때
             btnConfirm.setOnClickListener {
                 myPageViewModel.isSuccess.value = false
+                myPageViewModel.nickname.value = binding.etNickname.text.toString()
                 ApplicationClass.preferences.nickname = myPageViewModel.nickname.value
                 if (myPageViewModel.profileImgUri.value != null) {
                     myPageViewModel.updateProfile()
@@ -172,6 +172,7 @@ class MyPageFragment :
                 if (slidePanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     slidePanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
                 }
+                showToast("프로필이 수정되었습니다.")
             }
         }
     }
@@ -262,12 +263,6 @@ class MyPageFragment :
             } else {
                 showToast("다시 시도해주세요.")
             }
-        }
-    }
-
-    private fun setTextWatcher() {
-        binding.etNickname.addTextChangedListener {
-            myPageViewModel.nickname.value = binding.etNickname.text.toString()
         }
     }
 
