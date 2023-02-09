@@ -39,4 +39,9 @@ class UserRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             userRemoteDataSource.cancelSignUp()
         }
+
+    override suspend fun getUserProfile(): Resource<String> =
+        wrapToResource(Dispatchers.IO){
+            userRemoteDataSource.getUserProfileImg()
+        }
 }

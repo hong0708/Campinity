@@ -22,7 +22,10 @@ class UserRemoteDataSourceImpl @Inject constructor(
         return userApiService.createUserInfo(map, profileImg)
     }
 
-    override suspend fun createUserInfoWithoutImg(nickName: String, fcmToken: String): UserResponse {
+    override suspend fun createUserInfoWithoutImg(
+        nickName: String,
+        fcmToken: String
+    ): UserResponse {
         val map = mutableMapOf<String, @JvmSuppressWildcards RequestBody>()
         map["nickName"] = nickName.toRequestBody("text/plain".toMediaTypeOrNull())
         map["fcmToken"] = fcmToken.toRequestBody("text/plain".toMediaTypeOrNull())
@@ -32,7 +35,9 @@ class UserRemoteDataSourceImpl @Inject constructor(
     override suspend fun checkDuplication(nickName: String): Boolean =
         userApiService.checkDuplication(nickName)
 
-
     override suspend fun cancelSignUp(): Boolean =
         userApiService.cancelSignUp()
+
+    override suspend fun getUserProfileImg(): String =
+        userApiService.getUserProfile()
 }

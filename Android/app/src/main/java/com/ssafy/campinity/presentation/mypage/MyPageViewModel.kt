@@ -35,12 +35,14 @@ class MyPageViewModel @Inject constructor(
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val requestLogoutUseCase: RequestLogoutUseCase,
     private val editUserInfoUseCase: EditUserInfoUseCase
-    ) : ViewModel() {
+) : ViewModel() {
 
-    private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
+    private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> =
+        MutableLiveData()
     val etcNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _etcNotesListData
 
-    private val _reviewNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
+    private val _reviewNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> =
+        MutableLiveData()
     val reviewNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _reviewNotesListData
 
     private val _detailData: MutableLiveData<CampsiteMessageDetailInfo?> = MutableLiveData()
@@ -194,8 +196,9 @@ class MyPageViewModel @Inject constructor(
                 LogoutRequest(
                     ApplicationClass.preferences.accessToken!!,
                     ApplicationClass.preferences.fcmToken!!,
-                    ApplicationClass.preferences.refreshToken!!)
+                    ApplicationClass.preferences.refreshToken!!
                 )
+            )
             ) {
                 is Resource.Success<Boolean> -> {
                     _isLoggedOut.value = value.data

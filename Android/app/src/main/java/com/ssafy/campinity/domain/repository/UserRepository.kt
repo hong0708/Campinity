@@ -6,7 +6,11 @@ import okhttp3.MultipartBody
 
 interface UserRepository {
 
-    suspend fun createUserInfo(nickName: String, profileImg: MultipartBody.Part?, fcmToken: String): Resource<User>
+    suspend fun createUserInfo(
+        nickName: String,
+        profileImg: MultipartBody.Part?,
+        fcmToken: String
+    ): Resource<User>
 
     suspend fun createUserInfoWithoutImg(nickName: String, fcmToken: String): Resource<User>
 
@@ -14,4 +18,5 @@ interface UserRepository {
 
     suspend fun cancelSignUp(): Resource<Boolean>
 
+    suspend fun getUserProfile(): Resource<String>
 }

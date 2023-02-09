@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
 import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.databinding.FragmentHomeBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -45,6 +46,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initListener()
         initCollection()
         initBanner()
+        initObserver()
     }
 
     override fun onResume() {
@@ -149,6 +151,12 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 collectionId
             )
         )
+    }
+
+    private fun initObserver() {
+        myPageViewModel.profileImgStr.observe(viewLifecycleOwner) {
+            binding.ivMyPage.setProfileImgString(it)
+        }
     }
 
     inner class PagerRunnable : Runnable {
