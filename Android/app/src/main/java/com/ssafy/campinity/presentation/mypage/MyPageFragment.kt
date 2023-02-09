@@ -96,7 +96,7 @@ class MyPageFragment :
     }
 
     // 파일 삭제 버튼 클릭시
-    override fun onButtonClicked() {
+    override fun onConfirmButtonClicked() {
         myPageViewModel.profileImgStr.value = null
         myPageViewModel.profileImgUri.value = null
         myPageViewModel.profileImgMultiPart = null
