@@ -1,6 +1,7 @@
 package com.ssafy.campinity.core.service;
 
 import com.ssafy.campinity.core.dto.EditMemberInfoReqDTO;
+import com.ssafy.campinity.core.dto.MemberProfileImageResDTO;
 import com.ssafy.campinity.core.dto.MemberResDTO;
 import com.ssafy.campinity.core.dto.ProfileResDTO;
 import com.ssafy.campinity.core.entity.member.Member;
@@ -16,4 +17,5 @@ public interface MemberService {
     Integer deleteMemberHard(Integer memberId);
     ProfileResDTO getMemberProfile(Integer id);
     MemberResDTO editUserInfo(EditMemberInfoReqDTO editMemberInfoReqDTO, Member member) throws IOException;
+    MemberProfileImageResDTO getMemberProfileImage(int memberId);
 }

@@ -3,6 +3,7 @@ package com.ssafy.campinity.api.controller;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.campinity.api.config.security.jwt.JwtProvider;
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
+import com.ssafy.campinity.core.dto.MemberProfileImageResDTO;
 import com.ssafy.campinity.core.dto.EditMemberInfoReqDTO;
 import com.ssafy.campinity.api.dto.req.LogoutReqDTO;
 import com.ssafy.campinity.api.dto.res.TokenResponse;
@@ -186,5 +187,18 @@ public class MemberController {
             @AuthenticationPrincipal MemberDetails memberDetails) {
         ProfileResDTO profileResDTO = memberService.getMemberProfile(memberDetails.getMember().getId());
         return new ResponseEntity<>(profileResDTO, HttpStatus.OK);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "멤버 프로필 이미지 조회가 성공한 경우"),
+            @ApiResponse(code = 400, message = "존재하지 않는 회원일 경우")
+    })
+    @ApiOperation(value = "유저 프로필 이미지 조회 API")
+    @GetMapping("/member-image")
+    public ResponseEntity<MemberProfileImageResDTO> getOnlyMemberProfileImage(
+            @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        MemberProfileImageResDTO result = memberService.getMemberProfileImage(memberDetails.getMember().getId());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 }
