@@ -191,4 +191,8 @@ class MyPageViewModel @Inject constructor(
             }
         }
     }.await()
+
+    fun clearData(){
+        _detailData.value = null
+    }
 }

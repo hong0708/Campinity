@@ -8,7 +8,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.view.View
-import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -243,8 +242,7 @@ class CommunityCampsiteFragment :
 
             clSearchByUserLocation.setOnClickListener {
                 //추적 시작
-                Toast.makeText(requireContext(), "사용자의 위치와 지도 기준으로 검색 합니다.", Toast.LENGTH_SHORT)
-                    .show()
+                showToast("사용자의 위치와 지도 기준으로 검색 합니다.")
 
                 CoroutineScope(Dispatchers.Main).launch {
                     mapView.currentLocationTrackingMode =
