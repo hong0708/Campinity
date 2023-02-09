@@ -8,5 +8,5 @@ data class CommunityCampsiteMessageRequest(
     val latitude:Double,
     val campsiteId: String,
     val content: String,
-    val longitude:Double,
+    val longitude:Double
 )

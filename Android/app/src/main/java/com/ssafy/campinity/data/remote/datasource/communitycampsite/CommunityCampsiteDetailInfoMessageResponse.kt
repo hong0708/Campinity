@@ -29,6 +29,8 @@ data class CommunityCampsiteDetailInfoMessageResponse(
     val messageCategory: String,
     @SerializedName("messageId")
     val messageId: String,
+    @SerializedName("profilePath")
+    val profilePath: String,
     @SerializedName("updatedAt")
     val updatedAt: String
 ) : DataToDomainMapper<CampsiteMessageDetailInfo> {
@@ -46,6 +48,7 @@ data class CommunityCampsiteDetailInfoMessageResponse(
             longitude,
             messageCategory,
             messageId,
+            profilePath,
             updatedAt
         )
     }

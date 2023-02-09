@@ -151,13 +151,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         )
     }
 
-    inner class PagerRunnable:Runnable {
+    inner class PagerRunnable : Runnable {
         override fun run() {
-            while(true){
+            while (true) {
                 try {
                     Thread.sleep(3000)
                     handler.sendEmptyMessage(0)
-                } catch (e : InterruptedException){
+                } catch (e: InterruptedException) {
                     Log.e("interrupt", e.message.toString())
                 }
             }

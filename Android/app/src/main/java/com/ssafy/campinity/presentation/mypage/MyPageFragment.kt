@@ -90,6 +90,10 @@ class MyPageFragment :
                 }
             }
         }
+        myPageViewModel.detailData.observe(viewLifecycleOwner) {
+            val dialog = ReviewNoteDialog(requireContext(), it!!)
+            dialog.show()
+        }
     }
 
     private fun setData() {
@@ -241,10 +245,6 @@ class MyPageFragment :
 
     private fun showDialog(noteQuestionId: String) {
         myPageViewModel.getDetailData(noteQuestionId)
-        myPageViewModel.detailData.observe(viewLifecycleOwner) {
-            val dialog = ReviewNoteDialog(requireContext(), it!!)
-            dialog.show()
-        }
     }
 
     // 로그아웃
@@ -311,7 +311,7 @@ class MyPageFragment :
     }
 
     // 파일 삭제 버튼 클릭시
-    override fun onButtonClicked() {
+    override fun onConfirmButtonClicked() {
         myPageViewModel.profileImgStr.value = null
         myPageViewModel.profileImgUri.value = null
         myPageViewModel.profileImgMultiPart = null

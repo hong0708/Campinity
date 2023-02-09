@@ -3,6 +3,7 @@ package com.ssafy.campinity.presentation.community.note
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentCommunityNoteQuestionBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -29,7 +30,7 @@ class CommunityNoteQuestionFragment :
         communityNoteViewModel.noteQuestions.observe(viewLifecycleOwner) { response ->
             response.let { communityNoteListAdapter.setNote(it) }
         }
-        communityNoteViewModel.getNoteQuestions("613f51f2-8942-4d84-bb60-7dc29b3487a6")
+        communityNoteViewModel.getNoteQuestions(ApplicationClass.preferences.userRecentCampsiteId.toString())
     }
 
     private fun getPost(questionId: String) {

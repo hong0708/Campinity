@@ -89,6 +89,10 @@
             android:name=".presentation.community.CommunityActivity"
             android:exported="true" />
 
+        <activity
+            android:name=".presentation.community.campsite.CommunityCampsiteDialogActivity"
+            android:exported="true" />
+
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/KAKAO_NATIVE_APP_KEY" />
