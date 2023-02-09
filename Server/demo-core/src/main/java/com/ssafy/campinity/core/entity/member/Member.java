@@ -17,7 +17,7 @@ import java.util.UUID;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Entity
-@SQLDelete(sql = "update member set expired = true where id = ?")
+//@SQLDelete(sql = "update member set expired = true where id = ?")
 public class Member extends BaseEntity {
 
     @Id

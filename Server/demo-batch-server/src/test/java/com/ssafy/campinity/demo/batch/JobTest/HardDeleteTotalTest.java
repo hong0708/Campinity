@@ -119,6 +119,11 @@ public class HardDeleteTotalTest {
 
         List<LikeMessage> likeMessages = likeMessageRepository.findByMember(savedMember); // 연관관계가 정상적으로 삭제되었는지 확인
         Assertions.assertThat(likeMessages.size()).isEqualTo(1);
+
+        likeMessageRepository.deleteAllInBatch(likeMessages);
+        messageRepository.deleteAllInBatch(messages);
+        memberRepository.delete(savedMember);
+        campsiteRepository.delete(savedCampsite);
     }
 
     @Test
@@ -164,5 +169,9 @@ public class HardDeleteTotalTest {
         Assertions.assertThat(myCollections.size()).isEqualTo(1);
 
         Assertions.assertThat(myCollections.get(0).getUuid()).isEqualTo(myCollection3.getUuid());
+
+        myCollectionRepository.deleteAllInBatch(myCollections);
+        memberRepository.delete(savedMember);
+        campsiteRepository.delete(savedCampsite);
     }
 }

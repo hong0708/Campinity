@@ -17,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -75,7 +76,7 @@ public class CampsitieFilteringTest {
     @Test
     @DisplayName("dto 생성시 메세지 양방향 접근 정상 작동 확인")
     @Transactional
-    public void MessageTest () throws FileNotFoundException {
+    public void MessageTest () throws IOException {
 
         Campsite campsite = Campsite.builder().campName("test").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
         Campsite savedCampsite = campsiteRepository.save(campsite);
