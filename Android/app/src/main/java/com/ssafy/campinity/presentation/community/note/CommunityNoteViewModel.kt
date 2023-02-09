@@ -91,7 +91,7 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    suspend fun postNoteAnswer(answerContent: String, questionId: String): Boolean {
+    suspend fun postNoteAnswer(answerContent: String, questionId: String,): Boolean {
         return withContext(viewModelScope.coroutineContext) {
             val noteQuestionAnswerRequest = NoteQuestionAnswerRequest(
                 answerContent,
@@ -104,6 +104,7 @@ class CommunityNoteViewModel @Inject constructor(
                 }
                 is Resource.Error -> {
                     Log.d("requestNotePostAnswer", "NotePostAnswer: ${value.errorMessage}")
+                    Log.d("requestNotePostAnswer", "NotePostAnswer: ${questionId}")
                     return@withContext false
                 }
             }

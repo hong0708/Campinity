@@ -59,6 +59,7 @@ class SearchPostboxFragment :
         binding.tvMakePost.setOnClickListener {
             CommunityNoteQuestionDialog(
                 requireContext(),
+                searchViewModel.campsiteData.value!!.campsiteId,
                 this@SearchPostboxFragment
             ).show()
         }

@@ -10,6 +10,7 @@ import com.ssafy.campinity.databinding.DialogWriteNoteQuestionBinding
 
 class CommunityNoteQuestionDialog(
     context: Context,
+    private val campsiteId:String,
     private val communityNoteDialogInterface: CommunityNoteDialogInterface
 ) : Dialog(context) {
 
@@ -30,7 +31,7 @@ class CommunityNoteQuestionDialog(
         binding.apply {
             tvMakeEventNoteMarker.setOnClickListener {
                 communityNoteDialogInterface.postNote(
-                    "613f51f2-8942-4d84-bb60-7dc29b3487a6",
+                    campsiteId,
                     etInputMakeQuestion.text.toString()
                 )
                 dismiss()

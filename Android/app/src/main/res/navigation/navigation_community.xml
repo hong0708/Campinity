@@ -12,24 +12,21 @@
         tools:layout="@layout/fragment_community_campsite">
 
         <action
-            android:id="@+id/action_communityCampsiteFragment_to_communityNoteFragment"
-            app:destination="@id/communityNoteFragment" />
-        <action
             android:id="@+id/action_communityCampsiteFragment_to_communityCampsiteDialogActivity"
             app:destination="@id/communityCampsiteDialogActivity" />
         <action
             android:id="@+id/action_communityCampsiteFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_communityNoteActivity"
+            app:destination="@id/communityNoteActivity" />
     </fragment>
 
-    <fragment
+    <!--<fragment
         android:id="@+id/communityNoteFragment"
         android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteFragment"
         android:label="fragment_community_note"
         tools:layout="@layout/fragment_community_note">
-        <action
-            android:id="@+id/action_communityNoteFragment_to_communityCampsiteFragment"
-            app:destination="@id/communityCampsiteFragment" />
         <action
             android:id="@+id/action_communityNoteFragment_to_communityNoteDetailFragment"
             app:destination="@id/communityNoteDetailFragment" />
@@ -43,7 +40,7 @@
         <argument
             android:name="question_id"
             app:argType="string" />
-    </fragment>
+    </fragment>-->
 
     <activity
         android:id="@+id/communityCampsiteDialogActivity"
@@ -63,4 +60,11 @@
         android:name="com.ssafy.campinity.presentation.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+
+    <activity
+        android:id="@+id/communityNoteActivity"
+        android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteActivity"
+        android:label="activity_community_note"
+        tools:layout="@layout/activity_community_note">
+    </activity>
 </navigation>

@@ -57,7 +57,6 @@ class CommunityCampsiteFragment :
         initListener()
         initRecyclerView()
         setTextWatcher()
-
         communityCampsiteViewModel.getUserProfile()
     }
 
@@ -148,11 +147,11 @@ class CommunityCampsiteFragment :
     ) {
         if (p1!!.tag == 1) {
             navigate(
-                CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteFragment()
+                CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
             )
         } else {
-            val message: CampsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
-            getFreeReviewDetail(message.messageId)
+            val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
+            getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
         }
     }
 
@@ -187,7 +186,6 @@ class CommunityCampsiteFragment :
                 ),
                 true
             )
-            drawPostBox(recentCampsite)
 
             CoroutineScope(Dispatchers.Main).launch {
                 val deffered: Deferred<Int> = async {
@@ -201,6 +199,7 @@ class CommunityCampsiteFragment :
                     1
                 }
                 deffered.await()
+                drawPostBox(recentCampsite)
             }
         }
 
@@ -444,10 +443,14 @@ class CommunityCampsiteFragment :
                 itemName = i.content
                 mapPoint = markerPosition
                 markerType = MapPOIItem.MarkerType.CustomImage
-                if (i.messageCategory == "리뷰") {
-                    customImageResourceId = R.drawable.ic_review_note_marker
+                customImageResourceId = if (i.messageCategory == "리뷰") {
+                    R.drawable.ic_review_note_marker
                 } else {
-                    customImageResourceId = R.drawable.ic_community_campsite_close_note3
+                    if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 5) {
+                        R.drawable.ic_community_campsite_open_note3
+                    } else {
+                        R.drawable.ic_community_campsite_close_note3
+                    }
                 }
                 //isCustomImageAutoscale = false
                 userObject = i
@@ -488,6 +491,24 @@ class CommunityCampsiteFragment :
             )
             checkPermission()
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getDistance(lat: Double, lng: Double): Float {
+
+        val lm: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+        val myLoc = Location(LocationManager.NETWORK_PROVIDER)
+        val targetLoc = Location(LocationManager.NETWORK_PROVIDER)
+        myLoc.latitude = userNowLocation?.latitude!!
+        myLoc.longitude = userNowLocation.longitude
+        targetLoc.latitude = lat
+        targetLoc.longitude = lng
+
+        return myLoc.distanceTo(targetLoc)
     }
 
     // 이벤트 리스너
