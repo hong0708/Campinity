@@ -10,7 +10,9 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
+import com.ssafy.campinity.domain.entity.user.UserProfile
 import com.ssafy.campinity.domain.usecase.community.*
+import com.ssafy.campinity.domain.usecase.user.GetUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +22,8 @@ class CommunityCampsiteViewModel @Inject constructor(
     private val getCampsiteBriefInfoByCampNameUseCase: GetCampsiteBriefInfoByCampNameUseCase,
     private val getCampsiteBriefInfoByUserLocationUseCase: GetCampsiteBriefInfoByUserLocationUseCase,
     private val getCampsiteMessageBriefInfoByScopeUseCase: GetCampsiteMessageBriefInfoByScopeUseCase,
-    private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase
+    private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
+    private val getUserProfileUseCase: GetUserProfileUseCase
 ) : ViewModel() {
 
     private val _campsiteBriefInfo = MutableLiveData<List<CampsiteBriefInfo>>()
@@ -39,6 +42,23 @@ class CommunityCampsiteViewModel @Inject constructor(
 
     private val _content: MutableLiveData<String> = MutableLiveData("")
     val content: MutableLiveData<String> = _content
+
+    private val _profileImgStr: MutableLiveData<String?> = MutableLiveData()
+    val profileImgStr: MutableLiveData<String?> = _profileImgStr
+
+    fun getUserProfile() {
+        viewModelScope.launch {
+            when (val value = getUserProfileUseCase()) {
+                is Resource.Success<UserProfile> -> {
+                    _profileImgStr.value = value.data.profileImg
+                    Log.d("getUserProfile", "getUserProfile: ${value.data.profileImg}")
+                }
+                is Resource.Error -> {
+                    Log.d("getUserProfile", "getUserProfile: ${value.errorMessage}")
+                }
+            }
+        }
+    }
 
     fun getCampsiteBriefInfoByCampName() = viewModelScope.launch {
         when (val value = getCampsiteBriefInfoByCampNameUseCase(requireNotNull(content.value))) {

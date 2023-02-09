@@ -18,8 +18,8 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             app:umanoDragView="@id/cl_search_campsite"
-            app:umanoScrollableView="@id/rv_campsite_title_list"
-            app:umanoPanelHeight="0dp">
+            app:umanoPanelHeight="0dp"
+            app:umanoScrollableView="@id/rv_campsite_title_list">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -270,19 +270,16 @@
                     app:maxImageSize="56dp"
                     app:tint="@null" />
 
-                <com.google.android.material.floatingactionbutton.FloatingActionButton
-                    android:id="@+id/fab_user_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="24dp"
-                    android:backgroundTint="@color/primrose"
+                <ImageButton
+                    android:id="@+id/ib_user_location"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_margin="15dp"
+                    android:backgroundTint="@android:color/transparent"
                     android:contentDescription="@string/image_floatingactionbutton_main"
                     android:scaleType="center"
-                    android:src="@drawable/ic_add_fab"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:maxImageSize="56dp"
-                    app:tint="@null" />
+                    app:layout_constraintStart_toStartOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

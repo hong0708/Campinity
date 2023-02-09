@@ -21,6 +21,7 @@ import com.ssafy.campinity.domain.usecase.search.GetCampsiteReviewNotesUseCase
 import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.CreateUserInfoUseCase
+import com.ssafy.campinity.domain.usecase.user.GetUserProfileUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -149,4 +150,9 @@ object UseCaseModule {
     @Provides
     fun provideGetCampsiteReviewNotesUseCase(searchRepository: SearchRepository): GetCampsiteReviewNotesUseCase =
         GetCampsiteReviewNotesUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetUserProfileUseCase(userRepository: UserRepository): GetUserProfileUseCase =
+        GetUserProfileUseCase(userRepository)
 }
