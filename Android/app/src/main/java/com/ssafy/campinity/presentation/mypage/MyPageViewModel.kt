@@ -20,6 +20,7 @@ import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -35,25 +36,24 @@ class MyPageViewModel @Inject constructor(
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val requestLogoutUseCase: RequestLogoutUseCase,
     private val editUserInfoUseCase: EditUserInfoUseCase
-    ) : ViewModel() {
+) : ViewModel() {
 
-    private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
+    private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> =
+        MutableLiveData()
     val etcNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _etcNotesListData
 
-    private val _reviewNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> = MutableLiveData()
+    private val _reviewNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> =
+        MutableLiveData()
     val reviewNotesListData: LiveData<List<CampsiteMessageDetailInfo>?> = _reviewNotesListData
 
     private val _detailData: MutableLiveData<CampsiteMessageDetailInfo?> = MutableLiveData()
     val detailData: LiveData<CampsiteMessageDetailInfo?> = _detailData
 
-    private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData()
+    private val _isDuplicate: MutableLiveData<Boolean?> = MutableLiveData(true)
     val isDuplicate: MutableLiveData<Boolean?> = _isDuplicate
 
     private val _isLoggedOut: MutableLiveData<Boolean?> = MutableLiveData()
     val isLoggedOut: LiveData<Boolean?> = _isLoggedOut
-
-    private val _isSame: MutableLiveData<Boolean?> = MutableLiveData()
-    val isSame: MutableLiveData<Boolean?> = _isSame
 
     private val _nickname: MutableLiveData<String> = MutableLiveData()
     val nickname: MutableLiveData<String> = _nickname
@@ -66,6 +66,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _isSuccess: MutableLiveData<Boolean?> = MutableLiveData()
     val isSuccess: MutableLiveData<Boolean?> = _isSuccess
+
+    private val _nicknameCheck: MutableLiveData<String> = MutableLiveData()
+    val nicknameCheck: MutableLiveData<String> = _nicknameCheck
 
     var profileImgMultiPart: MultipartBody.Part? = null
 
@@ -112,16 +115,12 @@ class MyPageViewModel @Inject constructor(
     }
 
     // 프로필 이미지를 바꿔 등록
-    fun updateProfile() {
+    fun updateProfile(nickname: String) {
         viewModelScope.launch {
-            when (val value =
-                editUserInfoUseCase(
-                    requireNotNull(_nickname.value),
-                    true,
-                    profileImgMultiPart
-                )) {
+            when (val value = editUserInfoUseCase(nickname, true, profileImgMultiPart)) {
                 is Resource.Success<User> -> {
-                    ApplicationClass.preferences.nickname = _nickname.value
+                    ApplicationClass.preferences.nickname = nickname
+                    _nickname.value = nickname
                     _isSuccess.value = true
                 }
                 is Resource.Error -> {
@@ -132,16 +131,12 @@ class MyPageViewModel @Inject constructor(
     }
 
     // 프로필 이미지를 바꾸지 않고 등록
-    fun updateProfileWithExistingImg() {
+    fun updateProfileWithExistingImg(nickname: String) {
         viewModelScope.launch {
-            when (val value =
-                editUserInfoUseCase(
-                    requireNotNull(_nickname.value),
-                    false,
-                    null
-                )) {
+            when (val value = editUserInfoUseCase(nickname, false, null)) {
                 is Resource.Success<User> -> {
-                    ApplicationClass.preferences.nickname = _nickname.value
+                    ApplicationClass.preferences.nickname = nickname
+                    _nickname.value = nickname
                     _isSuccess.value = true
                 }
                 is Resource.Error -> {
@@ -152,16 +147,12 @@ class MyPageViewModel @Inject constructor(
     }
 
     // 프로필 이미지를 지우고 등록
-    fun updateProfileWithoutImg() {
+    fun updateProfileWithoutImg(nickname: String) {
         viewModelScope.launch {
-            when (val value =
-                editUserInfoUseCase(
-                    requireNotNull(_nickname.value),
-                    true,
-                    null
-                )) {
+            when (val value = editUserInfoUseCase(nickname, true, null)) {
                 is Resource.Success<User> -> {
-                    ApplicationClass.preferences.nickname = _nickname.value
+                    ApplicationClass.preferences.nickname = nickname
+                    _nickname.value = nickname
                     _isSuccess.value = true
                 }
                 is Resource.Error -> {
@@ -171,31 +162,15 @@ class MyPageViewModel @Inject constructor(
         }
     }
 
-    fun checkDuplication() {
-        viewModelScope.launch {
-            when (val value = checkDuplicationUseCase.checkDuplication(_nickname.value!!)) {
-                is Resource.Success<Boolean> -> {
-                    _isDuplicate.value = value.data
-                }
-                is Resource.Error -> {
-                    Log.e("checkDuplication", "checkDuplication: ${value.errorMessage}")
-                }
-            }
-        }
-    }
-
-    fun checkSame() {
-        _isSame.value = _nickname.value == ApplicationClass.preferences.nickname
-    }
-
     fun requestLogout() {
         viewModelScope.launch {
             when (val value = requestLogoutUseCase(
                 LogoutRequest(
                     ApplicationClass.preferences.accessToken!!,
                     ApplicationClass.preferences.fcmToken!!,
-                    ApplicationClass.preferences.refreshToken!!)
+                    ApplicationClass.preferences.refreshToken!!
                 )
+            )
             ) {
                 is Resource.Success<Boolean> -> {
                     _isLoggedOut.value = value.data
@@ -206,4 +181,17 @@ class MyPageViewModel @Inject constructor(
             }
         }
     }
+
+    suspend fun checkDuplication(nickname: String) = viewModelScope.async {
+        when (val value = checkDuplicationUseCase.checkDuplication(nickname)) {
+            is Resource.Success<Boolean> -> {
+                _isDuplicate.value = value.data
+                return@async 1
+            }
+            is Resource.Error -> {
+                Log.e("checkDuplication", "checkDuplication: ${value.errorMessage}")
+                return@async 0
+            }
+        }
+    }.await()
 }

@@ -15,7 +15,7 @@
             android:id="@+id/iv_my_page"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:layout_marginStart="18dp"
+            android:layout_marginStart="30dp"
             android:layout_marginTop="18dp"
             android:contentDescription="@string/image_home_mypage_btn"
             android:src="@drawable/ic_home_profile"
@@ -27,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_bold"
+            android:fontFamily="@font/rubikbubbles"
             android:text="@string/title_home"
             android:textColor="@color/black"
             android:textSize="28sp"
@@ -40,7 +40,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="25dp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/lottie"
             app:layout_constraintTop_toBottomOf="@id/tv_title_home">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,7 +76,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_search"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="40dp"
                     android:layout_marginTop="44dp"
@@ -125,7 +126,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_community"
-                    android:layout_width="150dp"
+                    android:layout_width="0dp"
                     android:layout_height="100dp"
                     android:layout_marginStart="15dp"
                     android:layout_marginTop="44dp"
@@ -216,8 +217,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginStart="33dp"
-                    android:layout_marginEnd="33dp"
                     android:layout_marginTop="20dp"
+                    android:layout_marginEnd="33dp"
                     android:background="@drawable/bg_rect_white_smoke_radius15"
                     app:layout_constraintTop_toBottomOf="@id/tv_title_collection">
 
@@ -225,10 +226,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/content_home_empty_collection"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -236,6 +237,7 @@
         </androidx.core.widget.NestedScrollView>
 
         <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie"
             android:layout_width="match_parent"
             android:layout_height="110dp"
             android:scaleType="centerCrop"
