@@ -3,6 +3,7 @@ package com.ssafy.campinity.presentation.community.note
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentCommunityNoteBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -45,11 +46,12 @@ class CommunityNoteFragment :
             tvMakeQuestion.setOnClickListener {
                 CommunityNoteQuestionDialog(
                     requireContext(),
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
                     this@CommunityNoteFragment
                 ).show()
             }
             ivPostBoxBack.setOnClickListener {
-                navigate(CommunityNoteFragmentDirections.actionCommunityNoteFragmentToCommunityCampsiteFragment())
+                navigate(CommunityNoteFragmentDirections.actionCommunityNoteFragmentToCommunityActivity())
             }
         }
     }

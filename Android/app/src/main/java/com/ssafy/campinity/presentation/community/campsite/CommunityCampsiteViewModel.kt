@@ -51,7 +51,6 @@ class CommunityCampsiteViewModel @Inject constructor(
             when (val value = getUserProfileUseCase()) {
                 is Resource.Success<UserProfile> -> {
                     _profileImgStr.value = value.data.profileImg
-                    Log.d("getUserProfile", "getUserProfile: ${value.data.profileImg}")
                 }
                 is Resource.Error -> {
                     Log.d("getUserProfile", "getUserProfile: ${value.errorMessage}")

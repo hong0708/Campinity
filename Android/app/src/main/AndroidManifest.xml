@@ -90,6 +90,10 @@
             android:exported="true" />
 
         <activity
+            android:name=".presentation.community.note.CommunityNoteActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".presentation.community.campsite.CommunityCampsiteDialogActivity"
             android:exported="true" />
 
