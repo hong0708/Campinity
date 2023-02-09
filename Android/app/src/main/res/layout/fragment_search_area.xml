@@ -51,12 +51,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_sido"
             android:layout_width="wrap_content"
-            android:nestedScrollingEnabled="false"
             android:layout_height="0dp"
             android:background="@color/white_smoke"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintBottom_toTopOf="@id/view_divider_bottom"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view_divider_top" />
+            app:layout_constraintTop_toBottomOf="@id/view_divider_top"
+            tools:itemList="@layout/item_search_area_gugun" />
 
         <LinearLayout
             android:id="@+id/ll_select_all"

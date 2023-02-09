@@ -149,8 +149,11 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        binding.rlShowList.visibility = View.VISIBLE
-                        binding.rlShowMap.visibility = View.VISIBLE
+                        if (searchViewModel.stateBehaviorList.value != null)
+                            if (searchViewModel.stateBehaviorList.value == true)
+                                binding.rlShowMap.visibility = View.VISIBLE
+                            else
+                                binding.rlShowList.visibility = View.VISIBLE
                         isDragging = false
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
@@ -192,8 +195,11 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
                     BottomSheetBehavior.STATE_COLLAPSED -> {
-                        binding.rlShowList.visibility = View.VISIBLE
-                        binding.rlShowMap.visibility = View.VISIBLE
+                        if (searchViewModel.stateBehaviorList.value != null)
+                            if (searchViewModel.stateBehaviorList.value == true)
+                                binding.rlShowMap.visibility = View.VISIBLE
+                            else
+                                binding.rlShowList.visibility = View.VISIBLE
                         isDragging = false
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {

@@ -201,7 +201,10 @@ class CampsiteDetailFragment :
     private fun initViewPager() {
         binding.vpCampsiteImage.apply {
             adapter =
-                CampsiteDetailImageAdapter(searchViewModel.campsiteData.value?.images ?: listOf())
+                CampsiteDetailImageAdapter(
+                    requireContext(),
+                    searchViewModel.campsiteData.value?.images ?: listOf()
+                )
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
 

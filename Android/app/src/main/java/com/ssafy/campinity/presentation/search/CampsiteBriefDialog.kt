@@ -41,7 +41,7 @@ class CampsiteBriefDialog(
         binding.apply {
             rvCampsiteImage.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            rvCampsiteImage.adapter = CampsiteBriefImageAdapter(campsiteBriefData.images)
+            rvCampsiteImage.adapter = CampsiteBriefImageAdapter(context, campsiteBriefData.images)
         }
     }
 
