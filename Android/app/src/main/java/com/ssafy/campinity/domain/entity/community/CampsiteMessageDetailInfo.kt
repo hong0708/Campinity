@@ -13,5 +13,6 @@ data class CampsiteMessageDetailInfo(
     val longitude: String,
     val messageCategory: String,
     val messageId: String,
+    val profilePath: String,
     val updatedAt: String
 )

@@ -30,6 +30,18 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("userRecentCampsiteName", null)
         set(value) = prefs.edit().putString("userRecentCampsiteName", value).apply()
 
+    var userRecentCampsiteLatitude: String?
+        get() = prefs.getString("userRecentCampsiteLatitude", null)
+        set(value) = prefs.edit().putString("userRecentCampsiteLatitude", value).apply()
+
+    var userRecentCampsiteLongitude: String?
+        get() = prefs.getString("userRecentCampsiteLongitude", null)
+        set(value) = prefs.edit().putString("userRecentCampsiteLongitude", value).apply()
+
+    var userRecentCampsiteAddress: String?
+        get() = prefs.getString("userRecentCampsiteAddress", null)
+        set(value) = prefs.edit().putString("userRecentCampsiteAddress", value).apply()
+
     var nickname: String?
         get() = prefs.getString("nickname", null)
         set(value) = prefs.edit().putString("nickname", value).apply()

@@ -18,6 +18,7 @@
             android:layout_height="match_parent"
             android:gravity="bottom"
             app:umanoDragView="@id/cl_search_campsite"
+            app:umanoScrollableView="@id/rv_campsite_title_list"
             app:umanoPanelHeight="0dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -392,7 +393,7 @@
                     app:layout_constraintTop_toBottomOf="@id/cl_search_by_user_location" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_campsite_list"
+                    android:id="@+id/rv_campsite_title_list"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"

@@ -1,6 +1,5 @@
 package com.ssafy.campinity.presentation.search
 
-import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -69,19 +68,11 @@ class SearchPostboxFragment :
         CoroutineScope(Dispatchers.IO).launch {
             if (communityNoteViewModel.postNoteQuestion(id, content)) {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        requireContext(),
-                        "질문이 등록되었습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast("질문이 등록되었습니다.")
                 }
             } else {
                 withContext(Dispatchers.Main) {
-                    Toast.makeText(
-                        requireContext(),
-                        "질문 등록이 실패하였습니다.",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    showToast("질문 등록이 실패하였습니다.")
                 }
             }
 

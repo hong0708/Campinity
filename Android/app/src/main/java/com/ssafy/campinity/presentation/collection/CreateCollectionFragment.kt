@@ -49,6 +49,10 @@ class CreateCollectionFragment :
         viewModel.date.value = date
     }
 
+    override fun onConfirmButtonClicked() {
+        viewModel.file.value = null
+    }
+
     private fun initListener() {
         binding.apply {
             ivArrowLeft.setOnClickListener { popBackStack() }
@@ -136,9 +140,5 @@ class CreateCollectionFragment :
 
     companion object {
         const val REQUEST_READ_STORAGE_PERMISSION = 1
-    }
-
-    override fun onButtonClicked() {
-        viewModel.file.value = null
     }
 }

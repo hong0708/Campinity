@@ -4,17 +4,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -31,6 +34,7 @@ import com.ssafy.campinity.presentation.collection.CreateCollectionFragment
 import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
 import com.ssafy.campinity.presentation.community.note.CommunityNoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.File
 
 @AndroidEntryPoint
@@ -38,6 +42,7 @@ class MyPageFragment :
     BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_page),
     LogoutDialogListener, FileDeleteDialogListener {
 
+    private lateinit var callback: OnBackPressedCallback
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private val communityNoteListAdapter by lazy {
         CommunityNoteListAdapter(this::showDialog)
@@ -67,16 +72,37 @@ class MyPageFragment :
         initRecyclerView()
         initListener()
         initSpinner()
-        // edit
         setTextWatcher()
-        myPageViewModel.checkSame()
         observeState()
     }
 
-    private fun observeState() {
-        myPageViewModel.isSuccess.observe(viewLifecycleOwner) {
-            if (it == true) showToast("프로필이 수정되었습니다.")
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (binding.slMyPage.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    binding.slMyPage.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                } else {
+                    onDetach()
+                }
+            }
         }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        callback.remove()
+    }
+
+    // 파일 삭제 버튼 클릭시
+    override fun onConfirmButtonClicked() {
+        myPageViewModel.profileImgStr.value = null
+        myPageViewModel.profileImgUri.value = null
+        myPageViewModel.profileImgMultiPart = null
+    }
+
+    private fun observeState() {
         myPageViewModel.isDuplicate.observe(viewLifecycleOwner) {
             if (it == false) {
                 binding.btnConfirm.apply {
@@ -89,6 +115,41 @@ class MyPageFragment :
                     isEnabled = true
                 }
             }
+        }
+
+        myPageViewModel.nicknameCheck.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                binding.btnCheckDuplication.apply {
+                    setBackgroundResource(R.drawable.bg_rect_white_smoke_radius15)
+                    isEnabled = false
+                    setTextColor(Color.GRAY)
+                }
+            } else {
+                binding.btnCheckDuplication.apply {
+                    setBackgroundResource(R.drawable.bg_rect_bilbao_white_radius15_stroke1)
+                    isEnabled = true
+                    setTextColor(Color.parseColor("#467F26"))
+                }
+            }
+        }
+        myPageViewModel.isDuplicate.observe(viewLifecycleOwner) {
+            if (it == true) {
+                binding.btnConfirm.apply {
+                    setBackgroundResource(R.drawable.bg_rect_grey_radius10)
+                    isEnabled = false
+                }
+            } else {
+                binding.btnConfirm.apply {
+                    setBackgroundResource(R.drawable.bg_rect_bilbao_radius10)
+                    isEnabled = true
+                }
+            }
+        }
+    }
+
+    private fun setTextWatcher() {
+        binding.etNickname.addTextChangedListener {
+            myPageViewModel.nicknameCheck.value = binding.etNickname.text.toString()
         }
     }
 
@@ -120,6 +181,7 @@ class MyPageFragment :
 
         val slidePanel = binding.slMyPage
         slidePanel.addPanelSlideListener(PanelEventListener())
+        slidePanel.isTouchEnabled = false
 
         binding.clEditProfile.setOnClickListener {
             // 닫힌 상태일 경우 열기
@@ -140,36 +202,47 @@ class MyPageFragment :
         // edit
         binding.apply {
             ivProfileImage.setOnClickListener { setAlbumView() }
-            btnBack.setOnClickListener { popBackStack() }
+            btnBack.setOnClickListener {
+                if (slidePanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
+                    slidePanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
+                }
+            }
             btnCheckDuplication.setOnClickListener {
                 if (myPageViewModel.nickname.value == null) {
                     showToast("닉네임을 입력해주세요.")
                 } else {
-                    myPageViewModel.checkDuplication()
-                    if (myPageViewModel.isDuplicate.value == true) {
-                        showToast("중복된 닉네임입니다.")
-                    } else {
-                        showToast("사용할 수 있는 닉네임입니다.")
+                    lifecycleScope.launch {
+                        val async = myPageViewModel.checkDuplication(etNickname.text.toString())
+                        showDuplicateInfo(async)
                     }
                 }
             }
             // 수정 확인 버튼을 눌렀을 때
             btnConfirm.setOnClickListener {
                 myPageViewModel.isSuccess.value = false
-                ApplicationClass.preferences.nickname = myPageViewModel.nickname.value
+                ApplicationClass.preferences.nickname = etNickname.text.toString()
                 if (myPageViewModel.profileImgUri.value != null) {
-                    myPageViewModel.updateProfile()
+                    myPageViewModel.updateProfile(etNickname.text.toString())
                 } else {
                     if (myPageViewModel.profileImgStr.value == null) {
-                        myPageViewModel.updateProfileWithoutImg()
+                        myPageViewModel.updateProfileWithoutImg(etNickname.text.toString())
                     } else {
-                        myPageViewModel.updateProfileWithExistingImg()
+                        myPageViewModel.updateProfileWithExistingImg(etNickname.text.toString())
                     }
                 }
                 if (slidePanel.panelState == SlidingUpPanelLayout.PanelState.EXPANDED) {
                     slidePanel.panelState = SlidingUpPanelLayout.PanelState.COLLAPSED
                 }
+                showToast("프로필이 수정되었습니다.")
             }
+        }
+    }
+
+    private fun showDuplicateInfo(async: Int) {
+        if (myPageViewModel.isDuplicate.value == true) {
+            showToast("중복된 닉네임입니다.")
+        } else {
+            showToast("사용 가능한 닉네임입니다.")
         }
     }
 
@@ -266,12 +339,6 @@ class MyPageFragment :
         }
     }
 
-    private fun setTextWatcher() {
-        binding.etNickname.addTextChangedListener {
-            myPageViewModel.nickname.value = binding.etNickname.text.toString()
-        }
-    }
-
     private fun setAlbumView() {
         if (myPageViewModel.profileImgUri.value == null && myPageViewModel.profileImgStr.value == null) {
             when (PackageManager.PERMISSION_GRANTED) {
@@ -310,17 +377,11 @@ class MyPageFragment :
         return result!!
     }
 
-    // 파일 삭제 버튼 클릭시
-    override fun onButtonClicked() {
-        myPageViewModel.profileImgStr.value = null
-        myPageViewModel.profileImgUri.value = null
-        myPageViewModel.profileImgMultiPart = null
-    }
-
     // 이벤트 리스너
     inner class PanelEventListener : SlidingUpPanelLayout.PanelSlideListener {
         // 패널이 슬라이드 중일 때
         override fun onPanelSlide(panel: View?, slideOffset: Float) {}
+
         // 패널의 상태가 변했을 때
         override fun onPanelStateChanged(
             panel: View?,

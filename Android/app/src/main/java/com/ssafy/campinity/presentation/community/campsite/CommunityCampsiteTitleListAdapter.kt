@@ -10,7 +10,9 @@ import com.ssafy.campinity.databinding.ItemCampsiteTitleBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 
 class CommunityCampsiteTitleListAdapter(
-    private val onCampsiteTitleClicked: (campsiteId: String, campsiteName: String?) -> Unit
+    private val onCampsiteTitleClicked: (
+        campsiteBriefInfo: CampsiteBriefInfo
+    ) -> Unit
 ) : RecyclerView.Adapter<CommunityCampsiteTitleListAdapter.CommunityCampsiteTitleListViewHolder>() {
 
     private var campsiteList = listOf<CampsiteBriefInfo>()
@@ -38,14 +40,17 @@ class CommunityCampsiteTitleListAdapter(
 
     class CommunityCampsiteTitleListViewHolder(
         val binding: ItemCampsiteTitleBinding,
-        private val onCampsiteTitleClicked: (campsiteId: String, campsiteName: String?) -> Unit
+        private val onCampsiteTitleClicked: (
+            campsiteBriefInfo: CampsiteBriefInfo
+        ) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: CampsiteBriefInfo) {
             binding.apply {
-                tvCampsiteTitle.text = data.campsiteName
-                tvCampsiteAddress.text = data.address
+                binding.campsiteName = data
                 root.setOnClickListener {
-                    onCampsiteTitleClicked(data.campsiteId, data.campsiteName)
+                    onCampsiteTitleClicked(
+                        data
+                    )
                 }
             }
         }
@@ -55,5 +60,9 @@ class CommunityCampsiteTitleListAdapter(
     fun setCampsiteBriefInfo(campsiteBriefInfo: List<CampsiteBriefInfo>) {
         this.campsiteList = campsiteBriefInfo
         notifyDataSetChanged()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
     }
 }

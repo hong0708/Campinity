@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Campinity</string>
+    <string name="app_name">CAMPINITY</string>
 
     <!-- Splash -->
     <string name="title_splash">Campinity</string>
@@ -127,6 +127,7 @@
     <string name="content_campsite_review">리뷰 쪽지</string>
     <string name="content_campsite_free">자유 쪽지</string>
     <string name="image_campsite_title_icon">image_campsite_title_icon</string>
+    <string name="note_format">%s 쪽지</string>
 
     <!-- Collection -->
     <string name="title_collection">My Collection</string>

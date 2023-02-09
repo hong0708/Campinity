@@ -14,6 +14,12 @@
         <action
             android:id="@+id/action_communityCampsiteFragment_to_communityNoteFragment"
             app:destination="@id/communityNoteFragment" />
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_communityCampsiteDialogActivity"
+            app:destination="@id/communityCampsiteDialogActivity" />
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
 
     <fragment
@@ -39,4 +45,22 @@
             app:argType="string" />
     </fragment>
 
+    <activity
+        android:id="@+id/communityCampsiteDialogActivity"
+        android:name="com.ssafy.campinity.presentation.community.campsite.CommunityCampsiteDialogActivity"
+        android:label="activity_community_campsite_dialog"
+        tools:layout="@layout/activity_community_campsite_message_dialog">
+        <argument
+            android:name="dialog_type"
+            app:argType="string" />
+        <argument
+            android:name="campsite_id"
+            app:argType="string" />
+    </activity>
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.ssafy.campinity.presentation.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
 </navigation>

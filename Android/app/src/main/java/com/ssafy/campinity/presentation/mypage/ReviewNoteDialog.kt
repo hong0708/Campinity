@@ -12,7 +12,8 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.DialogReviewNoteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 
-class ReviewNoteDialog(context: Context, private val detailInfo: CampsiteMessageDetailInfo) : Dialog(context) {
+class ReviewNoteDialog(context: Context, private val detailInfo: CampsiteMessageDetailInfo) :
+    Dialog(context) {
 
     private lateinit var binding: DialogReviewNoteBinding
 

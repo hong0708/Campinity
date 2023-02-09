@@ -16,9 +16,9 @@ import android.content.Intent
 import android.location.LocationManager
 import android.net.Uri
 import android.provider.Settings
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.ssafy.campinity.common.util.Permission.ACCESS_FINE_LOCATION
+import com.ssafy.campinity.common.util.showToastMessage
 
 @AndroidEntryPoint
 class CommunityActivity : AppCompatActivity() {
@@ -43,7 +43,7 @@ class CommunityActivity : AppCompatActivity() {
             }
         } else {
             // GPS가 꺼져있을 경우
-            Toast.makeText(this, "GPS를 켜주세요", Toast.LENGTH_SHORT).show()
+            showToastMessage("GPS를 켜주세요")
         }
     }
 
@@ -61,7 +61,7 @@ class CommunityActivity : AppCompatActivity() {
             // 권한이 없는 상태
             if (ActivityCompat.shouldShowRequestPermissionRationale(
                     this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION
+                    Manifest.permission.ACCESS_FINE_LOCATION
                 )
             ) {
                 // 권한 거절 (다시 한 번 물어봄)
@@ -125,11 +125,11 @@ class CommunityActivity : AppCompatActivity() {
         if (requestCode == ACCESS_FINE_LOCATION) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // 권한 요청 후 승인됨 (추적 시작)
-                Toast.makeText(this, "위치 권한이 승인되었습니다", Toast.LENGTH_SHORT).show()
+                showToastMessage("위치 권한이 승인되었습니다")
                 //startTracking()
             } else {
                 // 권한 요청 후 거절됨 (다시 요청 or 토스트)
-                Toast.makeText(this, "위치 권한이 거절되었습니다", Toast.LENGTH_SHORT).show()
+                showToastMessage("위치 권한이 거절되었습니다")
                 permissionCheck()
             }
         }

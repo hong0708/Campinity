@@ -138,7 +138,7 @@ class JoinFragment : BaseFragment<FragmentJoinBinding>(R.layout.fragment_join),
         return result!!
     }
 
-    override fun onButtonClicked() {
+    override fun onConfirmButtonClicked() {
         viewModel.profileImgUri.value = null
     }
 }

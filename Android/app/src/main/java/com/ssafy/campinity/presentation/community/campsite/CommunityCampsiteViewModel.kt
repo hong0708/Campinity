@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.community.campsite
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,9 +9,8 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
-import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByCampNameUseCase
-import com.ssafy.campinity.domain.usecase.community.GetCampsiteBriefInfoByUserLocationUseCase
-import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageBriefInfoByScopeUseCase
+import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
+import com.ssafy.campinity.domain.usecase.community.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,23 +19,35 @@ import javax.inject.Inject
 class CommunityCampsiteViewModel @Inject constructor(
     private val getCampsiteBriefInfoByCampNameUseCase: GetCampsiteBriefInfoByCampNameUseCase,
     private val getCampsiteBriefInfoByUserLocationUseCase: GetCampsiteBriefInfoByUserLocationUseCase,
-    private val getCampsiteMessageBriefInfoByScopeUseCase: GetCampsiteMessageBriefInfoByScopeUseCase
+    private val getCampsiteMessageBriefInfoByScopeUseCase: GetCampsiteMessageBriefInfoByScopeUseCase,
+    private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase
 ) : ViewModel() {
 
     private val _campsiteBriefInfo = MutableLiveData<List<CampsiteBriefInfo>>()
     val campsiteBriefInfo: LiveData<List<CampsiteBriefInfo>> = _campsiteBriefInfo
 
     private val _campsiteMessageBriefInfo = MutableLiveData<List<CampsiteMessageBriefInfo>>()
-    val campsiteMessageBriefInfo: LiveData<List<CampsiteMessageBriefInfo>> = _campsiteMessageBriefInfo
+    val campsiteMessageBriefInfo: LiveData<List<CampsiteMessageBriefInfo>> =
+        _campsiteMessageBriefInfo
 
-    fun getCampsiteBriefInfoByCampName(campsiteName: String) = viewModelScope.launch {
-        when (val value = getCampsiteBriefInfoByCampNameUseCase(campsiteName)) {
+    private val _campsiteMessageDetailInfo = MutableLiveData<CampsiteMessageDetailInfo>()
+    val campsiteMessageDetailInfo: LiveData<CampsiteMessageDetailInfo> =
+        _campsiteMessageDetailInfo
+
+    private val _file: MutableLiveData<Uri?> = MutableLiveData(null)
+    val file: MutableLiveData<Uri?> = _file
+
+    private val _content: MutableLiveData<String> = MutableLiveData("")
+    val content: MutableLiveData<String> = _content
+
+    fun getCampsiteBriefInfoByCampName() = viewModelScope.launch {
+        when (val value = getCampsiteBriefInfoByCampNameUseCase(requireNotNull(content.value))) {
             is Resource.Success<List<CampsiteBriefInfo>> -> {
                 val campsiteBriefInfoList = value.data
                 _campsiteBriefInfo.value = campsiteBriefInfoList
             }
             is Resource.Error -> {
-                Log.d("requestNoteQuestions", "NoteQuestions: ${value.errorMessage}")
+                Log.d("getCampsiteBriefInfoByCampName", "NoteQuestions: ${value.errorMessage}")
                 _campsiteBriefInfo.value = listOf()
             }
         }
@@ -56,13 +68,12 @@ class CommunityCampsiteViewModel @Inject constructor(
             is Resource.Success<List<CampsiteBriefInfo>> -> {
                 val campsiteBriefInfoList = value.data
                 _campsiteBriefInfo.value = campsiteBriefInfoList
-                Log.d(
-                    "getCampsiteBriefInfoByUserLocation",
-                    "getCampsiteBriefInfoByUserLocation: ${value.data}"
-                )
             }
             is Resource.Error -> {
-                Log.d("getCampsiteBriefInfoByUserLocation", "NoteQuestions: ${value.errorMessage}")
+                Log.d(
+                    "getCampsiteBriefInfoByUserLocation",
+                    "getCampsiteBriefInfoByUserLocation: ${value.errorMessage}"
+                )
                 _campsiteBriefInfo.value = listOf()
             }
         }
@@ -85,14 +96,28 @@ class CommunityCampsiteViewModel @Inject constructor(
             is Resource.Success<List<CampsiteMessageBriefInfo>> -> {
                 val campsiteMessageBriefInfoList = value.data
                 _campsiteMessageBriefInfo.value = campsiteMessageBriefInfoList
-                Log.d(
-                    "getCampsiteMessageBriefInfoByScope",
-                    "getCampsiteMessageBriefInfoByScope: ${value.data}"
-                )
             }
             is Resource.Error -> {
-                Log.d("getCampsiteMessageBriefInfoByScope", "getCampsiteMessageBriefInfoByScope: ${value.errorMessage}")
+                Log.d(
+                    "getCampsiteMessageBriefInfoByScope",
+                    "getCampsiteMessageBriefInfoByScope: ${value.errorMessage}"
+                )
                 _campsiteMessageBriefInfo.value = listOf()
+            }
+        }
+    }
+
+    fun getCampsiteMessageDetailInfo(messageId: String) = viewModelScope.launch {
+        when (val value = getCampsiteMessageDetailInfoUseCase(messageId)) {
+            is Resource.Success<CampsiteMessageDetailInfo> -> {
+                val campsiteMessageDetailInfo = value.data
+                _campsiteMessageDetailInfo.value = campsiteMessageDetailInfo
+            }
+            is Resource.Error -> {
+                Log.d(
+                    "getCampsiteMessageDetailInfo",
+                    "getCampsiteMessageDetailInfo: ${value.errorMessage}"
+                )
             }
         }
     }

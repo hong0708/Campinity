@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:fontFamily="@font/roboto_bold"
-                android:text="@string/title_review_note"
+                android:text="@{@string/note_format(detailInfo.messageCategory)}"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -54,6 +54,7 @@
                 android:layout_marginStart="32dp"
                 android:layout_marginTop="13dp"
                 android:contentDescription="@string/image_user_profile"
+                android:normalImgUri="@{detailInfo.profilePath}"
                 android:src="@drawable/ic_profile_default"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv_review_title" />
@@ -72,6 +73,7 @@
                 tools:text="세림" />
 
             <TextView
+                android:id="@+id/tv_message_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -110,7 +112,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 tools:text="와 여기 너무 좋음;; \n 무슨 글램핑장에" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

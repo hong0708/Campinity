@@ -136,7 +136,6 @@ class SearchViewModel @Inject constructor(
                     )
                 )
             }
-
             areaList.add(AreaListItem(sidoName, gugunList, campsiteCountAll))
         }
     }

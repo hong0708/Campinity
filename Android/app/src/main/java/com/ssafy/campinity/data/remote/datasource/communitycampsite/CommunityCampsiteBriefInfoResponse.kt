@@ -10,13 +10,19 @@ data class CommunityCampsiteBriefInfoResponse(
     @SerializedName("campsiteName")
     val campsiteName: String,
     @SerializedName("address")
-    val address: String
+    val address: String,
+    @SerializedName("latitude")
+    val latitude: String,
+    @SerializedName("longitude")
+    val longitude: String
 ) : DataToDomainMapper<CampsiteBriefInfo> {
     override fun toDomainModel(): CampsiteBriefInfo {
         return CampsiteBriefInfo(
             campsiteId,
             campsiteName,
-            address
+            address,
+            latitude,
+            longitude
         )
     }
 }

@@ -26,7 +26,6 @@ class CollectionDeleteDialog(
             R.layout.dialog_collection_delete,
             null, false
         )
-
         setContentView(binding.root)
 
         window?.setLayout(
@@ -39,7 +38,7 @@ class CollectionDeleteDialog(
 
         binding.apply {
             btnConfirm.setOnClickListener {
-                listener.onButtonClicked()
+                listener.onConfirmButtonClicked()
                 dismiss()
             }
             btnCancel.setOnClickListener {

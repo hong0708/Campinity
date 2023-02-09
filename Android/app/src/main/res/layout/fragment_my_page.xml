@@ -145,6 +145,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:background="@drawable/bg_spinner"
+                        android:dropDownWidth="90dp"
+                        android:popupBackground="@drawable/bg_rect_bilbao_white_radius15_stroke1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -349,7 +351,7 @@
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="14dp"
                     android:background="@drawable/bg_rect_bilbao_white_radius15_stroke1"
-                    android:enabled="@{!vm.nickname.empty &amp;&amp; !vm.isSame}"
+                    android:enabled="false"
                     android:fontFamily="@font/roboto_regular"
                     android:text="@string/content_duplicate_check"
                     android:textColor="@color/bilbao"
@@ -365,8 +367,8 @@
                     android:layout_marginStart="28dp"
                     android:layout_marginEnd="28dp"
                     android:layout_marginBottom="20dp"
-                    android:background="@{!vm.isDuplicate || vm.isSame ? @drawable/bg_rect_bilbao_radius10 : @drawable/bg_rect_grey_radius10}"
-                    android:enabled="@{!vm.isDuplicate || !vm.isSame}"
+                    android:background="@drawable/bg_rect_grey_radius10"
+                    android:enabled="false"
                     android:fontFamily="@font/roboto_bold"
                     android:text="@string/content_confirm_edit_profile"
                     android:textColor="@color/white"
