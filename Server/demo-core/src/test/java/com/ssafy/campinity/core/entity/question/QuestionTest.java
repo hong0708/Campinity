@@ -46,7 +46,7 @@ public class QuestionTest {
 
         Assertions.assertThat(savedQuestion.getExpired()).isEqualTo(false);
 
-        Answer answer1 = Answer.builder().member(member).content("답글").uuid(UUID.randomUUID()).build();
+        Answer answer1 = Answer.builder().member(member).question(savedQuestion).content("답글").uuid(UUID.randomUUID()).build();
 
         answerRepository.save(answer1);
 

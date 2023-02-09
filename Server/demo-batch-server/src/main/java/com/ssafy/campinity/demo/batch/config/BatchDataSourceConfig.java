@@ -1,5 +1,6 @@
 package com.ssafy.campinity.demo.batch.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
@@ -25,6 +26,9 @@ import java.util.HashMap;
 )
 public class BatchDataSourceConfig{
 
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String ddl;
+
     @Bean
     @Primary
     public LocalContainerEntityManagerFactoryBean batchEntityManager() {
@@ -37,7 +41,7 @@ public class BatchDataSourceConfig{
         HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
         em.setJpaVendorAdapter(vendorAdapter);
         HashMap<String, String> properties = new HashMap<>();
-        properties.put("hibernate.hbm2ddl.auto", "update");
+        properties.put("hibernate.ddl-auto", ddl);
         properties.put("hibernate.dialect", "org.hibernate.dialect.MySQL5InnoDBDialect");
         properties.put("hibernate.implicit_naming_strategy",
                 "org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl");
@@ -50,12 +54,9 @@ public class BatchDataSourceConfig{
 
     @Bean
     @Primary
+    @ConfigurationProperties(prefix="spring.batch-db.datasource")
     public DataSource batchDataSource() {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.url("jdbc:mariadb://localhost:3306/batch");
-        dataSourceBuilder.username("root");
-        dataSourceBuilder.password("root");
-        return dataSourceBuilder.build();
+        return DataSourceBuilder.create().build();
     }
 
     @Bean
