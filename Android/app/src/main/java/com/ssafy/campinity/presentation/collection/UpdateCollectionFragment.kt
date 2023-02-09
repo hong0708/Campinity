@@ -14,10 +14,10 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.Size
 import com.ssafy.campinity.common.util.getDeviceWidthPx
+import com.ssafy.campinity.common.util.glide
 import com.ssafy.campinity.databinding.FragmentUpdateCollectionBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -66,12 +66,12 @@ class UpdateCollectionFragment :
         viewModel.collectionData.observe(viewLifecycleOwner) {
             binding.apply {
                 if (it != null) {
-                    Glide.with(requireContext())
-                        .load("http://i8d101.p.ssafy.io:8003/images" + it.imagePath)
-                        .override(getDeviceWidthPx(requireContext()))
-                        .centerCrop()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                        .into(ivPhoto)
+                    glide(
+                        requireContext(),
+                        "http://i8d101.p.ssafy.io:8003/images${it.imagePath}",
+                        Size(getDeviceWidthPx(requireContext())),
+                        null
+                    ).centerCrop().into(ivPhoto)
                     tvDateInput.text = it.date
                     etLocation.setText(it.campsiteName)
                     etDescription.setText(it.content)

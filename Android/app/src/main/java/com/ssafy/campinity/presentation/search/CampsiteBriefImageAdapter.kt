@@ -4,14 +4,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.Size
 import com.ssafy.campinity.common.util.glide
-import com.ssafy.campinity.common.util.imageNotFound
 import com.ssafy.campinity.common.util.preload
 import com.ssafy.campinity.common.util.px
 import com.ssafy.campinity.databinding.ItemCampsiteBriefImageBinding
 
 class CampsiteBriefImageAdapter(private val context: Context, private val images: List<String>) :
-    RecyclerView.Adapter<CampsiteBriefImageAdapter.SearchImageViewHolder>() {
+    RecyclerView.Adapter<CampsiteBriefImageAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemCampsiteBriefImageBinding
 
@@ -19,20 +20,31 @@ class CampsiteBriefImageAdapter(private val context: Context, private val images
         setHasStableIds(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchImageViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemCampsiteBriefImageBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
-        return SearchImageViewHolder(binding)
+        return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: SearchImageViewHolder, position: Int) {
-        binding.ivCampsiteImage.apply {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        binding.ivCampsiteImage.let {
             if (images.isEmpty())
-                imageNotFound(context, 120.px(context), this)
+                glide(
+                    it.context,
+                    R.drawable.bg_image_not_found,
+                    Size(120.px(context), 150.px(context)),
+                    null
+                ).centerCrop().into(it)
             else
-                glide(context, images[position], 120.px(context), 150.px(context), this)
+                glide(
+                    it.context,
+                    images[position],
+                    Size(120.px(context), 150.px(context)),
+                    R.drawable.bg_image_not_found
+                ).centerCrop().into(it)
         }
+
         if (images.isNotEmpty() && position <= itemCount) {
             val endPosition =
                 if (position + 6 > itemCount)
@@ -41,7 +53,7 @@ class CampsiteBriefImageAdapter(private val context: Context, private val images
                     position + 6
 
             images.subList(position, endPosition).map { it }.forEach {
-                preload(context, it, 120.px(context), 150.px(context))
+                preload(context, it, Size(120.px(context), 150.px(context)))
             }
         }
     }
@@ -52,6 +64,6 @@ class CampsiteBriefImageAdapter(private val context: Context, private val images
 
     override fun getItemViewType(position: Int): Int = position
 
-    inner class SearchImageViewHolder(binding: ItemCampsiteBriefImageBinding) :
+    inner class ViewHolder(binding: ItemCampsiteBriefImageBinding) :
         RecyclerView.ViewHolder(binding.root)
 }

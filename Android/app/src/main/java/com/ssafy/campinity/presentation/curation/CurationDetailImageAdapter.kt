@@ -4,10 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.Size
 import com.ssafy.campinity.common.util.getDeviceWidthPx
+import com.ssafy.campinity.common.util.glide
 import com.ssafy.campinity.databinding.ItemCurationDetailBinding
 
 class CurationDetailImageAdapter(private val images: List<String>) :
@@ -28,19 +28,19 @@ class CurationDetailImageAdapter(private val images: List<String>) :
     override fun onBindViewHolder(holder: CurationViewHolder, position: Int) {
         binding.ivCurationDetail.apply {
             if (images.isEmpty()) {
-                Glide.with(context)
-                    .load(R.drawable.bg_image_not_found)
-                    .override(getDeviceWidthPx(context))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(this)
+                glide(
+                    context,
+                    R.drawable.bg_image_not_found,
+                    Size(getDeviceWidthPx(context)),
+                    null
+                ).centerCrop().into(this)
             } else {
-                Glide.with(context)
-                    .load("http://i8d101.p.ssafy.io:8003/images" + images[position])
-                    .override(getDeviceWidthPx(context))
-                    .centerCrop()
-                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
-                    .into(this)
+                glide(
+                    context,
+                    "http://i8d101.p.ssafy.io:8003/images${images[position]}",
+                    Size(getDeviceWidthPx(context)),
+                    null
+                ).centerCrop().into(this)
             }
         }
     }

@@ -4,7 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.ssafy.campinity.common.util.*
+import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.Size
+import com.ssafy.campinity.common.util.getDeviceWidthPx
+import com.ssafy.campinity.common.util.glide
+import com.ssafy.campinity.common.util.preload
 import com.ssafy.campinity.databinding.ItemCampsiteDetailImageBinding
 
 class CampsiteDetailImageAdapter(private val context: Context, private val images: List<String>) :
@@ -20,12 +24,23 @@ class CampsiteDetailImageAdapter(private val context: Context, private val image
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        binding.ivCampsiteImage.apply {
+        binding.ivCampsiteImage.let {
             if (images.isEmpty())
-                imageNotFound(context, getDeviceWidthPx(context), this)
+                glide(
+                    it.context,
+                    R.drawable.bg_image_not_found,
+                    Size(getDeviceWidthPx(context)),
+                    null
+                ).centerCrop().into(it)
             else
-                glide(context, images[position], getDeviceWidthPx(context), this)
+                glide(
+                    it.context,
+                    images[position],
+                    Size(getDeviceWidthPx(context)),
+                    R.drawable.bg_image_not_found
+                ).centerCrop().into(it)
         }
+
         if (images.isNotEmpty() && position <= images.size) {
             val endPosition =
                 if (position + 2 > images.size)
@@ -34,7 +49,7 @@ class CampsiteDetailImageAdapter(private val context: Context, private val image
                     position + 2
 
             images.subList(position, endPosition).map { it }.forEach {
-                preload(context, it, 120.px(context), 150.px(context))
+                preload(context, it, null)
             }
         }
     }

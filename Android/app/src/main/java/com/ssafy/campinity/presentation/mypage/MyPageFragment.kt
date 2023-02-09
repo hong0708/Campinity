@@ -20,12 +20,12 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImg
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
+import com.ssafy.campinity.common.util.glide
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -56,10 +56,7 @@ class MyPageFragment :
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
                 )
-                Glide.with(requireContext())
-                    .load(it.data as Uri)
-                    .placeholder(R.drawable.ic_profile_image)
-                    .error(R.drawable.ic_profile_image)
+                glide(requireContext(), it.data as Uri, null, R.drawable.ic_profile_image)
                     .circleCrop()
                     .into(binding.ivProfileImage)
             }
@@ -147,7 +144,7 @@ class MyPageFragment :
             }
         }
 
-        myPageViewModel.detailData.observe(viewLifecycleOwner) {response ->
+        myPageViewModel.detailData.observe(viewLifecycleOwner) { response ->
             response.let {
                 if (it != null) {
                     ReviewNoteDialog(requireContext(), it).show()
@@ -392,6 +389,7 @@ class MyPageFragment :
             panel: View?,
             previousState: SlidingUpPanelLayout.PanelState?,
             newState: SlidingUpPanelLayout.PanelState?
-        ) {}
+        ) {
+        }
     }
 }
