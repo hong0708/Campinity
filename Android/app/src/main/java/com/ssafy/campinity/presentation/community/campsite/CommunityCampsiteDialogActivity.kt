@@ -116,13 +116,13 @@ class CommunityCampsiteDialogActivity :
                         this@CommunityCampsiteDialogActivity
                     ).show()
                 }
+
                 tvMakeReview.setOnClickListener {
                     viewModel.createCommunityCampsiteMessage(
                         "리뷰",
                         campsiteId
                     )
                 }
-
             } else {
                 tvSelectMarkerLocation.visibility = View.GONE
                 tvMakeReview.setOnClickListener {
