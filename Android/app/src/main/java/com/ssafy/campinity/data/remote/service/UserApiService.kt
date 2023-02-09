@@ -1,5 +1,6 @@
 package com.ssafy.campinity.data.remote.service
 
+import com.ssafy.campinity.data.remote.datasource.user.UserProfileResponse
 import com.ssafy.campinity.data.remote.datasource.user.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -21,5 +22,5 @@ interface UserApiService {
     suspend fun cancelSignUp(): Boolean
 
     @GET("/api/v4/members/member-image")
-    suspend fun getUserProfile(): String
+    suspend fun getUserProfile(): UserProfileResponse
 }

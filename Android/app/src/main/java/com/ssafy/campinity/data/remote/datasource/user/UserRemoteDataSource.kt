@@ -16,5 +16,5 @@ interface UserRemoteDataSource {
 
     suspend fun cancelSignUp(): Boolean
 
-    suspend fun getUserProfileImg(): String
+    suspend fun getUserProfileImg(): UserProfileResponse
 }

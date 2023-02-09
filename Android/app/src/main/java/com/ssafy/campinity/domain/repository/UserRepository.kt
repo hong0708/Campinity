@@ -2,6 +2,7 @@ package com.ssafy.campinity.domain.repository
 
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.domain.entity.user.User
+import com.ssafy.campinity.domain.entity.user.UserProfile
 import okhttp3.MultipartBody
 
 interface UserRepository {
@@ -18,5 +19,5 @@ interface UserRepository {
 
     suspend fun cancelSignUp(): Resource<Boolean>
 
-    suspend fun getUserProfile(): Resource<String>
+    suspend fun getUserProfile(): Resource<UserProfile>
 }
