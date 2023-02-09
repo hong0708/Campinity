@@ -88,4 +88,12 @@ public class QuestionServiceImpl implements QuestionService {
             throw new BadRequestException("삭제 권한이 없습니다.");
         }
     }
+
+    @Override
+    public List<QuestionResDTO> getQuestionListByMember(int memberId) {
+        return questionRepository.findByMember_idAndExpiredIsFalseOrderByCreatedAtDesc(memberId)
+                .stream().map(question -> {
+                    return QuestionResDTO.builder().question(question).build();
+                }).collect(Collectors.toList());
+    }
 }
