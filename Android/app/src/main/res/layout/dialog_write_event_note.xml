@@ -8,7 +8,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="328dp"
-        android:layout_height="536dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_rect_white_radius15_dialog">
 
         <ImageView
@@ -26,10 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
             android:text="@string/title_help"
             android:textColor="@color/black"
             android:textSize="20sp"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -40,10 +40,10 @@
             android:layout_height="19dp"
             android:layout_marginStart="28dp"
             android:layout_marginTop="18dp"
-            android:fontFamily="@font/roboto_bold"
             android:text="@string/content_user_location"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_help_title" />
 
@@ -54,8 +54,6 @@
             android:layout_marginTop="6dp"
             android:autofillHints="no"
             android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="top"
             android:hint="@string/content_user_location_hint"
             android:inputType="textMultiLine"
             android:paddingStart="12dp"
@@ -63,6 +61,7 @@
             android:paddingEnd="12dp"
             android:paddingBottom="10dp"
             android:textSize="12sp"
+            android:fontFamily="@font/roboto_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_user_location" />
@@ -73,10 +72,10 @@
             android:layout_height="19dp"
             android:layout_marginStart="28dp"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_bold"
             android:text="@string/content_user_help"
             android:textColor="@color/black"
             android:textSize="16sp"
+            android:fontFamily="@font/roboto_bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/et_user_location" />
 
@@ -87,8 +86,6 @@
             android:layout_marginTop="8dp"
             android:autofillHints="no"
             android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
-            android:fontFamily="@font/roboto_regular"
-            android:gravity="top"
             android:hint="@string/content_user_help_hint"
             android:inputType="textMultiLine"
             android:paddingStart="12dp"
@@ -96,47 +93,10 @@
             android:paddingEnd="12dp"
             android:paddingBottom="10dp"
             android:textSize="12sp"
+            android:fontFamily="@font/roboto_regular"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_user_help" />
-
-        <TextView
-            android:id="@+id/tv_event_time_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="13dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/content_event_time"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_user_help" />
-
-        <TextView
-            android:id="@+id/tv_event_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/content_event_time_ex"
-            android:textColor="@color/black"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_event_time_title" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="2dp"
-            android:fontFamily="@font/roboto_light"
-            android:text="@string/content_until_time"
-            android:textColor="@color/black"
-            android:textSize="11sp"
-            app:layout_constraintBottom_toBottomOf="@id/tv_event_time"
-            app:layout_constraintStart_toEndOf="@id/tv_event_time" />
-
 
         <TextView
             android:id="@+id/btn_make_note_help"
@@ -145,6 +105,7 @@
             android:layout_marginStart="28dp"
             android:layout_marginEnd="28dp"
             android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_rect_bilbao_radius10"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center"
@@ -153,7 +114,8 @@
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_user_help" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

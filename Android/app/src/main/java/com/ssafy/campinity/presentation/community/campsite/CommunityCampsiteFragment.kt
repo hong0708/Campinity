@@ -57,6 +57,7 @@ class CommunityCampsiteFragment :
         initListener()
         initRecyclerView()
         setTextWatcher()
+        setSubscribeState()
         communityCampsiteViewModel.getUserProfile()
     }
 
@@ -199,6 +200,7 @@ class CommunityCampsiteFragment :
                 ),
                 true
             )
+            drawPostBox(recentCampsite)
 
             CoroutineScope(Dispatchers.Main).launch {
                 val deffered: Deferred<Int> = async {
@@ -525,6 +527,23 @@ class CommunityCampsiteFragment :
         targetLoc.longitude = lng
 
         return myLoc.distanceTo(targetLoc)
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun setSubscribeState() {
+        binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
+        binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
+        binding.toggleCampsite.setOnToggledListener { toggleableView, isOn ->
+            if (isOn) {
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    "", ApplicationClass.preferences.fcmToken.toString())
+            } else {
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                    ApplicationClass.preferences.fcmToken.toString()
+                )
+            }
+        }
     }
 
     // 이벤트 리스너

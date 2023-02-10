@@ -84,6 +84,18 @@
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
+                    <com.github.angads25.toggle.widget.LabeledSwitch
+                        android:id="@+id/toggle_campsite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="15sp"
+                        android:layout_marginEnd="10dp"
+                        app:on="false"
+                        app:colorBorder="@color/bilbao"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
