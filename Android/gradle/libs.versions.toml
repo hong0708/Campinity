@@ -45,6 +45,8 @@ bom = "31.2.0"
 
 lottie = "5.0.2"
 
+tedpermission = "3.3.0"
+
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx_appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -79,8 +81,9 @@ viewpager-indicator = { module = "com.github.zhpanvip:viewpagerindicator", versi
 room = { module = "androidx.room:room-runtime", version.ref = "room" }
 room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
-firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "bom"}
-lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie"}
+firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "bom" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
+tedpermission = { module = "io.github.ParkSangGwon:tedpermission-normal", version.ref = "tedpermission" }
 
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",
@@ -95,4 +98,4 @@ android_library = { id = "com.android.library", version.ref = "android-library" 
 android_application = { id = "com.android.application", version.ref = "android-application" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 navigation_safe_args_plugin = { id = "androidx.navigation.safeargs", version.ref = "navigation_safe_args_version" }
-google_services = { id = "com.google.gms.google-services", version.ref = "google_services"}
+google_services = { id = "com.google.gms.google-services", version.ref = "google_services" }

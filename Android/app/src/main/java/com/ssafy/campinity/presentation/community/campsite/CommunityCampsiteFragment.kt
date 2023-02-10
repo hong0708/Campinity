@@ -7,8 +7,11 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -16,6 +19,8 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
@@ -52,7 +57,9 @@ class CommunityCampsiteFragment :
     private var isFabOpen = false
     private var isTracking = false
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun initView() {
+        checkPermission()
         initObserver()
         initListener()
         initRecyclerView()
@@ -67,7 +74,7 @@ class CommunityCampsiteFragment :
         mapView.setPOIItemEventListener(this)
         mapView.setZoomLevel(1, true)
         binding.clCommunityMap.addView(mapView)
-        checkPermission()
+        initMapView()
     }
 
     override fun onPause() {
@@ -137,7 +144,8 @@ class CommunityCampsiteFragment :
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
 
     @Deprecated("Deprecated in Java")
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
 
     override fun onCalloutBalloonOfPOIItemTouched(
         p0: MapView?,
@@ -481,7 +489,7 @@ class CommunityCampsiteFragment :
         val userNowLocation: Location? =
             lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         //위도 , 경도
-        if(userNowLocation != null){
+        if (userNowLocation != null) {
             val userLatitude = userNowLocation.latitude
             val userLongitude = userNowLocation.longitude
             val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
@@ -489,8 +497,33 @@ class CommunityCampsiteFragment :
         }
     }
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     private fun checkPermission() {
-        if (ContextCompat.checkSelfPermission(
+        TedPermission.create()
+            .setPermissionListener(object : PermissionListener {
+                override fun onPermissionGranted() {
+
+                }
+
+                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
+                    showToast("권한을 허가해주세요.")
+                    Log.d("permission11", "onPermissionDenied: ${deniedPermissions.toString()}")
+                    onDestroyView()
+                }
+            })
+            /*.setRationaleMessage("위치 정보 제공이 필요한 서비스입니다.")*/
+            .setDeniedMessage("권한을 허용해주세요. [권한] > [위치]")
+            .setDeniedCloseButtonText("닫기")
+            .setGotoSettingButtonText("설정")
+            /*.setRationaleTitle("Campinity")*/
+            .setPermissions(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ).check()
+
+
+        /*if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
@@ -506,7 +539,7 @@ class CommunityCampsiteFragment :
                 Permission.ACCESS_FINE_LOCATION
             )
             checkPermission()
-        }
+        }*/
     }
 
     @SuppressLint("MissingPermission")
