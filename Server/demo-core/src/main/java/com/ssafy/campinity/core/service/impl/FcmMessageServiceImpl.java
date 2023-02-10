@@ -59,6 +59,24 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return successfulSendCnt;
     }
 
+//    // fcm에 토큰에 push 요청 및 invalid token 삭제
+//    private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
+//
+//        List<String> fcmTokenList = fcmTokenRepository.findTop500ByCampsiteUuidAndMember_IdIsNot(savedFcm.getCampsiteUuid(), memberId).stream()
+//                .map(token -> token.getToken()).collect(Collectors.toList());
+//
+//        if (fcmTokenList.size() == 0) {
+//            return 0;
+//        }
+//        int successfulSendCnt = 0;
+//        try { successfulSendCnt = makeMessageToMany(memberId, savedFcm); }
+//        catch (FirebaseMessagingException e){
+//            logger.warn(e.getMessage());
+//            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
+//        }
+//        return successfulSendCnt;
+//    }
+
     // fcm에 토큰에 push 요청 및 invalid token 삭제
     private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
 
@@ -72,17 +90,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .putData("fcmMessageId", savedFcm.getUuid().toString())
                 .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
                 .build();
-
-        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
-        int resSize = response.getResponses().size();
-        List<String> invalidTokens = new ArrayList<>();
-
-        for (int i = 0; i < resSize; i++)
-            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
-
-        if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
-
-        return response.getSuccessCount();
+        return objectMapper.writeValueAsString(fcmMessageToOneDTO);
     }
 
     @Transactional
@@ -94,7 +102,6 @@ public class FcmMessageServiceImpl implements FcmMessageService {
 
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-
 
         List<String> senderTokens = fcmMessage.getMember().getFcmTokenList().stream().filter(token ->
                         token.getCampsiteUuid().equals(fcmMessage.getCampsiteUuid()))
@@ -127,6 +134,8 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addToken(appointeeToken)
                 .setNotification(Notification.builder().setTitle(data.getTitle()).setBody(data.getHiddenBody()).build())
+                .putData("title", data.getTitle())
+                .putData("body", data.getHiddenBody())
                 .putData("longitude", data.getLongitude().toString())
                 .putData("latitude", data.getLatitude().toString())
                 .build();
@@ -142,6 +151,8 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addAllTokens(appointeeTokens)
                 .setNotification(Notification.builder().setTitle(title).setBody(body).build())
+                .putData("title", title)
+                .putData("body", body)
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);
