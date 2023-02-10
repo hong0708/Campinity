@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_communityCampsiteFragment_to_mainActivity"
             app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_communityHelpNoteActivity"
+            app:destination="@id/communityHelpNoteActivity" />
     </fragment>
 
     <fragment
@@ -63,4 +66,17 @@
         android:name="com.ssafy.campinity.presentation.MainActivity"
         android:label="activity_main"
         tools:layout="@layout/activity_main" />
+
+    <activity
+        android:id="@+id/communityHelpNoteActivity"
+        android:name="com.ssafy.campinity.presentation.community.campsite.CommunityHelpNoteActivity"
+        android:label="CommunityHelpNoteActivity"
+        tools:layout="@layout/activity_write_help_note">
+        <argument
+            android:name="dialog_type"
+            app:argType="string" />
+        <argument
+            android:name="campsite_id"
+            app:argType="string" />
+    </activity>
 </navigation>

@@ -70,7 +70,12 @@
 
         <activity
             android:name=".presentation.search.SearchActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="COMMUNITY_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".presentation.splash.SplashActivity"
@@ -92,6 +97,10 @@
 
         <activity
             android:name=".presentation.community.campsite.CommunityCampsiteDialogActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".presentation.community.campsite.CommunityHelpNoteActivity"
             android:exported="true" />
 
         <meta-data

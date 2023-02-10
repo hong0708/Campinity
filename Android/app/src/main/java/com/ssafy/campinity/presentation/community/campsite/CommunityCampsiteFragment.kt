@@ -271,11 +271,23 @@ class CommunityCampsiteFragment :
 
             // 도움 주기 받기 기능 추후 추가
             fabHelp.setOnClickListener {
-                showToast("추후 추가되는 기능입니다.")
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                            "도움 주기",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             fabGetHelp.setOnClickListener {
-                showToast("추후 추가되는 기능입니다.")
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                            "도움 받기",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             fabReview.setOnClickListener {
@@ -494,14 +506,15 @@ class CommunityCampsiteFragment :
     private fun setSubscribeState() {
         binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
         binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
-        binding.toggleCampsite.setOnToggledListener { toggleableView, isOn ->
+        binding.toggleCampsite.setOnToggledListener { _, isOn ->
             if (isOn) {
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
-                    "", ApplicationClass.preferences.fcmToken.toString())
-            } else {
                 communityCampsiteViewModel.subscribeCampSiteUseCase(
                     ApplicationClass.preferences.userRecentCampsiteId.toString(),
                     ApplicationClass.preferences.fcmToken.toString()
+                )
+            } else {
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    "", ApplicationClass.preferences.fcmToken.toString()
                 )
             }
         }

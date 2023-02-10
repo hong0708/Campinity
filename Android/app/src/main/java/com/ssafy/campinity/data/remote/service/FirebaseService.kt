@@ -43,7 +43,6 @@ class FirebaseService : FirebaseMessagingService() {
     private fun sendNotification(body: String?) {
         val intent = Intent(this, CommunityActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-
         val pendingIntent =
             PendingIntent.getActivity(
                 this,
@@ -51,7 +50,6 @@ class FirebaseService : FirebaseMessagingService() {
                 intent,
                 PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
             )
-
 
         val CHANNEL_ID = getString(R.string.notification_channel_id)
         val CHANNEL_NAME = getString(R.string.notification_channel_name)
