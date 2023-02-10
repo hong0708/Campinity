@@ -36,7 +36,7 @@ class CurationDetailImageAdapter(private val images: List<String>) :
                     .into(this)
             } else {
                 Glide.with(context)
-                    .load("http://i8d101.p.ssafy.io:8003/images" + images[position])
+                    .load("http://i8d101.p.ssafy.io:8003/images${images[position]}")
                     .override(getDeviceWidthPx(context))
                     .centerCrop()
                     .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)

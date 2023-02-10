@@ -32,6 +32,7 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
         binding.rvCampsiteList.apply {
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
             searchListAdapter = SearchListAdapter(
+                requireContext(),
                 campsiteList,
                 this@SearchListFragment::onCampsiteClickListener,
                 this@SearchListFragment::navigationToSearchPostboxFragment

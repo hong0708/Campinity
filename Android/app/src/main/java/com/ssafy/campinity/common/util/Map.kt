@@ -1,5 +1,6 @@
 package com.ssafy.campinity.common.util
 
+import android.annotation.SuppressLint
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.content.pm.Signature
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
+
+@SuppressLint("PackageManagerGetSignatures")
 fun getHashKey(activity: AppCompatActivity) {
     lateinit var packageInfo: PackageInfo
     lateinit var signatures: Array<Signature>

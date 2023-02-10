@@ -1,5 +1,7 @@
 package com.ssafy.campinity.presentation.search
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,6 +10,7 @@ import com.ssafy.campinity.databinding.ItemSearchListBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 
 class SearchListAdapter(
+    private val context: Context,
     private var campsites: List<CampsiteBriefInfo>,
     private val onCampsiteClickListener: (String) -> Unit,
     private val navigationToSearchPostboxFragment: () -> Unit,
@@ -34,6 +37,7 @@ class SearchListAdapter(
 
     override fun getItemCount(): Int = campsites.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(data: List<CampsiteBriefInfo>) {
         campsites = data
         notifyDataSetChanged()
@@ -57,14 +61,15 @@ class SearchListAdapter(
         }
 
         fun initRecyclerView() {
-            binding.rvCampsiteImage.apply {
-                layoutManager = LinearLayoutManager(
-                    binding.rvCampsiteImage.context,
-                    RecyclerView.HORIZONTAL,
-                    false
-                )
-                adapter = CampsiteBriefImageAdapter(campsites[adapterPosition].images)
-            }
+            binding.rvCampsiteImage.layoutManager = LinearLayoutManager(
+                binding.rvCampsiteImage.context,
+                RecyclerView.HORIZONTAL,
+                false
+            )
+            binding.rvCampsiteImage.adapter =
+                CampsiteBriefImageAdapter(context, campsites[adapterPosition].images).apply {
+                    binding.rvCampsiteImage.setHasFixedSize(true)
+                }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.search
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.SparseBooleanArray
 import android.view.LayoutInflater
@@ -52,6 +53,7 @@ class SearchAreaGuGunAdapter(
 
     override fun getItemCount(): Int = gugun.size
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(gugun: List<GugunItem>) {
         this.gugun = gugun
         notifyDataSetChanged()
@@ -122,7 +124,6 @@ class SearchAreaGuGunAdapter(
 
                 toggleBtn()
             }
-
         }
     }
 }

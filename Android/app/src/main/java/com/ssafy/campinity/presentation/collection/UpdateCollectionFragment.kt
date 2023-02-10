@@ -67,7 +67,7 @@ class UpdateCollectionFragment :
             binding.apply {
                 if (it != null) {
                     Glide.with(requireContext())
-                        .load("http://i8d101.p.ssafy.io:8003/images" + it.imagePath)
+                        .load("http://i8d101.p.ssafy.io:8003/images${it.imagePath}")
                         .override(getDeviceWidthPx(requireContext()))
                         .centerCrop()
                         .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)

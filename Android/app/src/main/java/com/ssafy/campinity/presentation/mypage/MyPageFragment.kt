@@ -56,6 +56,7 @@ class MyPageFragment :
                     it.data as Uri,
                     File(absolutelyPath(it.data, requireContext()))
                 )
+
                 Glide.with(requireContext())
                     .load(it.data as Uri)
                     .placeholder(R.drawable.ic_profile_image)
@@ -147,7 +148,7 @@ class MyPageFragment :
             }
         }
 
-        myPageViewModel.detailData.observe(viewLifecycleOwner) {response ->
+        myPageViewModel.detailData.observe(viewLifecycleOwner) { response ->
             response.let {
                 if (it != null) {
                     ReviewNoteDialog(requireContext(), it).show()
@@ -392,6 +393,7 @@ class MyPageFragment :
             panel: View?,
             previousState: SlidingUpPanelLayout.PanelState?,
             newState: SlidingUpPanelLayout.PanelState?
-        ) {}
+        ) {
+        }
     }
 }
