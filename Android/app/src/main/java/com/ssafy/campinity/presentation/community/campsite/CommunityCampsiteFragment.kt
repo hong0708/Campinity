@@ -57,7 +57,7 @@ class CommunityCampsiteFragment :
         initListener()
         initRecyclerView()
         setTextWatcher()
-
+        setSubscribeState()
         communityCampsiteViewModel.getUserProfile()
     }
 
@@ -487,6 +487,23 @@ class CommunityCampsiteFragment :
                 Permission.ACCESS_FINE_LOCATION
             )
             checkPermission()
+        }
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun setSubscribeState() {
+        binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
+        binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
+        binding.toggleCampsite.setOnToggledListener { toggleableView, isOn ->
+            if (isOn) {
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    "", ApplicationClass.preferences.fcmToken.toString())
+            } else {
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                    ApplicationClass.preferences.fcmToken.toString()
+                )
+            }
         }
     }
 
