@@ -59,41 +59,38 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return successfulSendCnt;
     }
 
+//    // fcm에 토큰에 push 요청 및 invalid token 삭제
+//    private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
+//
+//        List<String> fcmTokenList = fcmTokenRepository.findTop500ByCampsiteUuidAndMember_IdIsNot(savedFcm.getCampsiteUuid(), memberId).stream()
+//                .map(token -> token.getToken()).collect(Collectors.toList());
+//
+//        if (fcmTokenList.size() == 0) {
+//            return 0;
+//        }
+//        int successfulSendCnt = 0;
+//        try { successfulSendCnt = makeMessageToMany(memberId, savedFcm); }
+//        catch (FirebaseMessagingException e){
+//            logger.warn(e.getMessage());
+//            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
+//        }
+//        return successfulSendCnt;
+//    }
+
     // fcm에 토큰에 push 요청 및 invalid token 삭제
     private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
 
         List<String> fcmTokenList = fcmTokenRepository.findTop500ByCampsiteUuidAndMember_IdIsNot(savedFcm.getCampsiteUuid(), memberId).stream()
                 .map(token -> token.getToken()).collect(Collectors.toList());
-
-        if (fcmTokenList.size() == 0) {
-            return 0;
-        }
+        System.out.println("search tokens : " + fcmTokenList.toString());
 
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addAllTokens(fcmTokenList)
                 .setNotification(Notification.builder().setTitle(savedFcm.getTitle()).setBody(savedFcm.getBody()).build())
                 .putData("fcmMessageId", savedFcm.getUuid().toString())
-                .putData("title", savedFcm.getTitle())
-                .putData("body", savedFcm.getBody())
-                .setAndroidConfig(AndroidConfig.builder()
-                        .setNotification(AndroidNotification.builder()
-                                .setClickAction("COMMUNITY_ACTIVITY")
-                                .build())
-                        .setPriority(AndroidConfig.Priority.HIGH)
-                        .build())
+                .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
                 .build();
-
-
-        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
-        int resSize = response.getResponses().size();
-        List<String> invalidTokens = new ArrayList<>();
-
-        for (int i = 0; i < resSize; i++)
-            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
-
-        if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
-
-        return response.getSuccessCount();
+        return objectMapper.writeValueAsString(fcmMessageToOneDTO);
     }
 
     @Transactional
