@@ -23,8 +23,18 @@ class CommunityNoteDetailFragment :
     }
 
     override fun initView() {
+        initObserver()
         initNoteDetail()
         initListener()
+    }
+
+    private fun initObserver() {
+        communityNoteViewModel.noteQuestionDetail.observe(viewLifecycleOwner) { response ->
+            response?.let {
+                binding.tvNoteQuestionContent.text = it.content
+                communityNoteQuestionAnswerAdapter.setAnswer(it.answers)
+            }
+        }
     }
 
     private fun initListener() {
@@ -41,7 +51,6 @@ class CommunityNoteDetailFragment :
                 ).show()
             }
         }
-
     }
 
     private fun initNoteDetail() {
@@ -49,15 +58,7 @@ class CommunityNoteDetailFragment :
             adapter = communityNoteQuestionAnswerAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
-        communityNoteViewModel.getNoteQuestionDetail(
-            args.questionId
-        )
-        communityNoteViewModel.noteQuestionDetail.observe(viewLifecycleOwner) { response ->
-            response?.let {
-                binding.tvNoteQuestionContent.text = it.content
-                communityNoteQuestionAnswerAdapter.setAnswer(it.answers)
-            }
-        }
+        communityNoteViewModel.getNoteQuestionDetail(args.questionId)
     }
 
     override fun postNote(id: String, content: String) {
@@ -65,6 +66,7 @@ class CommunityNoteDetailFragment :
             if (communityNoteViewModel.postNoteAnswer(content, id)) {
                 withContext(Dispatchers.Main) {
                     showToast("답변이 등록되었습니다.")
+                    communityNoteViewModel.getNoteQuestionDetail(args.questionId)
                 }
             } else {
                 withContext(Dispatchers.Main) {
