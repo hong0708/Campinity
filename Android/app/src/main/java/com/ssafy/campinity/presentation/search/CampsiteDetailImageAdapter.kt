@@ -4,11 +4,10 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ssafy.campinity.R
-import com.ssafy.campinity.common.util.Size
 import com.ssafy.campinity.common.util.getDeviceWidthPx
-import com.ssafy.campinity.common.util.glide
-import com.ssafy.campinity.common.util.preload
 import com.ssafy.campinity.databinding.ItemCampsiteDetailImageBinding
 
 class CampsiteDetailImageAdapter(private val context: Context, private val images: List<String>) :
@@ -26,30 +25,27 @@ class CampsiteDetailImageAdapter(private val context: Context, private val image
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         binding.ivCampsiteImage.let {
             if (images.isEmpty())
-                glide(
-                    it.context,
-                    R.drawable.bg_image_not_found,
-                    Size(getDeviceWidthPx(context)),
-                    null
-                ).centerCrop().into(it)
+                Glide.with(it.context)
+                    .load(R.drawable.bg_image_not_found)
+                    .override(getDeviceWidthPx(context))
+                    .centerCrop()
+                    .into(it)
             else
-                glide(
-                    it.context,
-                    images[position],
-                    Size(getDeviceWidthPx(context)),
-                    R.drawable.bg_image_not_found
-                ).centerCrop().into(it)
+                Glide.with(it.context)
+                    .load(images[position])
+                    .override(getDeviceWidthPx(context))
+                    .centerCrop()
+                    .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                    .into(it)
         }
 
         if (images.isNotEmpty() && position <= images.size) {
-            val endPosition =
-                if (position + 2 > images.size)
-                    images.size
-                else
-                    position + 2
+            val endPosition = if (position + 2 > images.size) images.size else position + 2
 
             images.subList(position, endPosition).map { it }.forEach {
-                preload(context, it, null)
+                Glide.with(context)
+                    .load(it)
+                    .preload()
             }
         }
     }
