@@ -27,8 +27,8 @@ services:
     build: ./demo-api-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/campinity?useUnicode=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_USERNAME: server
+      SPRING_DATASOURCE_PASSWORD: ssafy123!
     ports:
       - 8003:8003
     depends_on:
