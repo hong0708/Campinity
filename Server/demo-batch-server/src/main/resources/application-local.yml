@@ -1,0 +1,14 @@
+spring:
+  batch-db:
+    datasource:
+      jdbc-url: jdbc:mariadb://database:3306/batch
+      username: root
+      password: root
+  campinity-db:
+    datasource:
+      jdbc-url: jdbc:mariadb://database:3306/campinity
+      username: root
+      password: root
+
+  redis:
+    host: redis_boot
