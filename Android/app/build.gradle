@@ -96,6 +96,10 @@ dependencies {
     implementation platform(libs.firebase.bom)
 
     implementation libs.lottie
+
+    implementation libs.work.runtime.ktx
+
+    implementation libs.toggle
 }
 
 kapt {

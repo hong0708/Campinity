@@ -9,6 +9,7 @@ import com.ssafy.campinity.domain.usecase.community.*
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
 import com.ssafy.campinity.domain.usecase.fcm.RequestRenewTokenUseCase
+import com.ssafy.campinity.domain.usecase.fcm.RequestSubscribeCampSiteUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
@@ -161,4 +162,10 @@ object UseCaseModule {
     @Provides
     fun provideRequestRenewTokenUseCase(fcmRepository: FCMRepository): RequestRenewTokenUseCase =
         RequestRenewTokenUseCase(fcmRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestSubscribeCampSiteUseCase(
+        fcmRepository: FCMRepository
+    ): RequestSubscribeCampSiteUseCase = RequestSubscribeCampSiteUseCase(fcmRepository)
 }
