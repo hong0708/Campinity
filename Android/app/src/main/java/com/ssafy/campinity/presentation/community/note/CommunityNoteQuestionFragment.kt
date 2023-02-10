@@ -25,7 +25,9 @@ class CommunityNoteQuestionFragment :
 
     override fun onResume() {
         super.onResume()
-        communityNoteViewModel.getNoteQuestions(ApplicationClass.preferences.userRecentCampsiteId.toString())
+        communityNoteViewModel.getNoteQuestions(
+            ApplicationClass.preferences.userRecentCampsiteId.toString()
+        )
     }
 
     private fun initObserver() {

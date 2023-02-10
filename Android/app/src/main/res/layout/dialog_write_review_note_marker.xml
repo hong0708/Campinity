@@ -12,7 +12,7 @@
         android:background="@android:color/transparent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="300dp"
+            android:layout_width="330dp"
             android:layout_height="400dp"
             android:background="@drawable/bg_rect_white_radius15_dialog"
             app:layout_constraintBottom_toBottomOf="parent"

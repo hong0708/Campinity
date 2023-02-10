@@ -7,6 +7,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -151,7 +152,33 @@ class CommunityCampsiteFragment :
             )
         } else {
             val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
-            getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+
+            if (campsiteMessageBriefInfo.messageCategory == "리뷰") {
+                getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                Log.d("tlqkf", "onCalloutBalloonOfPOIItemTouched: review ${
+                    getDistance(
+                        campsiteMessageBriefInfo.latitude.toDouble(),
+                        campsiteMessageBriefInfo.longitude.toDouble()
+                    )
+                }")
+            } else {
+                if (getDistance(
+                        campsiteMessageBriefInfo.latitude.toDouble(),
+                        campsiteMessageBriefInfo.longitude.toDouble()
+                    ) < 100
+                ) {
+                    // 충분히 가까워서 유효
+                    getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                } else {
+                    //아직 멀어서 불가능
+                    Log.d("tlqkf", "onCalloutBalloonOfPOIItemTouched: ${
+                        getDistance(
+                            campsiteMessageBriefInfo.latitude.toDouble(),
+                            campsiteMessageBriefInfo.longitude.toDouble()
+                        )
+                    }")
+                }
+            }
         }
     }
 
@@ -446,11 +473,12 @@ class CommunityCampsiteFragment :
                 customImageResourceId = if (i.messageCategory == "리뷰") {
                     R.drawable.ic_review_note_marker
                 } else {
-                    if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 5) {
+                    R.drawable.ic_community_campsite_close_note3
+                    /*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 5) {
                         R.drawable.ic_community_campsite_open_note3
                     } else {
                         R.drawable.ic_community_campsite_close_note3
-                    }
+                    }*/
                 }
                 //isCustomImageAutoscale = false
                 userObject = i
@@ -508,6 +536,12 @@ class CommunityCampsiteFragment :
         targetLoc.latitude = lat
         targetLoc.longitude = lng
 
+        Log.d(
+            "tlqkf",
+            "getDistance: lat: ${userNowLocation?.latitude!!}  log:${userNowLocation?.longitude}"
+        )
+
+        Log.d("tlqkf", "getDistance: target lat: ${lat}  log:${lng} ")
         return myLoc.distanceTo(targetLoc)
     }
 

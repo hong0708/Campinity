@@ -74,6 +74,7 @@
                 android:autofillHints="no"
                 android:background="@drawable/bg_rect_white_smoke_radius15"
                 android:fontFamily="@font/roboto_regular"
+                android:gravity="top"
                 android:hint="@string/content_note_question_answer"
                 android:inputType="textMultiLine"
                 android:padding="16dp"
