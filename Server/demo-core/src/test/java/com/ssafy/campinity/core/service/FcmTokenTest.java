@@ -249,4 +249,11 @@ public class FcmTokenTest {
 //                "testbody");
 //
 //    }
+
+    @Test
+    void LocalDateTest(){
+
+        System.out.println("here");
+        System.out.println(LocalDate.now());
+    }
 }

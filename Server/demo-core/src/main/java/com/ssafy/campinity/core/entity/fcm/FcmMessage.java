@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -20,6 +21,8 @@ public class FcmMessage extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(columnDefinition = "char(36)")
+    @Type(type = "uuid-char")
     private UUID uuid;
 
     private String campsiteUuid;
@@ -34,15 +37,18 @@ public class FcmMessage extends BaseEntity {
 
     private Double latitude;
 
-    @OneToOne
+    private Boolean expired = false;
+
+    @ManyToOne
     @ToString.Exclude
     private Member member;
 
     private String appointeeToken;
 
     @Builder
-    public FcmMessage(UUID uuid, String title, String body, String hiddenBody, Double longitude, Double latitude, Member member, String appointeeToken) {
+    public FcmMessage(UUID uuid, String campsiteUuid, String title, String body, String hiddenBody, Double longitude, Double latitude, Member member, String appointeeToken) {
         this.uuid = uuid;
+        this.campsiteUuid = campsiteUuid;
         this.title = title;
         this.body = body;
         this.hiddenBody = hiddenBody;
@@ -52,9 +58,10 @@ public class FcmMessage extends BaseEntity {
         this.appointeeToken = appointeeToken;
     }
 
-
-
-    public void appointReciever(String fcmToken){
+    public void appointMember(String fcmToken){
         this.appointeeToken = fcmToken;
+    }
+    public void expired(){
+        this.expired = true;
     }
 }

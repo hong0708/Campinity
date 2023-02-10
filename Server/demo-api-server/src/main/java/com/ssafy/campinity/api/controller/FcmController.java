@@ -6,6 +6,7 @@ import com.ssafy.campinity.api.dto.req.FcmTokenReqDTO;
 import com.ssafy.campinity.api.dto.req.SubscribeCamReqDTO;
 import com.ssafy.campinity.api.dto.req.SubscribeCamReqDTO;
 import com.ssafy.campinity.core.dto.FcmMessageReqDTO;
+import com.ssafy.campinity.core.dto.FcmReplyDTO;
 import com.ssafy.campinity.core.dto.FcmTokenResDTO;
 import com.ssafy.campinity.core.service.FcmMessageService;
 import com.ssafy.campinity.core.service.FcmTokenService;
@@ -25,7 +26,6 @@ public class FcmController {
 
     private final FcmMessageService fcmMessageService;
     private final FcmTokenService fcmTokenService;
-
 
     @ApiResponses({
             @ApiResponse(code = 200, message = "fcm token 저장 성공 시 응답"),
@@ -64,13 +64,29 @@ public class FcmController {
     })
     @ApiOperation(value = "도움 받기/주기 메세지 전송 api")
     @PostMapping("/to-many")
-    public ResponseEntity<Integer> sendFcmMessageToOne(
+    public ResponseEntity<Integer> sendFcmMessageToMany(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @RequestBody FcmMessageReqDTO fcmMessageReqDTO
             ) {
 
-        int successfulSendCont = fcmMessageService.sendMessageToMany(memberDetails.getMember().getId(), fcmMessageReqDTO);
+        int successfulSendCnt = fcmMessageService.sendMessageToMany(memberDetails.getMember().getId(), fcmMessageReqDTO);
 
-        return ResponseEntity.ok().body(successfulSendCont);
+        return ResponseEntity.ok().body(successfulSendCnt);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 400, message = "입력값 또는 타입이 맞지 않을 때 응답"),
+            @ApiResponse(code = 500, message = "fcm 메세지 전송이 실패했을 때 응답")
+    })
+    @ApiOperation(value = "fcm Push에 대해 수신자 응답 api")
+    @PostMapping("/reply")
+    public ResponseEntity<String> replyToFcm(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @RequestBody FcmReplyDTO fcmReplyReqDTO
+            ) {
+        fcmMessageService.replyToFcm(memberDetails.getMember().getId(), fcmReplyReqDTO);
+
+        return ResponseEntity.ok().body("성공");
     }
 }

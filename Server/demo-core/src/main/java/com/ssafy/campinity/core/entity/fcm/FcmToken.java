@@ -33,7 +33,7 @@ public class FcmToken {
 
     private String campsiteUuid;
 
-    private LocalDate expiredDate;
+    private LocalDate expiredDate; // 생성날짜 기준 + 한 달
 
     @Builder
     public FcmToken(Member member, String token, String campsiteUuid, LocalDate expiredDate) {

@@ -4,8 +4,11 @@ package com.ssafy.campinity.core.utils;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
+import com.ssafy.campinity.core.service.impl.FcmMessageServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
@@ -15,13 +18,20 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @Component
 public class FcmInitializer {
 
-    private final String GOOGLE_APPLICATION_CREDENTIALS = "firebase/campinity-5ff94-firebase-adminsdk-a0uem-64c6576e75.json";;
-    private final String FIREBASE_SCOPE = "https://www.googleapis.com/auth/cloud-platform";
+    private static final Logger logger = (Logger) LogManager.getLogger(FcmInitializer.class);
+    @Value("${fcm.certification}")
+    String GOOGLE_APPLICATION_CREDENTIALS;
+    @Value("${fcm.scope}")
+    String FIREBASE_SCOPE;
+
+//    @Value("${fcm.url}")
+//    private final String FCM_URL;
+//    private final String GOOGLE_APPLICATION_CREDENTIALS = "firebase/campinity-5ff94-firebase-adminsdk-a0uem-64c6576e75.json";;
+//    private final String FIREBASE_SCOPE = "https://www.googleapis.com/auth/cloud-platform";
 
     @PostConstruct
     public void initialize() throws IOException {
@@ -36,10 +46,10 @@ public class FcmInitializer {
 
             if (FirebaseApp.getApps().isEmpty()) {
                 FirebaseApp.initializeApp(options);
-//                log.info("FirebaseApp initialization complete");
+                logger.info("FirebaseApp initialization complete");
             }
         } catch (IOException e){
-//            log.error(e.getMessage());
+            logger.error(e.getMessage());
             // spring 뜰때 알림 서버가 잘 동작하지 않는 것이므로 바로 죽임
             throw new RuntimeException(e.getMessage());
         }

@@ -133,7 +133,6 @@ public class FcmTokenServiceImpl implements FcmTokenService {
 
                 return FcmTokenResDTO.builder().fcmToken(fcmTokenRepository.save(newFcmToken)).build();
             }
-            System.out.println("져거");
             fcmToken.subscribeCamp(campsiteUuid);
             fcmToken.refreshFcmToken(token);
             FcmToken savedToken = fcmTokenRepository.save(fcmToken);
