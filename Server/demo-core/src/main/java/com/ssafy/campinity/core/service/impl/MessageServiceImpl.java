@@ -47,13 +47,7 @@ public class MessageServiceImpl implements MessageService {
                 .orElseThrow(() -> new IllegalArgumentException(ErrorMessageEnum.MESSAGE_NOT_EXIST.getMessage()));
 
         String imagePath = "";
-        if (messageReqDTO.getFile().getSize() != 0){
-            try {
-                imagePath = imageUtil.uploadImage(messageReqDTO.getFile(), "message");
-            }
-            catch(IOException e) { throw new IOException(e);}
-            catch(IllegalStateException e) { throw new IllegalStateException(e);}
-        }
+        imagePath = imageUtil.uploadImage(messageReqDTO.getFile(), "message");
 
         Message message = Message.builder()
                 .uuid(UUID.randomUUID())

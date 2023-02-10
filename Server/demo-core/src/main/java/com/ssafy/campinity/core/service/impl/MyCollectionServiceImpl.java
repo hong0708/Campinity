@@ -34,11 +34,7 @@ public class MyCollectionServiceImpl implements MyCollectionService {
                 .orElseThrow(IllegalArgumentException::new);
 
         String imagePath = "";
-        if (myCollectionReqDTO.getFile().getSize() != 0){
-            try { imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection"); }
-            catch(IOException e) { throw new IOException(e);}
-            catch(IllegalStateException e) { throw new IllegalStateException(e);}
-        }
+        imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection");
 
         MyCollection myCollection = MyCollection.builder()
                 .uuid(UUID.randomUUID())
@@ -64,25 +60,19 @@ public class MyCollectionServiceImpl implements MyCollectionService {
             throw new BadRequestException("수정 권한이 없습니다.");
         }
 
-        if (myCollectionReqDTO.getFile().getSize() != 0){
-            if (!imagePath.isEmpty()){
-                try {
-                    imageUtil.removeImage(imagePath);
-                    imagePath = "";
-                    myCollection.setImagePath(imagePath);
-                }
-                catch (SecurityException e) {throw new SecurityException(e.getMessage());}
-                catch (NullPointerException e) { throw new NullPointerException(e.getMessage()); }
+        // 업로드 파일이 존재하는 경우
+        // case 1: 기존에 저장된 사진이 있는경우
+        //  -> 사진 삭제 후, 경로를 새롭게 저장된 파일 경로로 설정
+        // case 2: 기존에 저장된 사진 없는경우
+        //  -> 파일 저장후 DB에 경로저장
+        if (myCollectionReqDTO.getFile().getSize() != 0) {
+            if (!imagePath.isEmpty()) {
+                imageUtil.removeImage(imagePath);
             }
-
-            try {
-                imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection");
-            }
-            catch(IOException e) { throw new IOException(e);}
-            catch(IllegalStateException e) { throw new IllegalStateException(e);}
+            imagePath = imageUtil.uploadImage(myCollectionReqDTO.getFile(), "my-collection");
+            myCollection.setImagePath(imagePath);
         }
 
-        myCollection.setImagePath(imagePath);
         if (!myCollectionReqDTO.getDate().isEmpty()) myCollection.setDate(myCollectionReqDTO.getDate());
         if (!myCollectionReqDTO.getCampsiteName().isEmpty()) myCollection.setCampsiteName(myCollectionReqDTO.getCampsiteName());
         if (!myCollectionReqDTO.getContent().isEmpty()) myCollection.setContent(myCollectionReqDTO.getContent());

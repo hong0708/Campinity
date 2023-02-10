@@ -15,8 +15,8 @@ services:
         target: /var/lib/mysql
     environment:
       - MYSQL_DATABASE=campinity
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=server
+      - MYSQL_ROOT_HOST=localhost
     command: ['--character-set-server=utf8mb4',
               '--collation-server=utf8mb4_unicode_ci']
     ports:
@@ -27,8 +27,8 @@ services:
     build: ./demo-api-server
     environment:
       SPRING_DATASOURCE_URL: jdbc:mariadb://database:3306/campinity?useUnicode=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_DATASOURCE_USERNAME: server
+      SPRING_DATASOURCE_PASSWORD: ssafy123!
     ports:
       - 8003:8003
     depends_on:
