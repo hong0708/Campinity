@@ -138,8 +138,7 @@ class CommunityCampsiteFragment :
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
 
     @Deprecated("Deprecated in Java")
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
-    }
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
 
     override fun onCalloutBalloonOfPOIItemTouched(
         p0: MapView?,
@@ -272,7 +271,7 @@ class CommunityCampsiteFragment :
 
                 CoroutineScope(Dispatchers.Main).launch {
                     mapView.currentLocationTrackingMode =
-                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
                     if (isTracking) {
                         isTracking = false
                     }
@@ -495,10 +494,13 @@ class CommunityCampsiteFragment :
         val userNowLocation: Location? =
             lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         //위도 , 경도
-        val userLatitude = userNowLocation?.latitude
-        val userLongitude = userNowLocation?.longitude
-        val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude!!, userLongitude!!)
-        mapView.setMapCenterPoint(uNowPosition, true)
+        if(userNowLocation != null){
+            val userLatitude = userNowLocation.latitude
+            val userLongitude = userNowLocation.longitude
+            val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
+            mapView.setMapCenterPoint(uNowPosition, true)
+        }
+
     }
 
     private fun checkPermission() {
@@ -536,12 +538,6 @@ class CommunityCampsiteFragment :
         targetLoc.latitude = lat
         targetLoc.longitude = lng
 
-        Log.d(
-            "tlqkf",
-            "getDistance: lat: ${userNowLocation?.latitude!!}  log:${userNowLocation?.longitude}"
-        )
-
-        Log.d("tlqkf", "getDistance: target lat: ${lat}  log:${lng} ")
         return myLoc.distanceTo(targetLoc)
     }
 
