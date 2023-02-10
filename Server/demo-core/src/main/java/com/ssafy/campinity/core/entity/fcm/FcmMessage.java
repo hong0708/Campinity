@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -15,14 +15,17 @@ import java.util.UUID;
 @Getter
 @NoArgsConstructor
 @Entity
-//@SQLDelete(sql = "update fcm_message set expired = true where id = ?")
 public class FcmMessage extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(columnDefinition = "char(36)")
+    @Type(type = "uuid-char")
     private UUID uuid;
+
+    private String campsiteUuid;
 
     private String title;
 
@@ -30,25 +33,35 @@ public class FcmMessage extends BaseEntity {
 
     private String hiddenBody;
 
-    @OneToOne
+    private Double longitude;
+
+    private Double latitude;
+
+    private Boolean expired = false;
+
+    @ManyToOne
     @ToString.Exclude
     private Member member;
 
     private String appointeeToken;
 
-    private boolean expired;
-
     @Builder
-    public FcmMessage(String title, String body, String hiddenBody, Member member) {
+    public FcmMessage(UUID uuid, String campsiteUuid, String title, String body, String hiddenBody, Double longitude, Double latitude, Member member, String appointeeToken) {
+        this.uuid = uuid;
+        this.campsiteUuid = campsiteUuid;
         this.title = title;
-        this.uuid = UUID.randomUUID();
         this.body = body;
         this.hiddenBody = hiddenBody;
+        this.longitude = longitude;
+        this.latitude = latitude;
         this.member = member;
-        this.expired = false;
+        this.appointeeToken = appointeeToken;
     }
 
-    public void appointReciever(String fcmToken){
+    public void appointMember(String fcmToken){
         this.appointeeToken = fcmToken;
+    }
+    public void expired(){
+        this.expired = true;
     }
 }
