@@ -9,5 +9,6 @@ public interface FcmTokenService {
     FcmTokenResDTO saveFcmToken(int memberId, String token);
     boolean deleteFcmToken(int memberId, String token);
     FcmTokenResDTO subscribeCamp(String campsiteUuid, int memberId, String fcmToken);
+    FcmTokenResDTO findMyFcmToken(int memberId, String token);
 
 }

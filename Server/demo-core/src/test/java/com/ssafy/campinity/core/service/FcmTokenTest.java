@@ -6,15 +6,12 @@ import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.fcm.FcmTokenRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.EntityManager;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.UUID;
@@ -211,14 +208,52 @@ public class FcmTokenTest {
         FcmToken deletedToken = fcmTokenRepository.findByToken(uuid).orElse(null);
         assertEquals(null, deletedToken);
     }
+    
+    @Test
+    void findMyFcmTokenTest(){
+
+        Member member1 = Member.builder()
+                .email("test@Tset.com").name("test").profileImage("")
+                .build();
+        Member savedMember = memberRepository.save(member1);
+
+        String token1 = UUID.randomUUID().toString();
+        FcmToken fcmToken = FcmToken.builder().token(token1).member(savedMember).expiredDate(LocalDate.now().plusMonths(1)).build();
+        savedMember.addFcmToken(fcmToken);
+        FcmToken savedFcmToken = fcmTokenRepository.save(fcmToken);
+    
+        Member member2 = Member.builder()
+                .email("test@Tset.com").name("test").profileImage("")
+                .build();
+        Member savedMember2 = memberRepository.save(member2);
+
+        String token2 = UUID.randomUUID().toString();
+        FcmToken fcmToken2 = FcmToken.builder().token(token2).member(savedMember2).expiredDate(LocalDate.now().plusMonths(1)).build();
+        savedMember2.addFcmToken(fcmToken2);
+        FcmToken savedFcmToken2 = fcmTokenRepository.save(fcmToken);
+
+        FcmTokenResDTO res = fcmTokenService.findMyFcmToken(savedMember.getId(), token1);
+        FcmTokenResDTO res1 = fcmTokenService.findMyFcmToken(savedMember.getId(), token2);
+        assertNotNull(res);
+        assertNotNull(res1);
+
+
+    }
+
+//    @Test
+//    @DisplayName("fcm 전송 테스트")
+//    void sendFcmMessageTest() throws IOException {
+//
+//        fcmMessageService.sendMessageToMany("e_siNmW0RaGYsPL7rWutNq:APA91bFVVGRIB5PSBqoAJlnGGBgWXIcNG_uLDVhoeKU3mJy5BNxWqxV-jWhCuQQlncXVZKOLlY06GwY2kQUh0oC8IlSXweaGRVBwWtanDMCLI9VUz0zOoelW-tg7BazCP3LvbEEaTRwH",
+//                "test",
+//                "testbody");
+//
+//    }
 
     @Test
-    @DisplayName("fcm 전송 테스트")
-    void sendFcmMessageTest() throws IOException {
+    void LocalDateTest(){
 
-        fcmMessageService.sendMessageToOne("e_siNmW0RaGYsPL7rWutNq:APA91bFVVGRIB5PSBqoAJlnGGBgWXIcNG_uLDVhoeKU3mJy5BNxWqxV-jWhCuQQlncXVZKOLlY06GwY2kQUh0oC8IlSXweaGRVBwWtanDMCLI9VUz0zOoelW-tg7BazCP3LvbEEaTRwH",
-                "test",
-                "testbody");
-
+        System.out.println("here");
+        System.out.println(LocalDate.now());
     }
 }
