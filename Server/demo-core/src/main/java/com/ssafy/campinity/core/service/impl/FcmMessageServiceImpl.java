@@ -95,7 +95,6 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
 
-
         List<String> senderTokens = fcmMessage.getMember().getFcmTokenList().stream().filter(token ->
                         token.getCampsiteUuid().equals(fcmMessage.getCampsiteUuid()))
                 .map(FcmToken::getToken)
@@ -127,6 +126,8 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addToken(appointeeToken)
                 .setNotification(Notification.builder().setTitle(data.getTitle()).setBody(data.getHiddenBody()).build())
+                .putData("title", data.getTitle())
+                .putData("body", data.getHiddenBody())
                 .putData("longitude", data.getLongitude().toString())
                 .putData("latitude", data.getLatitude().toString())
                 .build();
@@ -142,6 +143,8 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addAllTokens(appointeeTokens)
                 .setNotification(Notification.builder().setTitle(title).setBody(body).build())
+                .putData("title", title)
+                .putData("body", body)
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);
