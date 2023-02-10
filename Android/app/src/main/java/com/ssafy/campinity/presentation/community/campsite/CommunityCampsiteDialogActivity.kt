@@ -19,6 +19,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.navigation.navArgs
 import com.ssafy.campinity.common.util.BindingAdapters.setCollectionImgUri
 import com.ssafy.campinity.common.util.Permission
+import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.databinding.ActivityCommunityCampsiteMessageDialogBinding
 import com.ssafy.campinity.domain.entity.community.MarkerLocation
 import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
@@ -118,18 +119,32 @@ class CommunityCampsiteDialogActivity :
                 }
 
                 tvMakeReview.setOnClickListener {
-                    viewModel.createCommunityCampsiteMessage(
-                        "리뷰",
-                        campsiteId
+                    if (viewModel.content.value == "" &&
+                        viewModel.markerLocation.value == MarkerLocation(0.0, 0.0)
                     )
+                        showToastMessage("쪽지 내용과 마커 위치를 입력해주세요.")
+                    else if (viewModel.content.value == "" && viewModel.markerLocation.value != null)
+                        showToastMessage("쪽지 내용을 입력해주세요.")
+                    else if (viewModel.content.value != "" &&
+                        viewModel.markerLocation.value == MarkerLocation(0.0, 0.0)
+                    )
+                        showToastMessage("마커 위치를 입력해주세요.")
+                    else
+                        viewModel.createCommunityCampsiteMessage(
+                            "리뷰",
+                            campsiteId
+                        )
                 }
             } else {
                 tvSelectMarkerLocation.visibility = View.GONE
                 tvMakeReview.setOnClickListener {
-                    viewModel.createCommunityCampsiteMessage(
-                        "자유",
-                        campsiteId
-                    )
+                    if (viewModel.content.value == "")
+                        showToastMessage("쪽지 내용을 입력해주세요.")
+                    else
+                        viewModel.createCommunityCampsiteMessage(
+                            "자유",
+                            campsiteId
+                        )
                 }
             }
         }

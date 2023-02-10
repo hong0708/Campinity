@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.WindowManager
+import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.databinding.DialogWriteNoteQuestionBinding
 
 class CommunityNoteQuestionDialog(
@@ -29,11 +30,15 @@ class CommunityNoteQuestionDialog(
 
         binding.apply {
             tvMakeEventNoteMarker.setOnClickListener {
-                communityNoteDialogInterface.postNote(
-                    "613f51f2-8942-4d84-bb60-7dc29b3487a6",
-                    etInputMakeQuestion.text.toString()
-                )
-                dismiss()
+                if (etInputMakeQuestion.text.toString() == "")
+                    context.showToastMessage("질문 내용을 입력해주세요.")
+                else {
+                    communityNoteDialogInterface.postNote(
+                        "47f55bf6-19e2-42a2-a5d8-a1a4552dd845",
+                        etInputMakeQuestion.text.toString()
+                    )
+                    dismiss()
+                }
             }
             tvCancelEventNoteMarker.setOnClickListener { dismiss() }
         }

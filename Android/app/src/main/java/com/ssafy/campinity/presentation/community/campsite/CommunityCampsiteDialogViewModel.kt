@@ -49,8 +49,7 @@ class CommunityCampsiteDialogViewModel @Inject constructor(
                 requireNotNull(markerLocation.value?.latitude),
                 campsiteId,
                 requireNotNull(content.value),
-                requireNotNull(markerLocation.value?.longitude),
-
+                requireNotNull(markerLocation.value?.longitude)
                 )) {
             is Resource.Success<CampsiteMessageDetailInfo> -> {
                 _isSucceed.value = true
