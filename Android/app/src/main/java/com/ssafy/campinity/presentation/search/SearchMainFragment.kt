@@ -44,22 +44,24 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if (behaviorArea.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    behaviorArea.state = BottomSheetBehavior.STATE_COLLAPSED
-                    binding.clSearch.visibility = View.VISIBLE
-                } else if (behaviorFilter.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    behaviorFilter.state = BottomSheetBehavior.STATE_COLLAPSED
-                    binding.clSearch.visibility = View.VISIBLE
-                } else if (behaviorList.state == BottomSheetBehavior.STATE_EXPANDED) {
-                    behaviorList.state = BottomSheetBehavior.STATE_COLLAPSED
-                    binding.viewEmptySpace.visibility = View.INVISIBLE
-                    binding.rlSearchAgain.visibility = View.VISIBLE
-                    binding.rlShowList.visibility = View.VISIBLE
-                    binding.rlShowMap.visibility = View.GONE
-                    binding.clSearch.background = null
-                    searchViewModel.setStateBehaviorList(false)
-                } else
-                    requireActivity().finish()
+                binding.apply {
+                    if (behaviorArea.state == BottomSheetBehavior.STATE_EXPANDED) {
+                        behaviorArea.state = BottomSheetBehavior.STATE_COLLAPSED
+                        clSearch.visibility = View.VISIBLE
+                    } else if (behaviorFilter.state == BottomSheetBehavior.STATE_EXPANDED) {
+                        behaviorFilter.state = BottomSheetBehavior.STATE_COLLAPSED
+                        clSearch.visibility = View.VISIBLE
+                    } else if (behaviorList.state == BottomSheetBehavior.STATE_EXPANDED) {
+                        behaviorList.state = BottomSheetBehavior.STATE_COLLAPSED
+                        viewEmptySpace.visibility = View.INVISIBLE
+                        rlSearchAgain.visibility = View.VISIBLE
+                        rlShowList.visibility = View.VISIBLE
+                        rlShowMap.visibility = View.GONE
+                        clSearch.background = null
+                        searchViewModel.setStateBehaviorList(false)
+                    } else
+                        requireActivity().finish()
+                }
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
