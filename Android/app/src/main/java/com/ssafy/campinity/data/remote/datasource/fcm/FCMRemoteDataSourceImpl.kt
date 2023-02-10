@@ -12,4 +12,7 @@ class FCMRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun subscribeCampsite(body: FCMTokenRequest): FCMTokenResponse =
         fcmApiService.subscribeCampsite(body)
+
+    override suspend fun createHelpNote(body: FCMMessageRequest): Int =
+        fcmApiService.createHelpNote(body)
 }
