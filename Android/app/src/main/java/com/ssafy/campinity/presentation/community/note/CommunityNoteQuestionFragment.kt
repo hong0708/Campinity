@@ -1,6 +1,5 @@
 package com.ssafy.campinity.presentation.community.note
 
-import android.util.Log
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,15 +19,13 @@ class CommunityNoteQuestionFragment :
     }
 
     override fun initView() {
+        initNote()
         initObserver()
-        //initNote()
-        Log.d("tlqkf", "initView: all")
     }
 
     override fun onResume() {
         super.onResume()
-        initNote()
-        Log.d("tlqkf", "onResume: all")
+        communityNoteViewModel.getNoteQuestions(ApplicationClass.preferences.userRecentCampsiteId.toString())
     }
 
     private fun initObserver() {
@@ -42,7 +39,6 @@ class CommunityNoteQuestionFragment :
             adapter = communityNoteListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
-        communityNoteViewModel.getNoteQuestions(ApplicationClass.preferences.userRecentCampsiteId.toString())
     }
 
     private fun getPost(questionId: String) {

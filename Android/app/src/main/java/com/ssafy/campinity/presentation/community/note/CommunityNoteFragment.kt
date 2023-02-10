@@ -61,6 +61,9 @@ class CommunityNoteFragment :
             if (communityNoteViewModel.postNoteQuestion(id, content)) {
                 withContext(Dispatchers.Main) {
                     showToast("질문이 등록되었습니다.")
+                    communityNoteViewModel.getNoteQuestions(
+                        ApplicationClass.preferences.userRecentCampsiteId.toString()
+                    )
                 }
             } else {
                 withContext(Dispatchers.Main) {
