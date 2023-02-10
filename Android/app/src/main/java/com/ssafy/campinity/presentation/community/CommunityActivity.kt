@@ -32,7 +32,13 @@ class CommunityActivity : AppCompatActivity() {
 
         if (checkLocationService()) {
             // GPS가 켜져있을 경우
-            if (permissionCheck()) {
+            val navHostFragment =
+                supportFragmentManager.findFragmentById(R.id.nav_community) as NavHostFragment
+            navController = navHostFragment.navController
+            val navGraph = navController.navInflater.inflate(R.navigation.navigation_community)
+            navController.graph = navGraph
+
+            /*if (permissionCheck()) {
                 val navHostFragment =
                     supportFragmentManager.findFragmentById(R.id.nav_community) as NavHostFragment
                 navController = navHostFragment.navController
@@ -40,14 +46,14 @@ class CommunityActivity : AppCompatActivity() {
                 navController.graph = navGraph
             } else {
                 permissionCheck()
-            }
+            }*/
         } else {
             // GPS가 꺼져있을 경우
             showToastMessage("GPS를 켜주세요")
         }
     }
 
-    // 위치 권한 확인
+    /*// 위치 권한 확인
     private fun permissionCheck(): Boolean {
         val preference = getPreferences(MODE_PRIVATE)
 
@@ -113,9 +119,9 @@ class CommunityActivity : AppCompatActivity() {
             // 권한이 있는 상태
             return true
         }
-    }
+    }*/
 
-    // 권한 요청 후 행동
+   /* // 권한 요청 후 행동
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -133,7 +139,7 @@ class CommunityActivity : AppCompatActivity() {
                 permissionCheck()
             }
         }
-    }
+    }*/
 
     // GPS가 켜져있는지 확인
     private fun checkLocationService(): Boolean {

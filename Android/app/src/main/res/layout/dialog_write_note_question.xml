@@ -46,6 +46,7 @@
                 android:hint="@string/content_user_question_input"
                 android:inputType="textMultiLine"
                 android:paddingStart="12dp"
+                android:gravity="top"
                 android:paddingTop="10dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="10dp"

@@ -68,7 +68,6 @@ class CommunityNoteViewModel @Inject constructor(
             val noteQuestionRequest = NoteQuestionRequest(campsiteId, content)
             when (val value = createNoteQuestionUseCase(noteQuestionRequest)) {
                 is Resource.Success<NoteQuestionTitle> -> {
-                    Log.d("requestNotePostQuestion", "NotePostQuestion: ${value.data}")
                     return@withContext true
                 }
                 is Resource.Error -> {
@@ -91,7 +90,7 @@ class CommunityNoteViewModel @Inject constructor(
         }
     }
 
-    suspend fun postNoteAnswer(answerContent: String, questionId: String): Boolean {
+    suspend fun postNoteAnswer(answerContent: String, questionId: String,): Boolean {
         return withContext(viewModelScope.coroutineContext) {
             val noteQuestionAnswerRequest = NoteQuestionAnswerRequest(
                 answerContent,
@@ -99,7 +98,6 @@ class CommunityNoteViewModel @Inject constructor(
             )
             when (val value = createNoteAnswerUseCase(noteQuestionAnswerRequest)) {
                 is Resource.Success<NoteQuestionAnswer> -> {
-                    Log.d("requestNotePostAnswer", "NotePostAnswer: ${value.data}")
                     return@withContext true
                 }
                 is Resource.Error -> {
