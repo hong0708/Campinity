@@ -159,10 +159,16 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
         if (p1 != null) {
             val index = p1.itemName.split(" ")[1].toInt()
-            p1.isMoveToCenterOnSelect = true
 
             if (p1.itemName.split(" ")[0] == "캠핑장") {
                 if (searchViewModel.campsiteListData.value != null) {
+                    val markerPosition =
+                        MapPoint.mapPointWithGeoCoord(
+                            searchViewModel.campsiteListData.value!![index].lat,
+                            searchViewModel.campsiteListData.value!![index].lng,
+                        )
+                    mapView.setMapCenterPoint(markerPosition, true)
+
                     CampsiteBriefDialog(
                         requireContext(),
                         searchViewModel.campsiteListData.value!![index],
