@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://database:3306/campinity
+    username: root
+    password: root
+
+  redis:
+    host: redis_boot
+    port: 6379
+
+  jpa:
+    hibernate:
+      ddl-auto: none

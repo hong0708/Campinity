@@ -1,28 +1,16 @@
-goCamp:
-  url:
-    search:
-      campsite: http://apis.data.go.kr/B551011/GoCamping/basedList
-      image: http://apis.data.go.kr/B551011/GoCamping/imageList
-    serviceKey: A8ooqts7IHFPYficmW%2BDAWnazQPpJnk6MQO%2Bp0hqcBD6lTlv1IoFeGe%2F%2Bu5K%2BWgrxJh2gUrF8YapUodyOkwowA%3D%3D
-
 server:
   port: 8003
 
 spring:
-  datasource:
-    driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://localhost:3306/campinity
-    username: server
-    password: ssafy123!
+  profiles:
+    active: prod # 기본 환경을 prod로 셋팅 local 개발할때는 local로 바꾸세요.
+
   hikari:
     connectionTimeout : 30000
     maximumPoolSize : 30
     maxLifeTime : 97
     poolName : HikariCP
     readOnly : false
-  redis:
-    host: redis_boot
-    port: 6379
 
   jpa:
     open-in-view: false
@@ -33,8 +21,9 @@ spring:
         format_sql: true #To beautify or pretty print the SQL
         type:
           preferred_uuid_jdbc_type: CHAR
-#    show_sql: true #show sql
+    #    show_sql: true #show sql
     defer-datasource-initialization: true
+    database-platform: org.hibernate.dialect.MySQLDialect
   sql:
     init:
       mode: always
@@ -60,6 +49,13 @@ fcm:
   certification: firebase/campinity-5ff94-firebase-adminsdk-a0uem-64c6576e75.json
   url: https://fcm.googleapis.com/v1/projects/campinity-5ff94/messages:send
   scope: https://www.googleapis.com/auth/cloud-platform
+
+goCamp:
+  url:
+    search:
+      campsite: http://apis.data.go.kr/B551011/GoCamping/basedList
+      image: http://apis.data.go.kr/B551011/GoCamping/imageList
+    serviceKey: A8ooqts7IHFPYficmW%2BDAWnazQPpJnk6MQO%2Bp0hqcBD6lTlv1IoFeGe%2F%2Bu5K%2BWgrxJh2gUrF8YapUodyOkwowA%3D%3D
 
 custom:
   path:
