@@ -57,7 +57,6 @@ class CommunityCampsiteFragment :
         initListener()
         initRecyclerView()
         setTextWatcher()
-
         communityCampsiteViewModel.getUserProfile()
     }
 
@@ -138,8 +137,7 @@ class CommunityCampsiteFragment :
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
 
     @Deprecated("Deprecated in Java")
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
-    }
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
 
     override fun onCalloutBalloonOfPOIItemTouched(
         p0: MapView?,
@@ -148,11 +146,25 @@ class CommunityCampsiteFragment :
     ) {
         if (p1!!.tag == 1) {
             navigate(
-                CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteFragment()
+                CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
             )
         } else {
-            val message: CampsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
-            getFreeReviewDetail(message.messageId)
+            val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
+
+            if (campsiteMessageBriefInfo.messageCategory == "리뷰") {
+                getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+            } else {
+                if (getDistance(
+                        campsiteMessageBriefInfo.latitude.toDouble(),
+                        campsiteMessageBriefInfo.longitude.toDouble()
+                    ) < 100
+                ) {
+                    // 충분히 가까워서 유효
+                    getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                } else {
+                    //아직 멀어서 불가능
+                }
+            }
         }
     }
 
@@ -187,7 +199,6 @@ class CommunityCampsiteFragment :
                 ),
                 true
             )
-            drawPostBox(recentCampsite)
 
             CoroutineScope(Dispatchers.Main).launch {
                 val deffered: Deferred<Int> = async {
@@ -201,6 +212,7 @@ class CommunityCampsiteFragment :
                     1
                 }
                 deffered.await()
+                drawPostBox(recentCampsite)
             }
         }
 
@@ -246,7 +258,7 @@ class CommunityCampsiteFragment :
 
                 CoroutineScope(Dispatchers.Main).launch {
                     mapView.currentLocationTrackingMode =
-                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
                     if (isTracking) {
                         isTracking = false
                     }
@@ -444,10 +456,15 @@ class CommunityCampsiteFragment :
                 itemName = i.content
                 mapPoint = markerPosition
                 markerType = MapPOIItem.MarkerType.CustomImage
-                if (i.messageCategory == "리뷰") {
-                    customImageResourceId = R.drawable.ic_review_note_marker
+                customImageResourceId = if (i.messageCategory == "리뷰") {
+                    R.drawable.ic_review_note_marker
                 } else {
-                    customImageResourceId = R.drawable.ic_community_campsite_close_note3
+                    R.drawable.ic_community_campsite_close_note3
+                    /*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 5) {
+                        R.drawable.ic_community_campsite_open_note3
+                    } else {
+                        R.drawable.ic_community_campsite_close_note3
+                    }*/
                 }
                 //isCustomImageAutoscale = false
                 userObject = i
@@ -464,10 +481,12 @@ class CommunityCampsiteFragment :
         val userNowLocation: Location? =
             lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         //위도 , 경도
-        val userLatitude = userNowLocation?.latitude
-        val userLongitude = userNowLocation?.longitude
-        val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude!!, userLongitude!!)
-        mapView.setMapCenterPoint(uNowPosition, true)
+        if(userNowLocation != null){
+            val userLatitude = userNowLocation.latitude
+            val userLongitude = userNowLocation.longitude
+            val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
+            mapView.setMapCenterPoint(uNowPosition, true)
+        }
     }
 
     private fun checkPermission() {
@@ -488,6 +507,24 @@ class CommunityCampsiteFragment :
             )
             checkPermission()
         }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun getDistance(lat: Double, lng: Double): Float {
+
+        val lm: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+        val myLoc = Location(LocationManager.NETWORK_PROVIDER)
+        val targetLoc = Location(LocationManager.NETWORK_PROVIDER)
+        myLoc.latitude = userNowLocation?.latitude!!
+        myLoc.longitude = userNowLocation.longitude
+        targetLoc.latitude = lat
+        targetLoc.longitude = lng
+
+        return myLoc.distanceTo(targetLoc)
     }
 
     // 이벤트 리스너

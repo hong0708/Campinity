@@ -11,6 +11,7 @@ import com.ssafy.campinity.databinding.DialogWriteNoteQuestionBinding
 
 class CommunityNoteQuestionDialog(
     context: Context,
+    private val campsiteId: String,
     private val communityNoteDialogInterface: CommunityNoteDialogInterface
 ) : Dialog(context) {
 
@@ -34,7 +35,7 @@ class CommunityNoteQuestionDialog(
                     context.showToastMessage("질문 내용을 입력해주세요.")
                 else {
                     communityNoteDialogInterface.postNote(
-                        "47f55bf6-19e2-42a2-a5d8-a1a4552dd845",
+                        campsiteId,
                         etInputMakeQuestion.text.toString()
                     )
                     dismiss()

@@ -93,6 +93,7 @@
             android:autofillHints="no"
             android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
             android:fontFamily="@font/roboto_regular"
+            android:gravity="top"
             android:hint="@string/content_review_hint"
             android:inputType="textMultiLine"
             android:paddingStart="12dp"

@@ -20,6 +20,20 @@ class CommunityNoteQuestionFragment :
 
     override fun initView() {
         initNote()
+        initObserver()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        communityNoteViewModel.getNoteQuestions(
+            ApplicationClass.preferences.userRecentCampsiteId.toString()
+        )
+    }
+
+    private fun initObserver() {
+        communityNoteViewModel.noteQuestions.observe(viewLifecycleOwner) { response ->
+            response.let { communityNoteListAdapter.setNote(it) }
+        }
     }
 
     private fun initNote() {
@@ -27,10 +41,6 @@ class CommunityNoteQuestionFragment :
             adapter = communityNoteListAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         }
-        communityNoteViewModel.noteQuestions.observe(viewLifecycleOwner) { response ->
-            response.let { communityNoteListAdapter.setNote(it) }
-        }
-        communityNoteViewModel.getNoteQuestions(ApplicationClass.preferences.userRecentCampsiteId.toString())
     }
 
     private fun getPost(questionId: String) {
