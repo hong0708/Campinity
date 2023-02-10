@@ -1,9 +1,11 @@
 package com.ssafy.campinity.di
 
-import com.ssafy.campinity.data.remote.datasource.communitycampsite.CommunityRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.communitycampsite.CommunityRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.curation.CurationRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.fcm.FCMRemoteDataSource
+import com.ssafy.campinity.data.remote.datasource.fcm.FCMRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.home.HomeRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSource
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSourceImpl
@@ -75,4 +77,10 @@ object DataSourceModule {
     fun provideMyPageDataSource(
         myPageApiService: MyPageApiService
     ): MyPageRemoteDataSource = MyPageRemoteDataSourceImpl(myPageApiService)
+
+    @Provides
+    @Singleton
+    fun provideFCMDataSource(
+        fcmApiService: FCMApiService
+    ): FCMRemoteDataSource = FCMRemoteDataSourceImpl(fcmApiService)
 }
