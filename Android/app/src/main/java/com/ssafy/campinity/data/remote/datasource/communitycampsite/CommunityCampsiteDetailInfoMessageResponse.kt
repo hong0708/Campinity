@@ -30,7 +30,7 @@ data class CommunityCampsiteDetailInfoMessageResponse(
     @SerializedName("messageId")
     val messageId: String,
     @SerializedName("profilePath")
-    val profilePath: String,
+    val profilePath: String?,
     @SerializedName("updatedAt")
     val updatedAt: String
 ) : DataToDomainMapper<CampsiteMessageDetailInfo> {

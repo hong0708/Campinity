@@ -6,11 +6,12 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.WindowManager
+import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.databinding.DialogWriteNoteQuestionBinding
 
 class CommunityNoteQuestionDialog(
     context: Context,
-    private val campsiteId:String,
+    private val campsiteId: String,
     private val communityNoteDialogInterface: CommunityNoteDialogInterface
 ) : Dialog(context) {
 
@@ -30,11 +31,15 @@ class CommunityNoteQuestionDialog(
 
         binding.apply {
             tvMakeEventNoteMarker.setOnClickListener {
-                communityNoteDialogInterface.postNote(
-                    campsiteId,
-                    etInputMakeQuestion.text.toString()
-                )
-                dismiss()
+                if (etInputMakeQuestion.text.toString() == "")
+                    context.showToastMessage("질문 내용을 입력해주세요.")
+                else {
+                    communityNoteDialogInterface.postNote(
+                        campsiteId,
+                        etInputMakeQuestion.text.toString()
+                    )
+                    dismiss()
+                }
             }
             tvCancelEventNoteMarker.setOnClickListener { dismiss() }
         }

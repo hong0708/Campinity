@@ -177,10 +177,9 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
             } else {
                 if (searchViewModel.campsiteNoteList.value != null) {
                     lifecycleScope.launch {
-                        val done =
-                            searchViewModel.getCampsiteMessageDetailInfoAsync(
-                                searchViewModel.campsiteNoteList.value!![index].messageId
-                            ).await()
+                        val done = searchViewModel.getCampsiteMessageDetailInfo(
+                            searchViewModel.campsiteNoteList.value!![index].messageId
+                        )
 
                         if (done)
                             SearchReviewNoteDetailDialog(
