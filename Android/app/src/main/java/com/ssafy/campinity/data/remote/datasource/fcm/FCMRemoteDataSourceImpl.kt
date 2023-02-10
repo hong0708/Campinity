@@ -9,7 +9,4 @@ class FCMRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun renewToken(fcmToken: String): FCMTokenResponse =
         fcmApiService.renewToken(fcmToken)
-
-    override suspend fun subscribeCampsite(body: FCMTokenRequest): FCMTokenResponse =
-        fcmApiService.subscribeCampsite(body)
 }
