@@ -59,24 +59,6 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return successfulSendCnt;
     }
 
-//    // fcm에 토큰에 push 요청 및 invalid token 삭제
-//    private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
-//
-//        List<String> fcmTokenList = fcmTokenRepository.findTop500ByCampsiteUuidAndMember_IdIsNot(savedFcm.getCampsiteUuid(), memberId).stream()
-//                .map(token -> token.getToken()).collect(Collectors.toList());
-//
-//        if (fcmTokenList.size() == 0) {
-//            return 0;
-//        }
-//        int successfulSendCnt = 0;
-//        try { successfulSendCnt = makeMessageToMany(memberId, savedFcm); }
-//        catch (FirebaseMessagingException e){
-//            logger.warn(e.getMessage());
-//            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
-//        }
-//        return successfulSendCnt;
-//    }
-
     // fcm에 토큰에 push 요청 및 invalid token 삭제
     private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
 
@@ -90,7 +72,17 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .putData("fcmMessageId", savedFcm.getUuid().toString())
                 .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
                 .build();
-        return objectMapper.writeValueAsString(fcmMessageToOneDTO);
+
+        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
+        int resSize = response.getResponses().size();
+        List<String> invalidTokens = new ArrayList<>();
+
+        for (int i = 0; i < resSize; i++)
+            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
+
+        if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
+
+        return response.getSuccessCount();
     }
 
     @Transactional
