@@ -59,24 +59,6 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return successfulSendCnt;
     }
 
-//    // fcm에 토큰에 push 요청 및 invalid token 삭제
-//    private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
-//
-//        List<String> fcmTokenList = fcmTokenRepository.findTop500ByCampsiteUuidAndMember_IdIsNot(savedFcm.getCampsiteUuid(), memberId).stream()
-//                .map(token -> token.getToken()).collect(Collectors.toList());
-//
-//        if (fcmTokenList.size() == 0) {
-//            return 0;
-//        }
-//        int successfulSendCnt = 0;
-//        try { successfulSendCnt = makeMessageToMany(memberId, savedFcm); }
-//        catch (FirebaseMessagingException e){
-//            logger.warn(e.getMessage());
-//            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
-//        }
-//        return successfulSendCnt;
-//    }
-
     // fcm에 토큰에 push 요청 및 invalid token 삭제
     private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
 
@@ -84,13 +66,30 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .map(token -> token.getToken()).collect(Collectors.toList());
         System.out.println("search tokens : " + fcmTokenList.toString());
 
+        if (fcmTokenList.size() == 0) { return 0; }
+
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addAllTokens(fcmTokenList)
                 .setNotification(Notification.builder().setTitle(savedFcm.getTitle()).setBody(savedFcm.getBody()).build())
                 .putData("fcmMessageId", savedFcm.getUuid().toString())
-                .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
+                .putData("title", savedFcm.getTitle())
+                .putData("body", savedFcm.getBody())
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder().setClickAction("COMMUNITY_ACTIVITY").build())
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .build())
                 .build();
-        return objectMapper.writeValueAsString(fcmMessageToOneDTO);
+
+        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
+        int resSize = response.getResponses().size();
+        List<String> invalidTokens = new ArrayList<>();
+
+        for (int i = 0; i < resSize; i++)
+            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
+
+        if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
+
+        return response.getSuccessCount();
     }
 
     @Transactional
@@ -108,14 +107,16 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .map(FcmToken::getToken)
                 .collect(Collectors.toList());
 
-        String senderBody = "";
-        if (fcmMessage.getTitle() == "도움 주기"){ senderBody = "도움이 필요한 캠퍼를 찾았습니다 :)"; }
-        else{ senderBody = "도와줄 캠퍼를 찾았습니다 :)"; }
+        StringBuffer body = new StringBuffer();
+        body.append(fcmMessage.getMember().getName() + "님!\n");
+
+        if (fcmMessage.getTitle() == "도움 주기"){ body.append(String.format("도움이 필요한 캠퍼, %s 님을 찾았습니다 :)", member.getName())); }
+        else{ body.append(String.format("도와줄 캠퍼, %S 님을 찾았습니다 :)", member.getName())); }
 
         int successfulSendCnt = 0;
         try {
-            successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage);
-            successfulSendCnt += makeMessageToSender(senderTokens, fcmMessage.getTitle(), senderBody);
+            successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage, senderTokens);
+            successfulSendCnt += makeMessageToSender(senderTokens, "매칭 성공 !", body.toString());
         }
         catch (FirebaseMessagingException e){
             logger.warn(e.getMessage());
@@ -129,7 +130,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return successfulSendCnt;
     }
 
-    private int makeMessageToAppointee(String appointeeToken, FcmMessage data) throws FirebaseMessagingException {
+    private int makeMessageToAppointee(String appointeeToken, FcmMessage data, List<String> senderFcmTokens) throws FirebaseMessagingException {
 
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addToken(appointeeToken)
@@ -138,6 +139,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .putData("body", data.getHiddenBody())
                 .putData("longitude", data.getLongitude().toString())
                 .putData("latitude", data.getLatitude().toString())
+                .putData("senderFcmTokenList", senderFcmTokens.toString())
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);
@@ -146,10 +148,10 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return response.getSuccessCount();
     }
 
-    private int makeMessageToSender(List<String> appointeeTokens, String title, String body) throws FirebaseMessagingException {
+    private int makeMessageToSender(List<String> senderTokens, String title, String body) throws FirebaseMessagingException {
 
         MulticastMessage fcmMessage = MulticastMessage.builder()
-                .addAllTokens(appointeeTokens)
+                .addAllTokens(senderTokens)
                 .setNotification(Notification.builder().setTitle(title).setBody(body).build())
                 .putData("title", title)
                 .putData("body", body)
@@ -160,17 +162,23 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         List<String> invalidTokens = new ArrayList<>();
 
         for (int i = 0; i < resSize; i++)
-            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(appointeeTokens.get(i));
+            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(senderTokens.get(i));
 
         if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
 
         return response.getSuccessCount();
     }
 
+//    @Override
+//    public boolean sendLastFcmMessage(List<String> senderTokens, ) {
+//
+//        return true;
+//    }
 
     private BatchResponse firebaseMulticastMessaging(MulticastMessage fcmMessage) throws FirebaseMessagingException {
         return FirebaseMessaging.getInstance().sendMulticast(fcmMessage);
     }
+
 
     //  유효하지 않는 토큰 삭제
     private void deleteInvalidToken(List<String> invalidTokens){
