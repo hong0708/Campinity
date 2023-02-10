@@ -44,8 +44,22 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                searchViewModel.setStateBehaviorList(false)
-                requireActivity().finish()
+                if (behaviorArea.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    behaviorArea.state = BottomSheetBehavior.STATE_COLLAPSED
+                    binding.clSearch.visibility = View.VISIBLE
+                } else if (behaviorFilter.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    behaviorFilter.state = BottomSheetBehavior.STATE_COLLAPSED
+                    binding.clSearch.visibility = View.VISIBLE
+                } else if (behaviorList.state == BottomSheetBehavior.STATE_EXPANDED) {
+                    behaviorList.state = BottomSheetBehavior.STATE_COLLAPSED
+                    binding.viewEmptySpace.visibility = View.INVISIBLE
+                    binding.rlSearchAgain.visibility = View.VISIBLE
+                    binding.rlShowList.visibility = View.VISIBLE
+                    binding.rlShowMap.visibility = View.GONE
+                    binding.clSearch.background = null
+                    searchViewModel.setStateBehaviorList(false)
+                } else
+                    requireActivity().finish()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -158,7 +172,7 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         isDragging = false
-                        searchViewModel.setStateBehaviorArea(true)
+                        behaviorArea.state = BottomSheetBehavior.STATE_EXPANDED
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> isDragging = true
                     BottomSheetBehavior.STATE_SETTLING -> {}
@@ -204,7 +218,7 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                     }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         isDragging = false
-                        searchViewModel.setStateBehaviorFilter(true)
+                        behaviorFilter.state = BottomSheetBehavior.STATE_EXPANDED
                     }
                     BottomSheetBehavior.STATE_DRAGGING -> isDragging = true
                     BottomSheetBehavior.STATE_SETTLING -> {}
@@ -234,6 +248,20 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         })
     }
 
+    private fun initBehaviorState() {
+        if (searchViewModel.stateBehaviorList.value!!) {
+            behaviorList.state = BottomSheetBehavior.STATE_EXPANDED
+            binding.apply {
+                viewEmptySpace.visibility = View.VISIBLE
+                clSearch.setBackgroundResource(R.drawable.bg_rect_bilbao_under_radius30)
+                rlSearchAgain.visibility = View.GONE
+                rlShowList.visibility = View.GONE
+                rlShowMap.visibility = View.VISIBLE
+            }
+        } else
+            behaviorList.state = BottomSheetBehavior.STATE_COLLAPSED
+    }
+
     private fun observeStateBehavior() {
         searchViewModel.stateBehaviorArea.observe(viewLifecycleOwner) {
             if (!it) {
@@ -247,19 +275,5 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                 behaviorFilter.state = BottomSheetBehavior.STATE_COLLAPSED
             }
         }
-    }
-
-    private fun initBehaviorState() {
-        if (searchViewModel.stateBehaviorList.value!!) {
-            behaviorList.state = BottomSheetBehavior.STATE_EXPANDED
-            binding.apply {
-                viewEmptySpace.visibility = View.VISIBLE
-                clSearch.setBackgroundResource(R.drawable.bg_rect_bilbao_under_radius30)
-                rlSearchAgain.visibility = View.GONE
-                rlShowList.visibility = View.GONE
-                rlShowMap.visibility = View.VISIBLE
-            }
-        } else
-            behaviorList.state = BottomSheetBehavior.STATE_COLLAPSED
     }
 }
