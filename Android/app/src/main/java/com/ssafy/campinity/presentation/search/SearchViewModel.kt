@@ -223,7 +223,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getCampsiteMessageDetailInfoAsync(messageId: String) = viewModelScope.async {
+    suspend fun getCampsiteMessageDetailInfo(messageId: String) = viewModelScope.async {
         when (val value = getCampsiteMessageDetailInfoUseCase(messageId)) {
             is Resource.Success<CampsiteMessageDetailInfo> -> {
                 _campsiteMessageDetailInfo.value = value.data
@@ -237,5 +237,5 @@ class SearchViewModel @Inject constructor(
                 return@async false
             }
         }
-    }
+    }.await()
 }
