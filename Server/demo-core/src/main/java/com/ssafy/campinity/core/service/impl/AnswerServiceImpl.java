@@ -11,6 +11,7 @@ import com.ssafy.campinity.core.repository.question.QuestionRepository;
 import com.ssafy.campinity.core.service.AnswerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -26,6 +27,7 @@ public class AnswerServiceImpl implements AnswerService {
     private final MemberRepository memberRepository;
 
     @Override
+    @Transactional
     public AnswerResDTO createAnswer(AnswerReqDTO answerReqDTO, int requestMemberId) {
         Question question = questionRepository.findByUuidAndExpiredIsFalse(answerReqDTO.getQuestionId()).orElseThrow(IllegalArgumentException::new);
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(requestMemberId).orElseThrow(IllegalArgumentException::new);
