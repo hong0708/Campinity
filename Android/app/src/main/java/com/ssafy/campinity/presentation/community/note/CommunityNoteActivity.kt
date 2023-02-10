@@ -1,7 +1,6 @@
 package com.ssafy.campinity.presentation.community.note
 
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -14,7 +13,6 @@ class CommunityNoteActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityCommunityNoteBinding
     private lateinit var navController: NavController
-    val viewModel by viewModels<CommunityNoteViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -154,12 +153,6 @@ class CommunityCampsiteFragment :
 
             if (campsiteMessageBriefInfo.messageCategory == "리뷰") {
                 getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
-                Log.d("tlqkf", "onCalloutBalloonOfPOIItemTouched: review ${
-                    getDistance(
-                        campsiteMessageBriefInfo.latitude.toDouble(),
-                        campsiteMessageBriefInfo.longitude.toDouble()
-                    )
-                }")
             } else {
                 if (getDistance(
                         campsiteMessageBriefInfo.latitude.toDouble(),
@@ -170,12 +163,6 @@ class CommunityCampsiteFragment :
                     getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
                 } else {
                     //아직 멀어서 불가능
-                    Log.d("tlqkf", "onCalloutBalloonOfPOIItemTouched: ${
-                        getDistance(
-                            campsiteMessageBriefInfo.latitude.toDouble(),
-                            campsiteMessageBriefInfo.longitude.toDouble()
-                        )
-                    }")
                 }
             }
         }
@@ -500,7 +487,6 @@ class CommunityCampsiteFragment :
             val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
             mapView.setMapCenterPoint(uNowPosition, true)
         }
-
     }
 
     private fun checkPermission() {

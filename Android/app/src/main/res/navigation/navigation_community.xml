@@ -22,26 +22,6 @@
             app:destination="@id/communityNoteActivity" />
     </fragment>
 
-    <!--<fragment
-        android:id="@+id/communityNoteFragment"
-        android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteFragment"
-        android:label="fragment_community_note"
-        tools:layout="@layout/fragment_community_note">
-        <action
-            android:id="@+id/action_communityNoteFragment_to_communityNoteDetailFragment"
-            app:destination="@id/communityNoteDetailFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/communityNoteDetailFragment"
-        android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteDetailFragment"
-        android:label="fragment_community_note_detail"
-        tools:layout="@layout/fragment_community_note_detail">
-        <argument
-            android:name="question_id"
-            app:argType="string" />
-    </fragment>-->
-
     <activity
         android:id="@+id/communityCampsiteDialogActivity"
         android:name="com.ssafy.campinity.presentation.community.campsite.CommunityCampsiteDialogActivity"
