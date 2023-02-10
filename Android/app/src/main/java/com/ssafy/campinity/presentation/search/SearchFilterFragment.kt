@@ -50,44 +50,64 @@ class SearchFilterFragment : Fragment() {
     }
 
     private fun initBtnList(parent: View) {
-        for (i in 1..4) {
+        for (i in searchViewModel.industry.indices) {
             val btnId =
-                resources.getIdentifier("btn_industry_$i", "id", requireContext().packageName)
-            industryBtnList.add(parent.findViewById(btnId) as TextView)
+                resources.getIdentifier("btn_industry_${i + 1}", "id", requireContext().packageName)
+            (parent.findViewById(btnId) as TextView).apply {
+                text = searchViewModel.industry[i]
+                industryBtnList.add(this)
+            }
         }
 
-        for (i in 1..9) {
+        for (i in searchViewModel.facility.indices) {
             val btnId =
-                resources.getIdentifier("btn_facility_$i", "id", requireContext().packageName)
-            facilityBtnList.add(parent.findViewById(btnId) as TextView)
+                resources.getIdentifier("btn_facility_${i + 1}", "id", requireContext().packageName)
+            (parent.findViewById(btnId) as TextView).apply {
+                text = searchViewModel.facility[i]
+                facilityBtnList.add(this)
+            }
         }
 
-        for (i in 1..11) {
+        for (i in searchViewModel.amenity.indices) {
             val btnId =
-                resources.getIdentifier("btn_amenity_$i", "id", requireContext().packageName)
-            amenityBtnList.add(parent.findViewById(btnId) as TextView)
+                resources.getIdentifier("btn_amenity_${i + 1}", "id", requireContext().packageName)
+            (parent.findViewById(btnId) as TextView).apply {
+                text = searchViewModel.amenity[i]
+                amenityBtnList.add(this)
+            }
         }
 
-        for (i in 1..12) {
-            val btnId = resources.getIdentifier("btn_theme_$i", "id", requireContext().packageName)
-            themeBtnList.add(parent.findViewById(btnId) as TextView)
+        for (i in searchViewModel.theme.indices) {
+            val btnId =
+                resources.getIdentifier("btn_theme_${i + 1}", "id", requireContext().packageName)
+            (parent.findViewById(btnId) as TextView).apply {
+                text = searchViewModel.theme[i]
+                themeBtnList.add(this)
+            }
         }
 
-        for (i in 1..3) {
-            val btnId = resources.getIdentifier("btn_pet_$i", "id", requireContext().packageName)
-            petBtnList.add(parent.findViewById(btnId) as TextView)
+        for (i in searchViewModel.pet.indices) {
+            val btnId =
+                resources.getIdentifier("btn_pet_${i + 1}", "id", requireContext().packageName)
+            (parent.findViewById(btnId) as TextView).apply {
+                text = searchViewModel.pet[i]
+                petBtnList.add(this)
+            }
         }
 
-        for (i in 1..4) {
-            val btnId = resources.getIdentifier("btn_season_$i", "id", requireContext().packageName)
-            seasonBtnList.add(parent.findViewById(btnId) as TextView)
+        for (i in searchViewModel.season.indices) {
+            val btnId =
+                resources.getIdentifier("btn_season_${i + 1}", "id", requireContext().packageName)
+            (parent.findViewById(btnId) as TextView).apply {
+                text = searchViewModel.season[i]
+                seasonBtnList.add(this)
+            }
         }
     }
 
     private fun initBtnListener() {
         for (i in searchViewModel.industry.indices) {
             industryBtnList[i].let { btn ->
-                btn.text = searchViewModel.industry[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -105,7 +125,6 @@ class SearchFilterFragment : Fragment() {
 
         for (i in searchViewModel.facility.indices) {
             facilityBtnList[i].let { btn ->
-                btn.text = searchViewModel.facility[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -123,7 +142,6 @@ class SearchFilterFragment : Fragment() {
 
         for (i in searchViewModel.amenity.indices) {
             amenityBtnList[i].let { btn ->
-                btn.text = searchViewModel.amenity[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -141,7 +159,6 @@ class SearchFilterFragment : Fragment() {
 
         for (i in searchViewModel.theme.indices) {
             themeBtnList[i].let { btn ->
-                btn.text = searchViewModel.theme[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -159,7 +176,6 @@ class SearchFilterFragment : Fragment() {
 
         for (i in searchViewModel.pet.indices) {
             petBtnList[i].let { btn ->
-                btn.text = searchViewModel.pet[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false
@@ -177,7 +193,6 @@ class SearchFilterFragment : Fragment() {
 
         for (i in searchViewModel.season.indices) {
             seasonBtnList[i].let { btn ->
-                btn.text = searchViewModel.season[i]
                 btn.setOnClickListener {
                     if (btn.isSelected) {
                         btn.isSelected = false

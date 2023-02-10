@@ -148,7 +148,14 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         behaviorArea.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> isDragging = false
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        if (searchViewModel.stateBehaviorList.value != null)
+                            if (searchViewModel.stateBehaviorList.value == true)
+                                binding.rlShowMap.visibility = View.VISIBLE
+                            else
+                                binding.rlShowList.visibility = View.VISIBLE
+                        isDragging = false
+                    }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         isDragging = false
                         searchViewModel.setStateBehaviorArea(true)
@@ -161,6 +168,11 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (slideOffset < 1) {
+                    binding.rlShowList.visibility = View.GONE
+                    binding.rlShowMap.visibility = View.GONE
+                }
+
                 if (isDragging) if (slideOffset <= (getDeviceHeightPx(requireContext()) - 115.px(
                         requireContext()
                     )).toFloat() / getDeviceHeightPx(requireContext())
@@ -182,7 +194,14 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
         behaviorFilter.addBottomSheetCallback(object : BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
                 when (newState) {
-                    BottomSheetBehavior.STATE_COLLAPSED -> isDragging = false
+                    BottomSheetBehavior.STATE_COLLAPSED -> {
+                        if (searchViewModel.stateBehaviorList.value != null)
+                            if (searchViewModel.stateBehaviorList.value == true)
+                                binding.rlShowMap.visibility = View.VISIBLE
+                            else
+                                binding.rlShowList.visibility = View.VISIBLE
+                        isDragging = false
+                    }
                     BottomSheetBehavior.STATE_EXPANDED -> {
                         isDragging = false
                         searchViewModel.setStateBehaviorFilter(true)
@@ -195,6 +214,11 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
             }
 
             override fun onSlide(bottomSheet: View, slideOffset: Float) {
+                if (slideOffset < 1) {
+                    binding.rlShowList.visibility = View.GONE
+                    binding.rlShowMap.visibility = View.GONE
+                }
+
                 if (isDragging) if (slideOffset <= (getDeviceHeightPx(requireContext()) - 115.px(
                         requireContext()
                     )).toFloat() / getDeviceHeightPx(requireContext())
