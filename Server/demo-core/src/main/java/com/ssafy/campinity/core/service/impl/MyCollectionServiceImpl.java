@@ -10,6 +10,7 @@ import com.ssafy.campinity.core.repository.myCollection.MyCollectionRepository;
 import com.ssafy.campinity.core.service.MyCollectionService;
 import com.ssafy.campinity.core.utils.ImageUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Service
 public class MyCollectionServiceImpl implements MyCollectionService {
+
 
     private final MyCollectionRepository myCollectionRepository;
     private final MemberRepository memberRepository;

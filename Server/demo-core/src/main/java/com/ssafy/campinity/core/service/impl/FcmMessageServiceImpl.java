@@ -1,141 +1,169 @@
 package com.ssafy.campinity.core.service.impl;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.auth.oauth2.GoogleCredentials;
-import com.squareup.okhttp.*;
+import com.google.firebase.messaging.*;
 import com.ssafy.campinity.core.dto.FcmMessageReqDTO;
-import com.ssafy.campinity.core.dto.FcmMessageToManyDTO;
-import com.ssafy.campinity.core.dto.FcmMessageToOneDTO;
+import com.ssafy.campinity.core.dto.FcmReplyDTO;
 import com.ssafy.campinity.core.entity.fcm.FcmMessage;
+import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
+import com.ssafy.campinity.core.exception.FcmMessagingException;
 import com.ssafy.campinity.core.repository.fcm.FcmMessageRepository;
+import com.ssafy.campinity.core.repository.fcm.FcmTokenRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.FcmMessageService;
+import com.ssafy.campinity.core.utils.ErrorMessageEnum;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.apache.http.HttpHeaders;
-import org.springframework.core.io.ClassPathResource;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class FcmMessageServiceImpl implements FcmMessageService {
 
-    private final String GOOGLE_APPLICATION_CREDENTIALS = "firebase/campinity-5ff94-firebase-adminsdk-a0uem-64c6576e75.json";
-    private final String FCM_URL = "https://fcm.googleapis.com/v1/projects/campinity-5ff94/messages:send";
-    private final String FIREBASE_SCOPE = "https://www.googleapis.com/auth/cloud-platform";
+    private static final Logger logger = (Logger) LogManager.getLogger(FcmMessageServiceImpl.class);
     private final MemberRepository memberRepository;
     private final FcmMessageRepository fcmMessageRepository;
-
-    private final ObjectMapper objectMapper;
+    private final FcmTokenRepository fcmTokenRepository;
 
 
     // target Token으로 fcm message 전송
     @Override
-    public void sendMessageToOne(String targetToken, String title, String body) throws IOException{
-        String message = makeMessageToOne(targetToken, title, body);
+    public int sendMessageToMany(int memberId, FcmMessageReqDTO req) {
 
-        OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), message);
-        Request request = new Request.Builder()
-                .url(FCM_URL)
-                .post(requestBody)
-                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
-                .build();
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.MESSAGE_NOT_EXIST.getMessage()));
 
-        Response response = okHttpClient.newCall(request).execute();
-
-    }
-
-    // 파라미터를 FCM이 요구하는 body 형태의 message return
-    private String makeMessageToOne(String targetToken, String title, String body) throws JsonProcessingException {
-        FcmMessageToOneDTO fcmMessageToOneDTO = FcmMessageToOneDTO.builder()
-                .message(FcmMessageToOneDTO.Message.builder()
-                        .token(targetToken)
-                        .notification(FcmMessageToOneDTO.Notification.builder()
-                                .title(title)
-                                .body(body)
-                                .build())
-                        .build())
-                .validate_only(false)
-                .build();
-        return objectMapper.writeValueAsString(fcmMessageToOneDTO);
-    }
-
-    // target campsite group으로 fcm message 단체 전송
-    @Override
-    public void sendMessageToTopic(
-            FcmMessageReqDTO reqContent,
-            int memberId) throws IOException{
-
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(IllegalArgumentException::new);
         FcmMessage fcmMessage = FcmMessage.builder()
+                .campsiteUuid(req.getCampsiteId())
+                .uuid(UUID.randomUUID())
+                .title(req.getTitle())
+                .body(req.getBody())
+                .hiddenBody(req.getHiddenBody())
+                .longitude(req.getLongitude())
+                .latitude(req.getLatitude())
                 .member(member)
-                .title(reqContent.getTitle())
-                .body(reqContent.getBody())
-                .hiddenBody(reqContent.getHiddenBody())
                 .build();
+        FcmMessage savedFcm = fcmMessageRepository.save(fcmMessage);
 
-        FcmMessage savedFcmMessage = fcmMessageRepository.save(fcmMessage);
-
-        String messageToFcm = makeMessageToMany(
-                member.getFcmTokenList().get(0).getCampsiteUuid(),
-                savedFcmMessage.getUuid().toString(),
-                reqContent.getTitle(),
-                reqContent.getBody());
-
-        OkHttpClient okHttpClient = new OkHttpClient();
-        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), messageToFcm);
-        Request request = new Request.Builder()
-                .url(FCM_URL)
-                .post(requestBody)
-                .addHeader(HttpHeaders.AUTHORIZATION, "Bearer " + getAccessToken())
-                .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
-                .build();
-
-        Response response = okHttpClient.newCall(request).execute();
+        int successfulSendCnt = 0;
+        try { successfulSendCnt = makeMessageToMany(memberId, savedFcm); }
+        catch (FirebaseMessagingException e){
+            logger.warn(e.getMessage());
+            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
+        }
+        return successfulSendCnt;
     }
 
-    // 파라미터를 FCM이 요구하는 body 형태의 message return
-    private String makeMessageToMany(String campsiteGroup,
-                                     String fcmMessageId,
-                                     String title,
-                                     String body) throws JsonProcessingException {
+    // fcm에 토큰에 push 요청 및 invalid token 삭제
+    private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
 
-        FcmMessageToManyDTO fcmMessageToManyDTO = FcmMessageToManyDTO.builder()
-                .message(FcmMessageToManyDTO.Message.builder()
-                        .topic(campsiteGroup)
-                        .notification(FcmMessageToManyDTO.Notification.builder()
-                                .title(title)
-                                .body(body)
-                                .build())
-                        .data(FcmMessageToManyDTO.FcmData.builder()
-                                .campsiteGroupId(campsiteGroup)
-                                .fcmMessageId(fcmMessageId)
-                                .build())
-                        .build())
-                .validate_only(false)
+        List<String> fcmTokenList = fcmTokenRepository.findTop500ByCampsiteUuidAndMember_IdIsNot(savedFcm.getCampsiteUuid(), memberId).stream()
+                .map(token -> token.getToken()).collect(Collectors.toList());
+        System.out.println("search tokens : " + fcmTokenList.toString());
+
+        MulticastMessage fcmMessage = MulticastMessage.builder()
+                .addAllTokens(fcmTokenList)
+                .setNotification(Notification.builder().setTitle(savedFcm.getTitle()).setBody(savedFcm.getBody()).build())
+                .putData("fcmMessageId", savedFcm.getUuid().toString())
+                .setAndroidConfig(AndroidConfig.builder().setPriority(AndroidConfig.Priority.HIGH).build())
                 .build();
-        return objectMapper.writeValueAsString(fcmMessageToManyDTO);
+
+        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
+        int resSize = response.getResponses().size();
+        List<String> invalidTokens = new ArrayList<>();
+
+        for (int i = 0; i < resSize; i++)
+            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
+
+        if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
+
+        return response.getSuccessCount();
     }
 
-    // 자격 증명을 사용하여  FCM에 요청 시 header 담을 액세스 토큰 생성
-    private String getAccessToken() throws IOException {
-        GoogleCredentials googleCredentials = GoogleCredentials
-                .fromStream(new ClassPathResource(GOOGLE_APPLICATION_CREDENTIALS).getInputStream())
-                .createScoped(Arrays.asList(FIREBASE_SCOPE));
+    @Transactional
+    @Override
+    public int replyToFcm(int memberId, FcmReplyDTO fcmReplyDTO) {
 
-        // FCM accessToken 생성
-        googleCredentials.refreshIfExpired();
+        FcmMessage fcmMessage = fcmMessageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(fcmReplyDTO.getFcmMessageId()))
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.FCMMESSAGE_EXPIRED.getMessage()));
 
-        // GoogleCredential의 getAccessToken으로 토큰 받아온 뒤, getTokenValue로 최종적으로 받음
-        // REST API로 FCM에 push 요청 보낼 때 Header에 설정하여 인증을 위해 사용
-        return googleCredentials.getAccessToken().getTokenValue();
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+
+
+        List<String> senderTokens = fcmMessage.getMember().getFcmTokenList().stream().filter(token ->
+                        token.getCampsiteUuid().equals(fcmMessage.getCampsiteUuid()))
+                .map(FcmToken::getToken)
+                .collect(Collectors.toList());
+
+        String senderBody = "";
+        if (fcmMessage.getTitle() == "도움 주기"){ senderBody = "도움이 필요한 캠퍼를 찾았습니다 :)"; }
+        else{ senderBody = "도와줄 캠퍼를 찾았습니다 :)"; }
+
+        int successfulSendCnt = 0;
+        try {
+            successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage);
+            successfulSendCnt += makeMessageToSender(senderTokens, fcmMessage.getTitle(), senderBody);
+        }
+        catch (FirebaseMessagingException e){
+            logger.warn(e.getMessage());
+            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
+        }
+
+        fcmMessage.expired();
+        fcmMessage.appointMember(fcmReplyDTO.getFcmToken());
+        fcmMessageRepository.save(fcmMessage);
+
+        return successfulSendCnt;
+    }
+
+    private int makeMessageToAppointee(String appointeeToken, FcmMessage data) throws FirebaseMessagingException {
+
+        MulticastMessage fcmMessage = MulticastMessage.builder()
+                .addToken(appointeeToken)
+                .setNotification(Notification.builder().setTitle(data.getTitle()).setBody(data.getHiddenBody()).build())
+                .putData("longitude", data.getLongitude().toString())
+                .putData("latitude", data.getLatitude().toString())
+                .build();
+
+        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
+        if(!response.getResponses().get(0).isSuccessful()) deleteInvalidToken(List.of(appointeeToken));
+
+        return response.getSuccessCount();
+    }
+
+    private int makeMessageToSender(List<String> appointeeTokens, String title, String body) throws FirebaseMessagingException {
+
+        MulticastMessage fcmMessage = MulticastMessage.builder()
+                .addAllTokens(appointeeTokens)
+                .setNotification(Notification.builder().setTitle(title).setBody(body).build())
+                .build();
+
+        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
+        int resSize = response.getResponses().size();
+        List<String> invalidTokens = new ArrayList<>();
+
+        for (int i = 0; i < resSize; i++)
+            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(appointeeTokens.get(i));
+
+        if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
+
+        return response.getSuccessCount();
+    }
+
+
+    private BatchResponse firebaseMulticastMessaging(MulticastMessage fcmMessage) throws FirebaseMessagingException {
+        return FirebaseMessaging.getInstance().sendMulticast(fcmMessage);
+    }
+
+    //  유효하지 않는 토큰 삭제
+    private void deleteInvalidToken(List<String> invalidTokens){
+        List<FcmToken> fcmTokens = fcmTokenRepository.findAllByTokenIn(invalidTokens);
+        fcmTokenRepository.deleteAllInBatch(fcmTokens);
     }
 }
