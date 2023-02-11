@@ -14,8 +14,9 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
-import com.ssafy.campinity.presentation.community.CommunityActivity
+import com.ssafy.campinity.presentation.community.campsite.ReceiveHelpNoteActivity
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -31,7 +32,11 @@ class FirebaseService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
         if (remoteMessage.data.isNotEmpty()) {
             val body = remoteMessage.data["body"]
+            ApplicationClass.preferences.helpContent = body
+            ApplicationClass.preferences.fcmMessageId = remoteMessage.data["fcmMessageId"]
             Log.d("fcmMessageId", "fcmMessageId: ${remoteMessage.data["fcmMessageId"]}")
+            Log.d("fcmMessageId", "body: ${remoteMessage.data["body"]}")
+            Log.d("fcmMessageId", "title: ${remoteMessage.data["title"]}")
             sendNotification(body)
         } else if (remoteMessage.notification != null) {
             val body = remoteMessage.notification!!.body
@@ -41,7 +46,7 @@ class FirebaseService : FirebaseMessagingService() {
 
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun sendNotification(body: String?) {
-        val intent = Intent(this, CommunityActivity::class.java)
+        val intent = Intent(this, ReceiveHelpNoteActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent =
             PendingIntent.getActivity(
