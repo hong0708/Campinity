@@ -179,6 +179,12 @@ object UseCaseModule {
 
     @Singleton
     @Provides
+    fun provideRequestReplyHelpUseCase(
+        fcmRepository: FCMRepository
+    ): RequestReplyHelpUseCase = RequestReplyHelpUseCase(fcmRepository)
+
+    @Singleton
+    @Provides
     fun provideWriteReviewUseCase(
         searchRepository: SearchRepository
     ): WriteReviewUseCase = WriteReviewUseCase(searchRepository)
