@@ -75,9 +75,9 @@ public class Message extends BaseEntity {
         this.likeMessages.add(likeMessage);
     }
 
-    public Message softDeleteEtcMessage() {
+    public void softDeleteEtcMessage() {
         this.expired = true;
-        return this;
+//        return this;
     }
 
     public void deleteMessageImage() {

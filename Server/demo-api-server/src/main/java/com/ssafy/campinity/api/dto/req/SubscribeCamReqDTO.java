@@ -18,7 +18,7 @@ public class SubscribeCamReqDTO {
     private String fcmToken;
 
     @ApiModelProperty(
-            value = "알람 신청할 캠핑장 식별 id/ 취소 시 빈 문자열",
+            value = "알람 신청할 캠핑장 식별 id/ 알람 취소 시 빈 문자열",
             required = true,
             dataType = "String"
     )

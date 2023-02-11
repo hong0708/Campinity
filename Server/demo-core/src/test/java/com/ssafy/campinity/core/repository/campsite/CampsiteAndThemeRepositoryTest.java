@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
@@ -15,6 +16,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Transactional
 @SpringBootTest
 class CampsiteAndThemeRepositoryTest {
+
+
+    @Autowired
+    EntityManager em;
 
     @Autowired
     CampsiteRepository campsiteRepository;
@@ -47,16 +52,13 @@ class CampsiteAndThemeRepositoryTest {
         campsiteAndTheme.setTheme(theme1);
         CampsiteAndTheme campsiteAndTheme1 = campsiteAndThemeRepository.save(campsiteAndTheme);
 
+        em.flush();
         assertNotNull(campsiteAndTheme1.getCreatedAt());
         assertNotNull(campsiteAndTheme1.getUpdatedAt());
 
         campsiteAndTheme1.setTheme(theme3);
         CampsiteAndTheme campsiteAndTheme2 = campsiteAndThemeRepository.save(campsiteAndTheme1);
+        em.flush();
         assertNotEquals(campsiteAndTheme2.getCreatedAt(), campsiteAndTheme2.getUpdatedAt());
-
-        campsiteAndThemeRepository.deleteAllInBatch();
-        themeRepository.deleteAllInBatch();
-        campsiteRepository.deleteAllInBatch();
-
     }
 }

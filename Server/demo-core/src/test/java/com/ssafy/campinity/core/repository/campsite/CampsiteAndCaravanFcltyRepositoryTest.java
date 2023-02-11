@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @SpringBootTest
 public class CampsiteAndCaravanFcltyRepositoryTest {
+    @Autowired
+    EntityManager em;
 
     @Autowired
     CampsiteAndCaravanFcltyRepository campsiteAndCaravanFcltyRepository;
@@ -49,13 +52,14 @@ public class CampsiteAndCaravanFcltyRepositoryTest {
         assertNotNull(campsiteAndCaravanFclty1.getCreatedAt());
         assertNotNull(campsiteAndCaravanFclty1.getUpdatedAt());
 
+        em.flush();
+
         campsiteAndCaravanFclty1.setCaravanFclty(caravanFclty3);
         CampsiteAndCaravanFclty campsiteAndCaravanFclty2 = campsiteAndCaravanFcltyRepository.save(campsiteAndCaravanFclty1);
-        assertNotEquals(campsiteAndCaravanFclty2.getUpdatedAt(), campsiteAndCaravanFclty1.getUpdatedAt());
 
-        campsiteAndCaravanFcltyRepository.deleteAllInBatch();
-        campsiteRepository.deleteAllInBatch();
-        caravanFcltyRepository.deleteAllInBatch();
+        em.flush();
+
+        assertNotEquals(campsiteAndCaravanFclty2.getUpdatedAt(), campsiteAndCaravanFclty2.getCreatedAt());
     }
 }
 
