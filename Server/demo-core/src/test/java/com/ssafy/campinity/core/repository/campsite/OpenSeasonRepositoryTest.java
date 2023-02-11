@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,6 +15,12 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 @Transactional
 @SpringBootTest
 public class OpenSeasonRepositoryTest {
+
+    @Autowired
+    EntityManager em;
+
+    @Autowired
+    AmenityRepository amenityRepository;
     @Autowired
     OpenSeasonRepository openSeasonRepository;
 
@@ -30,9 +37,9 @@ public class OpenSeasonRepositoryTest {
         openSeason1.setSeasonName("겨울");
         OpenSeason openSeason2 = openSeasonRepository.save(openSeason1);
 
-        assertNotSame(openSeason1.getUpdatedAt(), openSeason2.getCampsiteAndOpenSeasons());
+        em.flush();
 
-        openSeasonRepository.deleteAllInBatch();
+        assertNotSame(openSeason1.getUpdatedAt(), openSeason2.getCampsiteAndOpenSeasons());
     }
 
 }

@@ -127,7 +127,7 @@ public class FcmTokenTest {
         FcmToken updatedfcmToken = fcmTokenRepository.save(persistedFcmToken);
         System.out.println(updatedfcmToken.toString());
         assertNotNull(persistedFcmToken);
-        assertEquals(persistedFcmToken.getToken(), testMember.getFcmTokenList().get(0));
+        assertEquals(persistedFcmToken.getToken(), testMember.getFcmTokenList().get(0).getToken());
         assertEquals(persistedFcmToken.getMember().getId(), testMember.getId());
     }
 

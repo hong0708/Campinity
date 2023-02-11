@@ -30,6 +30,7 @@ import static com.ssafy.campinity.core.entity.message.MessageCategory.REVIEW;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@Transactional
 @SpringBootTest
 public class MulticastMessageTest {
 
