@@ -165,8 +165,8 @@ public class FcmMessageServiceImpl implements FcmMessageService {
 
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addAllTokens(lastFcmReqDTO.getSenderTokens())
-                .setNotification(Notification.builder().setTitle("매칭된 캠퍼로부터 메세지입니다 :)").setBody(lastFcmReqDTO.getBody()).build())
-                .putData("title", "매칭된 캠퍼로부터 메세지입니다 :)")
+                .setNotification(Notification.builder().setTitle("매칭된 캠퍼로부터 온 메세지입니다 :)").setBody(lastFcmReqDTO.getBody()).build())
+                .putData("title", "매칭된 캠퍼로부터 온 메세지입니다 :)")
                 .putData("body", lastFcmReqDTO.getBody())
                 .build();
 
