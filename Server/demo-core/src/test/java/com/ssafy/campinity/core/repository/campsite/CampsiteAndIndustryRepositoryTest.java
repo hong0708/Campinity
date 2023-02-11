@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
@@ -17,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @Transactional
 @SpringBootTest
 class CampsiteAndIndustryRepositoryTest {
+    @Autowired
+    EntityManager em;
 
     @Autowired
     CampsiteRepository campsiteRepository;
@@ -49,16 +52,17 @@ class CampsiteAndIndustryRepositoryTest {
         campsiteAndIndustry.setIndustry(industry2);
         CampsiteAndIndustry campsiteAndAmenity1 = campsiteAndIndustryRepository.save(campsiteAndIndustry);
 
+        em.flush();
+
         assertNotNull(campsiteAndAmenity1.getCreatedAt());
         assertNotNull(campsiteAndAmenity1.getUpdatedAt());
 
         campsiteAndAmenity1.setIndustry(industry3);
         CampsiteAndIndustry campsiteAndAmenity2 = campsiteAndIndustryRepository.save(campsiteAndAmenity1);
-        assertNotEquals(campsiteAndAmenity2.getCreatedAt(), campsiteAndAmenity2.getUpdatedAt());
 
-        campsiteAndIndustryRepository.deleteAllInBatch();
-        industryRepository.deleteAllInBatch();
-        campsiteRepository.deleteAllInBatch();
+        em.flush();
+
+        assertNotEquals(campsiteAndAmenity2.getCreatedAt(), campsiteAndAmenity2.getUpdatedAt());
 
     }
 }

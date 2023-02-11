@@ -60,12 +60,8 @@ public class MessageServiceImpl implements MessageService {
                 .longitude(messageReqDTO.getLongitude())
                 .build();
 
-        try {
-            Message saved = messageRepository.save(message);
-            campsite.addMessage(saved);
-            return saved;
-        }
-        catch (Exception e){ throw new IllegalArgumentException(e); }
+        campsite.addMessage(message);
+        return messageRepository.save(message);
     }
 
     @Transactional
@@ -116,9 +112,9 @@ public class MessageServiceImpl implements MessageService {
                 catch (SecurityException e) {throw new SecurityException(e.getMessage());}
                 catch (NullPointerException e) {throw new NullPointerException(e.getMessage());}
             }
-            message.getCampsite().removeMessage(message);
             message.deleteMessageImage();
             message.softDeleteEtcMessage();
+            message.getCampsite().removeMessage(message);
             messageRepository.save(message);
         }
     }

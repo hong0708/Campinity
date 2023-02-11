@@ -71,12 +71,11 @@ public class Campsite extends BaseEntity {
     @ToString.Exclude
     private List<Review> reviews = new ArrayList<>();
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "campsite_id")
+    @OneToMany(mappedBy = "campsite")
     @ToString.Exclude
-    private List<Message> messages = new ArrayList<>();
+    private List<Message> messages;
 
-    @OneToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(cascade = {CascadeType.REMOVE})
     @JoinColumn(name = "campsite_id")
     @ToString.Exclude
     private List<Question> questions = new ArrayList<>();
@@ -149,6 +148,7 @@ public class Campsite extends BaseEntity {
         this.subFacilityEtc = subFacilityEtc;
         this.dayOperation = dayOperation;
         this.allowAnimal = allowAnimal;
+        this.messages = new ArrayList<>();
     }
 
 
@@ -161,10 +161,10 @@ public class Campsite extends BaseEntity {
     }
 
     public void addMessage(Message message) {
-        this.getMessages().add(message);
+        this.messages.add(message);
     }
 
     public void removeMessage(Message message) {
-        this.getMessages().remove(message);
+        this.messages.remove(message);
     }
 }

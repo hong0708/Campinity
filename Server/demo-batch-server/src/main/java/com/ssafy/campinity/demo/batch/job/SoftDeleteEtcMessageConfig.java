@@ -116,7 +116,8 @@ public class SoftDeleteEtcMessageConfig {
                     catch (SecurityException e) {throw new SecurityException(e.getMessage());}
                     catch (NullPointerException e) {throw new NullPointerException(e.getMessage());}
                 }
-                return item.softDeleteEtcMessage();
+                item.softDeleteEtcMessage();
+                return item;
             }
         };
     }

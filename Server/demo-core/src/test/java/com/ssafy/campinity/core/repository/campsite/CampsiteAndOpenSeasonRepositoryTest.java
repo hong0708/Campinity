@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -19,6 +20,9 @@ import java.util.UUID;
 @Transactional
 @SpringBootTest
 public class CampsiteAndOpenSeasonRepositoryTest {
+    @Autowired
+    EntityManager em;
+
     @Autowired
     CampsiteRepository campsiteRepository;
 
@@ -50,15 +54,15 @@ public class CampsiteAndOpenSeasonRepositoryTest {
         campsiteAndOpenSeason.setOpenSeason(openSeason2);
         CampsiteAndOpenSeason campsiteAndOpenSeason1 = campsiteAndOpenSeasonRepository.save(campsiteAndOpenSeason);
 
+        em.flush();
+
         assertNotNull(campsiteAndOpenSeason1.getCreatedAt());
         assertNotNull(campsiteAndOpenSeason1.getUpdatedAt());
 
         campsiteAndOpenSeason1.setOpenSeason(openSeason3);
         CampsiteAndOpenSeason campsiteAndOpenSeason2 = campsiteAndOpenSeasonRepository.save(campsiteAndOpenSeason1);
-        assertNotEquals(campsiteAndOpenSeason2.getUpdatedAt(), campsiteAndOpenSeason1.getUpdatedAt());
+        em.flush();
 
-        campsiteAndOpenSeasonRepository.deleteAllInBatch();
-        campsiteRepository.deleteAllInBatch();
-        openSeasonRepository.deleteAllInBatch();
+        assertNotEquals(campsiteAndOpenSeason2.getUpdatedAt(), campsiteAndOpenSeason2.getCreatedAt());
     }
 }
