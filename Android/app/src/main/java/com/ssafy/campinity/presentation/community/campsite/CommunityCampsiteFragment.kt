@@ -558,24 +558,6 @@ class CommunityCampsiteFragment :
         }
     }
 
-    @SuppressLint("ResourceAsColor")
-    private fun setSubscribeState() {
-        binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
-        binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
-        binding.toggleCampsite.setOnToggledListener { _, isOn ->
-            if (isOn) {
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
-                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                    ApplicationClass.preferences.fcmToken.toString()
-                )
-            } else {
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
-                    "", ApplicationClass.preferences.fcmToken.toString()
-                )
-            }
-        }
-    }
-
     // 이벤트 리스너
     inner class PanelEventListener : SlidingUpPanelLayout.PanelSlideListener {
         // 패널이 슬라이드 중일 때
