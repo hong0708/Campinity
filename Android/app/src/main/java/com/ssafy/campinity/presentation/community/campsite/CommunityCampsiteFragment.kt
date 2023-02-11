@@ -555,13 +555,13 @@ class CommunityCampsiteFragment :
         binding.toggleCampsite.setOnToggledListener { _, isOn ->
             if (isOn) {
                 ApplicationClass.preferences.isSubScribing = true
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                communityCampsiteViewModel.subscribeCampSite(
                     ApplicationClass.preferences.userRecentCampsiteId.toString(),
                     ApplicationClass.preferences.fcmToken.toString()
                 )
             } else {
                 ApplicationClass.preferences.isSubScribing = false
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                communityCampsiteViewModel.subscribeCampSite(
                     "", ApplicationClass.preferences.fcmToken.toString())
             }
         }
