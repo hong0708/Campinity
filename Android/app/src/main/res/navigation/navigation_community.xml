@@ -20,19 +20,10 @@
         <action
             android:id="@+id/action_communityCampsiteFragment_to_communityHelpNoteActivity"
             app:destination="@id/communityHelpNoteActivity" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/communityNoteFragment"
-        android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteFragment"
-        android:label="fragment_community_note"
-        tools:layout="@layout/fragment_community_note">
         <action
             android:id="@+id/action_communityCampsiteFragment_to_communityNoteActivity"
             app:destination="@id/communityNoteActivity" />
-        <action
-            android:id="@+id/action_communityCampsiteFragment_to_communityHelpNoteActivity"
-            app:destination="@id/communityHelpNoteActivity" />
+
     </fragment>
 
     <activity
