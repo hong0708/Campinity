@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -18,6 +19,9 @@ import java.util.UUID;
 @Transactional
 @SpringBootTest
 public class CampsiteAndGlampFcltyRepositoryTest {
+
+    @Autowired
+    EntityManager em;
 
     @Autowired
     CampsiteRepository campsiteRepository;
@@ -49,16 +53,16 @@ public class CampsiteAndGlampFcltyRepositoryTest {
         campsiteAndGlampFclty.setGlampFclty(glampFclty2);
         CampsiteAndGlampFclty campsiteAndGlampFclty1 = campsiteAndGlampFcltyRepository.save(campsiteAndGlampFclty);
 
+        em.flush();
         assertNotNull(campsiteAndGlampFclty1.getCreatedAt());
         assertNotNull(campsiteAndGlampFclty1.getUpdatedAt());
 
         campsiteAndGlampFclty1.setGlampFclty(glampFclty3);
         CampsiteAndGlampFclty campsiteAndGlampFclty2 = campsiteAndGlampFcltyRepository.save(campsiteAndGlampFclty1);
-        assertNotEquals(campsiteAndGlampFclty2.getUpdatedAt(), campsiteAndGlampFclty1.getUpdatedAt());
 
-        campsiteAndGlampFcltyRepository.deleteAllInBatch();
-        campsiteRepository.deleteAllInBatch();
-        glampFcltyRepository.deleteAllInBatch();
+        em.flush();
+
+        assertNotEquals(campsiteAndGlampFclty2.getUpdatedAt(), campsiteAndGlampFclty2.getCreatedAt());
     }
 
 }

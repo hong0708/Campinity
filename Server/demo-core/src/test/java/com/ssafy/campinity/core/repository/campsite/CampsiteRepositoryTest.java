@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 import java.util.UUID;
 
@@ -15,6 +16,8 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 @Transactional
 @SpringBootTest
 class CampsiteRepositoryTest {
+    @Autowired
+    EntityManager em;
 
     @Autowired
     CampsiteRepository campsiteRepository;
@@ -28,15 +31,15 @@ class CampsiteRepositoryTest {
         campsite.setUuid(UUID.randomUUID());
         Campsite campsite1 = campsiteRepository.save(campsite);
 
+        em.flush();
         assertNotNull(campsite1.getCreatedAt());
         assertNotNull(campsite1.getUpdatedAt());
 
         campsite1.setCampName("updated1");
         Campsite campsite2 = campsiteRepository.save(campsite1);
+        em.flush();
 
-        assertNotSame(campsite1.getUpdatedAt(), campsite2.getUpdatedAt());
-
-        campsiteRepository.deleteAllInBatch();
+        assertNotSame(campsite2.getCreatedAt(), campsite2.getUpdatedAt());
 
     }
 }
