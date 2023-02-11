@@ -42,6 +42,10 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  redis:
+    host: redis_boot
+    port: 6379
+
 logging:
   config: classpath:log4j2.yml
 
