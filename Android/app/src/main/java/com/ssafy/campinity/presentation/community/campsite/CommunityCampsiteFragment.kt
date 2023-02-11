@@ -53,6 +53,7 @@ class CommunityCampsiteFragment :
     private var isTracking = false
 
     override fun initView() {
+        initToggle()
         initObserver()
         initListener()
         initRecyclerView()
@@ -173,6 +174,13 @@ class CommunityCampsiteFragment :
 
     override fun getFreeReviewDetail(messageId: String) {
         communityCampsiteViewModel.getCampsiteMessageDetailInfo(messageId)
+    }
+
+    private fun initToggle() {
+        when(ApplicationClass.preferences.isSubScribing) {
+            true -> binding.toggleCampsite.isOn = true
+            false -> binding.toggleCampsite.isOn = false
+        }
     }
 
     private fun initMapView() {
@@ -544,15 +552,17 @@ class CommunityCampsiteFragment :
     private fun setSubscribeState() {
         binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
         binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
-        binding.toggleCampsite.setOnToggledListener { toggleableView, isOn ->
+        binding.toggleCampsite.setOnToggledListener { _, isOn ->
             if (isOn) {
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
-                    "", ApplicationClass.preferences.fcmToken.toString())
-            } else {
+                ApplicationClass.preferences.isSubScribing = true
                 communityCampsiteViewModel.subscribeCampSiteUseCase(
                     ApplicationClass.preferences.userRecentCampsiteId.toString(),
                     ApplicationClass.preferences.fcmToken.toString()
                 )
+            } else {
+                ApplicationClass.preferences.isSubScribing = false
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    "", ApplicationClass.preferences.fcmToken.toString())
             }
         }
     }
