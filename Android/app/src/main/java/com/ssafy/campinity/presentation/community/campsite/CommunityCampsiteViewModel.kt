@@ -144,11 +144,9 @@ class CommunityCampsiteViewModel @Inject constructor(
         }
     }
 
-    fun subscribeCampSiteUseCase(campsiteId: String, fcmToken: String) = viewModelScope.launch {
+    fun subscribeCampSite(campsiteId: String, fcmToken: String) = viewModelScope.launch {
         when (val value = requestSubscribeCampSiteUseCase(campsiteId, fcmToken)) {
-            is Resource.Success<FCMToken> -> {
-                Log.d("getCampsiteMessageDetailInfo", "${value.data}")
-            }
+            is Resource.Success<FCMToken> -> {}
             is Resource.Error -> {
                 Log.e("getCampsiteMessageDetailInfo", "${value.errorMessage}")
             }
