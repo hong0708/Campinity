@@ -95,7 +95,7 @@
     <string name="content_until_time">까지</string>
     <string name="content_make_help">생성하기</string>
     <string name="content_user_location_hint">도움을 받을 사람이 보고 찾아올 수 있게 자세하게 작성해주세요.</string>
-    <string name="content_user_help_hint">도움을 주실 수 있는 내용을 작성해주세요</string>
+    <string name="content_user_help_hint">도움을 주실 수 있는 내용을 작성해주세요!\n간단한 위치 설명도 함께 작성해주세요!</string>
     <string name="content_select_marker">확인</string>
     <string name="content_cancel_marker">취소</string>
     <string name="title_write_question_note">질문을 남겨주세요!</string>
@@ -129,6 +129,8 @@
     <string name="content_campsite_free">자유 쪽지</string>
     <string name="image_campsite_title_icon">image_campsite_title_icon</string>
     <string name="note_format">%s 쪽지</string>
+    <string name="title_receive_help_note">쪽지가 도착했어요!</string>
+    <string name="content_receive_btn">도움받기</string>
 
     <!-- Collection -->
     <string name="title_collection">My Collection</string>
