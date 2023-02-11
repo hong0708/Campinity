@@ -200,7 +200,6 @@ class CommunityCampsiteFragment :
                 ),
                 true
             )
-            drawPostBox(recentCampsite)
 
             CoroutineScope(Dispatchers.Main).launch {
                 val deffered: Deferred<Int> = async {
