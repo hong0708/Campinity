@@ -3,6 +3,7 @@ package com.ssafy.campinity.core.service.impl;
 import com.google.firebase.messaging.*;
 import com.ssafy.campinity.core.dto.FcmMessageReqDTO;
 import com.ssafy.campinity.core.dto.FcmReplyDTO;
+import com.ssafy.campinity.core.dto.LastFcmReqDTO;
 import com.ssafy.campinity.core.entity.fcm.FcmMessage;
 import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
@@ -12,6 +13,7 @@ import com.ssafy.campinity.core.repository.fcm.FcmTokenRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.FcmMessageService;
 import com.ssafy.campinity.core.utils.ErrorMessageEnum;
+import com.sun.xml.bind.v2.model.runtime.RuntimeTypeInfoSet;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.Logger;
@@ -50,21 +52,14 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .build();
         FcmMessage savedFcm = fcmMessageRepository.save(fcmMessage);
 
-        int successfulSendCnt = 0;
-        try { successfulSendCnt = makeMessageToMany(memberId, savedFcm); }
-        catch (FirebaseMessagingException e){
-            logger.warn(e.getMessage());
-            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
-        }
-        return successfulSendCnt;
+        return makeMessageToMany(memberId, savedFcm);
     }
 
     // fcm에 토큰에 push 요청 및 invalid token 삭제
-    private int makeMessageToMany(int memberId, FcmMessage savedFcm) throws FirebaseMessagingException {
+    private int makeMessageToMany(int memberId, FcmMessage savedFcm) {
 
         List<String> fcmTokenList = fcmTokenRepository.findTop500ByCampsiteUuidAndMember_IdIsNot(savedFcm.getCampsiteUuid(), memberId).stream()
                 .map(token -> token.getToken()).collect(Collectors.toList());
-        System.out.println("search tokens : " + fcmTokenList.toString());
 
         if (fcmTokenList.size() == 0) { return 0; }
 
@@ -88,7 +83,6 @@ public class FcmMessageServiceImpl implements FcmMessageService {
             if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
 
         if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
-
         return response.getSuccessCount();
     }
 
@@ -114,14 +108,8 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         else{ body.append(String.format("도와줄 캠퍼, %S 님을 찾았습니다 :)", member.getName())); }
 
         int successfulSendCnt = 0;
-        try {
-            successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage, senderTokens);
-            successfulSendCnt += makeMessageToSender(senderTokens, "매칭 성공 !", body.toString());
-        }
-        catch (FirebaseMessagingException e){
-            logger.warn(e.getMessage());
-            throw new FcmMessagingException("push message 서비스가 중단되었습니다.");
-        }
+        successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage, senderTokens);
+        successfulSendCnt += makeMessageToSender(senderTokens, "매칭 성공 !", body.toString());
 
         fcmMessage.expired();
         fcmMessage.appointMember(fcmReplyDTO.getFcmToken());
@@ -130,7 +118,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return successfulSendCnt;
     }
 
-    private int makeMessageToAppointee(String appointeeToken, FcmMessage data, List<String> senderFcmTokens) throws FirebaseMessagingException {
+    private int makeMessageToAppointee(String appointeeToken, FcmMessage data, List<String> senderFcmTokens) {
 
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addToken(appointeeToken)
@@ -148,7 +136,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return response.getSuccessCount();
     }
 
-    private int makeMessageToSender(List<String> senderTokens, String title, String body) throws FirebaseMessagingException {
+    private int makeMessageToSender(List<String> senderTokens, String title, String body) {
 
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addAllTokens(senderTokens)
@@ -169,16 +157,40 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         return response.getSuccessCount();
     }
 
-//    @Override
-//    public boolean sendLastFcmMessage(List<String> senderTokens, ) {
-//
-//        return true;
-//    }
+    @Override
+    public int sendLastFcmMessage(int memberId, LastFcmReqDTO lastFcmReqDTO) {
 
-    private BatchResponse firebaseMulticastMessaging(MulticastMessage fcmMessage) throws FirebaseMessagingException {
-        return FirebaseMessaging.getInstance().sendMulticast(fcmMessage);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+
+        MulticastMessage fcmMessage = MulticastMessage.builder()
+                .addAllTokens(lastFcmReqDTO.getSenderTokens())
+                .setNotification(Notification.builder().setTitle("매칭된 캠퍼로부터 메세지입니다 :)").setBody(lastFcmReqDTO.getBody()).build())
+                .putData("title", "매칭된 캠퍼로부터 메세지입니다 :)")
+                .putData("body", lastFcmReqDTO.getBody())
+                .build();
+
+        BatchResponse response = firebaseMulticastMessaging(fcmMessage);
+        int resSize = response.getResponses().size();
+        List<String> invalidTokens = new ArrayList<>();
+
+        for (int i = 0; i < resSize; i++)
+            if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(lastFcmReqDTO.getSenderTokens().get(i));
+
+        if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
+
+        return response.getSuccessCount();
     }
 
+    private BatchResponse firebaseMulticastMessaging(MulticastMessage fcmMessage)  {
+        try {
+            return FirebaseMessaging.getInstance().sendMulticast(fcmMessage);
+        }
+        catch(Exception e){
+            logger.warn(e.getMessage());
+            throw new FcmMessagingException(ErrorMessageEnum.FCMEMSSAGING_ERROR.getMessage());
+        }
+    }
 
     //  유효하지 않는 토큰 삭제
     private void deleteInvalidToken(List<String> invalidTokens){
