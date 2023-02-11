@@ -1,6 +1,7 @@
 package com.ssafy.campinity.data.remote.service
 
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMMessageRequest
+import com.ssafy.campinity.data.remote.datasource.fcm.FCMReplyRequest
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMTokenRequest
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMTokenResponse
 import retrofit2.http.Body
@@ -17,4 +18,7 @@ interface FCMApiService {
 
     @POST("/api/v9/fcm/to-many")
     suspend fun createHelpNote(@Body body: FCMMessageRequest): Int
+
+    @POST("/api/v9/fcm/reply")
+    suspend fun replyHelp(@Body body: FCMReplyRequest): Int?
 }

@@ -4,6 +4,7 @@ import com.ssafy.campinity.common.util.wrapToResource
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMMessageRequest
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMRemoteDataSource
+import com.ssafy.campinity.data.remote.datasource.fcm.FCMReplyRequest
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMTokenRequest
 import com.ssafy.campinity.domain.entity.fcm.FCMToken
 import com.ssafy.campinity.domain.repository.FCMRepository
@@ -27,5 +28,10 @@ class FCMRepositoryImpl @Inject constructor(
     override suspend fun createHelpNote(body: FCMMessageRequest): Resource<Int> =
         wrapToResource(Dispatchers.IO) {
             fcmRemoteDataSource.createHelpNote(body)
+        }
+
+    override suspend fun replyHelp(body: FCMReplyRequest): Resource<Int?> =
+        wrapToResource(Dispatchers.IO) {
+            fcmRemoteDataSource.replyHelp(body)
         }
 }
