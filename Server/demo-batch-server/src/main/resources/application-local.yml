@@ -1,14 +1,11 @@
 spring:
   batch-db:
     datasource:
-      jdbc-url: jdbc:mariadb://database:3306/batch
+      jdbc-url: jdbc:mariadb://database:3306/batch  #test코드 실행할 때는 localhost로 변경
       username: root
       password: root
   campinity-db:
     datasource:
-      jdbc-url: jdbc:mariadb://database:3306/campinity
+      jdbc-url: jdbc:mariadb://database:3306/campinity  #test코드 실행할 때는 localhost로 변경
       username: root
       password: root
-
-  redis:
-    host: redis_boot

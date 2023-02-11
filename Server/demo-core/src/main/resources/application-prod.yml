@@ -5,10 +5,6 @@ spring:
     username: server
     password: ssafy123!
 
-  redis:
-    host: redis_boot
-    port: 6379
-
   jpa:
     hibernate:
       ddl-auto: none
