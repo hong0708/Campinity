@@ -19,7 +19,6 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 
 @Configuration
-@ConfigurationProperties(prefix="spring.campinity-db.datasource")
 @PropertySource({"classpath:application.yml"})
 @EnableJpaRepositories(
         basePackages = "com.ssafy.campinity.core.repository",
