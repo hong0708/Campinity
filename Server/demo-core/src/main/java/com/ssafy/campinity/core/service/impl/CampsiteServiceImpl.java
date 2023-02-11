@@ -74,11 +74,16 @@ public class CampsiteServiceImpl implements CampsiteService {
                 return image.getImagePath();
             }).collect(Collectors.toList());
 
+            List<String> thumbnails = camp.getImages().stream().map(image -> {
+                return image.getThumbnailImage();
+            }).collect(Collectors.toList());
+
             boolean isScraped = camp.getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getMember().getId() == memberId);
 
             int messageCnt = camp.getMessages().size();
 
-            results.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).images(images).build());
+            results.add(CampsiteListResDTO.builder().camp(camp).isScraped(isScraped)
+                    .thumbnails(thumbnails).messageCnt(messageCnt).images(images).build());
 
             if (results.size() >= 100) {
                 break;
@@ -108,7 +113,12 @@ public class CampsiteServiceImpl implements CampsiteService {
                 return image.getImagePath();
             }).collect(Collectors.toList());
 
-            return CampsiteListResDTO.builder().camp(camp).isScraped(isScraped).messageCnt(messageCnt).images(images).build();
+            List<String> thumbnails = camp.getImages().stream().map(image -> {
+                return image.getThumbnailImage();
+            }).collect(Collectors.toList());
+
+            return CampsiteListResDTO.builder().camp(camp).isScraped(isScraped)
+                    .thumbnails(thumbnails).messageCnt(messageCnt).images(images).build();
         }).collect(Collectors.toList());
 
         return results;
@@ -123,11 +133,16 @@ public class CampsiteServiceImpl implements CampsiteService {
             return image.getImagePath();
         }).collect(Collectors.toList());
 
+        List<String> thumbnails = camp.getImages().stream().map(image -> {
+            return image.getThumbnailImage();
+        }).collect(Collectors.toList());
+
         boolean isScraped = camp.getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getMember().getId() == memberId);
 
         int messageCnt = camp.getMessages().size();
 
-        return CampsiteListResDTO.builder().camp(camp).images(images).isScraped(isScraped).messageCnt(messageCnt).build();
+        return CampsiteListResDTO.builder().camp(camp).images(images).isScraped(isScraped)
+                .thumbnails(thumbnails).messageCnt(messageCnt).build();
     }
 
     @Override

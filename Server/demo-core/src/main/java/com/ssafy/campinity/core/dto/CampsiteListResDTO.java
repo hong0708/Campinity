@@ -28,10 +28,12 @@ public class CampsiteListResDTO {
 
     private List<String> images;
 
+    private List<String> thumbnails;
+
     private int messageCnt;
 
     @Builder
-    public CampsiteListResDTO(Campsite camp, Boolean isScraped, int messageCnt, List<String> images) {
+    public CampsiteListResDTO(Campsite camp, Boolean isScraped, int messageCnt, List<String> images, List<String> thumbnails) {
         this.isScraped = isScraped;
         this.campsiteId = camp.getUuid().toString();
         this.campName = camp.getCampName();
@@ -41,5 +43,6 @@ public class CampsiteListResDTO {
         this.messageCnt = messageCnt;
         this.doName = camp.getDoName();
         this.sigunguName = camp.getSigunguName();
+        this.thumbnails = thumbnails;
     }
 }
