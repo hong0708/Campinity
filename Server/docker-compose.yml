@@ -14,9 +14,9 @@ services:
         source: data-volume
         target: /var/lib/mysql
     environment:
-      - MYSQL_DATABASE=campinity
-      - MYSQL_USER=server
-      - MYSQL_ROOT_HOST=localhost
+      - MYSQL_DATABASE_1=campinity
+      - MYSQL_DATABASE_2=batch
+      - MYSQL_ROOT_PASSWORD=ssafy1308!
     command: ['--character-set-server=utf8mb4',
               '--collation-server=utf8mb4_unicode_ci']
     ports:
@@ -40,6 +40,26 @@ services:
       options:
         max-file: "5"
         max-size: "100m"
+
+  batch-server:
+    build: ./demo-batch-server
+    environment:
+      SPRING_BATCH_DB_DATASOURCE_URL: jdbc:mariadb://database:3306/batch?useUnicode=true
+      SPRING_BATCH_DB_DATASOURCE_USERNAME: server
+      SPRING_BATCH_DB_DATASOURCE_PASSWORD: ssafy123!
+      SPRING_CAMPINITY_DB_DATASOURCE_URL: jdbc:mariadb://database:3306/campinity?useUnicode=true
+      SPRING_CAMPINITY_DB_DATASOURCE_USERNAME: server
+      SPRING_CAMPINITY_DATASOURCE_PASSWORD: ssafy123!
+    ports:
+      - 8002:8002
+    depends_on:
+      - database
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "100m"
+
   redis:
     image: redis:alpine
     command: redis-server --port 6379
