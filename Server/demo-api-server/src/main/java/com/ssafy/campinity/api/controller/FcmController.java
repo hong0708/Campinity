@@ -8,6 +8,7 @@ import com.ssafy.campinity.api.dto.req.SubscribeCamReqDTO;
 import com.ssafy.campinity.core.dto.FcmMessageReqDTO;
 import com.ssafy.campinity.core.dto.FcmReplyDTO;
 import com.ssafy.campinity.core.dto.FcmTokenResDTO;
+import com.ssafy.campinity.core.dto.LastFcmReqDTO;
 import com.ssafy.campinity.core.service.FcmMessageService;
 import com.ssafy.campinity.core.service.FcmTokenService;
 import io.swagger.annotations.*;
@@ -70,23 +71,36 @@ public class FcmController {
             ) {
 
         int successfulSendCnt = fcmMessageService.sendMessageToMany(memberDetails.getMember().getId(), fcmMessageReqDTO);
-
         return ResponseEntity.ok().body(successfulSendCnt);
     }
 
     @ApiResponses({
-            @ApiResponse(code = 200, message = ""),
+            @ApiResponse(code = 200, message = "fcm message 메세지 전송 성공시 응답"),
             @ApiResponse(code = 400, message = "입력값 또는 타입이 맞지 않을 때 응답"),
             @ApiResponse(code = 500, message = "fcm 메세지 전송이 실패했을 때 응답")
     })
-    @ApiOperation(value = "fcm Push에 대해 수신자 응답 api")
+    @ApiOperation(value = "fcm message에 대한 수신자 응답 api")
     @PostMapping("/reply")
-    public ResponseEntity<String> replyToFcm(
+    public ResponseEntity<Integer> replyToFcm(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @RequestBody FcmReplyDTO fcmReplyReqDTO
             ) {
-        fcmMessageService.replyToFcm(memberDetails.getMember().getId(), fcmReplyReqDTO);
+        int successfulSendCnt = fcmMessageService.replyToFcm(memberDetails.getMember().getId(), fcmReplyReqDTO);
+        return ResponseEntity.ok().body(successfulSendCnt);
+    }
 
-        return ResponseEntity.ok().body("성공");
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "fcm message 메세지 전송 성공시 응답"),
+            @ApiResponse(code = 400, message = "입력값 또는 타입이 맞지 않을 때 응답"),
+            @ApiResponse(code = 500, message = "fcm 메세지 전송이 실패했을 때 응답")
+    })
+    @ApiOperation(value = "수신자가 마지막으로 발신자에게 fcm 메세지를 보낼 때 api")
+    @PostMapping("/last-fcm")
+    public ResponseEntity<Integer> sendLastFcm(
+            @AuthenticationPrincipal MemberDetails memberDetails,
+            @RequestBody LastFcmReqDTO lastFcmReqDTO
+            ) {
+        int successfulSendCnt = fcmMessageService.sendLastFcmMessage(memberDetails.getMember().getId(), lastFcmReqDTO);
+        return ResponseEntity.ok().body(successfulSendCnt);
     }
 }

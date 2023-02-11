@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import javax.persistence.EntityManager;
 import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -14,6 +15,9 @@ import static org.junit.jupiter.api.Assertions.assertNotSame;
 @Transactional
 @SpringBootTest
 public class GlampFcltyRepositoryTest {
+
+    @Autowired
+    EntityManager em;
 
     @Autowired
     GlampFcltyRepository glampFcltyRepository ;
@@ -26,15 +30,16 @@ public class GlampFcltyRepositoryTest {
 
         GlampFclty glampFclty1 = glampFcltyRepository.save(glampFclty);
 
+        em.flush();
+
         assertNotNull(glampFclty1.getCreatedAt());
         assertNotNull(glampFclty1.getUpdatedAt());
 
         glampFclty1.setFcltyName("glamp2");
         GlampFclty glampFclty2 = glampFcltyRepository.save(glampFclty1);
 
-        assertNotSame(glampFclty1.getUpdatedAt(), glampFclty2.getUpdatedAt());
-
-        glampFcltyRepository.deleteAllInBatch();
+        em.flush();
+        assertNotSame(glampFclty2.getCreatedAt(), glampFclty2.getUpdatedAt());
     }
 
 }

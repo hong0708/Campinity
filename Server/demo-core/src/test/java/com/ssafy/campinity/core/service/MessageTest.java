@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -30,6 +31,7 @@ import static com.ssafy.campinity.core.entity.message.MessageCategory.REVIEW;
 import static org.junit.jupiter.api.Assertions.*;
 
 
+@Transactional
 @SpringBootTest
 public class MessageTest {
 
@@ -48,10 +50,23 @@ public class MessageTest {
     @DisplayName("message 작성 테스트")
     void postMessageTest(){
 
-        Campsite campsite = campsiteRepository.findById(1).orElseThrow();
+        Campsite campsite = Campsite.builder()
+                .address("전남 담양군 봉산면 탄금길 9-26")
+                .allowAnimal("불가능")
+                .campName("힐포인트")
+                .contentId(125423)
+                .dayOperation("평일, 주말")
+                .doName("충청남도")
+                .latitude(36.8822361)
+                .longitude(130.8338106)
+                .sigunguName("구미시")
+                .uuid(UUID.randomUUID())
+                .build();
+
+        Campsite savedCampsite = campsiteRepository.save(campsite);
 
         Member member = Member.builder()
-                .email("test@Tset.com").name("test").profileImage("")
+                .email("postMessageTest@postMessageTest.com").name("test").profileImage("")
                 .build();
 
         Member savedMember = memberRepository.save(member);
@@ -64,14 +79,14 @@ public class MessageTest {
                 .longitude(111.0)
                 .latitude(111.0)
                 .member(savedMember)
-                .campsite(campsite)
+                .campsite(savedCampsite)
                 .messageCategory("자유")
                 .build();
 
         messageRepository.save(message);
 
         Message savedMessage = messageRepository.findByUuidAndExpiredIsFalse(uuid).get();
-        Member testMember = memberRepository.findMemberByEmail("test@Tset.com").get();
+        Member testMember = memberRepository.findMemberByEmail("postMessageTest@postMessageTest.com").get();
 
         assertEquals(savedMessage.getMember().getId(), testMember.getId());
     }
@@ -138,7 +153,7 @@ public class MessageTest {
         Message message = createMessage();
 
         Member member = Member.builder()
-                .email("test1@test1.com").name("test1").profileImage("")
+                .email("likeMessageCascadeTest@likeMessageCascadeTest.com").name("test1").profileImage("")
                 .build();
         Member savedMember = memberRepository.save(member);
 
