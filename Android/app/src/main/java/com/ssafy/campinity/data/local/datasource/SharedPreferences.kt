@@ -46,6 +46,10 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("nickname", null)
         set(value) = prefs.edit().putString("nickname", value).apply()
 
+    var isSubScribing: Boolean
+        get() = prefs.getBoolean("isSubscribing", false)
+        set(value) = prefs.edit().putBoolean("isSubscribing", value).apply()
+
     fun clearPreferences() {
         prefs.edit().clear().apply()
     }

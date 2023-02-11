@@ -84,4 +84,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): SearchApiService =
         retrofit.create(SearchApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideFCMApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): FCMApiService =
+        retrofit.create(FCMApiService::class.java)
 }

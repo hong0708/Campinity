@@ -53,10 +53,12 @@ class CommunityCampsiteFragment :
     private var isTracking = false
 
     override fun initView() {
+        initToggle()
         initObserver()
         initListener()
         initRecyclerView()
         setTextWatcher()
+        setSubscribeState()
         communityCampsiteViewModel.getUserProfile()
     }
 
@@ -174,6 +176,13 @@ class CommunityCampsiteFragment :
         communityCampsiteViewModel.getCampsiteMessageDetailInfo(messageId)
     }
 
+    private fun initToggle() {
+        when(ApplicationClass.preferences.isSubScribing) {
+            true -> binding.toggleCampsite.isOn = true
+            false -> binding.toggleCampsite.isOn = false
+        }
+    }
+
     private fun initMapView() {
         if (ApplicationClass.preferences.userRecentCampsiteName == null) {
             binding.tvCampsiteCondition.text = "미 지정"
@@ -283,11 +292,23 @@ class CommunityCampsiteFragment :
 
             // 도움 주기 받기 기능 추후 추가
             fabHelp.setOnClickListener {
-                showToast("추후 추가되는 기능입니다.")
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                            "도움 주기",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             fabGetHelp.setOnClickListener {
-                showToast("추후 추가되는 기능입니다.")
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                            "도움 받기",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             fabReview.setOnClickListener {
@@ -525,6 +546,25 @@ class CommunityCampsiteFragment :
         targetLoc.longitude = lng
 
         return myLoc.distanceTo(targetLoc)
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private fun setSubscribeState() {
+        binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
+        binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
+        binding.toggleCampsite.setOnToggledListener { _, isOn ->
+            if (isOn) {
+                ApplicationClass.preferences.isSubScribing = true
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                    ApplicationClass.preferences.fcmToken.toString()
+                )
+            } else {
+                ApplicationClass.preferences.isSubScribing = false
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    "", ApplicationClass.preferences.fcmToken.toString())
+            }
+        }
     }
 
     // 이벤트 리스너

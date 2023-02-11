@@ -52,6 +52,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     override fun onResume() {
         super.onResume()
         homeViewModel.getHomeBanners()
+        homeViewModel.getHomeCollections()
     }
 
     override fun onAttach(context: Context) {

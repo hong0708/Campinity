@@ -10,8 +10,10 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
+import com.ssafy.campinity.domain.entity.fcm.FCMToken
 import com.ssafy.campinity.domain.entity.user.UserProfile
 import com.ssafy.campinity.domain.usecase.community.*
+import com.ssafy.campinity.domain.usecase.fcm.RequestSubscribeCampSiteUseCase
 import com.ssafy.campinity.domain.usecase.user.GetUserProfileUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,7 +25,8 @@ class CommunityCampsiteViewModel @Inject constructor(
     private val getCampsiteBriefInfoByUserLocationUseCase: GetCampsiteBriefInfoByUserLocationUseCase,
     private val getCampsiteMessageBriefInfoByScopeUseCase: GetCampsiteMessageBriefInfoByScopeUseCase,
     private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
-    private val getUserProfileUseCase: GetUserProfileUseCase
+    private val getUserProfileUseCase: GetUserProfileUseCase,
+    private val requestSubscribeCampSiteUseCase: RequestSubscribeCampSiteUseCase
 ) : ViewModel() {
 
     private val _campsiteBriefInfo = MutableLiveData<List<CampsiteBriefInfo>>()
@@ -137,6 +140,17 @@ class CommunityCampsiteViewModel @Inject constructor(
                     "getCampsiteMessageDetailInfo",
                     "getCampsiteMessageDetailInfo: ${value.errorMessage}"
                 )
+            }
+        }
+    }
+
+    fun subscribeCampSiteUseCase(campsiteId: String, fcmToken: String) = viewModelScope.launch {
+        when (val value = requestSubscribeCampSiteUseCase(campsiteId, fcmToken)) {
+            is Resource.Success<FCMToken> -> {
+                Log.d("getCampsiteMessageDetailInfo", "${value.data}")
+            }
+            is Resource.Error -> {
+                Log.e("getCampsiteMessageDetailInfo", "${value.errorMessage}")
             }
         }
     }

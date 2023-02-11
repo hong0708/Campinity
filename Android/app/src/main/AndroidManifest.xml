@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="28" />
@@ -87,7 +88,12 @@
 
         <activity
             android:name=".presentation.community.CommunityActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="COMMUNITY_ACTIVITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".presentation.community.note.CommunityNoteActivity"
@@ -95,6 +101,10 @@
 
         <activity
             android:name=".presentation.community.campsite.CommunityCampsiteDialogActivity"
+            android:exported="true" />
+
+        <activity
+            android:name=".presentation.community.campsite.CommunityHelpNoteActivity"
             android:exported="true" />
 
         <meta-data
