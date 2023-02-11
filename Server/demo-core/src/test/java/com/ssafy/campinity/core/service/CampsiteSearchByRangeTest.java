@@ -1,6 +1,5 @@
-package com.ssafy.campinity.api.campsite;
+package com.ssafy.campinity.core.service;
 
-import com.ssafy.campinity.api.CampinityApplication;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -12,7 +11,7 @@ import javax.transaction.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootTest(classes = CampinityApplication.class)
+@SpringBootTest
 @Transactional
 public class CampsiteSearchByRangeTest {
 

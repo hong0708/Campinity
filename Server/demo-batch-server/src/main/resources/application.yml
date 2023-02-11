@@ -13,6 +13,7 @@ spring:
       driver-class-name: org.mariadb.jdbc.Driver
 
   redis:
+    host: redis_boot
     port: 6379
 
   jpa:
