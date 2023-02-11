@@ -18,7 +18,6 @@ import java.util.HashMap;
 
 @Configuration
 @PropertySource({ "classpath:application.yml" })
-@ConfigurationProperties(prefix="spring.batch-db.datasource")
 @EnableJpaRepositories(
         basePackages = {"com.ssafy.campinity.demo.batch.repository"},
         entityManagerFactoryRef = "batchEntityManager",
