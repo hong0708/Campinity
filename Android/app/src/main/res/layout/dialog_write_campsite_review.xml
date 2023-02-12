@@ -133,7 +133,7 @@
 
 
         <TextView
-            android:id="@+id/btn_make_note_help"
+            android:id="@+id/tv_write_review_button"
             android:layout_width="0dp"
             android:layout_height="47dp"
             android:layout_marginStart="28dp"
