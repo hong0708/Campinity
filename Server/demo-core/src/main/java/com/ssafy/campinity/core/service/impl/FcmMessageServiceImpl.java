@@ -83,6 +83,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
             if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
 
         if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
+
         return response.getSuccessCount();
     }
 

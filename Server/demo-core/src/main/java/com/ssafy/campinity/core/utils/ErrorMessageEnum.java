@@ -9,7 +9,6 @@ public enum ErrorMessageEnum {
     MESSAGE_NOT_EXIST("이미 삭제 됐거나 존재하지 않은 메세지입니다."),
     FCMTOKEN_NOT_EXIST("FCM 토큰이 존재하지 않습니다."),
     FCMEMSSAGING_ERROR("FCM 서비스를 이용할 수 없습니다.");
-
     private String message;
 
     ErrorMessageEnum(String message) {

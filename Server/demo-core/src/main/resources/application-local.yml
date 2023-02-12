@@ -1,14 +1,6 @@
 spring:
   datasource:
     driver-class-name: org.mariadb.jdbc.Driver
-    url: jdbc:mariadb://database:3306/campinity
+    url: jdbc:mariadb://database:3306/campinity  #test코드 실행할 때는 localhost로 변경
     username: root
     password: root
-
-  redis:
-    host: redis_boot
-    port: 6379
-
-  jpa:
-    hibernate:
-      ddl-auto: none
