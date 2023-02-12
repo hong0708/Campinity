@@ -11,13 +11,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 public class CampsiteScrapTest {
 
     @Autowired
@@ -38,15 +41,14 @@ public class CampsiteScrapTest {
         Member member = Member.builder().name("test").uuid(UUID.randomUUID()).build();
         Member savedMember = memberRepository.save(member);
 
-        Campsite camp = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
+        Campsite campsite1 = Campsite.builder().doName("캠핑군").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite camp = campsiteRepository.save(campsite1);
 
         campsiteService.scrap(savedMember.getId(), camp.getUuid());
 
         CampsiteScrap campsiteScrap1 = campsiteScrapRepository.findByMember_idAndCampsite_id(savedMember.getId(), camp.getId()).orElseThrow(IllegalArgumentException::new);
 
         Assertions.assertThat(campsiteScrap1.getCampsite().getUuid()).isEqualTo(camp.getUuid());
-
-        campsiteService.scrap(savedMember.getId(), camp.getUuid());
 
         org.junit.jupiter.api.Assertions.assertThrows(IllegalArgumentException.class, ()-> {
             campsiteService.scrap(savedMember.getId(), camp.getUuid());
