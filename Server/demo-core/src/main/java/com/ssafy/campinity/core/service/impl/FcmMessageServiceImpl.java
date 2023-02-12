@@ -83,6 +83,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
             if(!response.getResponses().get(i).isSuccessful()) invalidTokens.add(fcmTokenList.get(i));
 
         if (invalidTokens.size() != 0) deleteInvalidToken(invalidTokens);
+
         return response.getSuccessCount();
     }
 
@@ -91,7 +92,10 @@ public class FcmMessageServiceImpl implements FcmMessageService {
     public int replyToFcm(int memberId, FcmReplyDTO fcmReplyDTO) {
 
         FcmMessage fcmMessage = fcmMessageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(fcmReplyDTO.getFcmMessageId()))
-                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.FCMMESSAGE_EXPIRED.getMessage()));
+                .orElse(null);
+        int successfulSendCnt = 0;
+
+        if (fcmMessage == null) return successfulSendCnt;
 
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
@@ -102,12 +106,11 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .collect(Collectors.toList());
 
         StringBuffer body = new StringBuffer();
-        body.append(fcmMessage.getMember().getName() + "님!\n");
+        body.append(fcmMessage.getMember().getName() + " 님!\n");
 
         if (fcmMessage.getTitle() == "도움 주기"){ body.append(String.format("도움이 필요한 캠퍼, %s 님을 찾았습니다 :)", member.getName())); }
         else{ body.append(String.format("도와줄 캠퍼, %S 님을 찾았습니다 :)", member.getName())); }
 
-        int successfulSendCnt = 0;
         successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage, senderTokens);
         successfulSendCnt += makeMessageToSender(senderTokens, "매칭 성공 !", body.toString());
 
