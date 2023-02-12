@@ -127,7 +127,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="12dp"
-                android:text="@string/button_show_more_long_content"
+                android:text="@string/content_show_more_long_content"
                 app:layout_constraintBottom_toBottomOf="@id/tv_review_content"
                 app:layout_constraintEnd_toEndOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
