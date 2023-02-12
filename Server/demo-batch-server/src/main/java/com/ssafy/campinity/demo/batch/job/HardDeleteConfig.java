@@ -28,7 +28,7 @@ import javax.persistence.PersistenceContext;
 public class HardDeleteConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
-    private final StepBuilderFactory stepBuilderFactory;
+//    private final StepBuilderFactory stepBuilderFactory;
     private final JobRepository jobRepository;
     private final CampinityDataSourceConfig campinityDataSourceConfig;
     private static Logger logger = LogManager.getLogger(HardDeleteConfig.class);

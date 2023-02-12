@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,6 +33,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
+@ActiveProfiles("test")
 public class MulticastMessageTest {
 
     @Autowired
@@ -49,7 +51,20 @@ public class MulticastMessageTest {
     @DisplayName("message 작성 테스트")
     void postMessageTest(){
 
-        Campsite campsite = campsiteRepository.findById(1).orElseThrow();
+        Campsite campsite = Campsite.builder()
+                .address("전남 담양군 봉산면 탄금길 9-26")
+                .allowAnimal("불가능")
+                .campName("힐포인트")
+                .contentId(125423)
+                .dayOperation("평일, 주말")
+                .doName("충청남도")
+                .latitude(36.8822361)
+                .longitude(130.8338106)
+                .sigunguName("구미시")
+                .uuid(UUID.randomUUID())
+                .build();
+
+        Campsite savedCampsite = campsiteRepository.save(campsite);
 
         Member member = Member.builder()
                 .email("test@Tset.com").name("test").profileImage("")

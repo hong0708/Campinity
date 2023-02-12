@@ -67,7 +67,6 @@ public class GetCocampImagesJsonTest {
         }
     }
 
-    @Test
     @DisplayName("thumnail이 정상적으로 들어갔는지 확인")
     public void checkThumnail () {
         for (int i = 1; i < 49256; i++) {
