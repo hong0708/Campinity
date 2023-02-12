@@ -166,17 +166,17 @@
     <string name="image_camping_site">캠핑장 사진입니다.</string>
     <string name="image_campsite_location">캠핑장 위치 정보</string>
     <string name="title_campsite_long_content">캠핑장 소개</string>
-    <string name="button_show_more_long_content">더보기</string>
+    <string name="content_show_more_long_content">더보기</string>
     <string name="title_additional_info">기본정보</string>
     <string name="title_campsite_oper_season">운영 기간</string>
     <string name="title_campsite_how_to_reserve">예약 방법</string>
     <string name="title_campsite_homepage_url">홈페이지</string>
     <string name="title_campsite_amenity">시설 및 레저</string>
     <string name="title_review">리뷰</string>
-    <string name="button_write_review">리뷰 작성하기</string>
+    <string name="content_write_review">리뷰 작성하기</string>
     <string name="content_campsite_review_score">점</string>
     <string name="image_campsite_score_aver">캠핑장 평균 평점입니다.</string>
-    <string name="button_show_list_review">후기 더 보기</string>
+    <string name="content_show_list_review">후기 더 보기</string>
     <string name="image_filter">필터링 선택 버튼</string>
     <string name="content_note_count">쪽지</string>
     <string name="image_review_profile">프로필 사진입니다.</string>
@@ -556,6 +556,12 @@
 
     <!-- Custom Toast -->
     <string name="image_custom_toast">image_custom_toast</string>
+    <string name="title_write_review">리뷰 작성하기</string>
+    <string name="title_review_count">별점을 선택해주세요</string>
+    <string name="image_review_count">리뷰 점수를 매기는 버튼입니다</string>
+    <string name="content_review">리뷰를 작성해주세요</string>
+    <string name="content_write_campsite_review_hint">캠핑장에 대한 리뷰를 자세하게 작성해주세요</string>
+    <string name="content_write_review_button">작성하기</string>
 
     <!-- MyPage Category Spinner -->
     <string-array name="category_array">
