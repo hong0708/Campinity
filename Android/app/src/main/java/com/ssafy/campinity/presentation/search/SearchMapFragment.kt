@@ -199,7 +199,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     }
 
     private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
-        val async = searchViewModel.getCampsiteDetailAsync(campsiteId).await()
+        val async = searchViewModel.getCampsiteDetailAsync(campsiteId)
         navigationToCampsiteDetailFragment(async)
     }
 

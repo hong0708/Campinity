@@ -49,4 +49,10 @@ class SearchRemoteDataSourceImpl @Inject constructor(
         topLeftLat,
         topLeftLng,
     )
+
+    override suspend fun writeReview(review: SearchReviewRequest): SearchReviewResponse =
+        searchApiService.writeReview(review)
+
+    override suspend fun deleteReview(reviewId: String): SearchDeleteReviewResponse =
+        searchApiService.deleteReview(reviewId)
 }

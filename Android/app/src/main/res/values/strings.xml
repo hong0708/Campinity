@@ -188,6 +188,7 @@
     <string name="title_filter_theme">테마</string>
     <string name="title_filter_pet">반려동물 동반 가능</string>
     <string name="title_filter_season">운영 계절</string>
+    <string name="content_average_rate">%.1f</string>
     <array name="content_campsite_industry">
         <item name="content_campsite_industry_1">일반야영장</item>
         <item name="content_campsite_industry_2">자동차야영장</item>
@@ -562,10 +563,17 @@
     <string name="content_review">리뷰를 작성해주세요</string>
     <string name="content_write_campsite_review_hint">캠핑장에 대한 리뷰를 자세하게 작성해주세요</string>
     <string name="content_write_review_button">작성하기</string>
+    <string name="title_delete_review">삭제하면 리뷰를\n되돌릴 수 없습니다.</string>
+    <string name="content_delete_review">리뷰 삭제 버튼입니다</string>
 
     <!-- MyPage Category Spinner -->
     <string-array name="category_array">
         <item>리뷰</item>
         <item>자유</item>
+    </string-array>
+
+    <!-- Campsite Review Item Spinner -->
+    <string-array name="review_spinner">
+        <item>삭제</item>
     </string-array>
 </resources>

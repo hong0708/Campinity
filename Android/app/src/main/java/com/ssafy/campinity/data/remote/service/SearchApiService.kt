@@ -1,11 +1,8 @@
 package com.ssafy.campinity.data.remote.service
 
 import com.ssafy.campinity.data.remote.datasource.note.NoteBriefResponse
-import com.ssafy.campinity.data.remote.datasource.search.SearchBriefResponse
-import com.ssafy.campinity.data.remote.datasource.search.SearchDetailResponse
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import com.ssafy.campinity.data.remote.datasource.search.*
+import retrofit2.http.*
 
 interface SearchApiService {
 
@@ -41,4 +38,12 @@ interface SearchApiService {
         @Query("topLeftLat") topLeftLat: Double,
         @Query("topLeftLng") topLeftLng: Double,
     ): List<NoteBriefResponse>
+
+    @POST("/api/v3/reviews")
+    suspend fun writeReview(@Body body: SearchReviewRequest): SearchReviewResponse
+
+    @DELETE("/api/v3/reviews/{reviewId}")
+    suspend fun deleteReview(
+        @Path("reviewId") reviewId: String
+    ): SearchDeleteReviewResponse
 }

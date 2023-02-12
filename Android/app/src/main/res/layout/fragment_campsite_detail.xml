@@ -478,7 +478,7 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:contentDescription="@string/image_campsite_score_aver"
-                            android:src="@drawable/ic_star_off" />
+                            android:background="@drawable/ic_star_off" />
 
                         <ImageView
                             android:id="@+id/iv_campsite_score2"
@@ -486,7 +486,7 @@
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
                             android:contentDescription="@string/image_campsite_score_aver"
-                            android:src="@drawable/ic_star_off" />
+                            android:background="@drawable/ic_star_off" />
 
                         <ImageView
                             android:id="@+id/iv_campsite_score3"
@@ -494,7 +494,7 @@
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
                             android:contentDescription="@string/image_campsite_score_aver"
-                            android:src="@drawable/ic_star_off" />
+                            android:background="@drawable/ic_star_off" />
 
                         <ImageView
                             android:id="@+id/iv_campsite_score4"
@@ -502,7 +502,7 @@
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
                             android:contentDescription="@string/image_campsite_score_aver"
-                            android:src="@drawable/ic_star_off" />
+                            android:background="@drawable/ic_star_off" />
 
                         <ImageView
                             android:id="@+id/iv_campsite_score5"
@@ -510,7 +510,7 @@
                             android:layout_height="20dp"
                             android:layout_marginStart="5dp"
                             android:contentDescription="@string/image_campsite_score_aver"
-                            android:src="@drawable/ic_star_off" />
+                            android:background="@drawable/ic_star_off" />
                     </LinearLayout>
 
                     <View
