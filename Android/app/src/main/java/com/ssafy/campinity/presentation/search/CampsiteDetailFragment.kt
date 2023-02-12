@@ -45,82 +45,90 @@ class CampsiteDetailFragment :
     }
 
     private fun initFragment() {
-        binding.btnGoBack.setOnClickListener {
-            popBackStack()
-        }
+        binding.apply {
+            btnGoBack.setOnClickListener {
+                popBackStack()
+            }
 
-        searchViewModel.campsiteData.value.let { campsiteDetailInfo ->
-            initViewPager()
-            binding.tvCampsiteIndustry.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.industries.isNotEmpty()) {
-                    campsiteDetailInfo.industries.toString(" | ")
-                } else {
-                    binding.tvCampsiteIndustry.visibility = View.GONE
-                    ""
-                }
-            binding.tvCampsiteName.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.campsiteName.isNotEmpty()) campsiteDetailInfo.campsiteName
-                else "이름 미등록 캠핑장"
-            binding.tvCampsiteShortContent.text = campsiteDetailInfo?.lineIntro
-            binding.tvCampsiteLocation.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.address.isNotEmpty()) campsiteDetailInfo.address
-                else "미등록"
-            binding.tvCampsiteCall.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.phoneNumber.isNotEmpty()) campsiteDetailInfo.phoneNumber
-                else "미등록"
-            binding.tvContentCampsiteOpenSeason.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.openSeasons.isNotEmpty()) {
-                    campsiteDetailInfo.openSeasons.toString(" | ")
-                } else {
-                    binding.tvTitleCampsiteOpenSeason.visibility = View.GONE
-                    ""
-                }
-            binding.tvContentCampsitePet.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.allowAnimal.isNotEmpty()) {
-                    campsiteDetailInfo.allowAnimal
-                } else {
-                    binding.tvTitleCampsitePet.visibility = View.GONE
-                    ""
-                }
-            binding.tvContentCampsiteHowToReserve.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.reserveType.isNotEmpty()) {
-                    campsiteDetailInfo.reserveType
-                } else {
-                    binding.tvTitleCampsiteHowToReserve.visibility = View.GONE
-                    ""
-                }
-            binding.tvContentCampsiteHomepageUrl.text =
-                if (campsiteDetailInfo != null && campsiteDetailInfo.homepage.isNotEmpty()) {
-                    campsiteDetailInfo.homepage
-                } else {
-                    binding.tvTitleCampsiteHomepageUrl.visibility = View.GONE
-                    ""
+            searchViewModel.campsiteData.value.let { campsiteDetailInfo ->
+                initViewPager()
+                tvCampsiteIndustry.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.industries.isNotEmpty()) {
+                        campsiteDetailInfo.industries.toString(" | ")
+                    } else {
+                        tvCampsiteIndustry.visibility = View.GONE
+                        ""
+                    }
+                tvCampsiteName.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.campsiteName.isNotEmpty()) campsiteDetailInfo.campsiteName
+                    else "이름 미등록 캠핑장"
+                tvCampsiteShortContent.text = campsiteDetailInfo?.lineIntro
+                tvCampsiteLocation.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.address.isNotEmpty()) campsiteDetailInfo.address
+                    else "미등록"
+                tvCampsiteCall.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.phoneNumber.isNotEmpty()) campsiteDetailInfo.phoneNumber
+                    else "미등록"
+                tvContentCampsiteOpenSeason.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.openSeasons.isNotEmpty()) {
+                        campsiteDetailInfo.openSeasons.toString(" | ")
+                    } else {
+                        tvTitleCampsiteOpenSeason.visibility = View.GONE
+                        ""
+                    }
+                tvContentCampsitePet.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.allowAnimal.isNotEmpty()) {
+                        campsiteDetailInfo.allowAnimal
+                    } else {
+                        tvTitleCampsitePet.visibility = View.GONE
+                        ""
+                    }
+                tvContentCampsiteHowToReserve.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.reserveType.isNotEmpty()) {
+                        campsiteDetailInfo.reserveType
+                    } else {
+                        tvTitleCampsiteHowToReserve.visibility = View.GONE
+                        ""
+                    }
+                tvContentCampsiteHomepageUrl.text =
+                    if (campsiteDetailInfo != null && campsiteDetailInfo.homepage.isNotEmpty()) {
+                        campsiteDetailInfo.homepage
+                    } else {
+                        tvTitleCampsiteHomepageUrl.visibility = View.GONE
+                        ""
+                    }
+                if (campsiteDetailInfo != null) {
+                    if (campsiteDetailInfo.isScraped)
+                        btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
+                    else
+                        btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
                 }
 
-            val viewTreeObserver = binding.tvCampsiteLongContent.viewTreeObserver
-            viewTreeObserver.addOnGlobalLayoutListener {
-                if (campsiteDetailInfo == null || campsiteDetailInfo.intro.isEmpty()) {
-                    binding.clCampsiteLongContent.visibility = View.GONE
-                    binding.tvCampsiteLongContent.text = ""
-                } else {
-                    binding.tvCampsiteLongContent.apply {
-                        text = campsiteDetailInfo.intro
-                        if (this.layout.getEllipsisCount(lineCount - 1) > 0) {
-                            binding.tvShowMore.setOnClickListener {
-                                it.visibility = View.GONE
-                                it.isClickable = false
-                                ellipsize = null
-                                maxLines = Int.MAX_VALUE
+                val viewTreeObserver = tvCampsiteLongContent.viewTreeObserver
+                viewTreeObserver.addOnGlobalLayoutListener {
+                    if (campsiteDetailInfo == null || campsiteDetailInfo.intro.isEmpty()) {
+                        clCampsiteLongContent.visibility = View.GONE
+                        tvCampsiteLongContent.text = ""
+                    } else {
+                        tvCampsiteLongContent.apply {
+                            text = campsiteDetailInfo.intro
+                            if (this.layout.getEllipsisCount(lineCount - 1) > 0) {
+                                tvShowMore.setOnClickListener {
+                                    it.visibility = View.GONE
+                                    it.isClickable = false
+                                    ellipsize = null
+                                    maxLines = Int.MAX_VALUE
+                                }
+                            } else {
+                                tvShowMore.visibility = View.GONE
+                                tvShowMore.isClickable = false
                             }
-                        } else {
-                            binding.tvShowMore.visibility = View.GONE
-                            binding.tvShowMore.isClickable = false
                         }
                     }
                 }
-            }
 
-            mapFacilityAndLeisureList(campsiteDetailInfo!!)
+                mapFacilityAndLeisureList(campsiteDetailInfo!!)
+            }
         }
     }
 
@@ -249,6 +257,17 @@ class CampsiteDetailFragment :
                 searchViewModel.campsiteData.value!!.campsiteId,
                 this@CampsiteDetailFragment
             ).show()
+        }
+
+        binding.btnBookmark.setOnClickListener {
+            lifecycleScope.launch {
+                val isScraped =
+                    searchViewModel.scrapCampsite(searchViewModel.campsiteData.value!!.campsiteId)
+                if (isScraped == "true")
+                    binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
+                else if (isScraped == "false")
+                    binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
+            }
         }
     }
 

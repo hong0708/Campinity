@@ -66,4 +66,9 @@ class SearchRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             searchRemoteDataSource.deleteReview(reviewId).toDomainModel()
         }
+
+    override suspend fun scrapCampsite(campsiteId: String): Resource<Boolean> =
+        wrapToResource(Dispatchers.IO){
+            searchRemoteDataSource.scrapCampsite(campsiteId).toDomainModel()
+        }
 }

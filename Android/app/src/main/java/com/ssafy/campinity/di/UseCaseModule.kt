@@ -185,4 +185,10 @@ object UseCaseModule {
     fun provideDeleteReviewUseCase(
         searchRepository: SearchRepository
     ): DeleteReviewUseCase = DeleteReviewUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideScrapCampsiteUseCase(
+        searchRepository: SearchRepository
+    ): ScrapCampsiteUseCase = ScrapCampsiteUseCase(searchRepository)
 }

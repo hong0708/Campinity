@@ -173,7 +173,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                         requireContext(),
                         searchViewModel.campsiteListData.value!![index],
                         this::navigationToSearchPostboxFragment,
-                        this::onCampsiteClickListener
+                        this::onCampsiteClickListener,
+                        this::scrapCampsite
                     ).apply {
                         window?.setGravity(Gravity.BOTTOM)
                         window?.setDimAmount(0f)
@@ -215,4 +216,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     }
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
+
+    suspend fun scrapCampsite(campsiteId: String): String =
+        searchViewModel.scrapCampsite(campsiteId)
 }

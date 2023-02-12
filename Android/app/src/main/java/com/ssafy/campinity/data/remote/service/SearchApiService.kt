@@ -46,4 +46,9 @@ interface SearchApiService {
     suspend fun deleteReview(
         @Path("reviewId") reviewId: String
     ): SearchDeleteReviewResponse
+
+    @PUT("/api/v1/campsites/scraps/{campsiteId}")
+    suspend fun scrapCampsite(
+        @Path("campsiteId") campsiteId: String
+    ): SearchScrapResponse
 }

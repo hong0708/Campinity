@@ -24,19 +24,20 @@
             android:layout_marginBottom="20dp"
             android:background="@drawable/bg_rect_white_radius20"
             android:elevation="5dp"
+            android:padding="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <!--            <androidx.appcompat.widget.AppCompatButton-->
-            <!--                android:id="@+id/btn_bookmark"-->
-            <!--                android:layout_width="20dp"-->
-            <!--                android:layout_height="20dp"-->
-            <!--                android:layout_marginTop="16dp"-->
-            <!--                android:layout_marginEnd="18dp"-->
-            <!--                android:background="@drawable/ic_bookmark_off"-->
-            <!--                app:layout_constraintEnd_toEndOf="parent"-->
-            <!--                app:layout_constraintTop_toTopOf="parent" />-->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btn_bookmark"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/ic_bookmark_off"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_postbox"
@@ -45,7 +46,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="9dp"
                 android:background="@drawable/ic_postbox"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_bookmark"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView

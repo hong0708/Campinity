@@ -32,4 +32,6 @@ interface SearchRepository {
     suspend fun writeReview(review: SearchReviewRequest): Resource<Review>
 
     suspend fun deleteReview(reviewId: String): Resource<String>
+
+    suspend fun scrapCampsite(campsiteId: String): Resource<Boolean>
 }

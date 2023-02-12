@@ -27,7 +27,8 @@ class SearchViewModel @Inject constructor(
     private val getCampsiteReviewNotesUseCase: GetCampsiteReviewNotesUseCase,
     private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
     private val writeReviewUseCase: WriteReviewUseCase,
-    private val deleteReviewUseCase: DeleteReviewUseCase
+    private val deleteReviewUseCase: DeleteReviewUseCase,
+    private val scrapCampsiteUseCase: ScrapCampsiteUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
@@ -215,7 +216,7 @@ class SearchViewModel @Inject constructor(
                 _campsiteNoteList.value = arrayList
             }
             is Resource.Error -> {
-                Log.d(
+                Log.e(
                     "getCampsiteMessageBriefInfo",
                     "getCampsiteMessageBriefInfo: ${value.errorMessage}"
                 )
@@ -230,7 +231,7 @@ class SearchViewModel @Inject constructor(
                 return@async true
             }
             is Resource.Error -> {
-                Log.d(
+                Log.e(
                     "getCampsiteMessageDetailInfo",
                     "getCampsiteMessageDetailInfo: ${value.errorMessage}"
                 )
@@ -243,7 +244,7 @@ class SearchViewModel @Inject constructor(
         when (val value = writeReviewUseCase(review)) {
             is Resource.Success<Review> -> return@async true
             is Resource.Error -> {
-                Log.d("writeReview", "writeReview: ${value.errorMessage}")
+                Log.e("writeReview", "writeReview: ${value.errorMessage}")
                 return@async false
             }
         }
@@ -253,8 +254,18 @@ class SearchViewModel @Inject constructor(
         when (val value = deleteReviewUseCase(reviewId)) {
             is Resource.Success<String> -> return@async true
             is Resource.Error -> {
-                Log.d("deleteReview", "deleteReview: ${value.errorMessage}")
+                Log.e("deleteReview", "deleteReview: ${value.errorMessage}")
                 return@async false
+            }
+        }
+    }.await()
+
+    suspend fun scrapCampsite(campsiteId: String) = viewModelScope.async {
+        when (val value = scrapCampsiteUseCase(campsiteId)) {
+            is Resource.Success<Boolean> -> return@async value.data.toString()
+            is Resource.Error -> {
+                Log.e("scrapCampsite", "scrapCampsite: ${value.errorMessage}")
+                return@async "error"
             }
         }
     }.await()

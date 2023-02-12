@@ -55,4 +55,7 @@ class SearchRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun deleteReview(reviewId: String): SearchDeleteReviewResponse =
         searchApiService.deleteReview(reviewId)
+
+    override suspend fun scrapCampsite(campsiteId: String): SearchScrapResponse =
+        searchApiService.scrapCampsite(campsiteId)
 }
