@@ -37,7 +37,6 @@ spring:
     live:
       atk : 12096000000 # 2WN
       rtk : 12096000000  #2주
-
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -45,6 +44,7 @@ spring:
   redis:
     host: redis_boot
     port: 6379
+    password: campinity1308!
 
 logging:
   config: classpath:log4j2.yml
