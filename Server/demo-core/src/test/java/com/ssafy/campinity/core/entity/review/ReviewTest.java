@@ -10,12 +10,15 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 public class ReviewTest {
 
     @Autowired
@@ -30,12 +33,14 @@ public class ReviewTest {
     @Test
     @DisplayName("review 글 작성 및 삭제 테스트")
     public void reviewTest (){
-        Campsite campsite = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
+        Campsite campsite = Campsite.builder().doName("캠핑군").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite savedCampsite = campsiteRepository.save(campsite);
+
         Member member = Member.builder().uuid(UUID.randomUUID()).name("test").build();
         Member savedMember = memberRepository.save(member);
 
         Review review = Review.builder().uuid(UUID.randomUUID()).rate(5).
-                content("test용 게시글입니다. ").member(member).campsite(campsite).build();
+                content("test용 게시글입니다. ").member(member).campsite(savedCampsite).build();
 
         Review savedReview = reviewRepository.save(review);
         Assertions.assertThat(savedReview.getExpired()).isEqualTo(false);
