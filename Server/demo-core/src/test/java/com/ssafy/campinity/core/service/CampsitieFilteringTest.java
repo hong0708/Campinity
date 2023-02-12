@@ -14,6 +14,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.FileNotFoundException;
@@ -24,6 +25,7 @@ import java.util.UUID;
 
 @Transactional
 @SpringBootTest
+@ActiveProfiles("test")
 public class CampsitieFilteringTest {
 
     @Autowired
@@ -143,7 +145,7 @@ public class CampsitieFilteringTest {
         Member member = Member.builder().name("lmj").build();
         Member savedMember = memberRepository.save(member);
 
-        List<CampsiteListResDTO> result1 = campsiteService.getCampsiteListByFiltering("", "캠핑군 ", new String[0], new String[0],
+        List<CampsiteListResDTO> result1 = campsiteService.getCampsiteListByFiltering("", "캠핑군", new String[0], new String[0],
                 new String[0], new String[0], new String[0], new String[0], new String[0], savedMember.getId());
 
         Assertions.assertThat(result1.size()).isEqualTo(1);
