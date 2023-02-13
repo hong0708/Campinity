@@ -3,11 +3,14 @@ package com.ssafy.campinity.presentation.onboarding
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
+import com.gun0912.tedpermission.PermissionListener
+import com.gun0912.tedpermission.normal.TedPermission
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.Permission
@@ -33,7 +36,7 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
         //checkPermission()
 
         binding.apply {
-            setButtonView()
+            //setButtonView()
 
             /*if (ContextCompat.checkSelfPermission(
                     requireContext(),
@@ -54,6 +57,18 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
             } else {
                 ivCheckPhoto.setImageResource(R.drawable.ic_permission_check_false)
             }*/
+        }
+
+        binding.apply {
+            btnConfirm.setOnClickListener {
+
+                if (ApplicationClass.preferences.isLoggedIn) {
+                    navigate(actionTrue)
+                } else {
+                    navigate(actionFalse)
+                }
+
+            }
         }
     }
 
@@ -128,7 +143,7 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
                 ) {
                     /*ivCheckPhoto.setImageResource(R.drawable.ic_permission_check_true)*/
                     onBoardingViewModel.checkPhotoPermission(true)
-                    setButtonView()
+                    //setButtonView()
                 } else {
                     ActivityCompat.requestPermissions(
                         requireActivity(),
@@ -148,7 +163,7 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
                 ) {
                     /*ivCheckLocation.setImageResource(R.drawable.ic_permission_check_true)*/
                     onBoardingViewModel.checkLocationPermission(true)
-                    setButtonView()
+                    //setButtonView()
                 } else {
                     ActivityCompat.requestPermissions(
                         requireActivity(),
@@ -171,7 +186,7 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun checkPermission1() {
-        /*TedPermission.create()
+        TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
                     Log.d("permission11", "onPermissionGranted: ")
@@ -182,18 +197,18 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
                     Log.d("permission11", "onPermissionDenied: ${deniedPermissions.toString()}")
                 }
             })
-            *//*.setRationaleMessage("위치 정보 제공이 필요한 서비스입니다.")*//*
+            /*.setRationaleMessage("위치 정보 제공이 필요한 서비스입니다.")*/
             .setDeniedMessage("권한을 허용해주세요. [권한] > [위치]")
             .setDeniedCloseButtonText("닫기")
             .setGotoSettingButtonText("설정")
-            *//*.setRationaleTitle("Campinity")*//*
+            /*.setRationaleTitle("Campinity")*/
             .setPermissions(
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ).check()*/
+            ).check()
 
-        if (ContextCompat.checkSelfPermission(
+        /*if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
@@ -213,6 +228,6 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
                 ),
                 Permission.ACCESS_FINE_LOCATION
             )
-        }
+        }*/
     }
 }

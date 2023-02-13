@@ -3,7 +3,9 @@ package com.ssafy.campinity.presentation.community.campsite
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
@@ -19,18 +21,17 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.gun0912.tedpermission.PermissionListener
-import com.gun0912.tedpermission.normal.TedPermission
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
 import com.ssafy.campinity.common.util.CustomDialogInterface
-import com.ssafy.campinity.common.util.Permission
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
+import com.ssafy.campinity.domain.entity.community.UserLocation
 import com.ssafy.campinity.presentation.base.BaseFragment
+import com.ssafy.campinity.presentation.community.CommunityActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import net.daum.mf.map.api.MapPOIItem
@@ -38,6 +39,7 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
+@RequiresApi(Build.VERSION_CODES.Q)
 class CommunityCampsiteFragment :
     BaseFragment<FragmentCommunityCampsiteBinding>(R.layout.fragment_community_campsite),
     CustomDialogInterface,
@@ -57,9 +59,7 @@ class CommunityCampsiteFragment :
     private var isFabOpen = false
     private var isTracking = false
 
-    @RequiresApi(Build.VERSION_CODES.Q)
     override fun initView() {
-        //checkPermission()
         initObserver()
         initListener()
         initRecyclerView()
@@ -74,7 +74,13 @@ class CommunityCampsiteFragment :
         mapView.setPOIItemEventListener(this)
         mapView.setZoomLevel(1, true)
         binding.clCommunityMap.addView(mapView)
-        initMapView()
+
+        if (checkPermission()) {
+            initMapView()
+        }
+
+        val a = requireActivity() as CommunityActivity
+        a.startLocationBackground()
     }
 
     override fun onPause() {
@@ -498,7 +504,28 @@ class CommunityCampsiteFragment :
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
-    private fun checkPermission() {
+    private fun checkPermission(): Boolean {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+
+        val permissions: Array<String> = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
+
+        ActivityCompat.requestPermissions(requireActivity(), permissions, 0)
+        return false
+
+
         /*TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
@@ -542,6 +569,51 @@ class CommunityCampsiteFragment :
         }*/
     }
 
+    /*@Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            0 -> {
+                if (grantResults.isNotEmpty()) {
+                    var isAllGranted = true
+                    // 요청한 권한 허용/거부 상태 한번에 체크
+                    for (grant in grantResults) {
+                        if (grant != PackageManager.PERMISSION_GRANTED) {
+                            isAllGranted = false
+                            break
+                        }
+                    }
+
+                    // 요청한 권한을 모두 허용했음.
+                    if (isAllGranted) {
+                        // 다음 step으로 ~
+                    }
+                    // 허용하지 않은 권한이 있음. 필수권한/선택권한 여부에 따라서 별도 처리를 해주어야 함.
+                    else {
+                        if (!ActivityCompat.shouldShowRequestPermissionRationale(
+                                requireActivity(),
+                                Manifest.permission.ACCESS_FINE_LOCATION
+                            )
+                            || !ActivityCompat.shouldShowRequestPermissionRationale(
+                                requireActivity(),
+                                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                            )
+                        ) {
+                            // 다시 묻지 않기 체크하면서 권한 거부 되었음.
+                        } else {
+                            // 접근 권한 거부하였음.
+                        }
+                    }
+                }
+            }
+        }
+    }*/
+
     @SuppressLint("MissingPermission")
     private fun getDistance(lat: Double, lng: Double): Float {
 
@@ -572,6 +644,16 @@ class CommunityCampsiteFragment :
             newState: SlidingUpPanelLayout.PanelState?
         ) {
 
+        }
+    }
+
+    inner class GetUserLocation() : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            val action = p1!!.action
+            if (action == "test") {
+                val newUserLocation = p1.getSerializableExtra("test") as UserLocation
+                Log.d("tlqkf", "onReceive: ${newUserLocation.latitude}")
+            }
         }
     }
 }

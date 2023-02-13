@@ -98,6 +98,8 @@ dependencies {
     implementation libs.lottie
 
     implementation libs.tedpermission
+
+    implementation 'com.google.android.gms:play-services-location:20.0.0'
 }
 
 kapt {
