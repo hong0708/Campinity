@@ -1,10 +1,11 @@
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -55,6 +56,17 @@
             app:layout_constraintStart_toEndOf="@id/iv_gallery"
             app:layout_constraintTop_toTopOf="@id/iv_gallery" />
 
+        <ImageView
+            android:id="@+id/iv_check_photo"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/image_permission_gallery"
+            android:src="@drawable/ic_permission_check_false"
+            app:layout_constraintStart_toEndOf="@id/tv_gallery_title"
+            app:layout_constraintTop_toTopOf="@id/iv_gallery" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -96,6 +108,17 @@
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@id/iv_location"
+            app:layout_constraintTop_toTopOf="@id/iv_location" />
+
+        <ImageView
+            android:id="@+id/iv_check_location"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginStart="5dp"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/image_permission_location"
+            android:src="@drawable/ic_permission_check_false"
+            app:layout_constraintStart_toEndOf="@id/tv_location_title"
             app:layout_constraintTop_toTopOf="@id/iv_location" />
 
         <TextView

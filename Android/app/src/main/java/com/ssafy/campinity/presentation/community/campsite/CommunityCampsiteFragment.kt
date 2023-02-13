@@ -59,7 +59,7 @@ class CommunityCampsiteFragment :
 
     @RequiresApi(Build.VERSION_CODES.Q)
     override fun initView() {
-        checkPermission()
+        //checkPermission()
         initObserver()
         initListener()
         initRecyclerView()
@@ -499,7 +499,7 @@ class CommunityCampsiteFragment :
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun checkPermission() {
-        TedPermission.create()
+        /*TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
 
@@ -511,16 +511,16 @@ class CommunityCampsiteFragment :
                     onDestroyView()
                 }
             })
-            /*.setRationaleMessage("위치 정보 제공이 필요한 서비스입니다.")*/
+            *//*.setRationaleMessage("위치 정보 제공이 필요한 서비스입니다.")*//*
             .setDeniedMessage("권한을 허용해주세요. [권한] > [위치]")
             .setDeniedCloseButtonText("닫기")
             .setGotoSettingButtonText("설정")
-            /*.setRationaleTitle("Campinity")*/
+            *//*.setRationaleTitle("Campinity")*//*
             .setPermissions(
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION
-            ).check()
+            ).check()*/
 
 
         /*if (ContextCompat.checkSelfPermission(
