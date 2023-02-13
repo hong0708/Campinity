@@ -10,6 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Transactional
 @SpringBootTest
+@ActiveProfiles("test")
 public class FcmTokenTest {
 
 
@@ -164,7 +166,7 @@ public class FcmTokenTest {
 
         // 2
         Member otherMember = Member.builder()
-                .email("other@other.com").name("other").profileImage("")
+                .email("other@other.com").name("other1").profileImage("")
                 .build();
         Member savedOther = memberRepository.save(otherMember);
 
@@ -175,7 +177,7 @@ public class FcmTokenTest {
 
         // 3
         Member newMember = Member.builder()
-                .email("other@other.com").name("other").profileImage("")
+                .email("other@other.com").name("other2").profileImage("")
                 .build();
         Member savedNew = memberRepository.save(newMember);
         String newToken = UUID.randomUUID().toString();
@@ -213,7 +215,7 @@ public class FcmTokenTest {
     void findMyFcmTokenTest(){
 
         Member member1 = Member.builder()
-                .email("test@Tset.com").name("test").profileImage("")
+                .email("test@Tset.com").name("test1").profileImage("")
                 .build();
         Member savedMember = memberRepository.save(member1);
 
@@ -223,7 +225,7 @@ public class FcmTokenTest {
         FcmToken savedFcmToken = fcmTokenRepository.save(fcmToken);
     
         Member member2 = Member.builder()
-                .email("test@Tset.com").name("test").profileImage("")
+                .email("test@Tset.com").name("test2").profileImage("")
                 .build();
         Member savedMember2 = memberRepository.save(member2);
 

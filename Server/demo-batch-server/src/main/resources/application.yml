@@ -15,6 +15,7 @@ spring:
   redis:
     host: redis_boot
     port: 6379
+    password: campinity1308!
 
   jpa:
     hibernate:

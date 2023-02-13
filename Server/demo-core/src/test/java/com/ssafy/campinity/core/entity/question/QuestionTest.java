@@ -12,13 +12,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 public class QuestionTest {
 
     @Autowired
@@ -36,11 +39,13 @@ public class QuestionTest {
     @Test
     @DisplayName("question 및 answer 생성 테스트")
     public void questionCreateAndDeleteTest (){
-        Campsite campsite = campsiteRepository.findById(1).orElseThrow(IllegalArgumentException::new);
+        Campsite campsite = Campsite.builder().doName("캠핑군").uuid(UUID.randomUUID()).messages(new ArrayList<>()).build();
+        Campsite savedCampsite = campsiteRepository.save(campsite);
+
         Member member = Member.builder().uuid(UUID.randomUUID()).name("test").build();
         Member savedMember = memberRepository.save(member);
 
-        Question question = Question.builder().uuid(UUID.randomUUID()).content("testtest").member(member).campsite(campsite).build();
+        Question question = Question.builder().uuid(UUID.randomUUID()).content("testtest").member(member).campsite(savedCampsite).build();
 
         Question savedQuestion = questionRepository.save(question);
 
