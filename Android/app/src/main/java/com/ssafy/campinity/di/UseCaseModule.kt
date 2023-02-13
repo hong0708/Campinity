@@ -203,12 +203,6 @@ object UseCaseModule {
 
     @Singleton
     @Provides
-    fun provideRequestReplyHelpUseCase(
-        fcmRepository: FCMRepository
-    ): RequestReplyHelpUseCase = RequestReplyHelpUseCase(fcmRepository)
-
-    @Singleton
-    @Provides
     fun provideScrapCurationUseCase(
         curationRepository: CurationRepository
     ): ScrapCurationUseCase = ScrapCurationUseCase(curationRepository)
