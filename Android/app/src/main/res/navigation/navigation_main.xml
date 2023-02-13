@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_homeFragment_to_myPageFragment"
             app:destination="@id/myPageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_campsiteDetailFragment"
+            app:destination="@id/campsiteDetailFragment" />
     </fragment>
 
     <fragment
@@ -172,6 +175,16 @@
         android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
         android:label="CreateCollectionFragment"
         tools:layout="@layout/fragment_create_collection" />
+
+    <fragment
+        android:id="@+id/campsiteDetailFragment"
+        android:name="com.ssafy.campinity.presentation.search.CampsiteDetailFragment"
+        android:label="CampsiteDetailFragment"
+        tools:layout="@layout/fragment_campsite_detail">
+        <argument
+            android:name="campsiteId"
+            app:argType="string" />
+    </fragment>
 
     <activity
         android:id="@+id/communityActivity"

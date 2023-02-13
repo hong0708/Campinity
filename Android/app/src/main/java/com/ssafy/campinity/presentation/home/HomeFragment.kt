@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
+import com.ssafy.campinity.common.util.LinearItemDecoration
 import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.databinding.FragmentHomeBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -32,6 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
     private val homeCollectionAdapter by lazy { HomeCollectionAdapter(this::getCollection) }
+    private val homeCampsiteAdapter by lazy { HomeCampingSiteAdapter(this::getCampsite) }
     private val handler = Handler(Looper.getMainLooper()) {
         setPage()
         true
@@ -46,6 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         initListener()
         initCollection()
         initBanner()
+        initRankingCampsite()
         initObserver()
     }
 
@@ -53,6 +56,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         super.onResume()
         homeViewModel.getHomeBanners()
         homeViewModel.getHomeCollections()
+        homeViewModel.getHighestCampsites()
+        homeViewModel.getHottestCampsites()
     }
 
     override fun onAttach(context: Context) {
@@ -114,10 +119,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         homeViewModel.homeCollections.observe(viewLifecycleOwner) { response ->
             response?.let {
                 if (response.isEmpty()) {
-                    binding.rvCollectionHome.visibility = View.GONE
+                    binding.rvCollectionHome.visibility = View.INVISIBLE
                     binding.clEmptyCollection.visibility = View.VISIBLE
                 } else {
-                    binding.clEmptyCollection.visibility = View.GONE
+                    binding.clEmptyCollection.visibility = View.INVISIBLE
                     homeCollectionAdapter.setCollection(response)
                 }
             }
@@ -141,6 +146,30 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         thread.start()
     }
 
+    private fun initRankingCampsite() {
+        binding.rvPopularCampingSite.apply {
+            adapter = homeCampsiteAdapter
+            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL,15))
+        }
+        homeViewModel.hottestCampsites.observe(viewLifecycleOwner) { response ->
+            response?.let {
+                homeCampsiteAdapter.setCampsite(response)
+            }
+        }
+        homeViewModel.getHottestCampsites()
+
+        binding.rvScoreCampingSite.apply {
+            adapter = homeCampsiteAdapter
+            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL,15))
+        }
+        homeViewModel.highestCampsites.observe(viewLifecycleOwner) { response ->
+            response?.let {
+                homeCampsiteAdapter.setCampsite(response)
+            }
+        }
+        homeViewModel.getHighestCampsites()
+    }
+
     private fun getCurationDetail(curationId: String) {
         navigate(
             HomeFragmentDirections.actionHomeFragmentToCurationDetailFragment(curationId)
@@ -157,6 +186,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         navigate(
             HomeFragmentDirections.actionHomeFragmentToCollectionDetailFragment(
                 collectionId
+            )
+        )
+    }
+
+    private fun getCampsite(campsiteId: String) {
+        navigate(
+            HomeFragmentDirections.actionHomeFragmentToCampsiteDetailFragment(
+                campsiteId
             )
         )
     }

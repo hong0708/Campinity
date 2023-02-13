@@ -6,11 +6,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemHomeCampingSiteBinding
-import com.ssafy.campinity.domain.entity.home.HomeCampingSite
+import com.ssafy.campinity.domain.entity.home.RankingCampsiteItem
 
-class HomeCampingSiteAdapter(private val datas: ArrayList<HomeCampingSite>) :
+class HomeCampingSiteAdapter(private val onItemClicked: (campsiteId: String) -> Unit) :
     RecyclerView.Adapter<CampingSiteViewHolder>() {
 
+    private var items: List<RankingCampsiteItem> = listOf()
     lateinit var binding: ItemHomeCampingSiteBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CampingSiteViewHolder {
@@ -20,22 +21,31 @@ class HomeCampingSiteAdapter(private val datas: ArrayList<HomeCampingSite>) :
             parent,
             false
         )
-        return CampingSiteViewHolder(binding)
+        return CampingSiteViewHolder(binding, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: CampingSiteViewHolder, position: Int) {
         val viewHolder: CampingSiteViewHolder = holder
-        viewHolder.onBind(datas[position])
+        viewHolder.onBind(items[position])
     }
 
-    override fun getItemCount(): Int = datas.size
+    override fun getItemCount(): Int = items.size
+
+    fun setCampsite(campsiteItem: List<RankingCampsiteItem>) {
+        this.items = campsiteItem
+        notifyDataSetChanged()
+    }
+
 }
 
-class CampingSiteViewHolder(val binding: ItemHomeCampingSiteBinding) :
-    RecyclerView.ViewHolder(binding.root) {
-    fun onBind(datas: HomeCampingSite) {
-        binding.ivHomeCampingSite.setImageResource(datas.img)
-        binding.tvTitleHomeCampingSite.text = datas.title
-        binding.tvLocationHomeCampingSite.text = datas.location
+class CampingSiteViewHolder(
+    val binding: ItemHomeCampingSiteBinding,
+    private val onItemClicked: (campsiteId: String) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
+    fun onBind(data: RankingCampsiteItem) {
+        binding.rankingCampsite = data
+        binding.root.setOnClickListener {
+            onItemClicked(data.campsiteId)
+        }
     }
 }

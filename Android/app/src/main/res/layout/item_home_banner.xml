@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:contentDescription="@string/image_home_banner"
             android:normalImgUri="@{homeBanner.firstImagePath}"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             app:srcCompat="@drawable/bg_home_banner" />
 
         <TextView

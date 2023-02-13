@@ -13,6 +13,7 @@ import com.ssafy.campinity.domain.usecase.fcm.CreateHelpNoteUseCase
 import com.ssafy.campinity.domain.usecase.fcm.RequestRenewTokenUseCase
 import com.ssafy.campinity.domain.usecase.fcm.RequestSubscribeCampSiteUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
+import com.ssafy.campinity.domain.usecase.home.GetRankingCampsiteUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
@@ -198,4 +199,10 @@ object UseCaseModule {
     fun provideScrapCurationUseCase(
         curationRepository: CurationRepository
     ): ScrapCurationUseCase = ScrapCurationUseCase(curationRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetRankingCampsiteUseCase(
+        homeRepository: HomeRepository
+    ): GetRankingCampsiteUseCase = GetRankingCampsiteUseCase(homeRepository)
 }
