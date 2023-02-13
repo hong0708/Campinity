@@ -50,6 +50,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .latitude(req.getLatitude())
                 .member(member)
                 .build();
+
         FcmMessage savedFcm = fcmMessageRepository.save(fcmMessage);
 
         return makeMessageToMany(memberId, savedFcm);
@@ -100,16 +101,17 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
 
+        String campsiteId = fcmMessage.getCampsiteUuid();
         List<String> senderTokens = fcmMessage.getMember().getFcmTokenList().stream().filter(token ->
-                        token.getCampsiteUuid().equals(fcmMessage.getCampsiteUuid()))
+                        token.getCampsiteUuid() != null && token.getCampsiteUuid().equals(campsiteId))
                 .map(FcmToken::getToken)
                 .collect(Collectors.toList());
 
+        if (senderTokens.size() == 0) throw new FcmMessagingException("알 수 없는 원인으로 이벤트가 만료됐습니다.");
+
         StringBuffer body = new StringBuffer();
         body.append(fcmMessage.getMember().getName() + " 님!\n");
-
-        if (fcmMessage.getTitle() == "도움 주기"){ body.append(String.format("도움이 필요한 캠퍼, %s 님을 찾았습니다 :)", member.getName())); }
-        else{ body.append(String.format("도와줄 캠퍼, %S 님을 찾았습니다 :)", member.getName())); }
+        body.append(String.format("도움이 필요한 캠퍼, %s 님을 찾았습니다 :)", member.getName()));
 
         successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage, senderTokens);
         successfulSendCnt += makeMessageToSender(senderTokens, "매칭 성공 !", body.toString());
@@ -126,7 +128,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addToken(appointeeToken)
                 .setNotification(Notification.builder().setTitle(data.getTitle()).setBody(data.getHiddenBody()).build())
-                .putData("title", data.getTitle())
+                .putData("title", "도움 줄 캠퍼의 위치입니다.")
                 .putData("body", data.getHiddenBody())
                 .putData("longitude", data.getLongitude().toString())
                 .putData("latitude", data.getLatitude().toString())
