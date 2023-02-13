@@ -178,7 +178,11 @@ public class CampsiteServiceImpl implements CampsiteService {
             return image.getImagePath();
         }).collect(Collectors.toList());
 
-        return CampsiteDetailResDTO.builder().camp(campsite).member(member).images(images).reviews(reviewDTOLists).build();
+        List<String> thumbnail_images = campsiteImageRepository.findByCampsite_id(campsite.getId()).stream().map(image -> {
+            return image.getThumbnailImage();
+        }).collect(Collectors.toList());
+
+        return CampsiteDetailResDTO.builder().camp(campsite).member(member).images(images).reviews(reviewDTOLists).thumbnail_images(thumbnail_images).build();
     }
 
     @Override
