@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.campinity.core.dto.CampsiteRankingResDTO;
 import com.ssafy.campinity.core.repository.redis.RedisDao;
 import com.ssafy.campinity.demo.batch.campinityRepository.CampinityCampsiteCustomRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,19 +27,16 @@ import java.util.List;
 
 @Configuration
 @Log4j2
+@RequiredArgsConstructor
 public class HottestCampsiteConfig {
 
-    @Autowired
-    private RedisDao redisDao;
+    private final RedisDao redisDao;
 
-    @Autowired
-    private JobBuilderFactory jobBuilderFactory;
+    private final JobBuilderFactory jobBuilderFactory;
 
-    @Autowired
-    private StepBuilderFactory stepBuilderFactory;
+    private final StepBuilderFactory stepBuilderFactory;
 
-    @Autowired
-    private CampinityCampsiteCustomRepository campinityCampsiteCustomRepository;
+    private final CampinityCampsiteCustomRepository campinityCampsiteCustomRepository;
 
     private static Logger logger = LogManager.getLogger(HottestCampsiteConfig.class);
 

@@ -196,6 +196,7 @@ CREATE TABLE IF NOT EXISTS `campsite_image` (
   `updated_at` datetime DEFAULT NULL,
   `image_path` varchar(255) DEFAULT NULL,
   `campsite_id` int DEFAULT NULL,
+  `thumbnail_image` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`campsite_id`) REFERENCES `campsite` (`id`)
 );
@@ -257,7 +258,10 @@ CREATE TABLE IF NOT EXISTS `fcm_message` (
   `member_id` int DEFAULT NULL,
   `appointee_token` varchar(255) DEFAULT NULL,
   `expired` bit NOT NULL,
-  `uuid` binary(255) DEFAULT NULL,
+  `uuid` char(36) DEFAULT NULL,
+  `campsite_uuid` varchar(255) DEFAULT NULL,
+  `latitude` double DEFAULT NULL,
+  `longitude` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   FOREIGN KEY (`member_id`) REFERENCES `member` (`id`)
 );

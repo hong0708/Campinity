@@ -9,4 +9,5 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @EnableBatchProcessing
 @ComponentScan("com.ssafy.campinity.core")
+@ComponentScan("com.ssafy.campinity.demo.batch.campinityRepository")
 public class TestBatchConfig {}

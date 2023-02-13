@@ -56,6 +56,7 @@ spring:
   redis:
     host: redis_boot
     port: 6379
+    password: campinity1308!
 
 logging:
   config: classpath:log4j2.yml
