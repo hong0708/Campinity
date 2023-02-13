@@ -71,7 +71,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .putData("title", savedFcm.getTitle())
                 .putData("body", savedFcm.getBody())
                 .setAndroidConfig(AndroidConfig.builder()
-                        .setNotification(AndroidNotification.builder().setClickAction("COMMUNITY_ACTIVITY").build())
+                        .setNotification(AndroidNotification.builder().setClickAction("RECEIVE_HELP_NOTE").build())
                         .setPriority(AndroidConfig.Priority.HIGH)
                         .build())
                 .build();
@@ -107,7 +107,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .map(FcmToken::getToken)
                 .collect(Collectors.toList());
 
-        if (senderTokens.size() == 0) throw new FcmMessagingException("알 수 없는 원인으로 이벤트가 만료됐습니다.");
+        if (senderTokens.size() == 0) throw new FcmMessagingException("에러로 인해 이벤트가 만료됐습니다.");
 
         StringBuffer body = new StringBuffer();
         body.append(fcmMessage.getMember().getName() + " 님!\n");
@@ -133,6 +133,10 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .putData("longitude", data.getLongitude().toString())
                 .putData("latitude", data.getLatitude().toString())
                 .putData("senderFcmTokenList", senderFcmTokens.toString())
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder().setClickAction("COMMUNITY").build())
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .build())
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);
@@ -148,6 +152,10 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .setNotification(Notification.builder().setTitle(title).setBody(body).build())
                 .putData("title", title)
                 .putData("body", body)
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder().setClickAction("COMMUNITY").build())
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .build())
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);
@@ -173,6 +181,10 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .setNotification(Notification.builder().setTitle("매칭된 캠퍼로부터 온 메세지입니다 :)").setBody(lastFcmReqDTO.getBody()).build())
                 .putData("title", "매칭된 캠퍼로부터 온 메세지입니다 :)")
                 .putData("body", lastFcmReqDTO.getBody())
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder().setClickAction("COMMUNITY").build())
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .build())
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);

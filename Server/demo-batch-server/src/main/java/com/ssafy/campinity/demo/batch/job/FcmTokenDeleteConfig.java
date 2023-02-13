@@ -1,9 +1,7 @@
 package com.ssafy.campinity.demo.batch.job;
 
-import com.ssafy.campinity.core.entity.MyCollection.MyCollection;
 import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.repository.fcm.FcmTokenRepository;
-import com.ssafy.campinity.core.repository.message.MessageRepository;
 import com.ssafy.campinity.demo.batch.config.CampinityDataSourceConfig;
 import com.ssafy.campinity.demo.batch.writer.JpaItemCustomWriter;
 import lombok.RequiredArgsConstructor;
@@ -27,13 +25,13 @@ import java.time.LocalDate;
 
 @Configuration
 @RequiredArgsConstructor
-public class TokenDeleteConfig {
+public class FcmTokenDeleteConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
-    private final StepBuilderFactory stepBuilderFactory; // db read, processor, writer
+//    private final StepBuilderFactory stepBuilderFactory; // db read, processor, writer
     private final JobRepository jobRepository; // job execution info
     private final CampinityDataSourceConfig campinityDataSourceConfig; // multi db에서 core db를 가지고 오는 config
-    private static Logger logger = LogManager.getLogger(TokenDeleteConfig.class);
+    private static Logger logger = LogManager.getLogger(FcmTokenDeleteConfig.class);
     private int chunkSize = 100;
 
     @PersistenceContext(unitName = "campinityEntityManager") // 특정 entity manager를 가져올 때 사용하는 annotation
@@ -42,21 +40,21 @@ public class TokenDeleteConfig {
 
 
     @Bean
-    public Job FcmTokenDeleteJob() {
-        return jobBuilderFactory.get("FcmTokenDeleteJob")
+    public Job fcmTokenDeleteJob() {
+        return jobBuilderFactory.get("fcmTokenDeleteJob")
                 .preventRestart()
-                .start(FcmTokenDeleteStep())
+                .start(fcmTokenDeleteStep())
                 .build();
     }
 
     @Bean
-    public Step FcmTokenDeleteStep(){
+    public Step fcmTokenDeleteStep(){
         final JpaTransactionManager tm = new JpaTransactionManager();
         tm.setDataSource(campinityDataSourceConfig.campinityDataSource());
         tm.setEntityManagerFactory(em.getEntityManagerFactory());
         StepBuilderFactory stepBuilderFactory = new StepBuilderFactory(jobRepository, tm);
 
-        return stepBuilderFactory.get("FcmTokenDeleteStep")
+        return stepBuilderFactory.get("fcmTokenDeleteStep")
                 .<FcmToken, FcmToken>chunk(chunkSize)
                 .reader(FcmTokenDeleteReader(null))
                 .writer(this.FcmTokenDeleteWriter())
@@ -76,7 +74,7 @@ public class TokenDeleteConfig {
         };
 
 
-        String query = "SELECT t FROM FcmToken t WHERE t.expiredDate >= " + LocalDate.now().toString();
+        String query = "SELECT t FROM FcmToken t WHERE t.expiredDate < " + LocalDate.now().toString();
 
         reader.setQueryString(query);
         reader.setPageSize(chunkSize);
