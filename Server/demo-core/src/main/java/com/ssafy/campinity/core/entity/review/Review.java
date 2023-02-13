@@ -31,10 +31,17 @@ public class Review extends BaseEntity {
 
     private Boolean expired;
 
+<<<<<<< Updated upstream
     @ManyToOne(cascade = {CascadeType.MERGE})
     private Member member;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
+=======
+    @ManyToOne(cascade = CascadeType.MERGE)
+    private Member member;
+
+    @ManyToOne(cascade = CascadeType.MERGE)
+>>>>>>> Stashed changes
     private Campsite campsite;
 
     @Builder

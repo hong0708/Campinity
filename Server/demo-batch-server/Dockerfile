@@ -7,5 +7,11 @@ ARG JAR_FILE=./build/libs/*.jar
 # 지정한 jar 파일을 batch.jar 라는 이름으로 Docker Container에 추가합니다.
 ADD ${JAR_FILE} batch.jar
 
+<<<<<<< Updated upstream
 # batch.jar 파일을 실행합니다.
 ENTRYPOINT ["java","-Duser.timezone=Asia/Seoul","-jar","/batch.jar"]
+=======
+# app.jar 파일을 실행합니다.
+ENTRYPOINT ["java","-jar","/batch.jar"]
+
+>>>>>>> Stashed changes
