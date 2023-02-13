@@ -57,7 +57,6 @@ object BindingAdapters {
             .load(imgUri)
             .placeholder(R.drawable.bg_image_not_found)
             .error(R.drawable.bg_image_not_found)
-            .apply(RequestOptions.bitmapTransform(RoundedCorners(15.px(context))))
             .into(this)
     }
 
