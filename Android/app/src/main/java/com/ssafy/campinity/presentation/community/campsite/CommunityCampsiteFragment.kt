@@ -51,13 +51,14 @@ class CommunityCampsiteFragment :
     private lateinit var fabList: List<ConstraintLayout>
     private lateinit var mapView: MapView
     private lateinit var callback: OnBackPressedCallback
-    private val moveValues: List<Float> = listOf(800f, 600f, 400f, 200f)
+    private val moveValues: List<Float> = listOf(600f, 400f, 200f)
     private val communityCampsiteTitleListAdapter by lazy {
         CommunityCampsiteTitleListAdapter(this::getCampsiteTitle)
     }
     private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
+    private var newUserLocation = UserLocation(0.0, 0.0)
 
     override fun initView() {
         initToggle()
@@ -259,8 +260,8 @@ class CommunityCampsiteFragment :
         binding.apply {
 
             viewList =
-                listOf(tvFabHelp, tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
-            fabList = listOf(clFabHelp, clFabGetHelp, clFabReview, clFabFreeNote)
+                listOf(tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
+            fabList = listOf(clFabGetHelp, clFabReview, clFabFreeNote)
             slCommunityFrame.addPanelSlideListener(PanelEventListener())
 
             ibBackToMain.setOnClickListener {
@@ -309,22 +310,11 @@ class CommunityCampsiteFragment :
                 communityCampsiteViewModel.getCampsiteBriefInfoByCampName()
             }
 
-            // 도움 주기 받기 기능 추후 추가
-            fabHelp.setOnClickListener {
-                navigate(
-                    CommunityCampsiteFragmentDirections
-                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
-                            "도움 주기",
-                            ApplicationClass.preferences.userRecentCampsiteId.toString()
-                        )
-                )
-            }
-
             fabGetHelp.setOnClickListener {
                 navigate(
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
-                            "도움 받기",
+                            "도움 주기",
                             ApplicationClass.preferences.userRecentCampsiteId.toString()
                         )
                 )
@@ -375,7 +365,7 @@ class CommunityCampsiteFragment :
                         eraseTv(i)
                     }
                 } else {
-                    for (i in 0..3) {
+                    for (i in 0..2) {
                         moveFab(fabList[i], moveValues[i])
                     }
                     for (i in viewList) {
@@ -573,18 +563,24 @@ class CommunityCampsiteFragment :
 
     @SuppressLint("ResourceAsColor")
     private fun setSubscribeState() {
+        val onService = requireActivity() as CommunityActivity
+
         binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
         binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
         binding.toggleCampsite.setOnToggledListener { _, isOn ->
             if (isOn) {
+
+                onService.startLocationBackground()
+                //getDistance()
+
                 ApplicationClass.preferences.isSubScribing = true
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                communityCampsiteViewModel.subscribeCampSite(
                     ApplicationClass.preferences.userRecentCampsiteId.toString(),
                     ApplicationClass.preferences.fcmToken.toString()
                 )
             } else {
                 ApplicationClass.preferences.isSubScribing = false
-                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                communityCampsiteViewModel.subscribeCampSite(
                     "", ApplicationClass.preferences.fcmToken.toString()
                 )
             }
@@ -611,8 +607,14 @@ class CommunityCampsiteFragment :
         override fun onReceive(p0: Context?, p1: Intent?) {
             val action = p1!!.action
             if (action == "test") {
-                val newUserLocation = p1.getSerializableExtra("test") as UserLocation
-                Log.d("tlqkf", "onReceive: ${newUserLocation.latitude}")
+                newUserLocation = p1.getSerializableExtra("test") as UserLocation
+
+                if (getDistance(
+                        ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
+                        ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
+                    ) < 10000){
+                    //
+                }
             }
         }
     }

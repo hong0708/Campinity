@@ -18,7 +18,7 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val getNewTokenUseCase: GetNewTokenUseCase
-) : ViewModel() {
+    ) : ViewModel() {
 
     private val _accessToken = MutableLiveData<String?>()
 
@@ -40,6 +40,7 @@ class OnBoardingViewModel @Inject constructor(
                 _accessToken.value = accessToken
                 _refreshToken.value = refreshToken
                 _isExist.value = value.data.isExist
+                ApplicationClass.preferences.isLoggedIn = true
             }
             is Resource.Error -> {
                 Log.d("requestLogin", "requestLogin: ${value.errorMessage}")

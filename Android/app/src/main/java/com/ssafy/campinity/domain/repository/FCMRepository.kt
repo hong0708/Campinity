@@ -2,6 +2,7 @@ package com.ssafy.campinity.domain.repository
 
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMMessageRequest
+import com.ssafy.campinity.data.remote.datasource.fcm.FCMReplyRequest
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMTokenRequest
 import com.ssafy.campinity.domain.entity.fcm.FCMToken
 
@@ -12,4 +13,6 @@ interface FCMRepository {
     suspend fun subscribeCampsite(body: FCMTokenRequest): Resource<FCMToken>
 
     suspend fun createHelpNote(body: FCMMessageRequest): Resource<Int>
+
+    suspend fun replyHelp(body: FCMReplyRequest): Resource<Int?>
 }
