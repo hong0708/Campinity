@@ -52,9 +52,7 @@ class CommunityHelpNoteViewModel @Inject constructor(
 
     fun replyHelp(fcmMessageId: String, fcmToken: String) = viewModelScope.launch {
         when (val value = requestReplyHelpUseCase(FCMReplyRequest(fcmMessageId, fcmToken))) {
-            is Resource.Success<Int?> -> {
-                Log.d("replyHelp", "${value.data}")
-            }
+            is Resource.Success<Int?> -> {}
             is Resource.Error -> {
                 Log.e("replyHelp", "${value.errorMessage}")
             }

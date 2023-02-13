@@ -2,7 +2,6 @@ package com.ssafy.campinity.presentation.community.campsite
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.ssafy.campinity.ApplicationClass
@@ -32,8 +31,6 @@ class ReceiveHelpNoteActivity : AppCompatActivity() {
 
     private fun initListener() {
         binding.btnReceive.setOnClickListener {
-            Log.d("reply", "fcmMessageId: ${ApplicationClass.preferences.fcmMessageId}")
-            Log.d("reply", "fcmToken: ${ApplicationClass.preferences.fcmToken}")
             viewModel.replyHelp(
                 ApplicationClass.preferences.fcmMessageId.toString(),
                 ApplicationClass.preferences.fcmToken.toString()
