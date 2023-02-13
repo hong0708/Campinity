@@ -30,6 +30,9 @@ class CommunityHelpNoteActivity : AppCompatActivity() {
     }
 
     private fun initView() {
+        binding.ivCancelHelpDialog.setOnClickListener {
+            onBackPressed()
+        }
         binding.apply {
             btnMakeNoteHelp.setOnClickListener {
                 if (etUserHelp.text.isEmpty() || etUserLocation.text.isEmpty()) {

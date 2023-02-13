@@ -1,6 +1,7 @@
 package com.ssafy.campinity.presentation.onboarding
 
 import android.util.Log
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.NavDirections
 import com.kakao.sdk.auth.model.OAuthToken
@@ -9,12 +10,14 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRequest
 import com.ssafy.campinity.databinding.FragmentOnboardingBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
+import com.ssafy.campinity.presentation.mypage.MyPageViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.fragment_onboarding) {
 
     private val onBoardingViewModel by viewModels<OnBoardingViewModel>()
+    private val myPageViewModel by activityViewModels<MyPageViewModel>()
     private val callback = initKakaoLoginCallback()
     private val actionFalse: NavDirections =
         OnBoardingFragmentDirections.actionOnBoardingFragmentToJoinFragment()
@@ -36,6 +39,7 @@ class OnBoardingFragment : BaseFragment<FragmentOnboardingBinding>(R.layout.frag
             if (onBoardingViewModel.refreshToken.value == "") {
                 onBoardingViewModel.requestLogin(AuthRequest(token.accessToken))
             }
+            myPageViewModel.getInfo()
         }
     }
 
