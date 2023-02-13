@@ -7,4 +7,6 @@ interface FCMRemoteDataSource {
     suspend fun subscribeCampsite(body: FCMTokenRequest): FCMTokenResponse
 
     suspend fun createHelpNote(body: FCMMessageRequest): Int
+
+    suspend fun replyHelp(body: FCMReplyRequest): Int?
 }
