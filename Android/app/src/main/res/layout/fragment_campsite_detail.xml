@@ -539,13 +539,14 @@
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="24dp"
-                        android:layout_marginBottom="18dp"
+                        android:layout_marginBottom="46dp"
                         app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/view_divider_write_review_to_review_list" />
 
                     <TextView
-                        android:id="@+id/btn_show_list_review"
+                        android:id="@+id/tv_show_list_review"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="18dp"
@@ -555,8 +556,7 @@
                         android:textColor="@color/zambezi"
                         android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/rv_campsite_review" />
+                        app:layout_constraintEnd_toEndOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </ScrollView>
