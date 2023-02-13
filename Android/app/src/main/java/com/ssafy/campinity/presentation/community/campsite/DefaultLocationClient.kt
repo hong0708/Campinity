@@ -20,16 +20,15 @@ class DefaultLocationClient(
     private val client: FusedLocationProviderClient
 ) : LocationClient {
     @SuppressLint("MissingPermission")
-    override fun getLocationUpdates(interval: Long): Flow<Location> {
+    override fun getLocationUpdates(time: Long): Flow<Location> {
 
         return callbackFlow {
             val locationManager =
                 context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
-
             val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
             val request =
-                LocationRequest.create().setInterval(interval).setFastestInterval(interval)
+                LocationRequest.create().setInterval(time).setFastestInterval(time)
 
 
             val locationCallback = object : LocationCallback() {
