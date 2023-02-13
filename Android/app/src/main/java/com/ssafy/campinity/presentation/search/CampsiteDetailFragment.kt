@@ -263,10 +263,13 @@ class CampsiteDetailFragment :
             lifecycleScope.launch {
                 val isScraped =
                     searchViewModel.scrapCampsite(searchViewModel.campsiteData.value!!.campsiteId)
-                if (isScraped == "true")
+                if (isScraped == "true") {
                     binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
-                else if (isScraped == "false")
+                    searchViewModel.setIsScraped(true)
+                } else if (isScraped == "false") {
                     binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
+                    searchViewModel.setIsScraped(false)
+                }
             }
         }
     }

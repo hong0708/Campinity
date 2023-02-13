@@ -60,6 +60,9 @@ class SearchViewModel @Inject constructor(
     private val _sido: MutableLiveData<String> = MutableLiveData()
     val sido: LiveData<String> = _sido
 
+    private val _isScraped: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isScraped: LiveData<Boolean> = _isScraped
+
     var filter: SearchFilterRequest = SearchFilterRequest()
     var areaList = arrayListOf<AreaListItem>()
     var industry: Array<String> = arrayOf()
@@ -148,6 +151,10 @@ class SearchViewModel @Inject constructor(
         theme = context.resources.getStringArray(R.array.content_campsite_theme)
         pet = context.resources.getStringArray(R.array.content_campsite_pet)
         season = context.resources.getStringArray(R.array.content_campsite_season)
+    }
+
+    fun setIsScraped(flag: Boolean) {
+        _isScraped.value = flag
     }
 
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {

@@ -53,6 +53,11 @@ class SearchListAdapter(
 
         fun bind(item: CampsiteBriefInfo) {
             binding.item = item
+
+            if (item.isScraped)
+                binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
+            else
+                binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
         }
 
         fun initListener(item: CampsiteBriefInfo) {
