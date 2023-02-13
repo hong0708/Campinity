@@ -1,9 +1,6 @@
 package com.ssafy.campinity.demo.batch.scheduler;
 
-import com.ssafy.campinity.demo.batch.job.HardDeleteConfig;
-import com.ssafy.campinity.demo.batch.job.HighestScoredCampsiteConfig;
-import com.ssafy.campinity.demo.batch.job.HottestCampsiteConfig;
-import com.ssafy.campinity.demo.batch.job.SoftDeleteEtcMessageConfig;
+import com.ssafy.campinity.demo.batch.job.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +13,7 @@ import org.springframework.batch.core.repository.JobExecutionAlreadyRunningExcep
 import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteException;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
+import org.springframework.batch.core.repository.*;
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +28,8 @@ public class JobScheduler {
     private final HottestCampsiteConfig hottestCampsiteConfig;
     private final HighestScoredCampsiteConfig highestScoredCampsiteConfig;
     private final HardDeleteConfig hardDeleteConfig;
+    private final FcmTokenDeleteConfig fcmTokenDeleteConfig;
+    private final FcmMessageDeleteConfig fcmMessageDeleteConfig;
     private static Logger logger = LogManager.getLogger(JobScheduler.class);
 
     @PostConstruct
@@ -107,7 +106,7 @@ public class JobScheduler {
         }
     }
 
-    @Scheduled(cron = "0 20 4 * * 2") // 매주 월요일 오전 4시 10분에 실행 0 10 4 * * 2
+    @Scheduled(cron = "0 20 4 * * 2") // 매주 월요일 오전 4시 20분에 실행 0 10 4 * * 2
     public void runHardDelete() {
         Map<String, JobParameter> jobParameterMap = new HashMap<>();
         jobParameterMap.put("time", new JobParameter(System.currentTimeMillis()));
@@ -118,6 +117,34 @@ public class JobScheduler {
         } catch (JobExecutionAlreadyRunningException | JobInstanceAlreadyCompleteException
                  | JobParametersInvalidException |
                  org.springframework.batch.core.repository.JobRestartException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    @Scheduled(cron = "0 25 4 * * *") // 매일 오전 4시 25분에 실행 0 10 4 * * 2
+    public void runTokenDelete() {
+        Map<String, JobParameter> jobParameterMap = new HashMap<>();
+        jobParameterMap.put("time", new JobParameter(System.currentTimeMillis()));
+        JobParameters jobParameters = new JobParameters(jobParameterMap);
+
+        try {
+            jobLauncher.run(fcmTokenDeleteConfig.fcmTokenDeleteJob(), jobParameters);
+        } catch (JobExecutionAlreadyRunningException | JobInstanceAlreadyCompleteException
+                 | JobParametersInvalidException | JobRestartException e) {
+            logger.error(e.getMessage());
+        }
+    }
+
+    @Scheduled(cron = "0 25 4 * * 2") // 매주 월요일 오전 4시 25분에 실행 0 10 4 * * 2
+    public void runFcmMessageDelete() {
+        Map<String, JobParameter> jobParameterMap = new HashMap<>();
+        jobParameterMap.put("time", new JobParameter(System.currentTimeMillis()));
+        JobParameters jobParameters = new JobParameters(jobParameterMap);
+
+        try {
+            jobLauncher.run(fcmMessageDeleteConfig.FcmMessageDeleteJob(), jobParameters);
+        } catch (JobExecutionAlreadyRunningException | JobInstanceAlreadyCompleteException
+                 | JobParametersInvalidException | JobRestartException e) {
             logger.error(e.getMessage());
         }
     }
