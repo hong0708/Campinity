@@ -22,4 +22,10 @@ interface SearchRemoteDataSource {
         topLeftLat: Double,
         topLeftLng: Double,
     ): List<NoteBriefResponse>
+
+    suspend fun writeReview(review: SearchReviewRequest): SearchReviewResponse
+
+    suspend fun deleteReview(reviewId: String): SearchDeleteReviewResponse
+
+    suspend fun scrapCampsite(campsiteId: String): SearchScrapResponse
 }

@@ -19,9 +19,7 @@ import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsiteReviewNotesUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
+import com.ssafy.campinity.domain.usecase.search.*
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.CreateUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.user.GetUserProfileUseCase
@@ -175,4 +173,22 @@ object UseCaseModule {
     fun provideCreateHelpNoteUseCase(
         fcmRepository: FCMRepository
     ): CreateHelpNoteUseCase = CreateHelpNoteUseCase(fcmRepository)
+
+    @Singleton
+    @Provides
+    fun provideWriteReviewUseCase(
+        searchRepository: SearchRepository
+    ): WriteReviewUseCase = WriteReviewUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideDeleteReviewUseCase(
+        searchRepository: SearchRepository
+    ): DeleteReviewUseCase = DeleteReviewUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideScrapCampsiteUseCase(
+        searchRepository: SearchRepository
+    ): ScrapCampsiteUseCase = ScrapCampsiteUseCase(searchRepository)
 }

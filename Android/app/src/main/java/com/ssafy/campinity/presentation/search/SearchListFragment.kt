@@ -35,7 +35,8 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                 requireContext(),
                 campsiteList,
                 this@SearchListFragment::onCampsiteClickListener,
-                this@SearchListFragment::navigationToSearchPostboxFragment
+                this@SearchListFragment::navigationToSearchPostboxFragment,
+                this@SearchListFragment::scrapCampsite
             )
             adapter = searchListAdapter
         }
@@ -64,7 +65,10 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
     }
 
     private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
-        val async = searchViewModel.getCampsiteDetailAsync(campsiteId).await()
+        val async = searchViewModel.getCampsiteDetailAsync(campsiteId)
         navigationToCampsiteDetailFragment(async)
     }
+
+    private suspend fun scrapCampsite(campsiteId: String): String =
+        searchViewModel.scrapCampsite(campsiteId)
 }
