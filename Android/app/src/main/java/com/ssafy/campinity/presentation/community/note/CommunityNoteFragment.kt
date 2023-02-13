@@ -51,7 +51,7 @@ class CommunityNoteFragment :
                 ).show()
             }
             ivPostBoxBack.setOnClickListener {
-                navigate(CommunityNoteFragmentDirections.actionCommunityNoteFragmentToCommunityActivity())
+                activity?.onBackPressed()
             }
         }
     }

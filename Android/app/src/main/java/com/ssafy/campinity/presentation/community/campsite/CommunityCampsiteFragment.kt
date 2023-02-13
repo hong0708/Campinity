@@ -189,16 +189,12 @@ class CommunityCampsiteFragment :
     }
 
     private fun initToggle() {
-        // 서비스 실행
-        val onService = requireActivity() as CommunityActivity
         when (ApplicationClass.preferences.isSubScribing) {
             true -> {
                 binding.toggleCampsite.isOn = true
-                onService.startLocationBackground()
             }
             false -> {
                 binding.toggleCampsite.isOn = false
-                onService.stopLocationBackground()
             }
         }
     }
@@ -564,25 +560,47 @@ class CommunityCampsiteFragment :
     @SuppressLint("ResourceAsColor")
     private fun setSubscribeState() {
         val onService = requireActivity() as CommunityActivity
+        binding.apply {
+            toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
+            toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
+            toggleCampsite.setOnToggledListener { _, isOn ->
+                if (isOn) {
+                    if (ApplicationClass.preferences.userRecentCampsiteId != null) {
+                        onService.startLocationBackground()
+                        if (getDistance(
+                                ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
+                                ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
+                            ) < 100
+                        ) {
+                            ApplicationClass.preferences.isSubScribing = true
+                            communityCampsiteViewModel.subscribeCampSite(
+                                ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                                ApplicationClass.preferences.fcmToken.toString()
+                            )
 
-        binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
-        binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
-        binding.toggleCampsite.setOnToggledListener { _, isOn ->
-            if (isOn) {
+                            showToast("현재 캠핑장 범위에 포함됩니다.")
 
-                onService.startLocationBackground()
-                //getDistance()
+                        } else {
 
-                ApplicationClass.preferences.isSubScribing = true
-                communityCampsiteViewModel.subscribeCampSite(
-                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                    ApplicationClass.preferences.fcmToken.toString()
-                )
-            } else {
-                ApplicationClass.preferences.isSubScribing = false
-                communityCampsiteViewModel.subscribeCampSite(
-                    "", ApplicationClass.preferences.fcmToken.toString()
-                )
+                            showToast("현재 해당 캠핑장 범위에 포함되는 위치가 아닙니다.")
+
+                            CoroutineScope(Dispatchers.Main).launch {
+                                toggleCampsite.isOn = false
+                            }
+                        }
+                    } else {
+                        showToast("캠핑장 설정이 필요합니다.")
+                        /*CoroutineScope(Dispatchers.Main).launch {
+                            toggleCampsite.isOn = false
+                        }*/
+                    }
+                } else {
+                    onService.stopLocationBackground()
+                    ApplicationClass.preferences.isSubScribing = false
+                    communityCampsiteViewModel.subscribeCampSite(
+                        "", ApplicationClass.preferences.fcmToken.toString()
+                    )
+                }
             }
         }
     }
@@ -612,7 +630,8 @@ class CommunityCampsiteFragment :
                 if (getDistance(
                         ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
                         ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
-                    ) < 10000){
+                    ) < 10000
+                ) {
                     //
                 }
             }
