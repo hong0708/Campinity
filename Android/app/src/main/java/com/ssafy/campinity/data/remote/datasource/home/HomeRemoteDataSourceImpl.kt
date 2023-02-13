@@ -13,4 +13,10 @@ class HomeRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getHomeCollections(): List<CollectionResponse> =
         homeApiService.getHomeCollections()
+
+    override suspend fun getHighestCampsite(): List<RankingCampsiteResponse> =
+        homeApiService.getHighestCampsite()
+
+    override suspend fun getHottestCampsite(): List<RankingCampsiteResponse> =
+        homeApiService.getHottestCampsite()
 }

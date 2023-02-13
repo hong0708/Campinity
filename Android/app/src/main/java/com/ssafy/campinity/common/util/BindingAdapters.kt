@@ -51,6 +51,17 @@ object BindingAdapters {
     }
 
     @JvmStatic
+    @BindingAdapter("android:rankingImgUri")
+    fun ImageView.setRankingImg(imgUri: String?) {
+        Glide.with(this.context)
+            .load(imgUri)
+            .placeholder(R.drawable.bg_image_not_found)
+            .error(R.drawable.bg_image_not_found)
+            .apply(RequestOptions.bitmapTransform(RoundedCorners(15.px(context))))
+            .into(this)
+    }
+
+    @JvmStatic
     @BindingAdapter("android:roundedImgUri")
     fun ImageView.setRoundedImg(imgUri: String?) {
         Glide.with(this.context)
