@@ -25,6 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 import java.util.UUID;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {FcmMessageDeleteConfig.class, TestBatchConfig.class, BatchDataSourceConfig.class, CampinityDataSourceConfig.class})
@@ -68,13 +69,13 @@ public class FcmMessageDeleteTest {
 
         Assertions.assertThat(jobExecution.getStatus()).isEqualTo(BatchStatus.COMPLETED);  // job 실행 결과가 성공인지
 
-        FcmMessage result = fcmMessageRepository.findByUuidAndExpiredIsFalse(uuid).orElse(null);
-        FcmMessage result1 = fcmMessageRepository.findByUuidAndExpiredIsFalse(uuid1).orElse(null);
-        FcmMessage result2 = fcmMessageRepository.findByUuidAndExpiredIsFalse(uuid2).orElse(null);
+        FcmMessage result = fcmMessageRepository.findByUuid(uuid).orElse(null);
+        FcmMessage result1 = fcmMessageRepository.findByUuid(uuid1).orElse(null);
+        FcmMessage result2 = fcmMessageRepository.findByUuid(uuid2).orElse(null);
 
-        Assertions.assertThat(result != null);
-        Assertions.assertThat(result1 == null);
-        Assertions.assertThat(result2 == null);
+        assertNull(result);
+        assertNotNull(result1);
+        assertNotNull(result2);
 
         fcmMessageRepository.deleteAllInBatch(List.of(savedFm, savedFm1, savedFm2));
         memberRepository.delete(savedMember);
