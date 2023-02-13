@@ -9,8 +9,10 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.databinding.ItemCampsiteDetailImageBinding
 
-class CampsiteDetailImageAdapter(private val context: Context, private val images: List<String>) :
-    RecyclerView.Adapter<CampsiteDetailImageAdapter.ViewHolder>() {
+class CampsiteDetailImageAdapter(
+    private val context: Context,
+    private val thumbnails: List<String>
+) : RecyclerView.Adapter<CampsiteDetailImageAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemCampsiteDetailImageBinding
 
@@ -24,17 +26,17 @@ class CampsiteDetailImageAdapter(private val context: Context, private val image
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         binding.ivCampsiteImage.let {
             Glide.with(it.context)
-                .load(images[position])
+                .load("http://i8d101.p.ssafy.io:8003/images${thumbnails[position]}")
                 .override(getDeviceWidthPx(context))
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(it)
         }
 
-        if (position <= images.size) {
-            val endPosition = if (position + 2 > images.size) images.size else position + 2
+        if (position <= thumbnails.size) {
+            val endPosition = if (position + 2 > thumbnails.size) thumbnails.size else position + 2
 
-            images.subList(position, endPosition).map { it }.forEach {
+            thumbnails.subList(position, endPosition).map { it }.forEach {
                 Glide.with(context)
                     .load(it)
                     .preload()
@@ -42,7 +44,7 @@ class CampsiteDetailImageAdapter(private val context: Context, private val image
         }
     }
 
-    override fun getItemCount(): Int = images.size
+    override fun getItemCount(): Int = thumbnails.size
 
     override fun getItemId(position: Int): Long = position.toLong()
 
