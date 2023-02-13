@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'org.flywaydb.flyway' version '6.4.2'
 }
 
 group = 'com.ssafy.campinity'
@@ -30,7 +31,15 @@ dependencies {
     // WebClient 사용을 위한 의존성
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
+    // flyway 설정
+    testImplementation 'org.flywaydb:flyway-core'
+
+
     implementation 'com.google.code.gson:gson:2.8.6'
+
+    implementation('org.springframework.boot:spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-security'
+    }
 
 }
 
