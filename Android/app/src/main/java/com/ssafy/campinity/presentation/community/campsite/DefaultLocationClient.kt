@@ -23,14 +23,12 @@ class DefaultLocationClient(
     override fun getLocationUpdates(time: Long): Flow<Location> {
 
         return callbackFlow {
-            val locationManager =
-                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            /*val locationManager =
+                context.getSystemService(Context.LOCATION_SERVICE) as LocationManager*/
 
-            val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+            //val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
             val request =
                 LocationRequest.create().setInterval(time).setFastestInterval(time)
-
-
             val locationCallback = object : LocationCallback() {
                 override fun onLocationResult(result: LocationResult) {
                     super.onLocationResult(result)
@@ -53,4 +51,4 @@ class DefaultLocationClient(
             }
         }
     }
-}  // End of DefaultLocationClient class
+}

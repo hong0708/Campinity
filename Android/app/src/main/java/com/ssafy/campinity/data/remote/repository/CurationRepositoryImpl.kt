@@ -22,4 +22,9 @@ class CurationRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             curationRemoteDataSource.getCuration(curationId).toDomainModel()
         }
+
+    override suspend fun scrapCuration(curationId: String): Resource<Boolean> =
+        wrapToResource(Dispatchers.IO) {
+            curationRemoteDataSource.scrapCuration(curationId).toDomainModel()
+        }
 }

@@ -99,7 +99,11 @@ dependencies {
 
     implementation libs.tedpermission
 
-    implementation 'com.google.android.gms:play-services-location:20.0.0'
+    implementation libs.location
+
+    implementation libs.work.runtime.ktx
+
+    implementation libs.toggle
 }
 
 kapt {

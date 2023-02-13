@@ -9,13 +9,11 @@ import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
+import com.ssafy.campinity.data.remote.datasource.search.SearchReviewRequest
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 import com.ssafy.campinity.domain.entity.search.*
 import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageDetailInfoUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsiteReviewNotesUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsitesByFilteringUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
+import com.ssafy.campinity.domain.usecase.search.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -27,7 +25,10 @@ class SearchViewModel @Inject constructor(
     private val getCampsitesByScopeUseCase: GetCampsitesByScopeUseCase,
     private val getCampsiteDetailUseCase: GetCampsiteDetailUseCase,
     private val getCampsiteReviewNotesUseCase: GetCampsiteReviewNotesUseCase,
-    private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase
+    private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
+    private val writeReviewUseCase: WriteReviewUseCase,
+    private val deleteReviewUseCase: DeleteReviewUseCase,
+    private val scrapCampsiteUseCase: ScrapCampsiteUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
@@ -58,6 +59,9 @@ class SearchViewModel @Inject constructor(
 
     private val _sido: MutableLiveData<String> = MutableLiveData()
     val sido: LiveData<String> = _sido
+
+    private val _isScraped: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isScraped: LiveData<Boolean> = _isScraped
 
     var filter: SearchFilterRequest = SearchFilterRequest()
     var areaList = arrayListOf<AreaListItem>()
@@ -149,6 +153,10 @@ class SearchViewModel @Inject constructor(
         season = context.resources.getStringArray(R.array.content_campsite_season)
     }
 
+    fun setIsScraped(flag: Boolean) {
+        _isScraped.value = flag
+    }
+
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {
         when (val value = getCampsitesByFilteringUseCase(filter)) {
             is Resource.Success<List<CampsiteBriefInfo>> -> {
@@ -175,7 +183,7 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    fun getCampsiteDetailAsync(campsiteId: String) = viewModelScope.async {
+    suspend fun getCampsiteDetailAsync(campsiteId: String) = viewModelScope.async {
         when (val value = getCampsiteDetailUseCase(campsiteId)) {
             is Resource.Success<CampsiteDetailInfo> -> {
                 _campsiteData.value = value.data
@@ -186,7 +194,7 @@ class SearchViewModel @Inject constructor(
                 return@async 0
             }
         }
-    }
+    }.await()
 
     fun getCampsiteReviewNotes(
         campsiteId: String,
@@ -215,7 +223,7 @@ class SearchViewModel @Inject constructor(
                 _campsiteNoteList.value = arrayList
             }
             is Resource.Error -> {
-                Log.d(
+                Log.e(
                     "getCampsiteMessageBriefInfo",
                     "getCampsiteMessageBriefInfo: ${value.errorMessage}"
                 )
@@ -230,11 +238,41 @@ class SearchViewModel @Inject constructor(
                 return@async true
             }
             is Resource.Error -> {
-                Log.d(
+                Log.e(
                     "getCampsiteMessageDetailInfo",
                     "getCampsiteMessageDetailInfo: ${value.errorMessage}"
                 )
                 return@async false
+            }
+        }
+    }.await()
+
+    suspend fun writeReview(review: SearchReviewRequest) = viewModelScope.async {
+        when (val value = writeReviewUseCase(review)) {
+            is Resource.Success<Review> -> return@async true
+            is Resource.Error -> {
+                Log.e("writeReview", "writeReview: ${value.errorMessage}")
+                return@async false
+            }
+        }
+    }.await()
+
+    suspend fun deleteReview(reviewId: String) = viewModelScope.async {
+        when (val value = deleteReviewUseCase(reviewId)) {
+            is Resource.Success<String> -> return@async true
+            is Resource.Error -> {
+                Log.e("deleteReview", "deleteReview: ${value.errorMessage}")
+                return@async false
+            }
+        }
+    }.await()
+
+    suspend fun scrapCampsite(campsiteId: String) = viewModelScope.async {
+        when (val value = scrapCampsiteUseCase(campsiteId)) {
+            is Resource.Success<Boolean> -> return@async value.data.toString()
+            is Resource.Error -> {
+                Log.e("scrapCampsite", "scrapCampsite: ${value.errorMessage}")
+                return@async "error"
             }
         }
     }.await()

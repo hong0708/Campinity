@@ -8,7 +8,12 @@ import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.community.*
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
+import com.ssafy.campinity.domain.usecase.curation.ScrapCurationUseCase
+import com.ssafy.campinity.domain.usecase.fcm.CreateHelpNoteUseCase
+import com.ssafy.campinity.domain.usecase.fcm.RequestRenewTokenUseCase
+import com.ssafy.campinity.domain.usecase.fcm.RequestSubscribeCampSiteUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
+import com.ssafy.campinity.domain.usecase.home.GetRankingCampsiteUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
@@ -16,9 +21,7 @@ import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
 import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsiteDetailUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsiteReviewNotesUseCase
-import com.ssafy.campinity.domain.usecase.search.GetCampsitesByScopeUseCase
+import com.ssafy.campinity.domain.usecase.search.*
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import com.ssafy.campinity.domain.usecase.user.CreateUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.user.GetUserProfileUseCase
@@ -155,4 +158,51 @@ object UseCaseModule {
     @Provides
     fun provideGetUserProfileUseCase(userRepository: UserRepository): GetUserProfileUseCase =
         GetUserProfileUseCase(userRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestRenewTokenUseCase(fcmRepository: FCMRepository): RequestRenewTokenUseCase =
+        RequestRenewTokenUseCase(fcmRepository)
+
+    @Singleton
+    @Provides
+    fun provideRequestSubscribeCampSiteUseCase(
+        fcmRepository: FCMRepository
+    ): RequestSubscribeCampSiteUseCase = RequestSubscribeCampSiteUseCase(fcmRepository)
+
+    @Singleton
+    @Provides
+    fun provideCreateHelpNoteUseCase(
+        fcmRepository: FCMRepository
+    ): CreateHelpNoteUseCase = CreateHelpNoteUseCase(fcmRepository)
+
+    @Singleton
+    @Provides
+    fun provideWriteReviewUseCase(
+        searchRepository: SearchRepository
+    ): WriteReviewUseCase = WriteReviewUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideDeleteReviewUseCase(
+        searchRepository: SearchRepository
+    ): DeleteReviewUseCase = DeleteReviewUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideScrapCampsiteUseCase(
+        searchRepository: SearchRepository
+    ): ScrapCampsiteUseCase = ScrapCampsiteUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideScrapCurationUseCase(
+        curationRepository: CurationRepository
+    ): ScrapCurationUseCase = ScrapCurationUseCase(curationRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetRankingCampsiteUseCase(
+        homeRepository: HomeRepository
+    ): GetRankingCampsiteUseCase = GetRankingCampsiteUseCase(homeRepository)
 }

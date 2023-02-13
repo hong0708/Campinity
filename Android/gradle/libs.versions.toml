@@ -47,6 +47,12 @@ lottie = "5.0.2"
 
 tedpermission = "3.3.0"
 
+work-runtime-ktx = "2.7.1"
+
+toggle = "1.1.0"
+
+location = "20.0.0"
+
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx_appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -84,6 +90,9 @@ firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "bom" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 tedpermission = { module = "io.github.ParkSangGwon:tedpermission-normal", version.ref = "tedpermission" }
+work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "work-runtime-ktx" }
+toggle = { module = "com.github.angads25:toggle", version.ref = "toggle" }
+location = { module = "com.google.android.gms:play-services-location", version.ref = "location"}
 
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",

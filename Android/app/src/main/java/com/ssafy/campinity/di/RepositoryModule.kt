@@ -4,6 +4,7 @@ import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.communitycampsite.CommunityRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.curation.CurationRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.fcm.FCMRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.home.HomeRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.note.NoteRemoteDataSourceImpl
@@ -74,4 +75,10 @@ object RepositoryModule {
     fun provideSearchRepository(
         searchRemoteDataSourceImpl: SearchRemoteDataSourceImpl
     ): SearchRepository = SearchRepositoryImpl(searchRemoteDataSourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideFCMRepository(
+        fcmRemoteDataSourceImpl: FCMRemoteDataSourceImpl
+    ): FCMRepository = FCMRepositoryImpl(fcmRemoteDataSourceImpl)
 }

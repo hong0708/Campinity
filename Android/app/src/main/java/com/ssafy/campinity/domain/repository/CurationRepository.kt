@@ -9,4 +9,6 @@ interface CurationRepository {
     suspend fun getCurations(curationCategory: String): Resource<List<CurationItem>>
 
     suspend fun getCuration(curationId: String): Resource<CurationDetailItem>
+
+    suspend fun scrapCuration(curationId: String): Resource<Boolean>
 }

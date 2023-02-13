@@ -6,20 +6,16 @@ import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import android.util.Log
-import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.LocationServices
-import com.ssafy.campinity.R
 import com.ssafy.campinity.domain.entity.community.UserLocation
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-import kotlin.math.log
 
 class LocationService : Service() {
 
     private lateinit var locationClient: LocationClient
-
     private val serviceScope = CoroutineScope(
         SupervisorJob() + Dispatchers.IO
     )
@@ -30,12 +26,9 @@ class LocationService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d("tlqkf", "onCreate: ")
-
         locationClient = DefaultLocationClient(
             applicationContext, LocationServices.getFusedLocationProviderClient(applicationContext)
         )
-
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -43,8 +36,6 @@ class LocationService : Service() {
             ACTION_START -> start()
             ACTION_STOP -> stop()
         }
-        Log.d("tlqkf", "onStartCommand: ")
-
         return super.onStartCommand(intent, flags, startId)
     }
 
@@ -68,24 +59,20 @@ class LocationService : Service() {
 //            }
 //        }, (1000L * 60L * 1L), (1000L * 60L * 1L))
 
-        // 15분마다 측정
+        // 15초 마다
         locationClient.getLocationUpdates(1500L).catch { exception ->
             exception.printStackTrace()
         }.onEach { location ->
-            val lat = location.latitude.toString()
-            val lon = location.longitude.toString()
+            //val lat = location.latitude.toString()
+            //val lon = location.longitude.toString()
 
             /*val updateNotification = notification.setContentText(
                 "위치를 측정 중.. $lat , $lon"
             )*/
 
-            Log.d("tlqkf", "locationClient: ")
-
             val intent = Intent("test")
             intent.putExtra("test", UserLocation(location.latitude, location.longitude))
             applicationContext.sendBroadcast(intent)
-
-            Log.d("tlqkf", "lat: $lat, lon $lon")
 
             /*CoroutineScope(Dispatchers.IO).launch {
                 EventBus.post(Coordinates(location.latitude, location.longitude))
@@ -113,4 +100,4 @@ class LocationService : Service() {
         const val ACTION_START = "ACTION_START"
         const val ACTION_STOP = "ACTION_STOP"
     }
-} // End of CoordinatesService class
+}

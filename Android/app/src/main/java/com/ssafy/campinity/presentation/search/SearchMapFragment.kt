@@ -159,15 +159,23 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
         if (p1 != null) {
             val index = p1.itemName.split(" ")[1].toInt()
-            p1.isMoveToCenterOnSelect = true
 
             if (p1.itemName.split(" ")[0] == "캠핑장") {
                 if (searchViewModel.campsiteListData.value != null) {
+                    val markerPosition =
+                        MapPoint.mapPointWithGeoCoord(
+                            searchViewModel.campsiteListData.value!![index].lat,
+                            searchViewModel.campsiteListData.value!![index].lng,
+                        )
+                    mapView.setMapCenterPoint(markerPosition, true)
+
                     CampsiteBriefDialog(
                         requireContext(),
+                        searchViewModel.isScraped.value!!,
                         searchViewModel.campsiteListData.value!![index],
                         this::navigationToSearchPostboxFragment,
-                        this::onCampsiteClickListener
+                        this::onCampsiteClickListener,
+                        this::scrapCampsite
                     ).apply {
                         window?.setGravity(Gravity.BOTTOM)
                         window?.setDimAmount(0f)
@@ -193,7 +201,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     }
 
     private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
-        val async = searchViewModel.getCampsiteDetailAsync(campsiteId).await()
+        val async = searchViewModel.getCampsiteDetailAsync(campsiteId)
         navigationToCampsiteDetailFragment(async)
     }
 
@@ -209,4 +217,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     }
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
+
+    suspend fun scrapCampsite(campsiteId: String): String =
+        searchViewModel.scrapCampsite(campsiteId)
 }

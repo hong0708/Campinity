@@ -12,4 +12,7 @@ class CurationRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getCuration(curationId: String): CurationDetailResponse =
         curationApiService.getCuration(curationId)
+
+    override suspend fun scrapCuration(curationId: String): CurationScrapResponse =
+        curationApiService.scrapCuration(curationId)
 }

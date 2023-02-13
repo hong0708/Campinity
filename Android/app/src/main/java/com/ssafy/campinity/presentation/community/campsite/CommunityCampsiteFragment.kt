@@ -60,10 +60,12 @@ class CommunityCampsiteFragment :
     private var isTracking = false
 
     override fun initView() {
+        initToggle()
         initObserver()
         initListener()
         initRecyclerView()
         setTextWatcher()
+        setSubscribeState()
         communityCampsiteViewModel.getUserProfile()
     }
 
@@ -78,9 +80,6 @@ class CommunityCampsiteFragment :
         if (checkPermission()) {
             initMapView()
         }
-
-        val a = requireActivity() as CommunityActivity
-        a.startLocationBackground()
     }
 
     override fun onPause() {
@@ -186,6 +185,21 @@ class CommunityCampsiteFragment :
 
     override fun getFreeReviewDetail(messageId: String) {
         communityCampsiteViewModel.getCampsiteMessageDetailInfo(messageId)
+    }
+
+    private fun initToggle() {
+        // 서비스 실행
+        val onService = requireActivity() as CommunityActivity
+        when (ApplicationClass.preferences.isSubScribing) {
+            true -> {
+                binding.toggleCampsite.isOn = true
+                onService.startLocationBackground()
+            }
+            false -> {
+                binding.toggleCampsite.isOn = false
+                onService.stopLocationBackground()
+            }
+        }
     }
 
     private fun initMapView() {
@@ -297,11 +311,23 @@ class CommunityCampsiteFragment :
 
             // 도움 주기 받기 기능 추후 추가
             fabHelp.setOnClickListener {
-                showToast("추후 추가되는 기능입니다.")
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                            "도움 주기",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             fabGetHelp.setOnClickListener {
-                showToast("추후 추가되는 기능입니다.")
+                navigate(
+                    CommunityCampsiteFragmentDirections
+                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                            "도움 받기",
+                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                        )
+                )
             }
 
             fabReview.setOnClickListener {
@@ -523,96 +549,9 @@ class CommunityCampsiteFragment :
         )
 
         ActivityCompat.requestPermissions(requireActivity(), permissions, 0)
+        activity?.onBackPressed()
         return false
-
-
-        /*TedPermission.create()
-            .setPermissionListener(object : PermissionListener {
-                override fun onPermissionGranted() {
-
-                }
-
-                override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
-                    showToast("권한을 허가해주세요.")
-                    Log.d("permission11", "onPermissionDenied: ${deniedPermissions.toString()}")
-                    onDestroyView()
-                }
-            })
-            *//*.setRationaleMessage("위치 정보 제공이 필요한 서비스입니다.")*//*
-            .setDeniedMessage("권한을 허용해주세요. [권한] > [위치]")
-            .setDeniedCloseButtonText("닫기")
-            .setGotoSettingButtonText("설정")
-            *//*.setRationaleTitle("Campinity")*//*
-            .setPermissions(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ).check()*/
-
-
-        /*if (ContextCompat.checkSelfPermission(
-                requireContext(),
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
-        ) {
-            initMapView()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                Permission.ACCESS_FINE_LOCATION
-            )
-            checkPermission()
-        }*/
     }
-
-    /*@Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            0 -> {
-                if (grantResults.isNotEmpty()) {
-                    var isAllGranted = true
-                    // 요청한 권한 허용/거부 상태 한번에 체크
-                    for (grant in grantResults) {
-                        if (grant != PackageManager.PERMISSION_GRANTED) {
-                            isAllGranted = false
-                            break
-                        }
-                    }
-
-                    // 요청한 권한을 모두 허용했음.
-                    if (isAllGranted) {
-                        // 다음 step으로 ~
-                    }
-                    // 허용하지 않은 권한이 있음. 필수권한/선택권한 여부에 따라서 별도 처리를 해주어야 함.
-                    else {
-                        if (!ActivityCompat.shouldShowRequestPermissionRationale(
-                                requireActivity(),
-                                Manifest.permission.ACCESS_FINE_LOCATION
-                            )
-                            || !ActivityCompat.shouldShowRequestPermissionRationale(
-                                requireActivity(),
-                                Manifest.permission.ACCESS_BACKGROUND_LOCATION
-                            )
-                        ) {
-                            // 다시 묻지 않기 체크하면서 권한 거부 되었음.
-                        } else {
-                            // 접근 권한 거부하였음.
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 
     @SuppressLint("MissingPermission")
     private fun getDistance(lat: Double, lng: Double): Float {
@@ -632,6 +571,26 @@ class CommunityCampsiteFragment :
         return myLoc.distanceTo(targetLoc)
     }
 
+    @SuppressLint("ResourceAsColor")
+    private fun setSubscribeState() {
+        binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
+        binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
+        binding.toggleCampsite.setOnToggledListener { _, isOn ->
+            if (isOn) {
+                ApplicationClass.preferences.isSubScribing = true
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                    ApplicationClass.preferences.fcmToken.toString()
+                )
+            } else {
+                ApplicationClass.preferences.isSubScribing = false
+                communityCampsiteViewModel.subscribeCampSiteUseCase(
+                    "", ApplicationClass.preferences.fcmToken.toString()
+                )
+            }
+        }
+    }
+
     // 이벤트 리스너
     inner class PanelEventListener : SlidingUpPanelLayout.PanelSlideListener {
         // 패널이 슬라이드 중일 때
@@ -647,6 +606,7 @@ class CommunityCampsiteFragment :
         }
     }
 
+    // 현재 위치 받아오는 이너 클래스
     inner class GetUserLocation() : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             val action = p1!!.action

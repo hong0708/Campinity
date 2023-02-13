@@ -28,20 +28,6 @@ class OnBoardingViewModel @Inject constructor(
     private val _isExist = MutableLiveData<Boolean?>()
     val isExist = _isExist
 
-    private val _photoPermission = MutableLiveData<Boolean>()
-    val photoPermission = _photoPermission
-
-    private val _locationPermission = MutableLiveData<Boolean>()
-    val locationPermission = _locationPermission
-
-    fun checkLocationPermission(check: Boolean) {
-        _locationPermission.value = check
-    }
-
-    fun checkPhotoPermission(check: Boolean) {
-        _photoPermission.value = check
-    }
-
     fun requestLogin(body: AuthRequest) = viewModelScope.launch {
         when (val value = loginUseCase(body)) {
             is Resource.Success<Token> -> {
