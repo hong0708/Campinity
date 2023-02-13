@@ -301,21 +301,8 @@ class CampsiteDetailFragment :
             if (result) {
                 showToast("리뷰가 작성되었습니다.")
                 val sync = searchViewModel.getCampsiteDetailAsync(campsiteId)
-                campsiteReviewAdapter.setData(sync, searchViewModel.campsiteData.value!!.reviews)
                 setAverageRate(sync)
-
-                if (searchViewModel.campsiteData.value!!.reviews.size > 3) {
-                    reviews = searchViewModel.campsiteData.value!!.reviews.subList(0, 3)
-                } else {
-                    binding.tvShowListReview.visibility = View.GONE
-                    reviews = searchViewModel.campsiteData.value!!.reviews
-                }
-
-                campsiteReviewAdapter.setData(sync, reviews)
-                if (searchViewModel.campsiteData.value!!.reviews.size > 3)
-                    campsiteReviewAdapter.notifyDataSetChanged()
-                else
-                    campsiteReviewAdapter.notifyItemInserted(0)
+                setReviewData(sync, true, 0)
             } else {
                 showToast("리뷰 작성을 실패했습니다.")
             }
@@ -329,9 +316,8 @@ class CampsiteDetailFragment :
                 showToast("리뷰가 삭제되었습니다.")
                 val sync =
                     searchViewModel.getCampsiteDetailAsync(searchViewModel.campsiteData.value!!.campsiteId)
-                campsiteReviewAdapter.setData(sync, searchViewModel.campsiteData.value!!.reviews)
                 setAverageRate(sync)
-                campsiteReviewAdapter.notifyItemRemoved(position)
+                setReviewData(sync, false, position)
             } else {
                 showToast("리뷰 삭제를 실패했습니다.")
             }
@@ -360,6 +346,24 @@ class CampsiteDetailFragment :
             if (aver >= 3.0) ivCampsiteScore3.setBackgroundResource(R.drawable.ic_star_on)
             if (aver >= 4.0) ivCampsiteScore4.setBackgroundResource(R.drawable.ic_star_on)
             if (aver == 5.0) ivCampsiteScore5.setBackgroundResource(R.drawable.ic_star_on)
+        }
+    }
+
+    private fun setReviewData(sync: Int, isInserted: Boolean, position: Int) {
+        searchViewModel.campsiteData.value!!.reviews.apply {
+            if (this.size > 3) {
+                reviews = this.subList(0, 3)
+                campsiteReviewAdapter.setData(sync, reviews)
+                campsiteReviewAdapter.notifyDataSetChanged()
+                binding.tvShowListReview.visibility = View.VISIBLE
+            } else {
+                campsiteReviewAdapter.setData(sync, this)
+                if (isInserted)
+                    campsiteReviewAdapter.notifyItemInserted(position)
+                else
+                    campsiteReviewAdapter.notifyItemRemoved(position)
+                binding.tvShowListReview.visibility = View.GONE
+            }
         }
     }
 }
