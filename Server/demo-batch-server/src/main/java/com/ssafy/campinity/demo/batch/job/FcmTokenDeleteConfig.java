@@ -22,6 +22,8 @@ import org.springframework.orm.jpa.JpaTransactionManager;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 @RequiredArgsConstructor
@@ -73,13 +75,15 @@ public class FcmTokenDeleteConfig {
             }
         };
 
+        LocalDate today = LocalDate.now();
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("today", today);
 
-        String query = "SELECT t FROM FcmToken t WHERE t.expiredDate < " + LocalDate.now().toString();
-
-        reader.setQueryString(query);
+        reader.setQueryString("SELECT t FROM FcmToken t WHERE t.expiredDate < :today");
         reader.setPageSize(chunkSize);
         reader.setName("FcmTokenDeleteReader");
         reader.setEntityManagerFactory(em.getEntityManagerFactory());
+        reader.setParameterValues(parameters);
 
         return reader;
     }
