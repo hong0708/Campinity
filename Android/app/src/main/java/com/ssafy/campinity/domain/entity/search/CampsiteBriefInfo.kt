@@ -6,6 +6,7 @@ data class CampsiteBriefInfo(
     val area: String,
     val noteCount: Int,
     val images: List<String>,
+    val thumbnails: List<String>,
     val isScraped: Boolean,
     val lat: Double,
     val lng: Double

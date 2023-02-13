@@ -47,7 +47,7 @@ class CampsiteBriefDialog(
         binding.apply {
             rvCampsiteImage.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            rvCampsiteImage.adapter = CampsiteBriefImageAdapter(context, campsiteBriefData.images)
+            rvCampsiteImage.adapter = CampsiteBriefImageAdapter(context, campsiteBriefData.thumbnails)
 
             if (isScraped)
                 btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
