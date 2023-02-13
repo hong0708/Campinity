@@ -128,7 +128,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addToken(appointeeToken)
                 .setNotification(Notification.builder().setTitle(data.getTitle()).setBody(data.getHiddenBody()).build())
-                .putData("title", "도움 줄 캠퍼의 위치입니다.")
+                .putData("title", "도움을 줄 캠퍼의 위치입니다.")
                 .putData("body", data.getHiddenBody())
                 .putData("longitude", data.getLongitude().toString())
                 .putData("latitude", data.getLatitude().toString())
