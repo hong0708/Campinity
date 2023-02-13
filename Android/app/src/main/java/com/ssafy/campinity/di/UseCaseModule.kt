@@ -8,6 +8,7 @@ import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.community.*
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
+import com.ssafy.campinity.domain.usecase.curation.ScrapCurationUseCase
 import com.ssafy.campinity.domain.usecase.fcm.CreateHelpNoteUseCase
 import com.ssafy.campinity.domain.usecase.fcm.RequestRenewTokenUseCase
 import com.ssafy.campinity.domain.usecase.fcm.RequestSubscribeCampSiteUseCase
@@ -191,4 +192,10 @@ object UseCaseModule {
     fun provideScrapCampsiteUseCase(
         searchRepository: SearchRepository
     ): ScrapCampsiteUseCase = ScrapCampsiteUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideScrapCurationUseCase(
+        curationRepository: CurationRepository
+    ): ScrapCurationUseCase = ScrapCurationUseCase(curationRepository)
 }

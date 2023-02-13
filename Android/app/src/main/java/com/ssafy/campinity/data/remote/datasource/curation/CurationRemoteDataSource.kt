@@ -5,4 +5,6 @@ interface CurationRemoteDataSource {
     suspend fun getCurations(curationCategory: String): List<CurationResponse>
 
     suspend fun getCuration(curationId: String): CurationDetailResponse
+
+    suspend fun scrapCuration(curationId: String):CurationScrapResponse
 }
