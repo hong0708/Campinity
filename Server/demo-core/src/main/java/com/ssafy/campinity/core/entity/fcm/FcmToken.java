@@ -13,7 +13,7 @@ import java.time.LocalDate;
 * member : fcmToken과 매칭되는 기기의 보유 유저
 * fcmToken : 유저 fcmToken
 * campsiteUuid : 유저가 알람받기 신청한 campsiteUuid(fcm에서 topic)
- */
+*/
 
 @Getter
 @NoArgsConstructor
