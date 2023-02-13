@@ -569,6 +569,7 @@
     <string name="content_write_review_button">작성하기</string>
     <string name="title_delete_review">삭제하면 리뷰를\n되돌릴 수 없습니다.</string>
     <string name="content_delete_review">리뷰 삭제 버튼입니다</string>
+    <string name="image_campsite_no_images">등록된 캠핑장 사진이 없습니다.</string>
 
     <!-- MyPage Category Spinner -->
     <string-array name="category_array">

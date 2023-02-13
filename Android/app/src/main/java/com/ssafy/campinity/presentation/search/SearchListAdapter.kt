@@ -3,6 +3,7 @@ package com.ssafy.campinity.presentation.search
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -58,6 +59,14 @@ class SearchListAdapter(
                 binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
             else
                 binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
+
+            if (item.thumbnails.isEmpty()) {
+                binding.rvCampsiteImage.visibility = View.GONE
+                binding.clEmptyCollection.visibility = View.VISIBLE
+            } else {
+                binding.rvCampsiteImage.visibility = View.VISIBLE
+                binding.clEmptyCollection.visibility = View.GONE
+            }
         }
 
         fun initListener(item: CampsiteBriefInfo) {
@@ -87,7 +96,7 @@ class SearchListAdapter(
                 false
             )
             binding.rvCampsiteImage.adapter =
-                CampsiteBriefImageAdapter(context, campsites[adapterPosition].images).apply {
+                CampsiteBriefImageAdapter(context, campsites[adapterPosition].thumbnails).apply {
                     binding.rvCampsiteImage.setHasFixedSize(true)
                 }
         }

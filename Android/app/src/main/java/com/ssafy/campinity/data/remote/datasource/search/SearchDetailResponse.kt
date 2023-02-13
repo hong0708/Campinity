@@ -28,6 +28,8 @@ data class SearchDetailResponse(
     val homepage: String,
     @SerializedName("images")
     val images: List<String>,
+    @SerializedName("thumbnail_images")
+    val thumbnails: List<String>,
     @SerializedName("industries")
     val industries: List<String>,
     @SerializedName("intro")
@@ -63,6 +65,7 @@ data class SearchDetailResponse(
         glampingFacilities = glampfclties,
         homepage = homepage,
         images = images,
+        thumbnails = thumbnails,
         industries = industries,
         intro = intro,
         isScraped = isScraped,
