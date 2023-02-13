@@ -16,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class CampsiteBriefDialog(
     context: Context,
+    private val isScraped: Boolean,
     private val campsiteBriefData: CampsiteBriefInfo,
     private val navigationToSearchPostboxFragment: () -> Unit,
     private val navigationToCampsiteDetailFragment: (String) -> Unit,
@@ -47,6 +48,11 @@ class CampsiteBriefDialog(
             rvCampsiteImage.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             rvCampsiteImage.adapter = CampsiteBriefImageAdapter(context, campsiteBriefData.images)
+
+            if (isScraped)
+                btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
+            else
+                btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
         }
     }
 

@@ -10,14 +10,17 @@ import com.ssafy.campinity.domain.entity.curation.CurationDetailItem
 import com.ssafy.campinity.domain.entity.curation.CurationItem
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
+import com.ssafy.campinity.domain.usecase.curation.ScrapCurationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CurationViewModel @Inject constructor(
     private val getCurationsUseCase: GetCurationsUseCase,
-    private val getCurationDetailUseCase: GetCurationDetailUseCase
+    private val getCurationDetailUseCase: GetCurationDetailUseCase,
+    private val scrapCurationUseCase: ScrapCurationUseCase
 ) : ViewModel() {
 
     val categoryState: MutableLiveData<String?> = MutableLiveData()
@@ -49,4 +52,14 @@ class CurationViewModel @Inject constructor(
             }
         }
     }
+
+    suspend fun scrapCuration(curationId: String) = viewModelScope.async {
+        when (val value = scrapCurationUseCase(curationId)) {
+            is Resource.Success<Boolean> -> return@async value.data.toString()
+            is Resource.Error -> {
+                Log.e("scrapCuration", "scrapCuration: ${value.errorMessage}")
+                return@async "error"
+            }
+        }
+    }.await()
 }

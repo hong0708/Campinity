@@ -171,6 +171,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
                     CampsiteBriefDialog(
                         requireContext(),
+                        searchViewModel.isScraped.value!!,
                         searchViewModel.campsiteListData.value!![index],
                         this::navigationToSearchPostboxFragment,
                         this::onCampsiteClickListener,
