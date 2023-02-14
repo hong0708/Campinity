@@ -5,6 +5,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.google.android.gms.location.LocationServices
 import com.ssafy.campinity.domain.entity.community.UserLocation
 import kotlinx.coroutines.*
@@ -60,9 +61,11 @@ class LocationService : Service() {
             exception.printStackTrace()
         }.onEach { location ->
 
-            val intent = Intent("test")
+            val intent = Intent("intent_action")
             intent.putExtra("test", UserLocation(location.latitude, location.longitude))
-            applicationContext.sendBroadcast(intent)
+            //applicationContext.sendBroadcast(intent)
+            val localBroadcastManager = LocalBroadcastManager.getInstance(this)
+            localBroadcastManager.sendBroadcast(intent)
 
             /*CoroutineScope(Dispatchers.IO).launch {
                 EventBus.post(Coordinates(location.latitude, location.longitude))
