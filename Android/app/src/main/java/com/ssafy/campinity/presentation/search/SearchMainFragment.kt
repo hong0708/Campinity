@@ -74,6 +74,10 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
 
     private fun initListener() {
         binding.rlShowList.setOnClickListener {
+            val searchListFragment =
+                childFragmentManager.findFragmentById(R.id.fcv_list) as SearchListFragment
+            searchListFragment.notifyItemChanged()
+
             behaviorList.state = BottomSheetBehavior.STATE_EXPANDED
             binding.clSearch.setBackgroundResource(R.drawable.bg_rect_bilbao_under_radius30)
             binding.rlSearchAgain.visibility = View.GONE

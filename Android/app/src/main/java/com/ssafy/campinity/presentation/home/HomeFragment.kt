@@ -196,7 +196,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun getCampsite(campsiteId: String) {
         lifecycleScope.launch {
             val sync = searchViewModel.getCampsiteDetailAsync(campsiteId)
-            navigate(HomeFragmentDirections.actionHomeFragmentToCampsiteDetailFragment(sync))
+            navigate(HomeFragmentDirections.actionHomeFragmentToCampsiteDetailFragment(sync, -1))
         }
     }
 

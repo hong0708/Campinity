@@ -3,6 +3,7 @@ package com.ssafy.campinity.presentation.search
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -29,6 +30,7 @@ class CampsiteDetailFragment :
     private lateinit var reviews: List<Review>
 
     private val searchViewModel by activityViewModels<SearchViewModel>()
+    private val args by navArgs<CampsiteDetailFragmentArgs>()
     private val campsiteReviewAdapter by lazy {
         CampsiteReviewAdapter(
             requireContext(), reviews, this::deleteReview
@@ -281,14 +283,14 @@ class CampsiteDetailFragment :
             btnBookmark.setOnClickListener {
                 lifecycleScope.launch {
                     val isScraped =
-                        searchViewModel.scrapCampsite(searchViewModel.campsiteData.value!!.campsiteId)
-                    if (isScraped == "true") {
+                        searchViewModel.scrapCampsite(
+                            args.position,
+                            searchViewModel.campsiteData.value!!.campsiteId
+                        )
+                    if (isScraped == "true")
                         btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
-                        searchViewModel.setIsScraped(true)
-                    } else if (isScraped == "false") {
+                    else if (isScraped == "false")
                         btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
-                        searchViewModel.setIsScraped(false)
-                    }
                 }
             }
 

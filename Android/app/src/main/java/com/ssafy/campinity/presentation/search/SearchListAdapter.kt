@@ -17,9 +17,9 @@ import kotlinx.coroutines.launch
 class SearchListAdapter(
     private val context: Context,
     private var campsites: List<CampsiteBriefInfo>,
-    private val onCampsiteClickListener: (String) -> Unit,
+    private val onCampsiteClickListener: (Int, String) -> Unit,
     private val navigationToSearchPostboxFragment: (String) -> Unit,
-    private val scrapCampsite: suspend (String) -> String
+    private val scrapCampsite: suspend (Int, String) -> String
 ) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
 
     private lateinit var binding: ItemSearchListBinding
@@ -76,7 +76,7 @@ class SearchListAdapter(
 
             binding.btnBookmark.setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {
-                    val isScraped = scrapCampsite(item.campsiteId)
+                    val isScraped = scrapCampsite(adapterPosition, item.campsiteId)
                     if (isScraped == "true")
                         binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
                     else if (isScraped == "false")
@@ -85,7 +85,7 @@ class SearchListAdapter(
             }
 
             binding.rlCampsite.setOnClickListener {
-                onCampsiteClickListener(item.campsiteId)
+                onCampsiteClickListener(adapterPosition, item.campsiteId)
             }
         }
 

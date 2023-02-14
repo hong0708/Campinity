@@ -63,9 +63,6 @@ class SearchViewModel @Inject constructor(
     private val _sido: MutableLiveData<String> = MutableLiveData()
     val sido: LiveData<String> = _sido
 
-    private val _isScraped: MutableLiveData<Boolean> = MutableLiveData(false)
-    val isScraped: LiveData<Boolean> = _isScraped
-
     private val _letters: MutableLiveData<List<NoteQuestionTitle>?> = MutableLiveData()
     val letters: LiveData<List<NoteQuestionTitle>?> = _letters
 
@@ -157,10 +154,6 @@ class SearchViewModel @Inject constructor(
         theme = context.resources.getStringArray(R.array.content_campsite_theme)
         pet = context.resources.getStringArray(R.array.content_campsite_pet)
         season = context.resources.getStringArray(R.array.content_campsite_season)
-    }
-
-    fun setIsScraped(flag: Boolean) {
-        _isScraped.value = flag
     }
 
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {
@@ -273,9 +266,12 @@ class SearchViewModel @Inject constructor(
         }
     }.await()
 
-    suspend fun scrapCampsite(campsiteId: String) = viewModelScope.async {
+    suspend fun scrapCampsite(position: Int, campsiteId: String) = viewModelScope.async {
         when (val value = scrapCampsiteUseCase(campsiteId)) {
-            is Resource.Success<Boolean> -> return@async value.data.toString()
+            is Resource.Success<Boolean> -> {
+                _campsiteListData.value!![position].isScraped = value.data
+                return@async value.data.toString()
+            }
             is Resource.Error -> {
                 Log.e("scrapCampsite", "scrapCampsite: ${value.errorMessage}")
                 return@async "error"
