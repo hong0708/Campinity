@@ -8,8 +8,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.provider.MediaStore
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,21 +16,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImg
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
 import com.ssafy.campinity.databinding.FragmentMyPageBinding
-import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.collection.CollectionDeleteFileDialog
 import com.ssafy.campinity.presentation.collection.CreateCollectionFragment
 import com.ssafy.campinity.presentation.collection.FileDeleteDialogListener
-import com.ssafy.campinity.presentation.community.note.CommunityNoteListAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import java.io.File
@@ -44,9 +40,7 @@ class MyPageFragment :
 
     private lateinit var callback: OnBackPressedCallback
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
-    private val communityNoteListAdapter by lazy {
-        CommunityNoteListAdapter(this::showDialog)
-    }
+
     private val fromAlbumActivityLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result: ActivityResult ->
@@ -70,11 +64,10 @@ class MyPageFragment :
     override fun initView() {
         // myPage
         setData()
-        initRecyclerView()
         initListener()
-        initSpinner()
         setTextWatcher()
         observeState()
+        initTabLayout()
     }
 
     override fun onAttach(context: Context) {
@@ -95,6 +88,26 @@ class MyPageFragment :
     override fun onDetach() {
         super.onDetach()
         callback.remove()
+    }
+
+    private fun initTabLayout() {
+        binding.apply {
+            tlMyPage.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabSelected(tab: TabLayout.Tab?) {}
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+
+                override fun onTabReselected(tab: TabLayout.Tab?) {}
+            })
+            vpMyNote.adapter = MyPageAdapter(this@MyPageFragment)
+            val tabTitles = listOf("쪽지", "스크랩")
+            TabLayoutMediator(
+                tlMyPage,
+                vpMyNote
+            ) { tab, position ->
+                tab.text = tabTitles[position]
+            }.attach()
+        }
     }
 
     // 파일 삭제 버튼 클릭시
@@ -254,76 +267,6 @@ class MyPageFragment :
         } else {
             showToast("사용 가능한 닉네임입니다.")
         }
-    }
-
-    private fun initRecyclerView() {
-        myPageViewModel.getNotes()
-        binding.rvMyNote.apply {
-            adapter = communityNoteListAdapter
-            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
-        }
-    }
-
-    private fun initSpinner() {
-        ArrayAdapter.createFromResource(
-            requireContext(),
-            R.array.category_array,
-            R.layout.spinner_txt
-        ).also { adapter ->
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            binding.spinnerCategory.adapter = adapter
-        }
-
-        binding.spinnerCategory.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    if (p0?.getItemAtPosition(p2).toString() == "자유") {
-                        myPageViewModel.etcNotesListData.observe(viewLifecycleOwner) { response ->
-                            response?.let {
-                                if (response.isEmpty()) {
-                                    binding.rvMyNote.visibility = View.GONE
-                                    binding.clEmptyCollection.visibility = View.VISIBLE
-                                } else {
-                                    binding.clEmptyCollection.visibility = View.GONE
-                                    communityNoteListAdapter.setNote(it.map { info ->
-                                        NoteQuestionTitle(
-                                            info.content,
-                                            info.createdAt,
-                                            info.messageId
-                                        )
-                                    })
-                                }
-                            }
-                        }
-                    } else {
-                        myPageViewModel.reviewNotesListData.observe(viewLifecycleOwner) { response ->
-                            response?.let {
-                                if (response.isEmpty()) {
-                                    binding.rvMyNote.visibility = View.GONE
-                                    binding.clEmptyCollection.visibility = View.VISIBLE
-                                } else {
-                                    binding.clEmptyCollection.visibility = View.GONE
-                                    communityNoteListAdapter.setNote(it.map { info ->
-                                        NoteQuestionTitle(
-                                            info.content,
-                                            info.createdAt,
-                                            info.messageId
-                                        )
-                                    })
-                                }
-                            }
-                        }
-                    }
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {
-                    return
-                }
-            }
-    }
-
-    private fun showDialog(noteQuestionId: String) {
-        myPageViewModel.getDetailData(noteQuestionId)
     }
 
     // 로그아웃
