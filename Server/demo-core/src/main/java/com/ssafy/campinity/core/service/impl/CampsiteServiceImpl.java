@@ -89,6 +89,77 @@ public class CampsiteServiceImpl implements CampsiteService {
         return results;
     }
 
+    @Override
+    public List<ClusteringDoLevelResDTO> getScopeClusteringByDoLevel(LocationInfoDTO locationInfoDTO, int memberId) {
+        Double topLeftLat = locationInfoDTO.getTopLeftLat();
+        Double topLeftLng = locationInfoDTO.getTopLeftLng();
+        Double bottomRightLat = locationInfoDTO.getBottomRightLat();
+        Double bottomRightLng = locationInfoDTO.getBottomRightLng();
+
+        List<Campsite> campsites = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat,
+                topLeftLat, topLeftLng, bottomRightLng);
+
+        List<RegionLocation> regions = regionLocationRepository.findBySigunguName("");  // 각 도별 정보 가지고 오기
+        List<ClusteringDoLevelResDTO> result = new ArrayList<>();
+
+        HashMap<String, Integer> counts = new HashMap<>();
+
+        for (Campsite camp: campsites) {  // 각 도별 개수 세기
+            counts.put(camp.getDoName(), counts.getOrDefault(camp.getDoName(), 0) + 1);
+        }
+
+        for (RegionLocation item: regions) {
+            result.add(ClusteringDoLevelResDTO.builder().doName(item.getDoName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(item.getDoName(), 0)).build());
+        }
+
+        return result;
+    }
+
+    @Override
+    public List<CampsiteListResDTO> getScopeClusteringBySigunguLevel(LocationInfoDTO locationInfoDTO, int memberId, String doName) {
+        Double topLeftLat = locationInfoDTO.getTopLeftLat();
+        Double topLeftLng = locationInfoDTO.getTopLeftLng();
+        Double bottomRightLat = locationInfoDTO.getBottomRightLat();
+        Double bottomRightLng = locationInfoDTO.getBottomRightLng();
+
+        List<Campsite> campsites = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat,
+                topLeftLat, topLeftLng, bottomRightLng);
+
+        List<RegionLocation> regions = regionLocationRepository.findByDoName(doName);  // 각 도별 정보 가지고 오기
+        List<ClusteringSigunguLevelResDTO> result = new ArrayList<>();
+
+        HashMap<String, Integer> counts = new HashMap<>();
+
+        for (Campsite camp: campsites) {  // 각 도별 개수 세기
+            counts.put(camp.getSigunguName(), counts.getOrDefault(camp.getSigunguName(), 0) + 1);
+        }
+
+        for (RegionLocation item: regions) {
+            if (item.getSigunguName().equals("")) {
+                continue;
+            }
+            result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(item.getSigunguName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(item.getSigunguName(), 0)).build());
+        }
+
+        return null;
+    }
+
+    @Override
+    public List<CampsiteListResDTO> getScopeClusteringByDetailLevel(LocationInfoDTO locationInfoDTO, int memberId, int paging) {
+        Double topLeftLat = locationInfoDTO.getTopLeftLat();
+        Double topLeftLng = locationInfoDTO.getTopLeftLng();
+        Double bottomRightLat = locationInfoDTO.getBottomRightLat();
+        Double bottomRightLng = locationInfoDTO.getBottomRightLng();
+
+        List<Campsite> campsites = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat,
+                topLeftLat, topLeftLng, bottomRightLng);
+
+        
+
+
+        return null;
+    }
+
     @Transactional
     @Override
     public List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,

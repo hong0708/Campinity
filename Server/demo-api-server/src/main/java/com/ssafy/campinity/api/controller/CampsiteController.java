@@ -85,6 +85,88 @@ public class CampsiteController {
         return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 scope 클러스터링 도레벨 조회")
+    @GetMapping("/scope/do-level")
+    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteScopeClusteringByDoLevel(
+            @RequestParam double topLeftLat,
+            @RequestParam double topLeftLng,
+            @RequestParam double bottomRightLat,
+            @RequestParam double bottomRightLng,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
+                .topLeftLat(topLeftLat)
+                .topLeftLng(topLeftLng)
+                .bottomRightLat(bottomRightLat)
+                .bottomRightLng(bottomRightLng)
+                .build();
+
+//        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
+
+//        return new ResponseEntity<>(results, HttpStatus.OK);
+        return null;
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 scope 클러스터링 시군구레벨 조회")
+    @GetMapping("/scope/sigungu-level")
+    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteScopeClusteringBySigunguLevel(
+            @RequestParam double topLeftLat,
+            @RequestParam double topLeftLng,
+            @RequestParam double bottomRightLat,
+            @RequestParam double bottomRightLng,
+            @RequestParam String doName,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
+                .topLeftLat(topLeftLat)
+                .topLeftLng(topLeftLng)
+                .bottomRightLat(bottomRightLat)
+                .bottomRightLng(bottomRightLng)
+                .build();
+
+//        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
+
+//        return new ResponseEntity<>(results, HttpStatus.OK);
+        return null;
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 scope 클러스터링 디테일레벨 조회()")
+    @GetMapping("/scope/detail-level")
+    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteScopeClusteringByDetailLevel(
+            @RequestParam double topLeftLat,
+            @RequestParam double topLeftLng,
+            @RequestParam double bottomRightLat,
+            @RequestParam double bottomRightLng,
+            @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
+                .topLeftLat(topLeftLat)
+                .topLeftLng(topLeftLng)
+                .bottomRightLat(bottomRightLat)
+                .bottomRightLng(bottomRightLng)
+                .build();
+
+//        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
+
+//        return new ResponseEntity<>(results, HttpStatus.OK);
+        return null;
+    }
+
     @GetMapping("/conditions")
     public ResponseEntity<List<CampsiteListResDTO>> getCampsiteListByFiltering(@RequestParam(name = "keyword", defaultValue = "") String keyword,
                                                                                @RequestParam(name = "doName", defaultValue = "") String doName,
