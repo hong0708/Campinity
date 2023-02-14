@@ -20,6 +20,7 @@ public class ChatMessage {
     private String sender;
     private String message;
     private Date timestamp;
+
     @Builder
     public ChatMessage(String id, String roomId, String sender, String message, Date timestamp) {
         this.id = id;

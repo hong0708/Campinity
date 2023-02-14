@@ -37,7 +37,7 @@ public class ChatRepositoryTest {
         assertEquals(chatRoom.getUsers().size(), chatRoom.getUsers().size());
         chatRoomRepository.deleteAll(List.of(chatRoom));
     }
-
+//
 //    @Test
 //    public void delteAllData() {
 //        chatMessageRepository.deleteAll();
@@ -69,7 +69,7 @@ public class ChatRepositoryTest {
         ChatRoom chatRoom = makeChatRoom();
 
         ChatRoom searchedRoom = chatRoomRepository.save(chatRoom);
-        String roomId = chatRoom.getId();
+        String roomId = chatRoom.getId().toString();
 
         ChatMessage chatMessage1 = ChatMessage.builder().message("msg1").roomId(roomId).sender("user1").timestamp(new Date()).build();
         ChatMessage chatMessage2 = ChatMessage.builder().message("msg2").roomId(roomId).sender("user2").timestamp(new Date()).build();
