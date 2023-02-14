@@ -18,7 +18,7 @@ class CampsiteBriefDialog(
     context: Context,
     private val isScraped: Boolean,
     private val campsiteBriefData: CampsiteBriefInfo,
-    private val navigationToSearchPostboxFragment: () -> Unit,
+    private val navigationToSearchPostboxFragment: (String) -> Unit,
     private val navigationToCampsiteDetailFragment: (String) -> Unit,
     private val scrapCampsite: suspend (String) -> String
 ) : Dialog(context) {
@@ -59,7 +59,7 @@ class CampsiteBriefDialog(
     private fun initListener() {
         binding.btnPostbox.setOnClickListener {
             dismiss()
-            navigationToSearchPostboxFragment()
+            navigationToSearchPostboxFragment(campsiteBriefData.campsiteId)
         }
 
         binding.btnBookmark.setOnClickListener {

@@ -146,8 +146,12 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         }
     }
 
-    private fun navigationToSearchPostboxFragment() {
-        navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment())
+    private fun navigationToSearchPostboxFragment(campsiteId: String) {
+        navigate(
+            SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment(
+                campsiteId
+            )
+        )
     }
 
     private fun navigationToCampsiteDetailFragment(async: Int) {
