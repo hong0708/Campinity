@@ -294,7 +294,8 @@ class SearchFilterFragment : Fragment() {
                     amenity = selectedAmenity.toString(" "),
                     theme = selectedTheme.toString(" "),
                     allowAnimal = selectedPet.toString(" "),
-                    openSeason = selectedSeason.toString(" ")
+                    openSeason = selectedSeason.toString(" "),
+                    paging = 1
                 )
                 this.getCampsitesByFiltering(this.filter)
                 resetBtn()

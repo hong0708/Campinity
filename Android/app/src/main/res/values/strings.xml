@@ -587,4 +587,7 @@
     <string-array name="review_spinner">
         <item>삭제</item>
     </string-array>
+
+    <!-- page indicator -->
+    <string name="page_number">%d</string>
 </resources>

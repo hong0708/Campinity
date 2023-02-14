@@ -7,7 +7,7 @@
 
         <variable
             name="item"
-            type="com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo" />
+            type="com.ssafy.campinity.domain.entity.search.CampsiteBriefInfoPaging" />
     </data>
 
     <RelativeLayout
@@ -78,7 +78,7 @@
             android:layout_toEndOf="@id/tv_campsite_note"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
-            android:text="@{Integer.toString(item.noteCount)}"
+            android:text="@{Integer.toString(item.messageCnt)}"
             android:textColor="@color/grey"
             android:textSize="10sp"
             tools:text="50" />

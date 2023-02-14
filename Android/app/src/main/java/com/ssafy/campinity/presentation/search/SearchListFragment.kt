@@ -7,12 +7,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentSearchListBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
+import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfoPaging
 import com.ssafy.campinity.presentation.base.BaseFragment
 import kotlinx.coroutines.launch
 
 class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.fragment_search_list) {
 
-    private lateinit var campsiteList: List<CampsiteBriefInfo>
+    private lateinit var campsiteList: List<CampsiteBriefInfoPaging>
     private lateinit var searchListAdapter: SearchListAdapter
     private val searchViewModel by activityViewModels<SearchViewModel>()
 
@@ -23,6 +24,11 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
             binding.tvCampsiteNotFound.setText(R.string.content_campsite_not_found)
         else
             binding.tvCampsiteNotFound.text = ""
+
+        binding.piIndicator.apply {
+            setStartPage(1)
+            setTotalPage(5)
+        }
 
         initCampsiteList()
         observeCampsiteListData()

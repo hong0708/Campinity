@@ -69,7 +69,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
             }
         }
 
-        mapView.setZoomLevel(1, true)
+        mapView.setZoomLevel(6, true)
         mapView.setPOIItemEventListener(this)
     }
 
@@ -97,8 +97,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
                 drawCampsiteMarkers(campsiteBriefInfoList)
                 val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
-                    campsiteBriefInfoList[0].lat,
-                    campsiteBriefInfoList[0].lng
+                    campsiteBriefInfoList[0].latitude,
+                    campsiteBriefInfoList[0].longitude
                 )
                 mapView.setMapCenterPoint(campsiteMainPoint, true)
                 mapView.setZoomLevel(3, true)
@@ -114,7 +114,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     private fun drawCampsiteMarkers(markerLocationList: List<CampsiteBriefInfo>) {
         markerLocationList.forEachIndexed { index, campsiteBriefInfo ->
             val markerPosition =
-                MapPoint.mapPointWithGeoCoord(campsiteBriefInfo.lat, campsiteBriefInfo.lng)
+                MapPoint.mapPointWithGeoCoord(campsiteBriefInfo.latitude, campsiteBriefInfo.longitude)
             val marker = MapPOIItem()
             marker.apply {
                 itemName = "캠핑장 $index"
@@ -171,8 +171,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 if (searchViewModel.campsiteListData.value != null) {
                     val markerPosition =
                         MapPoint.mapPointWithGeoCoord(
-                            searchViewModel.campsiteListData.value!![index].lat,
-                            searchViewModel.campsiteListData.value!![index].lng,
+                            searchViewModel.campsiteListData.value!![index].latitude,
+                            searchViewModel.campsiteListData.value!![index].longitude,
                         )
                     mapView.setMapCenterPoint(markerPosition, true)
 

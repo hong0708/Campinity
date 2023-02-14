@@ -18,7 +18,8 @@ class SearchRemoteDataSourceImpl @Inject constructor(
             filter.keyword,
             filter.openSeason,
             filter.sigunguName,
-            filter.theme
+            filter.theme,
+            filter.paging
         )
 
     override suspend fun getCampsitesByScope(

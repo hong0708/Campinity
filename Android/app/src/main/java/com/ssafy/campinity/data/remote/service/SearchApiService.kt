@@ -17,6 +17,7 @@ interface SearchApiService {
         @Query("openSeason") openSeason: String?,
         @Query("sigunguName") sigunguName: String?,
         @Query("theme") theme: String?,
+        @Query("paging") paging: Int?
     ): List<SearchBriefResponse>
 
     @GET("/api/v1/campsites/scope")

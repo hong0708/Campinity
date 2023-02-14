@@ -102,7 +102,7 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
             searchViewModel.getCampsitesByFiltering(
                 SearchFilterRequest(
-                    doName = sido, sigunguName = gugun
+                    doName = sido, sigunguName = gugun, paging = 1
                 )
             )
             searchViewModel.setStateBehaviorArea(false)

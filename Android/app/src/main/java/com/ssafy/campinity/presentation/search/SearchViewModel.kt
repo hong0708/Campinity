@@ -34,8 +34,9 @@ class SearchViewModel @Inject constructor(
     private val getNoteQuestionUseCase: GetNoteQuestionUseCase
 ) : ViewModel() {
 
-    private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
-    val campsiteListData: LiveData<List<CampsiteBriefInfo>?> = _campsiteListData
+    private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfoPaging>?> =
+        MutableLiveData()
+    val campsiteListData: LiveData<List<CampsiteBriefInfoPaging>?> = _campsiteListData
 
     private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
     val campsiteData: LiveData<CampsiteDetailInfo?> = _campsiteData
@@ -158,7 +159,7 @@ class SearchViewModel @Inject constructor(
 
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {
         when (val value = getCampsitesByFilteringUseCase(filter)) {
-            is Resource.Success<List<CampsiteBriefInfo>> -> {
+            is Resource.Success<List<CampsiteBriefInfoPaging>> -> {
                 _campsiteListData.value = value.data
             }
             is Resource.Error -> {
@@ -168,12 +169,18 @@ class SearchViewModel @Inject constructor(
     }
 
     fun getCampsitesByScope(
-        bottomRightLat: Double, bottomRightLng: Double, topLeftLat: Double, topLeftLng: Double
+        bottomRightLat: Double,
+        bottomRightLng: Double,
+        topLeftLat: Double,
+        topLeftLng: Double
     ) = viewModelScope.launch {
         when (val value = getCampsitesByScopeUseCase(
-            bottomRightLat, bottomRightLng, topLeftLat, topLeftLng
+            bottomRightLat,
+            bottomRightLng,
+            topLeftLat,
+            topLeftLng
         )) {
-            is Resource.Success<List<CampsiteBriefInfo>> -> {
+            is Resource.Success<List<CampsiteBriefInfoPaging>> -> {
                 _campsiteListData.value = value.data
             }
             is Resource.Error -> {
@@ -269,7 +276,7 @@ class SearchViewModel @Inject constructor(
     suspend fun scrapCampsite(position: Int, campsiteId: String) = viewModelScope.async {
         when (val value = scrapCampsiteUseCase(campsiteId)) {
             is Resource.Success<Boolean> -> {
-                _campsiteListData.value!![position].isScraped = value.data
+                _campsiteListData.value!![position].data.isScraped = value.data
                 return@async value.data.toString()
             }
             is Resource.Error -> {
