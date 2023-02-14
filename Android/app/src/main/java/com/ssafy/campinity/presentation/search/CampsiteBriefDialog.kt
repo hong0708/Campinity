@@ -16,11 +16,11 @@ import kotlinx.coroutines.launch
 
 class CampsiteBriefDialog(
     context: Context,
-    private val isScraped: Boolean,
+    private val position: Int,
     private val campsiteBriefData: CampsiteBriefInfo,
     private val navigationToSearchPostboxFragment: (String) -> Unit,
-    private val navigationToCampsiteDetailFragment: (String) -> Unit,
-    private val scrapCampsite: suspend (String) -> String
+    private val navigationToCampsiteDetailFragment: (Int, String) -> Unit,
+    private val scrapCampsite: suspend (Int, String) -> String
 ) : Dialog(context) {
 
     private lateinit var binding: DialogCampsiteBriefBinding
@@ -47,9 +47,10 @@ class CampsiteBriefDialog(
         binding.apply {
             rvCampsiteImage.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            rvCampsiteImage.adapter = CampsiteBriefImageAdapter(context, campsiteBriefData.thumbnails)
+            rvCampsiteImage.adapter =
+                CampsiteBriefImageAdapter(context, campsiteBriefData.thumbnails)
 
-            if (isScraped)
+            if (campsiteBriefData.isScraped)
                 btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
             else
                 btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
@@ -64,7 +65,7 @@ class CampsiteBriefDialog(
 
         binding.btnBookmark.setOnClickListener {
             CoroutineScope(Dispatchers.Main).launch {
-                val isScraped = scrapCampsite(campsiteBriefData.campsiteId)
+                val isScraped = scrapCampsite(position, campsiteBriefData.campsiteId)
                 if (isScraped == "true")
                     binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
                 else if (isScraped == "false")
@@ -74,7 +75,7 @@ class CampsiteBriefDialog(
 
         binding.clCampsiteBrief.setOnClickListener {
             dismiss()
-            navigationToCampsiteDetailFragment(campsiteBriefData.campsiteId)
+            navigationToCampsiteDetailFragment(position, campsiteBriefData.campsiteId)
         }
     }
 }

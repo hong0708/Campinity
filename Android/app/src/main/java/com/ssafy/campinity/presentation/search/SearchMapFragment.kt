@@ -154,9 +154,12 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         )
     }
 
-    private fun navigationToCampsiteDetailFragment(async: Int) {
+    private fun navigationToCampsiteDetailFragment(async: Int, position: Int) {
         navigate(
-            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(async)
+            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(
+                async,
+                position
+            )
         )
     }
 
@@ -175,7 +178,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
                     CampsiteBriefDialog(
                         requireContext(),
-                        searchViewModel.isScraped.value!!,
+                        index,
                         searchViewModel.campsiteListData.value!![index],
                         this::navigationToSearchPostboxFragment,
                         this::onCampsiteClickListener,
@@ -204,9 +207,9 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         }
     }
 
-    private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
+    private fun onCampsiteClickListener(position: Int, campsiteId: String) = lifecycleScope.launch {
         val async = searchViewModel.getCampsiteDetailAsync(campsiteId)
-        navigationToCampsiteDetailFragment(async)
+        navigationToCampsiteDetailFragment(async, position)
     }
 
     @Deprecated("Deprecated in Java")
@@ -222,6 +225,6 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
 
-    suspend fun scrapCampsite(campsiteId: String): String =
-        searchViewModel.scrapCampsite(campsiteId)
+    suspend fun scrapCampsite(position: Int, campsiteId: String): String =
+        searchViewModel.scrapCampsite(position, campsiteId)
 }

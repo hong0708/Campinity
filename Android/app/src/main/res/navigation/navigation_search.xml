@@ -26,6 +26,9 @@
         <argument
             android:name="async"
             app:argType="integer" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
         <action
             android:id="@+id/action_campsiteDetailFragment_to_searchPostboxFragment"
             app:destination="@id/searchPostboxFragment" />

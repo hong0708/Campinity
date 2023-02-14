@@ -42,14 +42,21 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
         }
     }
 
-    private fun navigationToCampsiteDetailFragment(async: Int) {
+    private fun navigationToCampsiteDetailFragment(position: Int, async: Int) {
         navigate(
-            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(async)
+            SearchMainFragmentDirections.actionSearchMainFragmentToCampsiteDetailFragment(
+                async,
+                position
+            )
         )
     }
 
     private fun navigationToSearchPostboxFragment(campsiteId: String) {
-        navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment(campsiteId))
+        navigate(
+            SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment(
+                campsiteId
+            )
+        )
     }
 
     private fun observeCampsiteListData() {
@@ -64,11 +71,15 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
         }
     }
 
-    private fun onCampsiteClickListener(campsiteId: String) = lifecycleScope.launch {
+    private fun onCampsiteClickListener(position: Int, campsiteId: String) = lifecycleScope.launch {
         val async = searchViewModel.getCampsiteDetailAsync(campsiteId)
-        navigationToCampsiteDetailFragment(async)
+        navigationToCampsiteDetailFragment(position, async)
     }
 
-    private suspend fun scrapCampsite(campsiteId: String): String =
-        searchViewModel.scrapCampsite(campsiteId)
+    private suspend fun scrapCampsite(position: Int, campsiteId: String): String =
+        searchViewModel.scrapCampsite(position, campsiteId)
+
+    fun notifyItemChanged() {
+        searchListAdapter.notifyDataSetChanged()
+    }
 }
