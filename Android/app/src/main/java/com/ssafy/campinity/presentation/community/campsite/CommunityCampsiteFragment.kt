@@ -6,6 +6,7 @@ import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
@@ -18,6 +19,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
+import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
@@ -36,6 +38,8 @@ import kotlinx.coroutines.*
 import net.daum.mf.map.api.MapPOIItem
 import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
+import java.lang.Math.*
+import kotlin.math.pow
 
 @AndroidEntryPoint
 @RequiresApi(Build.VERSION_CODES.Q)
@@ -57,7 +61,6 @@ class CommunityCampsiteFragment :
     private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
-    private var isUserIn = false
     private var newUserLocation = UserLocation(0.0, 0.0)
 
     override fun initView() {
@@ -68,6 +71,23 @@ class CommunityCampsiteFragment :
         setTextWatcher()
         setSubscribeState()
         communityCampsiteViewModel.getUserProfile()
+
+        val messageReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+
+                val test = intent.getSerializableExtra("test") as UserLocation
+                communityCampsiteViewModel.checkIsUserIn(
+                    DistanceManager.getDistance(
+                        test.latitude,
+                        test.longitude,
+                        ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
+                        ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
+                    ) < 1000
+                )
+            }
+        }
+        LocalBroadcastManager.getInstance(requireContext())
+            .registerReceiver(messageReceiver, IntentFilter("intent_action"))
     }
 
     override fun onResume() {
@@ -447,6 +467,23 @@ class CommunityCampsiteFragment :
         communityCampsiteViewModel.profileImgStr.observe(viewLifecycleOwner) { response ->
             binding.ibUserLocation.setProfileImgString(response)
         }
+
+        communityCampsiteViewModel.isUserIn.observe(viewLifecycleOwner) { response ->
+            if (response) {
+                showToast("현재 캠핑장 범위에 포함됩니다.")
+                ApplicationClass.preferences.isSubScribing = true
+                communityCampsiteViewModel.subscribeCampSite(
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                    ApplicationClass.preferences.fcmToken.toString()
+                )
+            } else {
+                showToast("현재 캠핑장 범위에서 벗어납니다.")
+                ApplicationClass.preferences.isSubScribing = false
+                communityCampsiteViewModel.subscribeCampSite(
+                    "", ApplicationClass.preferences.fcmToken.toString()
+                )
+            }
+        }
     }
 
     private fun drawPostBox(campsite: CampsiteBriefInfo) {
@@ -557,17 +594,6 @@ class CommunityCampsiteFragment :
         return myLoc.distanceTo(targetLoc)
     }
 
-    private fun checkUserIn(userLat: Double, userLng: Double, lat: Double, lng: Double): Float {
-        val userLoc = Location(LocationManager.NETWORK_PROVIDER)
-        val campsiteLoc = Location(LocationManager.NETWORK_PROVIDER)
-        userLoc.latitude = userLat
-        userLoc.longitude = userLng
-        campsiteLoc.latitude = lat
-        campsiteLoc.longitude = lng
-
-        return userLoc.distanceTo(campsiteLoc)
-    }
-
     @SuppressLint("ResourceAsColor")
     private fun setSubscribeState() {
         val onService = requireActivity() as CommunityActivity
@@ -578,19 +604,6 @@ class CommunityCampsiteFragment :
                 if (isOn) {
                     if (ApplicationClass.preferences.userRecentCampsiteId != null) {
                         onService.startLocationBackground()
-                        if (isUserIn) {
-                            ApplicationClass.preferences.isSubScribing = true
-                            communityCampsiteViewModel.subscribeCampSite(
-                                ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                                ApplicationClass.preferences.fcmToken.toString()
-                            )
-                            showToast("현재 캠핑장 범위에 포함됩니다.")
-                        } else {
-                            showToast("현재 해당 캠핑장 범위에 포함되는 위치가 아닙니다.")
-                            /*CoroutineScope(Dispatchers.Main).launch {
-                                toggleCampsite.isOn = false
-                            }*/
-                        }
                     } else {
                         showToast("캠핑장 설정이 필요합니다.")
                         /*CoroutineScope(Dispatchers.Main).launch {
@@ -629,14 +642,30 @@ class CommunityCampsiteFragment :
             val action = p1!!.action
             if (action == "test") {
                 newUserLocation = p1.getSerializableExtra("test") as UserLocation
-
-                isUserIn = checkUserIn(
-                    newUserLocation.latitude,
-                    newUserLocation.longitude,
-                    ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
-                    ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
-                ) < 10000
             }
+        }
+    }
+
+    object DistanceManager {
+        private const val R = 6372.8 * 1000
+        /**
+         * 두 좌표의 거리를 계산한다.
+         *
+         * @param lat1 위도1
+         * @param lon1 경도1
+         * @param lat2 위도2
+         * @param lon2 경도2
+         * @return 두 좌표의 거리(m)
+         */
+        fun getDistance(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Int {
+            val dLat = Math.toRadians(lat2 - lat1)
+            val dLon = Math.toRadians(lon2 - lon1)
+            val a =
+                sin(dLat / 2).pow(2.0) + sin(dLon / 2).pow(2.0) * cos(Math.toRadians(lat1)) * cos(
+                    Math.toRadians(lat2)
+                )
+            val c = 2 * asin(sqrt(a))
+            return (R * c).toInt()
         }
     }
 }

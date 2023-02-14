@@ -49,6 +49,13 @@ class CommunityCampsiteViewModel @Inject constructor(
     private val _profileImgStr: MutableLiveData<String?> = MutableLiveData()
     val profileImgStr: MutableLiveData<String?> = _profileImgStr
 
+    private val _isUserIn: MutableLiveData<Boolean> = MutableLiveData(false)
+    val isUserIn: MutableLiveData<Boolean> = _isUserIn
+
+    fun checkIsUserIn(check: Boolean) {
+        _isUserIn.value = check
+    }
+
     fun getUserProfile() {
         viewModelScope.launch {
             when (val value = getUserProfileUseCase()) {
