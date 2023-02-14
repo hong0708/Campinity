@@ -12,18 +12,6 @@
         android:layout_height="match_parent"
         android:background="@color/wild_willow">
 
-        <ImageView
-            android:id="@+id/iv_arrow_left"
-            android:layout_width="14dp"
-            android:layout_height="34dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:backgroundTint="@color/wild_willow"
-            android:contentDescription="@string/img_post_box_back"
-            android:src="@drawable/ic_arrow_left"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/tv_title_chatting_list"
             android:layout_width="wrap_content"
