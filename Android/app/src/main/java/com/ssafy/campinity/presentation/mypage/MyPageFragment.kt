@@ -62,12 +62,16 @@ class MyPageFragment :
     }
 
     override fun initView() {
-        // myPage
         setData()
         initListener()
         setTextWatcher()
         observeState()
         initTabLayout()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        myPageViewModel.clearData()
     }
 
     override fun onAttach(context: Context) {
