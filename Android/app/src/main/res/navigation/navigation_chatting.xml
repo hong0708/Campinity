@@ -19,5 +19,9 @@
         android:id="@+id/chattingRoomFragment"
         android:name="com.ssafy.campinity.presentation.chatting.ChattingRoomFragment"
         android:label="ChattingRoomFragment"
-        tools:layout="@layout/fragment_chatting_room" />
+        tools:layout="@layout/fragment_chatting_room">
+        <argument
+            android:name="roomId"
+            app:argType="string" />
+    </fragment>
 </navigation>
