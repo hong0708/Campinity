@@ -32,11 +32,11 @@ class CommunityActivity : AppCompatActivity() {
         if (checkLocationService()) {
             // GPS가 켜져있을 경우
             checkPermission()
-            val navHostFragment =
+            /*val navHostFragment =
                 supportFragmentManager.findFragmentById(R.id.nav_community) as NavHostFragment
             navController = navHostFragment.navController
             val navGraph = navController.navInflater.inflate(R.navigation.navigation_community)
-            navController.graph = navGraph
+            navController.graph = navGraph*/
 
         } else {
             // GPS가 꺼져있을 경우
@@ -55,7 +55,11 @@ class CommunityActivity : AppCompatActivity() {
         TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
-
+                    val navHostFragment =
+                        supportFragmentManager.findFragmentById(R.id.nav_community) as NavHostFragment
+                    navController = navHostFragment.navController
+                    val navGraph = navController.navInflater.inflate(R.navigation.navigation_community)
+                    navController.graph = navGraph
                 }
 
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
