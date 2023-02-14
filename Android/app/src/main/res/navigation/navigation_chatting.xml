@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_chatting"
+    app:startDestination="@id/chattingListFragment">
+
+    <fragment
+        android:id="@+id/chattingListFragment"
+        android:name="com.ssafy.campinity.presentation.chatting.ChattingListFragment"
+        android:label="ChattingListFragment"
+        tools:layout="@layout/fragment_chatting_list">
+        <action
+            android:id="@+id/action_chattingListFragment_to_chattingRoomFragment"
+            app:destination="@id/chattingRoomFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/chattingRoomFragment"
+        android:name="com.ssafy.campinity.presentation.chatting.ChattingRoomFragment"
+        android:label="ChattingRoomFragment"
+        tools:layout="@layout/fragment_chatting_room" />
+</navigation>

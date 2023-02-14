@@ -572,6 +572,10 @@
     <string name="image_campsite_no_images">등록된 캠핑장 사진이 없습니다.</string>
     <string name="content_empty_scrap">스크랩 내역이 존재하지 않습니다.</string>
 
+    <!-- Chatting -->
+    <string name="content_chat_send">전송</string>
+    <string name="title_chat_room">Chat Room</string>
+
     <!-- MyPage Category Spinner -->
     <string-array name="category_array">
         <item>리뷰</item>
