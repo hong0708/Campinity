@@ -3,12 +3,16 @@ package com.ssafy.campinity.presentation.community.campsite
 import android.Manifest
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.os.Build
 import android.view.View
 import androidx.activity.OnBackPressedCallback
+import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,11 +25,12 @@ import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
 import com.ssafy.campinity.common.util.CustomDialogInterface
-import com.ssafy.campinity.common.util.Permission
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
+import com.ssafy.campinity.domain.entity.community.UserLocation
 import com.ssafy.campinity.presentation.base.BaseFragment
+import com.ssafy.campinity.presentation.community.CommunityActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import net.daum.mf.map.api.MapPOIItem
@@ -33,6 +38,7 @@ import net.daum.mf.map.api.MapPoint
 import net.daum.mf.map.api.MapView
 
 @AndroidEntryPoint
+@RequiresApi(Build.VERSION_CODES.Q)
 class CommunityCampsiteFragment :
     BaseFragment<FragmentCommunityCampsiteBinding>(R.layout.fragment_community_campsite),
     CustomDialogInterface,
@@ -51,6 +57,8 @@ class CommunityCampsiteFragment :
     private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
+    private var isUserIn = false
+    private var newUserLocation = UserLocation(0.0, 0.0)
 
     override fun initView() {
         initToggle()
@@ -69,7 +77,10 @@ class CommunityCampsiteFragment :
         mapView.setPOIItemEventListener(this)
         mapView.setZoomLevel(1, true)
         binding.clCommunityMap.addView(mapView)
-        checkPermission()
+
+        if (checkPermission()) {
+            initMapView()
+        }
     }
 
     override fun onPause() {
@@ -139,7 +150,8 @@ class CommunityCampsiteFragment :
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
 
     @Deprecated("Deprecated in Java")
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {}
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
 
     override fun onCalloutBalloonOfPOIItemTouched(
         p0: MapView?,
@@ -177,9 +189,13 @@ class CommunityCampsiteFragment :
     }
 
     private fun initToggle() {
-        when(ApplicationClass.preferences.isSubScribing) {
-            true -> binding.toggleCampsite.isOn = true
-            false -> binding.toggleCampsite.isOn = false
+        when (ApplicationClass.preferences.isSubScribing) {
+            true -> {
+                binding.toggleCampsite.isOn = true
+            }
+            false -> {
+                binding.toggleCampsite.isOn = false
+            }
         }
     }
 
@@ -491,7 +507,7 @@ class CommunityCampsiteFragment :
         val userNowLocation: Location? =
             lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
         //위도 , 경도
-        if(userNowLocation != null){
+        if (userNowLocation != null) {
             val userLatitude = userNowLocation.latitude
             val userLongitude = userNowLocation.longitude
             val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
@@ -499,24 +515,28 @@ class CommunityCampsiteFragment :
         }
     }
 
-    private fun checkPermission() {
+    @RequiresApi(Build.VERSION_CODES.Q)
+    private fun checkPermission(): Boolean {
         if (ContextCompat.checkSelfPermission(
                 requireContext(),
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
+            && ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
         ) {
-            initMapView()
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                Permission.ACCESS_FINE_LOCATION
-            )
-            checkPermission()
+            return true
         }
+
+        val permissions: Array<String> = arrayOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
+
+        ActivityCompat.requestPermissions(requireActivity(), permissions, 0)
+        activity?.onBackPressed()
+        return false
     }
 
     @SuppressLint("MissingPermission")
@@ -537,21 +557,53 @@ class CommunityCampsiteFragment :
         return myLoc.distanceTo(targetLoc)
     }
 
+    private fun checkUserIn(userLat: Double, userLng: Double, lat: Double, lng: Double): Float {
+        val userLoc = Location(LocationManager.NETWORK_PROVIDER)
+        val campsiteLoc = Location(LocationManager.NETWORK_PROVIDER)
+        userLoc.latitude = userLat
+        userLoc.longitude = userLng
+        campsiteLoc.latitude = lat
+        campsiteLoc.longitude = lng
+
+        return userLoc.distanceTo(campsiteLoc)
+    }
+
     @SuppressLint("ResourceAsColor")
     private fun setSubscribeState() {
-        binding.toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
-        binding.toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
-        binding.toggleCampsite.setOnToggledListener { _, isOn ->
-            if (isOn) {
-                ApplicationClass.preferences.isSubScribing = true
-                communityCampsiteViewModel.subscribeCampSite(
-                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                    ApplicationClass.preferences.fcmToken.toString()
-                )
-            } else {
-                ApplicationClass.preferences.isSubScribing = false
-                communityCampsiteViewModel.subscribeCampSite(
-                    "", ApplicationClass.preferences.fcmToken.toString())
+        val onService = requireActivity() as CommunityActivity
+        binding.apply {
+            toggleCampsite.colorOff = resources.getColor(R.color.white_smoke)
+            toggleCampsite.colorOn = resources.getColor(R.color.wild_willow)
+            toggleCampsite.setOnToggledListener { _, isOn ->
+                if (isOn) {
+                    if (ApplicationClass.preferences.userRecentCampsiteId != null) {
+                        onService.startLocationBackground()
+                        if (isUserIn) {
+                            ApplicationClass.preferences.isSubScribing = true
+                            communityCampsiteViewModel.subscribeCampSite(
+                                ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                                ApplicationClass.preferences.fcmToken.toString()
+                            )
+                            showToast("현재 캠핑장 범위에 포함됩니다.")
+                        } else {
+                            showToast("현재 해당 캠핑장 범위에 포함되는 위치가 아닙니다.")
+                            /*CoroutineScope(Dispatchers.Main).launch {
+                                toggleCampsite.isOn = false
+                            }*/
+                        }
+                    } else {
+                        showToast("캠핑장 설정이 필요합니다.")
+                        /*CoroutineScope(Dispatchers.Main).launch {
+                            toggleCampsite.isOn = false
+                        }*/
+                    }
+                } else {
+                    onService.stopLocationBackground()
+                    ApplicationClass.preferences.isSubScribing = false
+                    communityCampsiteViewModel.subscribeCampSite(
+                        "", ApplicationClass.preferences.fcmToken.toString()
+                    )
+                }
             }
         }
     }
@@ -568,6 +620,23 @@ class CommunityCampsiteFragment :
             newState: SlidingUpPanelLayout.PanelState?
         ) {
 
+        }
+    }
+
+    // 현재 위치 받아오는 이너 클래스
+    inner class GetUserLocation() : BroadcastReceiver() {
+        override fun onReceive(p0: Context?, p1: Intent?) {
+            val action = p1!!.action
+            if (action == "test") {
+                newUserLocation = p1.getSerializableExtra("test") as UserLocation
+
+                isUserIn = checkUserIn(
+                    newUserLocation.latitude,
+                    newUserLocation.longitude,
+                    ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
+                    ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
+                ) < 10000
+            }
         }
     }
 }
