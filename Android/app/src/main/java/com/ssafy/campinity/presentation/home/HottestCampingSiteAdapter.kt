@@ -35,7 +35,6 @@ class HottestCampingSiteAdapter(private val onItemClicked: (campsiteId: String) 
         this.items = campsiteItem
         notifyDataSetChanged()
     }
-
 }
 
 class HottestCampingSiteViewHolder(
