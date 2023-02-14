@@ -22,6 +22,10 @@ services:
               '--collation-server=utf8mb4_unicode_ci']
     ports:
       - 3306:3306
+    links:
+      - mongo
+    depends_on:
+      - mongo
     restart: unless-stopped
     networks:
       default_bridge:
@@ -95,13 +99,30 @@ services:
       default_bridge:
         ipv4_address: 172.33.0.13
 
+  mongo:
+    image: "mongo:4.4.3"
+    container_name: mongo
+    hostname: mongo
+    networks:
+      default_bridge:
+        ipv4_address: 172.33.0.14
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
+    restart: always
+    ports:
+      - 27017:27017
+    command: [ "--bind_ip", "0.0.0.0" ]
+    volumes:
+      - mongo-data:/data/db
+
 volumes:
   upload-images:
   initdb-volume:
   confd-volume:
   data-volume:
   redis-data:
-
+  mongo-data:
 networks:
   default_bridge:
     ipam:
