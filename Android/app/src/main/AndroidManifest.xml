@@ -88,7 +88,12 @@
 
         <activity
             android:name=".presentation.community.CommunityActivity"
-            android:exported="true" />
+            android:exported="true">
+            <intent-filter>
+                <action android:name="COMMUNITY" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".presentation.community.note.CommunityNoteActivity"
@@ -106,7 +111,7 @@
             android:name=".presentation.community.campsite.ReceiveHelpNoteActivity"
             android:exported="true">
             <intent-filter>
-                <action android:name="COMMUNITY_ACTIVITY" />
+                <action android:name="RECEIVE_HELP_NOTE" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
