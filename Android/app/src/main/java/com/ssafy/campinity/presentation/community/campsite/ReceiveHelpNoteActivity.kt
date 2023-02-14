@@ -1,0 +1,47 @@
+package com.ssafy.campinity.presentation.community.campsite
+
+import android.content.Intent
+import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.ssafy.campinity.ApplicationClass
+import com.ssafy.campinity.common.util.showToastMessage
+import com.ssafy.campinity.databinding.ActivityReceiveHelpNoteBinding
+import com.ssafy.campinity.presentation.community.CommunityActivity
+import dagger.hilt.android.AndroidEntryPoint
+
+@AndroidEntryPoint
+class ReceiveHelpNoteActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityReceiveHelpNoteBinding
+    private val viewModel by viewModels<CommunityHelpNoteViewModel>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityReceiveHelpNoteBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        initView()
+        initListener()
+    }
+
+    private fun initView() {
+        binding.tvContent.text = ApplicationClass.preferences.helpContent
+    }
+
+    private fun initListener() {
+        binding.btnReceive.setOnClickListener {
+            viewModel.replyHelp(
+                ApplicationClass.preferences.fcmMessageId.toString(),
+                ApplicationClass.preferences.fcmToken.toString()
+            )
+            showToastMessage("도움 신청이 완료되었습니다.")
+            val intent = Intent(this, CommunityActivity::class.java)
+            startActivity(intent)
+        }
+        binding.btnCancel.setOnClickListener {
+            val intent = Intent(this, CommunityActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}

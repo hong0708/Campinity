@@ -13,6 +13,8 @@ data class SearchBriefResponse(
     val doName: String,
     @SerializedName("images")
     val images: List<String>,
+    @SerializedName("thumbnails")
+    val thumbnails: List<String>,
     @SerializedName("isScraped")
     val isScraped: Boolean,
     @SerializedName("latitude")
@@ -30,6 +32,7 @@ data class SearchBriefResponse(
         "$doName $sigunguName",
         messageCnt,
         images,
+        thumbnails,
         isScraped,
         latitude,
         longitude

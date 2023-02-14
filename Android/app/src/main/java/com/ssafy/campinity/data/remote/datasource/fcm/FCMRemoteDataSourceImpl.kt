@@ -15,4 +15,7 @@ class FCMRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun createHelpNote(body: FCMMessageRequest): Int =
         fcmApiService.createHelpNote(body)
+
+    override suspend fun replyHelp(body: FCMReplyRequest): Int? =
+        fcmApiService.replyHelp(body)
 }

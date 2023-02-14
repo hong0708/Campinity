@@ -39,10 +39,10 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun setNickname() {
-        splashViewModel.getInfo()
         splashViewModel.nickname.observe(this) {
             ApplicationClass.preferences.nickname = it
         }
+        splashViewModel.getInfo()
     }
 
     private fun checkTokenValidation() {

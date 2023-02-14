@@ -33,7 +33,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
     private val homeCollectionAdapter by lazy { HomeCollectionAdapter(this::getCollection) }
-    private val homeCampsiteAdapter by lazy { HomeCampingSiteAdapter(this::getCampsite) }
+    private val highestCampingSiteAdapter by lazy { HighestCampingSiteAdapter(this::getCampsite) }
+    private val hottestCampingSiteAdapter by lazy { HottestCampingSiteAdapter(this::getCampsite) }
     private val handler = Handler(Looper.getMainLooper()) {
         setPage()
         true
@@ -148,23 +149,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun initRankingCampsite() {
         binding.rvPopularCampingSite.apply {
-            adapter = homeCampsiteAdapter
+            adapter = hottestCampingSiteAdapter
             addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL,15))
         }
         homeViewModel.hottestCampsites.observe(viewLifecycleOwner) { response ->
             response?.let {
-                homeCampsiteAdapter.setCampsite(response)
+                hottestCampingSiteAdapter.setCampsite(response)
             }
         }
         homeViewModel.getHottestCampsites()
 
         binding.rvScoreCampingSite.apply {
-            adapter = homeCampsiteAdapter
+            adapter = highestCampingSiteAdapter
             addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL,15))
         }
         homeViewModel.highestCampsites.observe(viewLifecycleOwner) { response ->
             response?.let {
-                homeCampsiteAdapter.setCampsite(response)
+                highestCampingSiteAdapter.setCampsite(response)
             }
         }
         homeViewModel.getHighestCampsites()

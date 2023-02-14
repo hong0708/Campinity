@@ -205,14 +205,14 @@ class CampsiteDetailFragment :
     private fun initViewPager() {
         binding.vpCampsiteImage.apply {
             adapter = CampsiteDetailImageAdapter(
-                requireContext(), searchViewModel.campsiteData.value?.images ?: listOf()
+                requireContext(), searchViewModel.campsiteData.value?.thumbnails ?: listOf()
             )
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
 
         binding.ivIndicator.apply {
             val count =
-                if (searchViewModel.campsiteData.value?.images != null) searchViewModel.campsiteData.value?.images!!.size else 1
+                if (searchViewModel.campsiteData.value?.thumbnails != null) searchViewModel.campsiteData.value?.thumbnails!!.size else 1
             setSliderHeight(5.px(requireContext()).toFloat())
             setSliderGap(0F)
             setupWithViewPager(binding.vpCampsiteImage)

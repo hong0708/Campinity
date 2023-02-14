@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -8,10 +11,12 @@
             type="com.ssafy.campinity.domain.entity.home.RankingCampsiteItem" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="280dp"
-        android:layout_height="wrap_content">
+        android:layout_height="180dp"
+        android:background="@drawable/bg_rect_white_smoke_radius15"
+        android:clipToOutline="true"
+        tools:targetApi="s">
 
         <ImageView
             android:id="@+id/iv_home_camping_site"
