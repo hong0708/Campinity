@@ -22,10 +22,6 @@ services:
               '--collation-server=utf8mb4_unicode_ci']
     ports:
       - 3306:3306
-    links:
-      - mongo
-    depends_on:
-      - mongo
     restart: unless-stopped
     networks:
       default_bridge:
@@ -40,8 +36,11 @@ services:
       TZ: "Asia/Seoul"
     ports:
       - 8003:8003
+    links:
+      - mongo
     depends_on:
       - database
+      - mongo
     volumes:
       - upload-images:/var/lib/images
     logging:
