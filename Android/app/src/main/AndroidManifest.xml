@@ -112,10 +112,23 @@
             android:exported="true" />
 
         <activity
+            android:name=".presentation.chatting.ChattingRoomActivity"
+            android:exported="true" />
+
+        <activity
             android:name=".presentation.community.campsite.ReceiveHelpNoteActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="RECEIVE_HELP_NOTE" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".presentation.chatting.ChattingListActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="CHATTING" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
