@@ -1,7 +1,7 @@
 package com.ssafy.campinity.api.controller;
 
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
-import com.ssafy.campinity.core.dto.ChatMessageListDTO;
+//import com.ssafy.campinity.core.dto.ChatMessageListDTO;
 import com.ssafy.campinity.core.dto.MyChatRoomResDTO;
 import com.ssafy.campinity.core.entity.chat.ChatMessage;
 import com.ssafy.campinity.core.service.ChatService;
@@ -36,14 +36,14 @@ public class ChatController {
     }
 
 
-    @ApiOperation(value = "roomId의 채팅메세지 전체 조회 API입니다.")
-    @GetMapping("{roomId}/messages")
-    public ResponseEntity<ChatMessageListDTO> getChatMessage(
-            @AuthenticationPrincipal MemberDetails memberDetails,
-            @PathVariable String roomId){
-        ChatMessageListDTO chatMessages = chatService.getChatMessages(memberDetails.getMember().getId(), roomId);
-        return ResponseEntity.ok().body(chatMessages);
-    }
+//    @ApiOperation(value = "roomId의 채팅메세지 전체 조회 API입니다.")
+//    @GetMapping("{roomId}/messages")
+//    public ResponseEntity<ChatMessageListDTO> getChatMessage(
+//            @AuthenticationPrincipal MemberDetails memberDetails,
+//            @PathVariable String roomId){
+//        ChatMessageListDTO chatMessages = chatService.getChatMessages(memberDetails.getMember().getId(), roomId);
+//        return ResponseEntity.ok().body(chatMessages);
+//    }
 
 
 }

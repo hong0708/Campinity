@@ -1,6 +1,6 @@
 package com.ssafy.campinity.core.service.impl;
 
-import com.ssafy.campinity.core.dto.ChatMessageListDTO;
+//import com.ssafy.campinity.core.dto.ChatMessageListDTO;
 import com.ssafy.campinity.core.dto.MyChatRoomResDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.chat.ChatRoom;
@@ -73,7 +73,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
 
-    public ChatMessageListDTO getChatMessages(int memberId, String roomId){
-        return new ChatMessageListDTO();
-    }
+//    public ChatMessageListDTO getChatMessages(int memberId, String roomId){
+//        return new ChatMessageListDTO();
+//    }
 }
