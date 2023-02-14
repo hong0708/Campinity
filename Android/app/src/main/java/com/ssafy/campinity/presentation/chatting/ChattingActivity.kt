@@ -10,6 +10,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ChattingActivity : AppCompatActivity() {
+
     private lateinit var binding: ActivityChattingBinding
     private lateinit var navController: NavController
 
@@ -23,7 +24,5 @@ class ChattingActivity : AppCompatActivity() {
         navController = navHostFragment.navController
         val navGraph = navController.navInflater.inflate(R.navigation.navigation_chatting)
         navController.graph = navGraph
-
-
     }
 }
