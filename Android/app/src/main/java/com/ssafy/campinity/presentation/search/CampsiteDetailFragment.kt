@@ -248,10 +248,15 @@ class CampsiteDetailFragment :
                 addItemDecoration(
                     LinearItemDecoration(requireContext(), LinearLayoutManager.VERTICAL, 20)
                 )
-
-                setAverageRate(0)
             }
         }
+
+        if (searchViewModel.campsiteData.value!!.reviews.isEmpty()) {
+            binding.rvCampsiteReview.visibility = View.GONE
+            binding.tvShowListReview.visibility = View.GONE
+            binding.clEmptyCollection.visibility = View.VISIBLE
+        }
+        setAverageRate(0)
     }
 
     private fun initListener() {
@@ -333,11 +338,13 @@ class CampsiteDetailFragment :
             ivCampsiteScore5.setBackgroundResource(R.drawable.ic_star_off)
 
             var aver = 0.0
-            searchViewModel.campsiteData.value!!.reviews.forEach {
-                aver += it.rate
-            }
-            aver /= searchViewModel.campsiteData.value!!.reviews.size.toDouble()
 
+            searchViewModel.campsiteData.value!!.reviews.apply {
+                if (this.isNotEmpty()) {
+                    forEach { aver += it.rate }
+                    aver /= size.toDouble()
+                }
+            }
             tvContentCampsiteReviewScore.text =
                 resources.getString(R.string.content_average_rate, aver)
 
@@ -355,14 +362,24 @@ class CampsiteDetailFragment :
                 reviews = this.subList(0, 3)
                 campsiteReviewAdapter.setData(sync, reviews)
                 campsiteReviewAdapter.notifyDataSetChanged()
+                binding.rvCampsiteReview.visibility = View.VISIBLE
                 binding.tvShowListReview.visibility = View.VISIBLE
-            } else {
+                binding.clEmptyCollection.visibility = View.GONE
+            } else if (this.isNotEmpty()) {
                 campsiteReviewAdapter.setData(sync, this)
                 if (isInserted)
                     campsiteReviewAdapter.notifyItemInserted(position)
                 else
                     campsiteReviewAdapter.notifyItemRemoved(position)
+                binding.rvCampsiteReview.visibility = View.VISIBLE
                 binding.tvShowListReview.visibility = View.GONE
+                binding.clEmptyCollection.visibility = View.GONE
+            } else {
+                binding.rvCampsiteReview.visibility = View.GONE
+                binding.tvShowListReview.visibility = View.GONE
+                binding.clEmptyCollection.visibility = View.VISIBLE
+                campsiteReviewAdapter.setData(sync, listOf())
+                campsiteReviewAdapter.notifyDataSetChanged()
             }
         }
     }
