@@ -6,8 +6,8 @@
     <data>
 
         <variable
-            name="rankingCampsite"
-            type="com.ssafy.campinity.domain.entity.home.RankingCampsiteItem" />
+            name="campsite"
+            type="com.ssafy.campinity.domain.entity.mypage.ScrapCampsite" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -22,7 +22,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:contentDescription="@string/image_home_collection"
-            android:rankingImgUri="@{rankingCampsite.firstImageUrl}"
+            android:rankingImgUri="@{campsite.firstImageUrl}"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/bg_home_banner" />
 
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@{rankingCampsite.campName}"
+            android:text="@{campsite.campName}"
             android:textColor="@color/white"
             android:textSize="12sp"
             app:layout_constraintBottom_toTopOf="@id/iv_location_home_camping_site"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:fontFamily="@font/roboto_bold"
-            android:text="@{@string/content_home_campsite_location(rankingCampsite.sigunguName, rankingCampsite.doName)}"
+            android:text="@{@string/content_home_campsite_location(campsite.sigunguName, campsite.doName)}"
             android:textColor="@color/white"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="@id/iv_location_home_camping_site"

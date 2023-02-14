@@ -3,6 +3,7 @@ package com.ssafy.campinity.data.remote.service
 import com.ssafy.campinity.data.remote.datasource.mypage.LogoutRequest
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageNoteResponse
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageUserResponse
+import com.ssafy.campinity.data.remote.datasource.mypage.ScrapCampsiteResponse
 import com.ssafy.campinity.data.remote.datasource.user.UserResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -25,4 +26,7 @@ interface MyPageApiService {
         @PartMap map: Map<String, @JvmSuppressWildcards RequestBody>,
         @Part image: MultipartBody.Part?
     ): UserResponse
+
+    @GET("/api/v1/campsites/scrap-lists")
+    suspend fun getScrapCampsites(): List<ScrapCampsiteResponse>
 }

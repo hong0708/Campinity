@@ -151,6 +151,9 @@
         <action
             android:id="@+id/action_myPageFragment_to_curationDetailFragment"
             app:destination="@id/curationDetailFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_campsiteDetailFragment"
+            app:destination="@id/campsiteDetailFragment" />
     </fragment>
 
     <fragment

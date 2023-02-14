@@ -31,4 +31,7 @@ class MyPageRemoteDataSourceImpl @Inject constructor(
         map["isChanged"] = isChanged.toString().toRequestBody("text/plain".toMediaTypeOrNull())
         return myPageApiService.editUserInfo(map, profileImg)
     }
+
+    override suspend fun getScrapCampsites(): List<ScrapCampsiteResponse> =
+        myPageApiService.getScrapCampsites()
 }

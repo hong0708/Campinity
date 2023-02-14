@@ -10,7 +10,6 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.databinding.FragmentMyScrapBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
-import com.ssafy.campinity.presentation.home.HomeFragmentDirections
 import com.ssafy.campinity.presentation.search.SearchViewModel
 import kotlinx.coroutines.launch
 
@@ -39,11 +38,19 @@ class MyScrapFragment : BaseFragment<FragmentMyScrapBinding>(R.layout.fragment_m
             binding.spinnerCategory.adapter = adapter
         }
 
+        binding.rvMyScrap.apply {
+            layoutManager =
+                GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+            addItemDecoration(GridItemDecoration(context, 2, 4, 4))
+        }
+
         binding.spinnerCategory.onItemSelectedListener =
             object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                     if (p0?.getItemAtPosition(p2).toString() == "캠핑장") {
-                        myPageViewModel.etcNotesListData.observe(viewLifecycleOwner) { response ->
+                        myPageViewModel.getScrapCampsites()
+                        binding.rvMyScrap.adapter = myScrapCampingSiteAdapter
+                        myPageViewModel.campsiteListData.observe(viewLifecycleOwner) { response ->
                             response?.let {
                                 if (response.isEmpty()) {
                                     binding.rvMyScrap.visibility = View.GONE
@@ -51,17 +58,13 @@ class MyScrapFragment : BaseFragment<FragmentMyScrapBinding>(R.layout.fragment_m
                                 } else {
                                     binding.clEmptyScrap.visibility = View.GONE
                                     // 캠핑장 어댑터 붙이기
+                                    myScrapCampingSiteAdapter.setCampsite(it)
                                 }
                             }
                         }
                     } else {
                         myPageViewModel.getScrapCurations()
-                        binding.rvMyScrap.apply {
-                            adapter = myScrapCurationAdapter
-                            layoutManager =
-                                GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
-                            addItemDecoration(GridItemDecoration(context, 2, 4, 4))
-                        }
+                        binding.rvMyScrap.adapter = myScrapCurationAdapter
                         myPageViewModel.curationListData.observe(viewLifecycleOwner) { response ->
                             response?.let {
                                 if (response.isEmpty()) {
@@ -92,7 +95,12 @@ class MyScrapFragment : BaseFragment<FragmentMyScrapBinding>(R.layout.fragment_m
     private fun getCampsite(campsiteId: String) {
         lifecycleScope.launch {
             val sync = searchViewModel.getCampsiteDetailAsync(campsiteId)
-            navigate(HomeFragmentDirections.actionHomeFragmentToCampsiteDetailFragment(sync, -1))
+            navigate(
+                MyPageFragmentDirections.actionMyPageFragmentToCampsiteDetailFragment(
+                    sync,
+                    -1
+                )
+            )
         }
     }
 }

@@ -13,13 +13,11 @@ import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
 import com.ssafy.campinity.domain.entity.curation.CurationItem
 import com.ssafy.campinity.domain.entity.mypage.MyPageNote
 import com.ssafy.campinity.domain.entity.mypage.MyPageUser
+import com.ssafy.campinity.domain.entity.mypage.ScrapCampsite
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageDetailInfoUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetScrapCurationsUseCase
-import com.ssafy.campinity.domain.usecase.mypage.EditUserInfoUseCase
-import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
-import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
-import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
+import com.ssafy.campinity.domain.usecase.mypage.*
 import com.ssafy.campinity.domain.usecase.user.CheckDuplicationUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -38,7 +36,8 @@ class MyPageViewModel @Inject constructor(
     private val checkDuplicationUseCase: CheckDuplicationUseCase,
     private val requestLogoutUseCase: RequestLogoutUseCase,
     private val editUserInfoUseCase: EditUserInfoUseCase,
-    private val getScrapCurationsUseCase: GetScrapCurationsUseCase
+    private val getScrapCurationsUseCase: GetScrapCurationsUseCase,
+    private val getScrapCampsitesUseCase: GetScrapCampsitesUseCase
 ) : ViewModel() {
 
     private val _etcNotesListData: MutableLiveData<List<CampsiteMessageDetailInfo>> =
@@ -51,6 +50,9 @@ class MyPageViewModel @Inject constructor(
 
     private val _curationListData: MutableLiveData<List<CurationItem>?> = MutableLiveData()
     val curationListData: LiveData<List<CurationItem>?> = _curationListData
+
+    private val _campsiteListData: MutableLiveData<List<ScrapCampsite>?> = MutableLiveData()
+    val campsiteListData: LiveData<List<ScrapCampsite>?> = _campsiteListData
 
     private val _detailData: MutableLiveData<CampsiteMessageDetailInfo?> = MutableLiveData()
     val detailData: LiveData<CampsiteMessageDetailInfo?> = _detailData
@@ -115,6 +117,17 @@ class MyPageViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 Log.e("getScrapCurations", "getScrapCurations: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun getScrapCampsites() = viewModelScope.launch {
+        when (val value = getScrapCampsitesUseCase()) {
+            is Resource.Success<List<ScrapCampsite>> -> {
+                _campsiteListData.value = value.data
+            }
+            is Resource.Error -> {
+                Log.e("getScrapCampsites", "getScrapCampsites: ${value.errorMessage}")
             }
         }
     }
