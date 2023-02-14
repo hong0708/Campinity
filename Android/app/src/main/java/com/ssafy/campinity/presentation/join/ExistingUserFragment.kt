@@ -2,7 +2,6 @@ package com.ssafy.campinity.presentation.join
 
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
-import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentExistingUserBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -18,9 +17,12 @@ class ExistingUserFragment :
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
 
     override fun initView() {
+        myPageViewModel.nickname.observe(viewLifecycleOwner) {
+            binding.tvContentExistingUser.text =
+                String.format(resources.getString(R.string.content_existing_user), it)
+        }
         myPageViewModel.getInfo()
-        binding.tvContentExistingUser.text =
-            String.format(resources.getString(R.string.content_existing_user), ApplicationClass.preferences.nickname)
+
         viewLifecycleOwner.lifecycleScope.launch {
             delay(1000)
             navigate(ExistingUserFragmentDirections.actionExistingUserFragmentToHomeFragment())

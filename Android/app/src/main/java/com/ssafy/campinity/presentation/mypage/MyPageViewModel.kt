@@ -105,6 +105,7 @@ class MyPageViewModel @Inject constructor(
             is Resource.Success<MyPageUser> -> {
                 _nickname.value = value.data.name
                 _profileImgStr.value = value.data.imagePath
+                ApplicationClass.preferences.nickname = value.data.name
             }
             is Resource.Error -> {
                 Log.e("getUserInfo", "getUserInfo: ${value.errorMessage}")

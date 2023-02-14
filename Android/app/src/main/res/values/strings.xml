@@ -52,7 +52,7 @@
     <string name="content_join_cancle_dialog_3">취소</string>
     <string name="content_join_cancle_dialog_4">하시겠어요?</string>
     <string name="content_cancel">취소</string>
-    <string name="content_join_complete">김싸피님!\n회원가입이 완료되었습니다.</string>
+    <string name="content_join_complete">%s님!\n회원가입이 완료되었습니다.</string>
 
     <!-- Home -->
     <string name="image_arrow_left">image_arrow_left</string>
