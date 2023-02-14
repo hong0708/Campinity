@@ -11,10 +11,7 @@ import com.ssafy.campinity.data.remote.datasource.note.NoteQuestionRequest
 import com.ssafy.campinity.domain.entity.community.NoteDetail
 import com.ssafy.campinity.domain.entity.community.NoteQuestionAnswer
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
-import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
-import com.ssafy.campinity.domain.usecase.note.CreateNoteQuestionUseCase
-import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionDetailUseCase
-import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
+import com.ssafy.campinity.domain.usecase.note.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -23,6 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CommunityNoteViewModel @Inject constructor(
     private val getNoteQuestionUseCase: GetNoteQuestionUseCase,
+    private val getNoteMyQuestionUseCase: GetNoteMyQuestionUseCase,
     private val createNoteQuestionUseCase: CreateNoteQuestionUseCase,
     private val noteQuestionDetailUseCase: GetNoteQuestionDetailUseCase,
     private val createNoteAnswerUseCase: CreateNoteAnswerUseCase
@@ -51,7 +49,7 @@ class CommunityNoteViewModel @Inject constructor(
     }
 
     fun getNoteMyQuestions(campsiteId: String) = viewModelScope.launch {
-        when (val value = getNoteQuestionUseCase(campsiteId)) {
+        when (val value = getNoteMyQuestionUseCase(campsiteId)) {
             is Resource.Success<List<NoteQuestionTitle>> -> {
                 val noteQuestionList = value.data
                 _noteMyQuestions.value = noteQuestionList
