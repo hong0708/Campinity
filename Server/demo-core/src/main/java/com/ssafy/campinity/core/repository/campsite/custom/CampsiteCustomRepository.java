@@ -176,9 +176,9 @@ public class CampsiteCustomRepository {
 
             completedResult.add(camp);
 
-            if (completedResult.size() >= 100) {
-                break;
-            }
+//            if (completedResult.size() >= 100) {
+//                break;
+//            }
         }
         return completedResult;
     }
