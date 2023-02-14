@@ -38,14 +38,14 @@ public class ChatRepositoryTest {
         chatRoomRepository.deleteAll(List.of(chatRoom));
     }
 
-//    @Test
-//    public void delteAllData() {
-//        chatMessageRepository.deleteAll();
-//        chatRoomRepository.deleteAll();
-//
-//        assertEquals(0, chatMessageRepository.findAll().size());
-//        assertEquals(0, chatRoomRepository.findAll().size());
-//    }
+    @Test
+    public void delteAllData() {
+        chatMessageRepository.deleteAll();
+        chatRoomRepository.deleteAll();
+
+        assertEquals(0, chatMessageRepository.findAll().size());
+        assertEquals(0, chatRoomRepository.findAll().size());
+    }
     @Test
     @DisplayName("채팅메세지 저장 테스트")
     public void chatMessageShouldBeSave() {
@@ -69,7 +69,7 @@ public class ChatRepositoryTest {
         ChatRoom chatRoom = makeChatRoom();
 
         ChatRoom searchedRoom = chatRoomRepository.save(chatRoom);
-        String roomId = chatRoom.getId();
+        String roomId = chatRoom.getId().toString();
 
         ChatMessage chatMessage1 = ChatMessage.builder().message("msg1").roomId(roomId).sender("user1").timestamp(new Date()).build();
         ChatMessage chatMessage2 = ChatMessage.builder().message("msg2").roomId(roomId).sender("user2").timestamp(new Date()).build();
