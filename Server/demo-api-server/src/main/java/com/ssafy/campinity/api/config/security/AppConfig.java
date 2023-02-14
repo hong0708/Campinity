@@ -27,7 +27,8 @@ public class AppConfig {
             "/swagger-ui/**",
             "/swagger-resources/**",
             "/api/v4/members/login-kakao",
-            "/images/**/**"
+            "/images/**/**",
+            "/chat/**/**"
     };
 
     public AppConfig(JwtProvider jwtProvider, MemberDetailService memberDetailService, CustomAuthenticationEntryPoint customAuthenticationEntryPoint, RedisDao redisDao) {

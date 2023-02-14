@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
+import org.hibernate.id.UUIDGenerator;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ public class ChatRoom {
     @Id
     @Column(columnDefinition = "char(36)")
     @Type(type = "uuid-char")
-    private UUID id;
+    private String id;
     private String name;
     private List<String> users;
     private String fcmMessageBody;
@@ -29,7 +30,7 @@ public class ChatRoom {
 
     @Builder
     public ChatRoom(UUID id, String name, List<String> users, String fcmMessageBody, LocalDate createdAt) {
-        this.id = id;
+        this.id = UUID.randomUUID().toString();
         this.name = name;
         this.users = users;
         this.fcmMessageBody = fcmMessageBody;
