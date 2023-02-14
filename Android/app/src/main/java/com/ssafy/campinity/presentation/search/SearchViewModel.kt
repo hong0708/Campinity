@@ -214,12 +214,14 @@ class SearchViewModel @Inject constructor(
         )) {
             is Resource.Success<List<CampsiteNoteBriefInfo>> -> {
                 val arrayList = arrayListOf<CampsiteNoteBriefInfo>()
-
-                if (campsiteNoteList.value == null)
-                    _campsiteNoteList.value = arrayListOf()
-                else {
-                    arrayList.addAll(campsiteNoteList.value!!)
-                }
+//
+//                if (campsiteNoteList.value == null) {
+//                    _campsiteNoteList.value = arrayListOf()
+//                    Log.d("SearchMapFragment", "getCampsiteReviewNotes[$campsiteId]: $arrayList")
+//                } else {
+//                    arrayList.addAll(campsiteNoteList.value!!)
+//                    Log.d("SearchMapFragment", "getCampsiteReviewNotes[$campsiteId]__: $arrayList")
+//                }
 
                 value.data.forEach {
                     if (it.messageCategory == "리뷰")

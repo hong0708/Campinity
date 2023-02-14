@@ -24,6 +24,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     private lateinit var mapView: MapView
     private val searchViewModel by activityViewModels<SearchViewModel>()
+    private var reviewNotePOIItems = arrayOf<MapPOIItem>()
 
     override fun initView() {}
 
@@ -89,11 +90,11 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
         searchViewModel.campsiteListData.observe(viewLifecycleOwner) { campsiteBriefInfoList ->
             if (campsiteBriefInfoList != null && campsiteBriefInfoList.isNotEmpty()) {
-                campsiteBriefInfoList.forEach {
-                    searchViewModel.getCampsiteReviewNotes(
-                        it.campsiteId,
-                    )
-                }
+//                campsiteBriefInfoList.forEach {
+//                    searchViewModel.getCampsiteReviewNotes(
+//                        it.campsiteId,
+//                    )
+//                }
 
                 drawCampsiteMarkers(campsiteBriefInfoList)
                 val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
@@ -128,6 +129,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     }
 
     private fun drawReviewNoteMarkers(markerLocationList: List<CampsiteNoteBriefInfo>) {
+        reviewNotePOIItems = Array(markerLocationList.size) { _ -> MapPOIItem() }
+
         markerLocationList.forEachIndexed { index, campsiteNoteBriefInfo ->
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(
@@ -143,6 +146,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 isShowCalloutBalloonOnTouch = false
             }
             mapView.addPOIItem(marker)
+            reviewNotePOIItems[index] = marker
         }
     }
 
@@ -171,7 +175,12 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                             searchViewModel.campsiteListData.value!![index].lat,
                             searchViewModel.campsiteListData.value!![index].lng,
                         )
+                    mapView.setZoomLevel(1, false)
                     mapView.setMapCenterPoint(markerPosition, true)
+
+                    mapView.removePOIItems(reviewNotePOIItems)
+
+                    searchViewModel.getCampsiteReviewNotes(searchViewModel.campsiteListData.value!![index].campsiteId)
 
                     CampsiteBriefDialog(
                         requireContext(),
