@@ -104,6 +104,11 @@ dependencies {
     implementation libs.work.runtime.ktx
 
     implementation libs.toggle
+
+    implementation libs.stomp.protocol
+
+    implementation libs.rx.java
+    implementation libs.rx.android
 }
 
 kapt {
