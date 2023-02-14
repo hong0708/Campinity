@@ -8,4 +8,4 @@ ARG JAR_FILE=./build/libs/*.jar
 ADD ${JAR_FILE} app.jar
 
 # app.jar 파일을 실행합니다.
-ENTRYPOINT ["java","-Duser.timezone=Asia/Seoul","-jar","/app.jar"]
+ENTRYPOINT ["java","-Duser.timezone=Asia/Seoul, -Dspring.data.mongodb.uri=mongodb://root:root@mongo:27017/root?authSource=admin&retryWrites=true&w=majority", "-jar","/app.jar"]
