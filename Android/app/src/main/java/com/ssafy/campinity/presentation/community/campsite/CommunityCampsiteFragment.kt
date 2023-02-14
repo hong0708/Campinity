@@ -22,6 +22,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.gif.GifDrawable
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
@@ -193,8 +200,34 @@ class CommunityCampsiteFragment :
                         campsiteMessageBriefInfo.longitude.toDouble()
                     ) < 100
                 ) {
+                    Glide.with(requireActivity())
+                        .asGif()
+                        .load(R.drawable.animation_note_lock)
+                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
+                        .listener(object : RequestListener<GifDrawable> {
+                            override fun onLoadFailed(
+                                e: GlideException?,
+                                model: Any?,
+                                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                return false
+                            }
+                            override fun onResourceReady(
+                                resource: GifDrawable?,
+                                model: Any?,
+                                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
+                                dataSource: DataSource?,
+                                isFirstResource: Boolean
+                            ): Boolean {
+                                resource?.setLoopCount(1)
+                                return false
+                            }
+                        })
+                        .into(binding.ivGif)
+
                     // 충분히 가까워서 유효
-                    getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                    //getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
                 } else {
                     //아직 멀어서 불가능
                     showToast("쪽지와 더 근접한 위치에서 열어보세요!")

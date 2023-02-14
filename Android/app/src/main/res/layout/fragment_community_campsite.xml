@@ -25,6 +25,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+                <ImageView
+                    android:id="@+id/iv_gif"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:contentDescription="@string/gif_note_lock" />
+
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_community_map"
                     android:layout_width="match_parent"
