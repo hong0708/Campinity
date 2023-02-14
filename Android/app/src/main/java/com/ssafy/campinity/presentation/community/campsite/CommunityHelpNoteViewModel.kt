@@ -26,6 +26,9 @@ class CommunityHelpNoteViewModel @Inject constructor(
     private val _receiverNum: MutableLiveData<Int?> = MutableLiveData()
     val receiverNum: LiveData<Int?> = _receiverNum
 
+    private val _assigned: MutableLiveData<Boolean?> = MutableLiveData()
+    val assigned: LiveData<Boolean?> = _assigned
+
     fun createHelpNoteMessage(
         body: String,
         campsiteId: String,
@@ -52,7 +55,14 @@ class CommunityHelpNoteViewModel @Inject constructor(
 
     fun replyHelp(fcmMessageId: String, fcmToken: String) = viewModelScope.launch {
         when (val value = requestReplyHelpUseCase(FCMReplyRequest(fcmMessageId, fcmToken))) {
-            is Resource.Success<Int?> -> {}
+            is Resource.Success<Int?> -> {
+                if (value.data == 0) {
+                    _assigned.value = false
+                } else {
+                    _assigned.value = true
+                    Log.d("replyHelp", "replyHelp: ${value.data}")
+                }
+            }
             is Resource.Error -> {
                 Log.e("replyHelp", "${value.errorMessage}")
             }

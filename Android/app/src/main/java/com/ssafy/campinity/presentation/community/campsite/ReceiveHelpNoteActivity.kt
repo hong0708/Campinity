@@ -10,6 +10,7 @@ import com.ssafy.campinity.databinding.ActivityReceiveHelpNoteBinding
 import com.ssafy.campinity.presentation.community.CommunityActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class ReceiveHelpNoteActivity : AppCompatActivity() {
 
@@ -31,17 +32,25 @@ class ReceiveHelpNoteActivity : AppCompatActivity() {
 
     private fun initListener() {
         binding.btnReceive.setOnClickListener {
+            viewModel.assigned.observe(this) {
+                if (it == false) {
+                    showToastMessage("다음 기회를 노려보세요!")
+                }
+            }
             viewModel.replyHelp(
                 ApplicationClass.preferences.fcmMessageId.toString(),
                 ApplicationClass.preferences.fcmToken.toString()
             )
             showToastMessage("도움 신청이 완료되었습니다.")
-            val intent = Intent(this, CommunityActivity::class.java)
-            startActivity(intent)
+            onBackPressed()
+            val i = Intent(this, CommunityActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(i)
         }
         binding.btnCancel.setOnClickListener {
-            val intent = Intent(this, CommunityActivity::class.java)
-            startActivity(intent)
+            val i = Intent(this, CommunityActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(i)
         }
     }
 }
