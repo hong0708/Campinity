@@ -16,4 +16,6 @@ interface MyPageRemoteDataSource {
         isChanged: Boolean,
         profileImg: MultipartBody.Part?
     ): UserResponse
+
+    suspend fun getScrapCampsites(): List<ScrapCampsiteResponse>
 }

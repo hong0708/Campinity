@@ -148,6 +148,12 @@
         <action
             android:id="@+id/action_myPageFragment_to_onBoardingFragment"
             app:destination="@id/onBoardingFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_curationDetailFragment"
+            app:destination="@id/curationDetailFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_campsiteDetailFragment"
+            app:destination="@id/campsiteDetailFragment" />
     </fragment>
 
     <fragment
@@ -214,6 +220,7 @@
             android:name="question_id"
             app:argType="string" />
     </fragment>
+
     <activity
         android:id="@+id/communityActivity"
         android:name="com.ssafy.campinity.presentation.community.CommunityActivity"

@@ -6,6 +6,7 @@ import com.ssafy.campinity.data.remote.datasource.mypage.LogoutRequest
 import com.ssafy.campinity.data.remote.datasource.mypage.MyPageRemoteDataSource
 import com.ssafy.campinity.domain.entity.mypage.MyPageNote
 import com.ssafy.campinity.domain.entity.mypage.MyPageUser
+import com.ssafy.campinity.domain.entity.mypage.ScrapCampsite
 import com.ssafy.campinity.domain.entity.user.User
 import com.ssafy.campinity.domain.repository.MyPageRepository
 import kotlinx.coroutines.Dispatchers
@@ -38,5 +39,10 @@ class MyPageRepositoryImpl @Inject constructor(
     ): Resource<User> =
         wrapToResource(Dispatchers.IO) {
             myPageRemoteDataSource.editUserInfo(nickName, isChanged, profileImg).toDomainModel()
+        }
+
+    override suspend fun getScrapCampsites(): Resource<List<ScrapCampsite>> =
+        wrapToResource(Dispatchers.IO) {
+            myPageRemoteDataSource.getScrapCampsites().map { it.toDomainModel() }
         }
 }

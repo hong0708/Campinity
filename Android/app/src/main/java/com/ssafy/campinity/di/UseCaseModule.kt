@@ -8,6 +8,7 @@ import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.community.*
 import com.ssafy.campinity.domain.usecase.curation.GetCurationDetailUseCase
 import com.ssafy.campinity.domain.usecase.curation.GetCurationsUseCase
+import com.ssafy.campinity.domain.usecase.curation.GetScrapCurationsUseCase
 import com.ssafy.campinity.domain.usecase.curation.ScrapCurationUseCase
 import com.ssafy.campinity.domain.usecase.fcm.CreateHelpNoteUseCase
 import com.ssafy.campinity.domain.usecase.fcm.RequestRenewTokenUseCase
@@ -16,6 +17,7 @@ import com.ssafy.campinity.domain.usecase.fcm.RequestSubscribeCampSiteUseCase
 import com.ssafy.campinity.domain.usecase.home.GetHomeBannersUseCase
 import com.ssafy.campinity.domain.usecase.home.GetRankingCampsiteUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetNotesUseCase
+import com.ssafy.campinity.domain.usecase.mypage.GetScrapCampsitesUseCase
 import com.ssafy.campinity.domain.usecase.mypage.GetUserInfoUseCase
 import com.ssafy.campinity.domain.usecase.mypage.RequestLogoutUseCase
 import com.ssafy.campinity.domain.usecase.note.CreateNoteAnswerUseCase
@@ -212,4 +214,16 @@ object UseCaseModule {
     fun provideGetRankingCampsiteUseCase(
         homeRepository: HomeRepository
     ): GetRankingCampsiteUseCase = GetRankingCampsiteUseCase(homeRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetScrapCurationsUseCase(
+        curationRepository: CurationRepository
+    ): GetScrapCurationsUseCase = GetScrapCurationsUseCase(curationRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetScrapCampsitesUseCase(
+        myPageRepository: MyPageRepository
+    ): GetScrapCampsitesUseCase = GetScrapCampsitesUseCase(myPageRepository)
 }

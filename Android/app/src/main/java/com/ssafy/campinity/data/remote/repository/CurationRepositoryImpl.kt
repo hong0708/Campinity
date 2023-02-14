@@ -27,4 +27,9 @@ class CurationRepositoryImpl @Inject constructor(
         wrapToResource(Dispatchers.IO) {
             curationRemoteDataSource.scrapCuration(curationId).toDomainModel()
         }
+
+    override suspend fun getScrapCurations(): Resource<List<CurationItem>> =
+        wrapToResource(Dispatchers.IO) {
+            curationRemoteDataSource.getScrapCurations().map { it.toDomainModel() }
+        }
 }

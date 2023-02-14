@@ -22,4 +22,7 @@ interface CurationApiService {
     suspend fun scrapCuration(
         @Path("curationId") curationId: String
     ): CurationScrapResponse
+
+    @GET("/api/v7/curations/scrap-lists")
+    suspend fun getScrapCurations(): List<CurationResponse>
 }
