@@ -19,6 +19,7 @@ import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.databinding.FragmentHomeBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.mypage.MyPageViewModel
+import com.ssafy.campinity.presentation.search.SearchViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -30,6 +31,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private val homeViewModel by viewModels<HomeViewModel>()
     private val myPageViewModel by activityViewModels<MyPageViewModel>()
+    private val searchViewModel by activityViewModels<SearchViewModel>()
 
     private val homeBannerAdapter by lazy { HomeBannerAdapter(this::getCurationDetail) }
     private val homeCollectionAdapter by lazy { HomeCollectionAdapter(this::getCollection) }
@@ -150,7 +152,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     private fun initRankingCampsite() {
         binding.rvPopularCampingSite.apply {
             adapter = hottestCampingSiteAdapter
-            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL,15))
+            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL, 15))
         }
         homeViewModel.hottestCampsites.observe(viewLifecycleOwner) { response ->
             response?.let {
@@ -161,7 +163,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
         binding.rvScoreCampingSite.apply {
             adapter = highestCampingSiteAdapter
-            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL,15))
+            addItemDecoration(LinearItemDecoration(context, RecyclerView.HORIZONTAL, 15))
         }
         homeViewModel.highestCampsites.observe(viewLifecycleOwner) { response ->
             response?.let {
@@ -192,11 +194,10 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
     }
 
     private fun getCampsite(campsiteId: String) {
-        navigate(
-            HomeFragmentDirections.actionHomeFragmentToCampsiteDetailFragment(
-                campsiteId
-            )
-        )
+        lifecycleScope.launch {
+            val sync = searchViewModel.getCampsiteDetailAsync(campsiteId)
+            navigate(HomeFragmentDirections.actionHomeFragmentToCampsiteDetailFragment(sync))
+        }
     }
 
     private fun initObserver() {
