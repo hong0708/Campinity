@@ -8,7 +8,7 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemHomeCampingSiteBinding
 import com.ssafy.campinity.domain.entity.home.RankingCampsiteItem
 
-class HomeCampingSiteAdapter(private val onItemClicked: (campsiteId: String) -> Unit) :
+class HighestCampingSiteAdapter(private val onItemClicked: (campsiteId: String) -> Unit) :
     RecyclerView.Adapter<CampingSiteViewHolder>() {
 
     private var items: List<RankingCampsiteItem> = listOf()
@@ -35,7 +35,6 @@ class HomeCampingSiteAdapter(private val onItemClicked: (campsiteId: String) -> 
         this.items = campsiteItem
         notifyDataSetChanged()
     }
-
 }
 
 class CampingSiteViewHolder(
