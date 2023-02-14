@@ -7,6 +7,7 @@ import lombok.ToString;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Document(collection = "chat_messages")
@@ -19,14 +20,14 @@ public class ChatMessage {
     private String roomId;
     private String sender;
     private String message;
-    private Date timestamp;
+    private LocalDateTime timestamp;
 
     @Builder
-    public ChatMessage(String id, String roomId, String sender, String message, Date timestamp) {
+    public ChatMessage(String id, String roomId, String sender, String message) {
         this.id = id;
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
-        this.timestamp = timestamp;
+        this.timestamp = LocalDateTime.now();
     }
 }

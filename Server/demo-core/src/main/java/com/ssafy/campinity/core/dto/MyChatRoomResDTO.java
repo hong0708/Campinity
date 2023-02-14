@@ -17,6 +17,7 @@ public class MyChatRoomResDTO {
     private String name; // campsitename에서 {상대 닉네임}님과의 대화
     private String subject; //fcm message body
     private String createdAt;
+    private Boolean expired;
 
     @Builder
     public MyChatRoomResDTO(ChatRoom room, String otherProfilePath) {
@@ -25,5 +26,6 @@ public class MyChatRoomResDTO {
         this.name = room.getName();
         this.subject = room.getFcmMessageBody();
         this.createdAt = room.getCreatedAt().toString();
+        this.expired = room.getExpired();
     }
 }
