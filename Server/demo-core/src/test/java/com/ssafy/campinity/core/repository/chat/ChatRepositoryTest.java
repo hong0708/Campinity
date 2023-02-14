@@ -14,6 +14,8 @@ import org.springframework.test.context.ActiveProfiles;
 import static org.junit.jupiter.api.Assertions.*;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,8 +54,8 @@ public class ChatRepositoryTest {
         String msg1 = "hi";
         String msg2 = "hihi";
 
-        ChatMessage chatMessage1 = ChatMessage.builder().message(msg1).roomId("1").sender("user1").timestamp(new Date()).build();
-        ChatMessage chatMessage2 = ChatMessage.builder().message(msg1).roomId("1").sender("user2").timestamp(new Date()).build();
+        ChatMessage chatMessage1 = ChatMessage.builder().message(msg1).roomId("1").sender("user1").build();
+        ChatMessage chatMessage2 = ChatMessage.builder().message(msg1).roomId("1").sender("user2").build();
 
         ChatMessage retChatMessage1 = chatMessageRepository.save(chatMessage1);
         ChatMessage retChatMessage2 =chatMessageRepository.save(chatMessage2);
@@ -71,8 +73,8 @@ public class ChatRepositoryTest {
         ChatRoom searchedRoom = chatRoomRepository.save(chatRoom);
         String roomId = chatRoom.getId().toString();
 
-        ChatMessage chatMessage1 = ChatMessage.builder().message("msg1").roomId(roomId).sender("user1").timestamp(new Date()).build();
-        ChatMessage chatMessage2 = ChatMessage.builder().message("msg2").roomId(roomId).sender("user2").timestamp(new Date()).build();
+        ChatMessage chatMessage1 = ChatMessage.builder().message("msg1").roomId(roomId).sender("user1").build();
+        ChatMessage chatMessage2 = ChatMessage.builder().message("msg2").roomId(roomId).sender("user2").build();
 
         ChatMessage retChatMessage1 = chatMessageRepository.save(chatMessage1);
         ChatMessage retChatMessage2 =chatMessageRepository.save(chatMessage2);

@@ -13,6 +13,7 @@ import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.fcm.FcmMessageRepository;
 import com.ssafy.campinity.core.repository.fcm.FcmTokenRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
+import com.ssafy.campinity.core.service.ChatService;
 import com.ssafy.campinity.core.service.FcmMessageService;
 import com.ssafy.campinity.core.utils.ErrorMessageEnum;
 import com.sun.xml.bind.v2.model.runtime.RuntimeTypeInfoSet;
@@ -34,6 +35,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
     private final FcmMessageRepository fcmMessageRepository;
     private final FcmTokenRepository fcmTokenRepository;
     private final CampsiteRepository campsiteRepository;
+    private final ChatService chatService;
 
 
     // target Token으로 fcm message 전송
@@ -100,16 +102,17 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .orElse(null);
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
-        Campsite campsite = campsiteRepository.findByUuid(UUID.fromString(fcmMessage.getCampsiteUuid())).orElseThrow(() ->
-                new NoSuchElementException(ErrorMessageEnum.CAMPSITE_NOT_FOUND.getMessage()));
 
         int successfulSendCnt = 0;
         String campsiteId = fcmMessage.getCampsiteUuid();
 
+        Campsite campsite = campsiteRepository.findByUuid(UUID.fromString(fcmMessage.getCampsiteUuid())).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessageEnum.CAMPSITE_NOT_FOUND.getMessage()));
+
         if (fcmMessage == null) return successfulSendCnt;
 
         // 채팅방 생성 메서드
-
+        chatService.createChatRoom(campsiteId, member.getUuid().toString(), fcmMessage.getMember().getUuid().toString(), fcmMessage.getBody());
 
         List<String> senderTokens = fcmMessage.getMember().getFcmTokenList().stream().filter(token ->
                         token.getCampsiteUuid() != null && token.getCampsiteUuid().equals(campsiteId))
