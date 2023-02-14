@@ -97,6 +97,10 @@ dependencies {
 
     implementation libs.lottie
 
+    implementation libs.tedpermission
+
+    implementation libs.location
+
     implementation libs.work.runtime.ktx
 
     implementation libs.toggle

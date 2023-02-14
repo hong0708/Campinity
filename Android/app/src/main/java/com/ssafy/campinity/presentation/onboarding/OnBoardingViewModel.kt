@@ -44,7 +44,9 @@ class OnBoardingViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 Log.d("requestLogin", "requestLogin: ${value.errorMessage}")
-                if (value.errorMessage == "401") { getNewToken() }
+                if (value.errorMessage == "401") {
+                    getNewToken()
+                }
             }
         }
     }

@@ -1,5 +1,7 @@
 package com.ssafy.campinity.presentation.onboarding
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.navigation.NavDirections
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
@@ -15,16 +17,19 @@ class PermissionFragment : BaseFragment<FragmentPermissionBinding>(R.layout.frag
     private val actionFalse: NavDirections =
         PermissionFragmentDirections.actionPermissionFragmentToOnboardingFragment()
 
+    @RequiresApi(Build.VERSION_CODES.Q)
     override fun initView() {
         setButtonClickListener()
     }
 
     private fun setButtonClickListener() {
-        binding.btnConfirm.setOnClickListener {
-            if (ApplicationClass.preferences.isLoggedIn) {
-                navigate(actionTrue)
-            } else {
-                navigate(actionFalse)
+        binding.apply {
+            btnConfirm.setOnClickListener {
+                if (ApplicationClass.preferences.isLoggedIn) {
+                    navigate(actionTrue)
+                } else {
+                    navigate(actionFalse)
+                }
             }
         }
     }
