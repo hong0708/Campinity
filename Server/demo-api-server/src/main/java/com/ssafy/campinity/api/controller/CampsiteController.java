@@ -92,7 +92,7 @@ public class CampsiteController {
     })
     @ApiOperation(value = "캠핑장 scope 클러스터링 도레벨 조회")
     @GetMapping("/scope/do-level")
-    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteScopeClusteringByDoLevel(
+    public ResponseEntity<List<ClusteringDoLevelResDTO>> getCampsiteScopeClusteringByDoLevel(
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
@@ -106,10 +106,8 @@ public class CampsiteController {
                 .bottomRightLng(bottomRightLng)
                 .build();
 
-//        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
-
-//        return new ResponseEntity<>(results, HttpStatus.OK);
-        return null;
+        List<ClusteringDoLevelResDTO> result = campsiteService.getScopeClusteringByDoLevel(locationInfoDTO, memberDetails.getMember().getId());
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @ApiResponses({
@@ -119,12 +117,11 @@ public class CampsiteController {
     })
     @ApiOperation(value = "캠핑장 scope 클러스터링 시군구레벨 조회")
     @GetMapping("/scope/sigungu-level")
-    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteScopeClusteringBySigunguLevel(
+    public ResponseEntity<List<ClusteringSigunguLevelResDTO>> getCampsiteScopeClusteringBySigunguLevel(
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
             @RequestParam double bottomRightLng,
-            @RequestParam String doName,
             @AuthenticationPrincipal MemberDetails memberDetails) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
@@ -134,10 +131,8 @@ public class CampsiteController {
                 .bottomRightLng(bottomRightLng)
                 .build();
 
-//        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
-
-//        return new ResponseEntity<>(results, HttpStatus.OK);
-        return null;
+        List<ClusteringSigunguLevelResDTO> results = campsiteService.getScopeClusteringBySigunguLevel(locationInfoDTO, memberDetails.getMember().getId());
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
     @ApiResponses({
@@ -145,13 +140,14 @@ public class CampsiteController {
             @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
             @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
     })
-    @ApiOperation(value = "캠핑장 scope 클러스터링 디테일레벨 조회()")
+    @ApiOperation(value = "캠핑장 scope 클러스터링 디테일레벨 조회(페이지네이션)")
     @GetMapping("/scope/detail-level")
-    public ResponseEntity<List<CampsiteListResDTO>> getCampsiteScopeClusteringByDetailLevel(
+    public ResponseEntity<CampsitePagingResDTO> getCampsiteScopeClusteringByDetailLevel(
             @RequestParam double topLeftLat,
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
             @RequestParam double bottomRightLng,
+            @RequestParam int paging,
             @AuthenticationPrincipal MemberDetails memberDetails) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()
@@ -161,10 +157,8 @@ public class CampsiteController {
                 .bottomRightLng(bottomRightLng)
                 .build();
 
-//        List<CampsiteListResDTO> results = campsiteService.getCampsitesByLatLng(locationInfoDTO, memberDetails.getMember().getId());
-
-//        return new ResponseEntity<>(results, HttpStatus.OK);
-        return null;
+        CampsitePagingResDTO result = campsiteService.getScopeClusteringByDetailLevel(locationInfoDTO, memberDetails.getMember().getId(), paging);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/conditions")

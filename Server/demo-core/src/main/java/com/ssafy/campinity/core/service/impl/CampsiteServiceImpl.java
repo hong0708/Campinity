@@ -19,6 +19,8 @@ import com.ssafy.campinity.core.repository.redis.RedisDao;
 import com.ssafy.campinity.core.repository.review.ReviewRepository;
 import com.ssafy.campinity.core.service.CampsiteService;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +42,7 @@ public class CampsiteServiceImpl implements CampsiteService {
     private final MessageRepository messageRepository;
     private final RegionLocationRepository regionLocationRepository;
     private final CampsiteAndIndustryRepository campsiteAndIndustryRepository;
+    private final Logger logger = LogManager.getLogger(CampsiteServiceImpl.class);
 
     @Override
     @Transactional
@@ -90,6 +93,7 @@ public class CampsiteServiceImpl implements CampsiteService {
     }
 
     @Override
+    @Transactional
     public List<ClusteringDoLevelResDTO> getScopeClusteringByDoLevel(LocationInfoDTO locationInfoDTO, int memberId) {
         Double topLeftLat = locationInfoDTO.getTopLeftLat();
         Double topLeftLng = locationInfoDTO.getTopLeftLng();
@@ -116,7 +120,8 @@ public class CampsiteServiceImpl implements CampsiteService {
     }
 
     @Override
-    public List<CampsiteListResDTO> getScopeClusteringBySigunguLevel(LocationInfoDTO locationInfoDTO, int memberId, String doName) {
+    @Transactional
+    public List<ClusteringSigunguLevelResDTO> getScopeClusteringBySigunguLevel(LocationInfoDTO locationInfoDTO, int memberId) {
         Double topLeftLat = locationInfoDTO.getTopLeftLat();
         Double topLeftLng = locationInfoDTO.getTopLeftLng();
         Double bottomRightLat = locationInfoDTO.getBottomRightLat();
@@ -125,27 +130,26 @@ public class CampsiteServiceImpl implements CampsiteService {
         List<Campsite> campsites = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat,
                 topLeftLat, topLeftLng, bottomRightLng);
 
-        List<RegionLocation> regions = regionLocationRepository.findByDoName(doName);  // 각 도별 정보 가지고 오기
         List<ClusteringSigunguLevelResDTO> result = new ArrayList<>();
 
         HashMap<String, Integer> counts = new HashMap<>();
 
-        for (Campsite camp: campsites) {  // 각 도별 개수 세기
-            counts.put(camp.getSigunguName(), counts.getOrDefault(camp.getSigunguName(), 0) + 1);
+        for (Campsite camp: campsites) {  // 각 시군구별 개수 세기
+            counts.put(camp.getDoName() + "/" + camp.getSigunguName(), counts.getOrDefault(camp.getDoName() + "/" + camp.getSigunguName(), 0) + 1);
         }
 
-        for (RegionLocation item: regions) {
-            if (item.getSigunguName().equals("")) {
-                continue;
-            }
-            result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(item.getSigunguName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(item.getSigunguName(), 0)).build());
+        for (String key : (Iterable<String>) counts.keySet()) {
+            String[] split = key.split("/");
+            RegionLocation item = regionLocationRepository.findByDoNameAndSigunguName(split[0], split[1]).orElseThrow(IllegalArgumentException::new);
+            result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(item.getSigunguName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(key, 0)).build());
         }
 
-        return null;
+        return result;
     }
 
     @Override
-    public List<CampsiteListResDTO> getScopeClusteringByDetailLevel(LocationInfoDTO locationInfoDTO, int memberId, int paging) {
+    @Transactional
+    public CampsitePagingResDTO getScopeClusteringByDetailLevel(LocationInfoDTO locationInfoDTO, int memberId, int paging) {
         Double topLeftLat = locationInfoDTO.getTopLeftLat();
         Double topLeftLng = locationInfoDTO.getTopLeftLng();
         Double bottomRightLat = locationInfoDTO.getBottomRightLat();
@@ -154,10 +158,25 @@ public class CampsiteServiceImpl implements CampsiteService {
         List<Campsite> campsites = campsiteRepository.getCampsitesByLatitudeBetweenAndLongitudeBetween(bottomRightLat,
                 topLeftLat, topLeftLng, bottomRightLng);
 
-        
+        int start = Math.min(50 * (paging - 1), campsites.size());
+        int end = Math.min(start + 50, campsites.size());
 
+        List<CampsiteListResDTO> campsiteListResDTOS = new ArrayList<>();
 
-        return null;
+        for (int i = start; i < end; i++) {
+            boolean isScraped = campsites.get(i).getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getMember().getId() == memberId);
+
+            int messageCnt = campsites.get(i).getMessages().size();
+
+            List<String> images = campsites.get(i).getImages().stream().map(CampsiteImage::getImagePath).collect(Collectors.toList());
+
+            List<String> thumbnails = campsites.get(i).getImages().stream().map(CampsiteImage::getThumbnailImage).collect(Collectors.toList());
+
+            campsiteListResDTOS.add(CampsiteListResDTO.builder().camp(campsites.get(i)).isScraped(isScraped)
+                    .thumbnails(thumbnails).messageCnt(messageCnt).images(images).build());
+        }
+
+        return CampsitePagingResDTO.builder().currentPage(paging).maxPage((int)Math.ceil(campsites.size() / 50.0)).data(campsiteListResDTOS).build();
     }
 
     @Transactional
@@ -222,22 +241,22 @@ public class CampsiteServiceImpl implements CampsiteService {
         List<Campsite> campsites = campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames,
                 fclties, amenities, industries, themes, allowAnimals, openSeasons);
 
-        List<RegionLocation> regions = regionLocationRepository.findByDoName(doName);  // 각 도별 정보 가지고 오기
         List<ClusteringSigunguLevelResDTO> result = new ArrayList<>();
+
+        List<RegionLocation> regions = regionLocationRepository.findAll();
 
         HashMap<String, Integer> counts = new HashMap<>();
 
-        for (Campsite camp: campsites) {  // 각 도별 개수 세기
-            counts.put(camp.getSigunguName(), counts.getOrDefault(camp.getSigunguName(), 0) + 1);
+        for (Campsite camp: campsites) {  // 각 시군구별 개수 세기
+            counts.put(camp.getDoName() + "/" + camp.getSigunguName(), counts.getOrDefault(camp.getDoName() + "/" + camp.getSigunguName(), 0) + 1);
         }
 
-        for (RegionLocation item: regions) {
-            if (item.getSigunguName().equals("")) {
-                continue;
+        for (RegionLocation region: regions) {
+            int cnt = counts.getOrDefault(region.getDoName()+"/"+region.getSigunguName(), 0);
+            if (cnt != 0) {
+                result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(region.getSigunguName()).latitude(region.getLatitude()).longitude(region.getLongitude()).cnt(cnt).build());
             }
-            result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(item.getSigunguName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(item.getSigunguName(), 0)).build());
         }
-
         return result;
     }
 

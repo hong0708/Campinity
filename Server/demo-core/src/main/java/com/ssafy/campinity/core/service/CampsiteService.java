@@ -15,9 +15,9 @@ public interface CampsiteService {
 
     List<ClusteringDoLevelResDTO> getScopeClusteringByDoLevel(LocationInfoDTO locationInfoDTO, int memberId);
 
-    List<CampsiteListResDTO> getScopeClusteringBySigunguLevel(LocationInfoDTO locationInfoDTO, int memberId, String doName);
+    List<ClusteringSigunguLevelResDTO> getScopeClusteringBySigunguLevel(LocationInfoDTO locationInfoDTO, int memberId);
 
-    List<CampsiteListResDTO> getScopeClusteringByDetailLevel(LocationInfoDTO locationInfoDTO, int memberId, int paging);
+    CampsitePagingResDTO getScopeClusteringByDetailLevel(LocationInfoDTO locationInfoDTO, int memberId, int paging);
 
     List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
                                                         String[] fclties, String[] amenities, String[] industries,
