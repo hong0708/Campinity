@@ -29,6 +29,9 @@ public class ReviewResDTO {
     @ApiModelProperty(value = "리뷰 작성자 프로필 이미지")
     private String profileImage;
 
+    @ApiModelProperty(value = "리뷰 작성자 id")
+    private String memberId;
+
     @Builder
     public ReviewResDTO(Review review) {
         this.reviewId = review.getUuid().toString();
@@ -37,5 +40,6 @@ public class ReviewResDTO {
         this.rate = review.getRate();
         this.authorName = review.getMember().getName();
         this.profileImage = review.getMember().getProfileImage();
+        this.memberId = review.getMember().getUuid().toString();
     }
 }

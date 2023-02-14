@@ -27,13 +27,18 @@ public class ChatRoom {
     private List<String> users;
     private String fcmMessageBody;
     private LocalDate createdAt;
+    private Boolean expired = false;
 
     @Builder
-    public ChatRoom(UUID id, String name, List<String> users, String fcmMessageBody, LocalDate createdAt) {
-        this.id = UUID.randomUUID().toString();
+    public ChatRoom(String id, String name, List<String> users, String fcmMessageBody, LocalDate createdAt) {
+        this.id = id;
         this.name = name;
         this.users = users;
         this.fcmMessageBody = fcmMessageBody;
         this.createdAt = createdAt;
+    }
+
+    public void roomExpired(){
+        this.expired = true;
     }
 }

@@ -56,11 +56,11 @@ public class ChatServiceTest {
                 .build();
         Member savedMember4 = memberRepository.save(member4);
 
-        UUID uuid1 = UUID.randomUUID();
+        String uuid1 = UUID.randomUUID().toString();
         LocalDate localDate1 = LocalDate.now().minusDays(3);
-        UUID uuid2 = UUID.randomUUID();
+        String uuid2 = UUID.randomUUID().toString();
         LocalDate localDate2 = LocalDate.now().minusDays(1);
-        UUID uuid3 = UUID.randomUUID();
+        String uuid3 = UUID.randomUUID().toString();
         LocalDate localDate3 = LocalDate.now().minusDays(2);
 
         ChatRoom chatRoom1 = ChatRoom.builder()
