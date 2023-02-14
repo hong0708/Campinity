@@ -3,6 +3,7 @@ package com.ssafy.campinity.core.dto;
 
 import com.ssafy.campinity.core.entity.chat.ChatRoom;
 import com.ssafy.campinity.core.entity.member.Member;
+import io.swagger.v3.oas.annotations.Parameter;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,7 +20,7 @@ public class MyChatRoomResDTO {
 
     @Builder
     public MyChatRoomResDTO(ChatRoom room, String otherProfilePath) {
-        this.roomId = room.getId().toString();
+        this.roomId = room.getId();
         this.otherProfilePath = otherProfilePath;
         this.name = room.getName();
         this.subject = room.getFcmMessageBody();

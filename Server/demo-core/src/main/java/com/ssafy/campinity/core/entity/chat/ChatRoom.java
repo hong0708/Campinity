@@ -29,8 +29,8 @@ public class ChatRoom {
     private LocalDate createdAt;
 
     @Builder
-    public ChatRoom(UUID id, String name, List<String> users, String fcmMessageBody, LocalDate createdAt) {
-        this.id = UUID.randomUUID().toString();
+    public ChatRoom(String id, String name, List<String> users, String fcmMessageBody, LocalDate createdAt) {
+        this.id = id;
         this.name = name;
         this.users = users;
         this.fcmMessageBody = fcmMessageBody;
