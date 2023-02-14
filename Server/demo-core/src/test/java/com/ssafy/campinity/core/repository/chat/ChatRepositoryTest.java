@@ -37,15 +37,15 @@ public class ChatRepositoryTest {
         assertEquals(chatRoom.getUsers().size(), chatRoom.getUsers().size());
         chatRoomRepository.deleteAll(List.of(chatRoom));
     }
-
-    @Test
-    public void delteAllData() {
-        chatMessageRepository.deleteAll();
-        chatRoomRepository.deleteAll();
-
-        assertEquals(0, chatMessageRepository.findAll().size());
-        assertEquals(0, chatRoomRepository.findAll().size());
-    }
+//
+//    @Test
+//    public void delteAllData() {
+//        chatMessageRepository.deleteAll();
+//        chatRoomRepository.deleteAll();
+//
+//        assertEquals(0, chatMessageRepository.findAll().size());
+//        assertEquals(0, chatRoomRepository.findAll().size());
+//    }
     @Test
     @DisplayName("채팅메세지 저장 테스트")
     public void chatMessageShouldBeSave() {
