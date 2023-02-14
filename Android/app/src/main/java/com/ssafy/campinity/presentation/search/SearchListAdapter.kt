@@ -18,7 +18,7 @@ class SearchListAdapter(
     private val context: Context,
     private var campsites: List<CampsiteBriefInfo>,
     private val onCampsiteClickListener: (String) -> Unit,
-    private val navigationToSearchPostboxFragment: () -> Unit,
+    private val navigationToSearchPostboxFragment: (String) -> Unit,
     private val scrapCampsite: suspend (String) -> String
 ) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
 
@@ -71,7 +71,7 @@ class SearchListAdapter(
 
         fun initListener(item: CampsiteBriefInfo) {
             binding.btnPostbox.setOnClickListener {
-                navigationToSearchPostboxFragment()
+                navigationToSearchPostboxFragment(item.campsiteId)
             }
 
             binding.btnBookmark.setOnClickListener {

@@ -1,6 +1,8 @@
 package com.ssafy.campinity.presentation.search
 
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
@@ -19,11 +21,14 @@ class SearchPostboxFragment :
     BaseFragment<FragmentSearchPostboxBinding>(R.layout.fragment_search_postbox),
     CommunityNoteDialogInterface {
 
+    private lateinit var campsiteId: String
+    private val arg by navArgs<SearchPostboxFragmentArgs>()
     private val searchViewModel by activityViewModels<SearchViewModel>()
     private val communityNoteViewModel by activityViewModels<CommunityNoteViewModel>()
-    private val searchPostboxAdapter by lazy { SearchPostboxAdapter(this::getPost) }
+    private val searchPostboxAdapter by lazy { SearchPostboxAdapter(listOf(), this::getPost) }
 
     override fun initView() {
+        campsiteId = arg.campsiteId
         initFragment()
         initListener()
     }
@@ -38,17 +43,16 @@ class SearchPostboxFragment :
             addItemDecoration(
                 LinearItemDecoration(requireContext(), RecyclerView.VERTICAL, 15)
             )
-        }
 
-        communityNoteViewModel.noteQuestions.observe(viewLifecycleOwner) {
-            searchPostboxAdapter.setLetters(it)
-        }
+            lifecycleScope.launch {
+                val sync = searchViewModel.getLetters(campsiteId)
 
-        searchViewModel.campsiteData.observe(viewLifecycleOwner) {
-            searchViewModel.campsiteData.value?.let { communityNoteViewModel.getNoteQuestions(it.campsiteId) }
+                if (sync) {
+                    searchPostboxAdapter.setLetters(searchViewModel.letters.value!!)
+                    searchPostboxAdapter.notifyDataSetChanged()
+                }
+            }
         }
-
-        searchViewModel.campsiteData.value?.let { communityNoteViewModel.getNoteQuestions(it.campsiteId) }
     }
 
     private fun initListener() {
@@ -59,7 +63,7 @@ class SearchPostboxFragment :
         binding.tvMakePost.setOnClickListener {
             CommunityNoteQuestionDialog(
                 requireContext(),
-                searchViewModel.campsiteData.value!!.campsiteId,
+                campsiteId,
                 this@SearchPostboxFragment
             ).show()
         }
@@ -70,14 +74,15 @@ class SearchPostboxFragment :
             if (communityNoteViewModel.postNoteQuestion(id, content)) {
                 withContext(Dispatchers.Main) {
                     showToast("질문이 등록되었습니다.")
+                    searchViewModel.getLetters(campsiteId)
+                    searchPostboxAdapter.setLetters(searchViewModel.letters.value!!)
+                    searchPostboxAdapter.notifyItemInserted(0)
                 }
             } else {
                 withContext(Dispatchers.Main) {
                     showToast("질문 등록이 실패하였습니다.")
                 }
             }
-
-            communityNoteViewModel.getNoteQuestions(searchViewModel.campsiteData.value!!.campsiteId)
         }
     }
 

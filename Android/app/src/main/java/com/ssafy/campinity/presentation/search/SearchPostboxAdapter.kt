@@ -7,12 +7,12 @@ import com.ssafy.campinity.databinding.ItemLetterListBinding
 import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 
 class SearchPostboxAdapter(
+    private var letters: List<NoteQuestionTitle>,
     private val onItemClickListener: (String) -> Unit
 ) :
     RecyclerView.Adapter<SearchPostboxAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemLetterListBinding
-    private var letters: List<NoteQuestionTitle> = listOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         binding = ItemLetterListBinding.inflate(
@@ -31,7 +31,6 @@ class SearchPostboxAdapter(
 
     fun setLetters(letters: List<NoteQuestionTitle>) {
         this.letters = letters
-        notifyDataSetChanged()
     }
 
     inner class ViewHolder(private val binding: ItemLetterListBinding) :
