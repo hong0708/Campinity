@@ -182,8 +182,8 @@
         android:label="CampsiteDetailFragment"
         tools:layout="@layout/fragment_campsite_detail">
         <argument
-            android:name="campsiteId"
-            app:argType="string" />
+            android:name="sync"
+            app:argType="integer" />
     </fragment>
 
     <activity

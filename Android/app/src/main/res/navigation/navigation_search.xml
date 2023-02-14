@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/campsiteDetailFragment"
         android:name="com.ssafy.campinity.presentation.search.CampsiteDetailFragment"
-        android:label="fragment_campsite_detail"
+        android:label="CampsiteDetailFragment"
         tools:layout="@layout/fragment_campsite_detail">
         <argument
             android:name="async"

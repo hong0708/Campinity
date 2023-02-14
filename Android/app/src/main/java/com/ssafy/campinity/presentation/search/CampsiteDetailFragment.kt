@@ -27,6 +27,7 @@ class CampsiteDetailFragment :
     private lateinit var contentFacility: Array<String>
     private lateinit var contentAmenity: Array<String>
     private lateinit var reviews: List<Review>
+
     private val searchViewModel by activityViewModels<SearchViewModel>()
     private val campsiteReviewAdapter by lazy {
         CampsiteReviewAdapter(
