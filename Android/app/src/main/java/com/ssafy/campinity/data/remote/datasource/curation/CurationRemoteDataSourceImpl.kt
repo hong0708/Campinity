@@ -15,4 +15,7 @@ class CurationRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun scrapCuration(curationId: String): CurationScrapResponse =
         curationApiService.scrapCuration(curationId)
+
+    override suspend fun getScrapCurations(): List<CurationResponse> =
+        curationApiService.getScrapCurations()
 }

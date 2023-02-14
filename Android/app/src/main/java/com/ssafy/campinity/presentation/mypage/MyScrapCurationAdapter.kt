@@ -5,49 +5,47 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
-import com.ssafy.campinity.databinding.ItemHomeBannerBinding
-import com.ssafy.campinity.domain.entity.home.HomeBanner
+import com.ssafy.campinity.databinding.ItemScrapCurationBinding
+import com.ssafy.campinity.domain.entity.curation.CurationItem
 
-class MyScrapCurationAdapter
-    (private val onItemClicked: (curationId: String) -> Unit) :
-    RecyclerView.Adapter<MyScrapCurationAdapter.BannerViewHolder>() {
+class MyScrapCurationAdapter(
+    private val onItemClicked: (curationId: String) -> Unit
+) : RecyclerView.Adapter<MyScrapCurationAdapter.ScrapCurationViewHolder>() {
 
-    private var items: ArrayList<HomeBanner> = arrayListOf()
-    lateinit var binding: ItemHomeBannerBinding
+    private var items: List<CurationItem> = listOf()
+    lateinit var binding: ItemScrapCurationBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BannerViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScrapCurationViewHolder {
         binding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),
-            R.layout.item_home_banner,
+            R.layout.item_scrap_curation,
             parent,
             false
         )
-        return BannerViewHolder(binding, onItemClicked)
+        return ScrapCurationViewHolder(binding, onItemClicked)
     }
 
-    override fun onBindViewHolder(holder: BannerViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ScrapCurationViewHolder, position: Int) {
         holder.onBind(items[position])
     }
 
     override fun getItemCount(): Int = items.size
 
-    class BannerViewHolder(
-        val binding: ItemHomeBannerBinding,
+    class ScrapCurationViewHolder(
+        val binding: ItemScrapCurationBinding,
         private val onItemClicked: (curationId: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
-        fun onBind(data: HomeBanner) {
-            binding.homeBanner = data
+        fun onBind(data: CurationItem) {
+            binding.curation = data
             binding.root.setOnClickListener {
                 onItemClicked(data.curationId)
             }
         }
     }
 
-    fun addMyScrapCuration(item: List<HomeBanner>) {
-        for (i in item) {
-            this.items.add(i)
-        }
-        notifyItemInserted(this.items.size - 1)
+    fun setCuration(curationItem: List<CurationItem>) {
+        this.items = curationItem
+        notifyDataSetChanged()
     }
 }
 

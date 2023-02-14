@@ -5,7 +5,9 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.databinding.FragmentMyScrapBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.home.HomeFragmentDirections
@@ -30,7 +32,7 @@ class MyScrapFragment : BaseFragment<FragmentMyScrapBinding>(R.layout.fragment_m
     private fun initSpinner() {
         ArrayAdapter.createFromResource(
             requireContext(),
-            R.array.category_array,
+            R.array.my_scrap_array,
             R.layout.spinner_txt
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -53,7 +55,14 @@ class MyScrapFragment : BaseFragment<FragmentMyScrapBinding>(R.layout.fragment_m
                             }
                         }
                     } else {
-                        myPageViewModel.reviewNotesListData.observe(viewLifecycleOwner) { response ->
+                        myPageViewModel.getScrapCurations()
+                        binding.rvMyScrap.apply {
+                            adapter = myScrapCurationAdapter
+                            layoutManager =
+                                GridLayoutManager(context, 2, GridLayoutManager.VERTICAL, false)
+                            addItemDecoration(GridItemDecoration(context, 2, 4, 4))
+                        }
+                        myPageViewModel.curationListData.observe(viewLifecycleOwner) { response ->
                             response?.let {
                                 if (response.isEmpty()) {
                                     binding.rvMyScrap.visibility = View.GONE
@@ -61,6 +70,7 @@ class MyScrapFragment : BaseFragment<FragmentMyScrapBinding>(R.layout.fragment_m
                                 } else {
                                     binding.clEmptyScrap.visibility = View.GONE
                                     // 큐레이션 어댑터 붙이기
+                                    myScrapCurationAdapter.setCuration(it)
                                 }
                             }
                         }
@@ -75,7 +85,7 @@ class MyScrapFragment : BaseFragment<FragmentMyScrapBinding>(R.layout.fragment_m
 
     private fun getCurationDetail(curationId: String) {
         navigate(
-            HomeFragmentDirections.actionHomeFragmentToCurationDetailFragment(curationId)
+            MyPageFragmentDirections.actionMyPageFragmentToCurationDetailFragment(curationId)
         )
     }
 
