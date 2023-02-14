@@ -52,6 +52,8 @@ dependencies {
 	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper:9.0.65'
 	implementation 'org.springframework.boot:spring-boot-starter-websocket:2.6.2'
 
+	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+
 }
 
 tasks.named('test') {
