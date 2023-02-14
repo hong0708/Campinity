@@ -10,7 +10,6 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
@@ -58,6 +57,7 @@ class CommunityCampsiteFragment :
     private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
+    private var isUserIn = false
     private var newUserLocation = UserLocation(0.0, 0.0)
 
     override fun initView() {
@@ -557,6 +557,17 @@ class CommunityCampsiteFragment :
         return myLoc.distanceTo(targetLoc)
     }
 
+    private fun checkUserIn(userLat: Double, userLng: Double, lat: Double, lng: Double): Float {
+        val userLoc = Location(LocationManager.NETWORK_PROVIDER)
+        val campsiteLoc = Location(LocationManager.NETWORK_PROVIDER)
+        userLoc.latitude = userLat
+        userLoc.longitude = userLng
+        campsiteLoc.latitude = lat
+        campsiteLoc.longitude = lng
+
+        return userLoc.distanceTo(campsiteLoc)
+    }
+
     @SuppressLint("ResourceAsColor")
     private fun setSubscribeState() {
         val onService = requireActivity() as CommunityActivity
@@ -567,26 +578,18 @@ class CommunityCampsiteFragment :
                 if (isOn) {
                     if (ApplicationClass.preferences.userRecentCampsiteId != null) {
                         onService.startLocationBackground()
-                        if (getDistance(
-                                ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
-                                ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
-                            ) < 100
-                        ) {
+                        if (isUserIn) {
                             ApplicationClass.preferences.isSubScribing = true
                             communityCampsiteViewModel.subscribeCampSite(
                                 ApplicationClass.preferences.userRecentCampsiteId.toString(),
                                 ApplicationClass.preferences.fcmToken.toString()
                             )
-
                             showToast("현재 캠핑장 범위에 포함됩니다.")
-
                         } else {
-
                             showToast("현재 해당 캠핑장 범위에 포함되는 위치가 아닙니다.")
-
-                            CoroutineScope(Dispatchers.Main).launch {
+                            /*CoroutineScope(Dispatchers.Main).launch {
                                 toggleCampsite.isOn = false
-                            }
+                            }*/
                         }
                     } else {
                         showToast("캠핑장 설정이 필요합니다.")
@@ -627,13 +630,12 @@ class CommunityCampsiteFragment :
             if (action == "test") {
                 newUserLocation = p1.getSerializableExtra("test") as UserLocation
 
-                if (getDistance(
-                        ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
-                        ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
-                    ) < 10000
-                ) {
-                    //
-                }
+                isUserIn = checkUserIn(
+                    newUserLocation.latitude,
+                    newUserLocation.longitude,
+                    ApplicationClass.preferences.userRecentCampsiteLatitude!!.toDouble(),
+                    ApplicationClass.preferences.userRecentCampsiteLongitude!!.toDouble()
+                ) < 10000
             }
         }
     }
