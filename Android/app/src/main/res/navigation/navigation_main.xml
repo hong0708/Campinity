@@ -184,8 +184,33 @@
         <argument
             android:name="sync"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_campsiteDetailFragment_to_searchPostboxFragment"
+            app:destination="@id/searchPostboxFragment" />
     </fragment>
 
+    <fragment
+        android:id="@+id/searchPostboxFragment"
+        android:name="com.ssafy.campinity.presentation.search.SearchPostboxFragment"
+        android:label="fragment_search_postbox"
+        tools:layout="@layout/fragment_search_postbox">
+        <argument
+            android:name="campsiteId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchPostboxFragment_to_searchLetterDetailFragment"
+            app:destination="@+id/searchLetterDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchLetterDetailFragment"
+        android:name="com.ssafy.campinity.presentation.search.SearchLetterDetailFragment"
+        android:label="fragment_search_letter_detail"
+        tools:layout="@layout/fragment_search_letter_detail">
+        <argument
+            android:name="question_id"
+            app:argType="string" />
+    </fragment>
     <activity
         android:id="@+id/communityActivity"
         android:name="com.ssafy.campinity.presentation.community.CommunityActivity"
