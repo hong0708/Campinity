@@ -9,7 +9,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ChattingListFragment :
     BaseFragment<FragmentChattingListBinding>(R.layout.fragment_chatting_list) {
 
-    private val chatRoomAdapter by lazy { ChatRoomAdapter() }
+    private val chatRoomAdapter by lazy { ChatRoomAdapter(this::getChatRoom) }
 
     override fun initView() {
         initRecyclerView()
@@ -17,5 +17,13 @@ class ChattingListFragment :
 
     private fun initRecyclerView() {
         binding.rvChatRoom.adapter = chatRoomAdapter
+    }
+
+    private fun getChatRoom(roomId: String) {
+        navigate(
+            ChattingListFragmentDirections.actionChattingListFragmentToChattingRoomFragment(
+                roomId
+            )
+        )
     }
 }
