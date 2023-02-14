@@ -13,6 +13,12 @@ public interface CampsiteService {
     List<Campsite> getMetaDataListByLatLng(LocationInfoDTO locationInfoDTO);
     List<CampsiteListResDTO> getCampsitesByLatLng(LocationInfoDTO locationInfoDTO, int memberId);
 
+    List<ClusteringDoLevelResDTO> getScopeClusteringByDoLevel(LocationInfoDTO locationInfoDTO, int memberId);
+
+    List<ClusteringSigunguLevelResDTO> getScopeClusteringBySigunguLevel(LocationInfoDTO locationInfoDTO, int memberId);
+
+    CampsitePagingResDTO getScopeClusteringByDetailLevel(LocationInfoDTO locationInfoDTO, int memberId, int paging);
+
     List<CampsiteListResDTO> getCampsiteListByFiltering(String keyword, String doName, String[] sigunguNames,
                                                         String[] fclties, String[] amenities, String[] industries,
                                                         String[] themes, String[] allowAnimals, String[] openSeasons, int memberId);
