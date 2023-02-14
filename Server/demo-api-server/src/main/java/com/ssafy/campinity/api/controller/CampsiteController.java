@@ -147,7 +147,7 @@ public class CampsiteController {
             @RequestParam double topLeftLng,
             @RequestParam double bottomRightLat,
             @RequestParam double bottomRightLng,
-            @RequestParam int paging,
+            @RequestParam(defaultValue = "1") int paging,
             @AuthenticationPrincipal MemberDetails memberDetails) {
 
         LocationInfoDTO locationInfoDTO = LocationInfoDTO.builder()

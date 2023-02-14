@@ -134,14 +134,17 @@ public class CampsiteServiceImpl implements CampsiteService {
 
         HashMap<String, Integer> counts = new HashMap<>();
 
+        List<RegionLocation> regions = regionLocationRepository.findAll();
+
         for (Campsite camp: campsites) {  // 각 시군구별 개수 세기
             counts.put(camp.getDoName() + "/" + camp.getSigunguName(), counts.getOrDefault(camp.getDoName() + "/" + camp.getSigunguName(), 0) + 1);
         }
 
-        for (String key : (Iterable<String>) counts.keySet()) {
-            String[] split = key.split("/");
-            RegionLocation item = regionLocationRepository.findByDoNameAndSigunguName(split[0], split[1]).orElseThrow(IllegalArgumentException::new);
-            result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(item.getSigunguName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(key, 0)).build());
+        for (RegionLocation region: regions) {
+            int cnt = counts.getOrDefault(region.getDoName()+"/"+region.getSigunguName(), 0);
+            if (cnt != 0) {
+                result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(region.getSigunguName()).latitude(region.getLatitude()).longitude(region.getLongitude()).cnt(cnt).build());
+            }
         }
 
         return result;
