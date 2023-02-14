@@ -11,8 +11,10 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchReviewRequest
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
+import com.ssafy.campinity.domain.entity.community.NoteQuestionTitle
 import com.ssafy.campinity.domain.entity.search.*
 import com.ssafy.campinity.domain.usecase.community.GetCampsiteMessageDetailInfoUseCase
+import com.ssafy.campinity.domain.usecase.note.GetNoteQuestionUseCase
 import com.ssafy.campinity.domain.usecase.search.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -28,7 +30,8 @@ class SearchViewModel @Inject constructor(
     private val getCampsiteMessageDetailInfoUseCase: GetCampsiteMessageDetailInfoUseCase,
     private val writeReviewUseCase: WriteReviewUseCase,
     private val deleteReviewUseCase: DeleteReviewUseCase,
-    private val scrapCampsiteUseCase: ScrapCampsiteUseCase
+    private val scrapCampsiteUseCase: ScrapCampsiteUseCase,
+    private val getNoteQuestionUseCase: GetNoteQuestionUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
@@ -62,6 +65,9 @@ class SearchViewModel @Inject constructor(
 
     private val _isScraped: MutableLiveData<Boolean> = MutableLiveData(false)
     val isScraped: LiveData<Boolean> = _isScraped
+
+    private val _letters: MutableLiveData<List<NoteQuestionTitle>?> = MutableLiveData()
+    val letters: LiveData<List<NoteQuestionTitle>?> = _letters
 
     var filter: SearchFilterRequest = SearchFilterRequest()
     var areaList = arrayListOf<AreaListItem>()
@@ -273,6 +279,19 @@ class SearchViewModel @Inject constructor(
             is Resource.Error -> {
                 Log.e("scrapCampsite", "scrapCampsite: ${value.errorMessage}")
                 return@async "error"
+            }
+        }
+    }.await()
+
+    suspend fun getLetters(campsiteId: String) = viewModelScope.async {
+        when (val value = getNoteQuestionUseCase(campsiteId)) {
+            is Resource.Success<List<NoteQuestionTitle>> -> {
+                _letters.value = value.data
+                return@async true
+            }
+            is Resource.Error -> {
+                Log.d("getLetters", "getLetters: ${value.errorMessage}")
+                return@async false
             }
         }
     }.await()

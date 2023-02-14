@@ -247,7 +247,9 @@ class CampsiteDetailFragment :
     private fun initListener() {
         binding.btnPostbox.setOnClickListener {
             navigate(
-                CampsiteDetailFragmentDirections.actionCampsiteDetailFragmentToSearchPostboxFragment()
+                CampsiteDetailFragmentDirections.actionCampsiteDetailFragmentToSearchPostboxFragment(
+                    searchViewModel.campsiteData.value!!.campsiteId
+                )
             )
         }
 

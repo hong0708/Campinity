@@ -48,8 +48,8 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
         )
     }
 
-    private fun navigationToSearchPostboxFragment() {
-        navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment())
+    private fun navigationToSearchPostboxFragment(campsiteId: String) {
+        navigate(SearchMainFragmentDirections.actionSearchMainFragmentToSearchPostboxFragment(campsiteId))
     }
 
     private fun observeCampsiteListData() {
