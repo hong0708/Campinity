@@ -263,16 +263,11 @@ class CampsiteDetailFragment :
         binding.apply {
             btnPostbox.setOnClickListener {
                 navigate(
-                    CampsiteDetailFragmentDirections.actionCampsiteDetailFragmentToSearchPostboxFragment()
+                    CampsiteDetailFragmentDirections.actionCampsiteDetailFragmentToSearchPostboxFragment(
+                        searchViewModel.campsiteData.value!!.campsiteId
+                    )
                 )
             }
-        binding.btnPostbox.setOnClickListener {
-            navigate(
-                CampsiteDetailFragmentDirections.actionCampsiteDetailFragmentToSearchPostboxFragment(
-                    searchViewModel.campsiteData.value!!.campsiteId
-                )
-            )
-        }
 
             btnCampsiteWriteReview.setOnClickListener {
                 CampsiteReviewDialog(
