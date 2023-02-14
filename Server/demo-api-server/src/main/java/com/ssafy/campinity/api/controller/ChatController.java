@@ -3,6 +3,7 @@ package com.ssafy.campinity.api.controller;
 import com.ssafy.campinity.api.config.security.jwt.MemberDetails;
 import com.ssafy.campinity.core.service.ChatService;
 import io.swagger.annotations.ApiOperation;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,15 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("/api/v10/chat")
+@RequiredArgsConstructor
 public class ChatController {
 
     private final ChatService chatService;
 
-    public ChatController(ChatService chatService) {
-        this.chatService = chatService;
-    }
 
     @ApiOperation(value = "내가 속한 채팅방 목록을 조회하는 API입니다. \n채팅방이 없는 경우 빈 배열로 반환됩니다.")
     @GetMapping("/rooms")
