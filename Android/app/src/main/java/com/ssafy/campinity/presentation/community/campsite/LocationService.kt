@@ -5,7 +5,6 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import android.util.Log
 import com.google.android.gms.location.LocationServices
 import com.ssafy.campinity.domain.entity.community.UserLocation
 import kotlinx.coroutines.*
@@ -20,9 +19,7 @@ class LocationService : Service() {
         SupervisorJob() + Dispatchers.IO
     )
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null
-    }
+    override fun onBind(intent: Intent?): IBinder? = null
 
     override fun onCreate() {
         super.onCreate()
@@ -40,7 +37,6 @@ class LocationService : Service() {
     }
 
     private fun start() {
-        Log.d("tlqkf", "start: tlqkf wpqkf wha")
         // 노티피케이션 추가 시
         /*val notification =
             NotificationCompat.Builder(this, "location").setContentTitle("마이풋트립")
@@ -63,12 +59,6 @@ class LocationService : Service() {
         locationClient.getLocationUpdates(1500L).catch { exception ->
             exception.printStackTrace()
         }.onEach { location ->
-            //val lat = location.latitude.toString()
-            //val lon = location.longitude.toString()
-
-            /*val updateNotification = notification.setContentText(
-                "위치를 측정 중.. $lat , $lon"
-            )*/
 
             val intent = Intent("test")
             intent.putExtra("test", UserLocation(location.latitude, location.longitude))
@@ -92,7 +82,6 @@ class LocationService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d("tlqkf", "onDestroy: ")
         serviceScope.cancel()
     }
 

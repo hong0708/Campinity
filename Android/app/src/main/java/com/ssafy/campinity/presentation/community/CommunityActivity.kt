@@ -12,7 +12,6 @@ import android.content.Context
 import android.content.Intent
 import android.location.LocationManager
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.normal.TedPermission
@@ -56,7 +55,7 @@ class CommunityActivity : AppCompatActivity() {
         TedPermission.create()
             .setPermissionListener(object : PermissionListener {
                 override fun onPermissionGranted() {
-                    Log.d("permission11", "onPermissionGranted: ")
+
                 }
 
                 override fun onPermissionDenied(deniedPermissions: MutableList<String>?) {
