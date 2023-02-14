@@ -197,6 +197,7 @@ class CommunityCampsiteFragment :
                     getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
                 } else {
                     //아직 멀어서 불가능
+                    showToast("쪽지와 더 근접한 위치에서 열어보세요!")
                 }
             }
         }
@@ -225,7 +226,7 @@ class CommunityCampsiteFragment :
             setMapPosition()
         } else {
             mapView.removeAllPOIItems()
-
+            setMapPosition()
             // 최근 검색 기준으로 초기화
             val recentCampsite =
                 CampsiteBriefInfo(
@@ -341,7 +342,9 @@ class CommunityCampsiteFragment :
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogActivity(
                             "리뷰 쪽지",
-                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                            newUserLocation.latitude.toString(),
+                            newUserLocation.longitude.toString()
                         )
                 )
             }
@@ -351,7 +354,9 @@ class CommunityCampsiteFragment :
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogActivity(
                             "자유 쪽지",
-                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                            newUserLocation.latitude.toString(),
+                            newUserLocation.longitude.toString()
                         )
                 )
             }
@@ -522,12 +527,12 @@ class CommunityCampsiteFragment :
                 customImageResourceId = if (i.messageCategory == "리뷰") {
                     R.drawable.ic_review_note_marker
                 } else {
-                    R.drawable.ic_community_campsite_close_note3
-                    /*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 5) {
+                    //R.drawable.ic_community_campsite_close_note3
+                    if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 30) {
                         R.drawable.ic_community_campsite_open_note3
                     } else {
                         R.drawable.ic_community_campsite_close_note3
-                    }*/
+                    }
                 }
                 //isCustomImageAutoscale = false
                 userObject = i
@@ -547,9 +552,15 @@ class CommunityCampsiteFragment :
         if (userNowLocation != null) {
             val userLatitude = userNowLocation.latitude
             val userLongitude = userNowLocation.longitude
+
+            newUserLocation.latitude = userLatitude
+            newUserLocation.longitude = userLongitude
+
             val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
             mapView.setMapCenterPoint(uNowPosition, true)
         }
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -648,6 +659,7 @@ class CommunityCampsiteFragment :
 
     object DistanceManager {
         private const val R = 6372.8 * 1000
+
         /**
          * 두 좌표의 거리를 계산한다.
          *

@@ -37,6 +37,12 @@
         <argument
             android:name="campsite_id"
             app:argType="string" />
+        <argument
+            android:name="user_lat"
+            app:argType="string" />
+        <argument
+            android:name="user_lng"
+            app:argType="string" />
     </activity>
 
     <activity
