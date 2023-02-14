@@ -37,7 +37,7 @@ import java.util.UUID;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = {HardDeleteConfig.class, TestBatchConfig.class, BatchDataSourceConfig.class, CampinityDataSourceConfig.class})
 @SpringBatchTest
-//@ActiveProfiles("test")
+@ActiveProfiles("test")
 public class HardDeleteTotalTest {
 
     @Autowired

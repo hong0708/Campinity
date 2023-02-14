@@ -98,7 +98,7 @@ public class HardDeleteConfig {
         return stepBuilderFactory.get("MyCollectionHardDeleteStep")
                 .<MyCollection, MyCollection> chunk(chunkSize)
                 .reader(MyCollectionHardDeleteReader(null))
-                .writer(this.MyCollectionHardDeleteWrtier())
+                .writer(this.MyCollectionHardDeleteWriter())
                 .build();
     }
 
@@ -122,7 +122,7 @@ public class HardDeleteConfig {
         return reader;
     }
 
-    public JpaItemCustomWriter<MyCollection> MyCollectionHardDeleteWrtier() {
+    public JpaItemCustomWriter<MyCollection> MyCollectionHardDeleteWriter() {
         JpaItemCustomWriter<MyCollection> jpaItemCustomWriter = new JpaItemCustomWriter<>();
         jpaItemCustomWriter.setEntityManagerFactory(em.getEntityManagerFactory());
         return jpaItemCustomWriter;

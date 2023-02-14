@@ -56,11 +56,13 @@ public class CampsiteDetailResDTO {
     private String allowAnimal;
 
     private List<String> images;
+
+    private List<String> thumbnail_images;
     private List<ReviewResDTO> reviews;
     private double total_rate;
 
     @Builder
-    public CampsiteDetailResDTO(Campsite camp, Member member, List<ReviewResDTO> reviews, List<String> images) {
+    public CampsiteDetailResDTO(Campsite camp, Member member, List<ReviewResDTO> reviews, List<String> images, List<String> thumbnail_images) {
         boolean isScraped = false;
         for (CampsiteScrap cs: camp.getScraps()) {
             if (cs.getMember().equals(member)){
@@ -129,5 +131,6 @@ public class CampsiteDetailResDTO {
         this.reviews = reviews;
         this.total_rate = total_rate;
         this.images = images;
+        this.thumbnail_images = thumbnail_images;
     }
 }

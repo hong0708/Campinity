@@ -17,6 +17,18 @@ public interface CampsiteService {
                                                         String[] fclties, String[] amenities, String[] industries,
                                                         String[] themes, String[] allowAnimals, String[] openSeasons, int memberId);
 
+    List<ClusteringDoLevelResDTO> getCampsiteClusteringByDoLevel(String keyword, String doName, String[] sigunguNames,
+                                                        String[] fclties, String[] amenities, String[] industries,
+                                                        String[] themes, String[] allowAnimals, String[] openSeasons, int memberId);
+
+    List<ClusteringSigunguLevelResDTO> getCampsiteClusteringBySigunguLevel(String keyword, String doName, String[] sigunguNames,
+                                                        String[] fclties, String[] amenities, String[] industries,
+                                                        String[] themes, String[] allowAnimals, String[] openSeasons, int memberId);
+
+    CampsitePagingResDTO getCampsiteClusteringByDetailLevel(String keyword, String doName, String[] sigunguNames,
+                                                        String[] fclties, String[] amenities, String[] industries,
+                                                        String[] themes, String[] allowAnimals, String[] openSeasons, int memberId, int paging);
+
     CampsiteListResDTO getCampsiteMetaData(UUID campsiteId, int memberId);
 
     Boolean scrap(int userId, UUID campsiteId);

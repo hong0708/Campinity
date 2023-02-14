@@ -4,10 +4,12 @@ import com.google.firebase.messaging.*;
 import com.ssafy.campinity.core.dto.FcmMessageReqDTO;
 import com.ssafy.campinity.core.dto.FcmReplyDTO;
 import com.ssafy.campinity.core.dto.LastFcmReqDTO;
+import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.fcm.FcmMessage;
 import com.ssafy.campinity.core.entity.fcm.FcmToken;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.exception.FcmMessagingException;
+import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
 import com.ssafy.campinity.core.repository.fcm.FcmMessageRepository;
 import com.ssafy.campinity.core.repository.fcm.FcmTokenRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
@@ -31,6 +33,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
     private final MemberRepository memberRepository;
     private final FcmMessageRepository fcmMessageRepository;
     private final FcmTokenRepository fcmTokenRepository;
+    private final CampsiteRepository campsiteRepository;
 
 
     // target Token으로 fcm message 전송
@@ -50,6 +53,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .latitude(req.getLatitude())
                 .member(member)
                 .build();
+
         FcmMessage savedFcm = fcmMessageRepository.save(fcmMessage);
 
         return makeMessageToMany(memberId, savedFcm);
@@ -67,10 +71,11 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .addAllTokens(fcmTokenList)
                 .setNotification(Notification.builder().setTitle(savedFcm.getTitle()).setBody(savedFcm.getBody()).build())
                 .putData("fcmMessageId", savedFcm.getUuid().toString())
+                .putData("type", "RECEIVE_HELP_NOTE")
                 .putData("title", savedFcm.getTitle())
                 .putData("body", savedFcm.getBody())
                 .setAndroidConfig(AndroidConfig.builder()
-                        .setNotification(AndroidNotification.builder().setClickAction("COMMUNITY_ACTIVITY").build())
+                        .setNotification(AndroidNotification.builder().setClickAction("RECEIVE_HELP_NOTE").build())
                         .setPriority(AndroidConfig.Priority.HIGH)
                         .build())
                 .build();
@@ -93,23 +98,29 @@ public class FcmMessageServiceImpl implements FcmMessageService {
 
         FcmMessage fcmMessage = fcmMessageRepository.findByUuidAndExpiredIsFalse(UUID.fromString(fcmReplyDTO.getFcmMessageId()))
                 .orElse(null);
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
+                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        Campsite campsite = campsiteRepository.findByUuid(UUID.fromString(fcmMessage.getCampsiteUuid())).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessageEnum.CAMPSITE_NOT_FOUND.getMessage()));
+
         int successfulSendCnt = 0;
+        String campsiteId = fcmMessage.getCampsiteUuid();
 
         if (fcmMessage == null) return successfulSendCnt;
 
-        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId)
-                .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+        // 채팅방 생성 메서드
+
 
         List<String> senderTokens = fcmMessage.getMember().getFcmTokenList().stream().filter(token ->
-                        token.getCampsiteUuid().equals(fcmMessage.getCampsiteUuid()))
+                        token.getCampsiteUuid() != null && token.getCampsiteUuid().equals(campsiteId))
                 .map(FcmToken::getToken)
                 .collect(Collectors.toList());
 
+        if (senderTokens.size() == 0) throw new FcmMessagingException("에러로 인해 이벤트가 만료됐습니다.");
+
         StringBuffer body = new StringBuffer();
         body.append(fcmMessage.getMember().getName() + " 님!\n");
-
-        if (fcmMessage.getTitle() == "도움 주기"){ body.append(String.format("도움이 필요한 캠퍼, %s 님을 찾았습니다 :)", member.getName())); }
-        else{ body.append(String.format("도와줄 캠퍼, %S 님을 찾았습니다 :)", member.getName())); }
+        body.append(String.format("도움이 필요한 캠퍼, %s 님을 찾았습니다 :)\n클릭해서 %s 님과 대화해 보세요.", member.getName(), member.getName()));
 
         successfulSendCnt += makeMessageToAppointee(fcmReplyDTO.getFcmToken(), fcmMessage, senderTokens);
         successfulSendCnt += makeMessageToSender(senderTokens, "매칭 성공 !", body.toString());
@@ -126,11 +137,16 @@ public class FcmMessageServiceImpl implements FcmMessageService {
         MulticastMessage fcmMessage = MulticastMessage.builder()
                 .addToken(appointeeToken)
                 .setNotification(Notification.builder().setTitle(data.getTitle()).setBody(data.getHiddenBody()).build())
-                .putData("title", data.getTitle())
+                .putData("title", "도움을 줄 캠퍼의 위치입니다.\n클릭해서 캠퍼와 대화해보세요!")
                 .putData("body", data.getHiddenBody())
+                .putData("type", "CHATTING")
                 .putData("longitude", data.getLongitude().toString())
                 .putData("latitude", data.getLatitude().toString())
-                .putData("senderFcmTokenList", senderFcmTokens.toString())
+//                .putData("senderFcmTokenList", senderFcmTokens.toString())
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder().setClickAction("CHATTING").build())
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .build())
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);
@@ -146,6 +162,11 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .setNotification(Notification.builder().setTitle(title).setBody(body).build())
                 .putData("title", title)
                 .putData("body", body)
+                .putData("type", "CHATTING")
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder().setClickAction("CHATTING").build())
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .build())
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);
@@ -171,6 +192,11 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .setNotification(Notification.builder().setTitle("매칭된 캠퍼로부터 온 메세지입니다 :)").setBody(lastFcmReqDTO.getBody()).build())
                 .putData("title", "매칭된 캠퍼로부터 온 메세지입니다 :)")
                 .putData("body", lastFcmReqDTO.getBody())
+                .putData("type", "COMMUNITY")
+                .setAndroidConfig(AndroidConfig.builder()
+                        .setNotification(AndroidNotification.builder().setClickAction("COMMUNITY").build())
+                        .setPriority(AndroidConfig.Priority.HIGH)
+                        .build())
                 .build();
 
         BatchResponse response = firebaseMulticastMessaging(fcmMessage);

@@ -6,12 +6,12 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.campinity.core.dto.*;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
+import com.ssafy.campinity.core.entity.campsite.CampsiteImage;
 import com.ssafy.campinity.core.entity.campsite.CampsiteScrap;
+import com.ssafy.campinity.core.entity.campsite.RegionLocation;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.entity.review.Review;
-import com.ssafy.campinity.core.repository.campsite.CampsiteImageRepository;
-import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
-import com.ssafy.campinity.core.repository.campsite.CampsiteScrapRepository;
+import com.ssafy.campinity.core.repository.campsite.*;
 import com.ssafy.campinity.core.repository.campsite.custom.CampsiteCustomRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.repository.message.MessageRepository;
@@ -22,13 +22,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -43,6 +38,8 @@ public class CampsiteServiceImpl implements CampsiteService {
     private final RedisDao redisDao;
     private final ObjectMapper objectMapper;
     private final MessageRepository messageRepository;
+    private final RegionLocationRepository regionLocationRepository;
+    private final CampsiteAndIndustryRepository campsiteAndIndustryRepository;
 
     @Override
     @Transactional
@@ -124,6 +121,83 @@ public class CampsiteServiceImpl implements CampsiteService {
         return results;
     }
 
+    // do level 반환
+    @Override
+    @Transactional
+    public List<ClusteringDoLevelResDTO> getCampsiteClusteringByDoLevel(String keyword, String doName, String[] sigunguNames, String[] fclties, String[] amenities, String[] industries, String[] themes, String[] allowAnimals, String[] openSeasons, int memberId) {
+        List<Campsite> campsites = campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames,
+                fclties, amenities, industries, themes, allowAnimals, openSeasons);
+
+        List<RegionLocation> regions = regionLocationRepository.findBySigunguName("");  // 각 도별 정보 가지고 오기
+        List<ClusteringDoLevelResDTO> result = new ArrayList<>();
+
+        HashMap<String, Integer> counts = new HashMap<>();
+
+        for (Campsite camp: campsites) {  // 각 도별 개수 세기
+            counts.put(camp.getDoName(), counts.getOrDefault(camp.getDoName(), 0) + 1);
+        }
+
+        for (RegionLocation item: regions) {
+            result.add(ClusteringDoLevelResDTO.builder().doName(item.getDoName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(item.getDoName(), 0)).build());
+        }
+
+        return result;
+    }
+
+    // sigungn level 반환
+    @Override
+    @Transactional
+    public List<ClusteringSigunguLevelResDTO> getCampsiteClusteringBySigunguLevel(String keyword, String doName, String[] sigunguNames, String[] fclties, String[] amenities, String[] industries, String[] themes, String[] allowAnimals, String[] openSeasons, int memberId) {
+        List<Campsite> campsites = campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames,
+                fclties, amenities, industries, themes, allowAnimals, openSeasons);
+
+        List<RegionLocation> regions = regionLocationRepository.findByDoName(doName);  // 각 도별 정보 가지고 오기
+        List<ClusteringSigunguLevelResDTO> result = new ArrayList<>();
+
+        HashMap<String, Integer> counts = new HashMap<>();
+
+        for (Campsite camp: campsites) {  // 각 도별 개수 세기
+            counts.put(camp.getSigunguName(), counts.getOrDefault(camp.getSigunguName(), 0) + 1);
+        }
+
+        for (RegionLocation item: regions) {
+            if (item.getSigunguName().equals("")) {
+                continue;
+            }
+            result.add(ClusteringSigunguLevelResDTO.builder().sigunguName(item.getSigunguName()).latitude(item.getLatitude()).longitude(item.getLongitude()).cnt(counts.getOrDefault(item.getSigunguName(), 0)).build());
+        }
+
+        return result;
+    }
+
+    // detail반환
+    @Override
+    @Transactional
+    public CampsitePagingResDTO getCampsiteClusteringByDetailLevel(String keyword, String doName, String[] sigunguNames, String[] fclties, String[] amenities, String[] industries, String[] themes, String[] allowAnimals, String[] openSeasons, int memberId, int paging) {
+        List<Campsite> campsites = campsiteCustomRepository.getCampsiteListByFiltering(keyword, doName, sigunguNames,
+                fclties, amenities, industries, themes, allowAnimals, openSeasons);
+
+        int start = Math.min(50 * (paging - 1), campsites.size());
+        int end = Math.min(start + 50, campsites.size());
+
+        List<CampsiteListResDTO> campsiteListResDTOS = new ArrayList<>();
+
+        for (int i = start; i < end; i++) {
+            boolean isScraped = campsites.get(i).getScraps().stream().anyMatch(campsiteScrap -> campsiteScrap.getMember().getId() == memberId);
+
+            int messageCnt = campsites.get(i).getMessages().size();
+
+            List<String> images = campsites.get(i).getImages().stream().map(CampsiteImage::getImagePath).collect(Collectors.toList());
+
+            List<String> thumbnails = campsites.get(i).getImages().stream().map(CampsiteImage::getThumbnailImage).collect(Collectors.toList());
+
+            campsiteListResDTOS.add(CampsiteListResDTO.builder().camp(campsites.get(i)).isScraped(isScraped)
+                    .thumbnails(thumbnails).messageCnt(messageCnt).images(images).build());
+        }
+
+        return CampsitePagingResDTO.builder().currentPage(paging).maxPage((int)Math.ceil(campsites.size() / 50.0)).data(campsiteListResDTOS).build();
+    }
+
     @Transactional
     @Override
     public CampsiteListResDTO getCampsiteMetaData(UUID campsiteId, int memberId) {
@@ -178,7 +252,11 @@ public class CampsiteServiceImpl implements CampsiteService {
             return image.getImagePath();
         }).collect(Collectors.toList());
 
-        return CampsiteDetailResDTO.builder().camp(campsite).member(member).images(images).reviews(reviewDTOLists).build();
+        List<String> thumbnail_images = campsiteImageRepository.findByCampsite_id(campsite.getId()).stream().map(image -> {
+            return image.getThumbnailImage();
+        }).collect(Collectors.toList());
+
+        return CampsiteDetailResDTO.builder().camp(campsite).member(member).images(images).reviews(reviewDTOLists).thumbnail_images(thumbnail_images).build();
     }
 
     @Override

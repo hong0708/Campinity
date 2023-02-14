@@ -1,0 +1,70 @@
+spring:
+  profiles: test
+  batch-db:
+    datasource:
+      jdbc-url: jdbc:h2:mem:batch;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE #;INIT=CREATE SCHEMA schema1
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+  campinity-db:
+    datasource:
+      jdbc-url: jdbc:h2:mem:campinity;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE #;INIT=CREATE SCHEMA schema2
+      driver-class-name: org.h2.Driver
+      username: sa
+      password:
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 0
+    useMysqlMetadata: true
+    url: jdbc:h2:mem:campinity;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;IGNORECASE=TRUE;DATABASE_TO_LOWER=TRUE
+    locations: classpath:db/migration/campinity
+    user: sa
+    password:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  hikari:
+    connectionTimeout: 30000
+    maximumPoolSize: 30
+    maxLifeTime: 97
+    poolName: HikariCP
+    readOnly: false
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true #To beautify or pretty print the SQL
+        type:
+          preferred_uuid_jdbc_type: CHAR
+    #    show_sql: true #show sql
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    host: redis_boot
+    port: 6379
+    password: campinity1308!
+
+custom:
+  path:
+    upload-images: '/var/lib/images'
+
+server:
+  port: 8002
+
+goCamp:
+  url:
+    search:
+      campsite: http://apis.data.go.kr/B551011/GoCamping/basedList
+      image: http://apis.data.go.kr/B551011/GoCamping/imageList
+    serviceKey: p70pdHoxT%2Fy5tEkOpbp5jOLMkEYGV%2B8oND1YTMbzMCB9TvNN0cvX9tZSTnO0JV1W6BJk3z9Hq0FgrWDYTovevw%3D%3D
+
+security:
+  basic:
+    enabled: false

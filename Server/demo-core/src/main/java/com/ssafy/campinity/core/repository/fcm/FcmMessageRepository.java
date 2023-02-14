@@ -9,4 +9,6 @@ import java.util.UUID;
 
 public interface FcmMessageRepository extends JpaRepository<FcmMessage, Integer> {
     Optional<FcmMessage> findByUuidAndExpiredIsFalse(UUID uuid);
+
+    Optional<FcmMessage> findByUuid(UUID uuid);
 }

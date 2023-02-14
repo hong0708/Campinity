@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -180,4 +181,187 @@ public class CampsiteController {
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 클러스터링 도레벨 검색")
+    @GetMapping("/conditions/do-level")
+    public ResponseEntity<List<ClusteringDoLevelResDTO>> getCampsiteClusteringByDoLevel(@RequestParam(name = "keyword", defaultValue = "") String keyword,
+                                                                                        @RequestParam(name = "doName", defaultValue = "") String doName,
+                                                                                        @RequestParam(name = "sigunguName", defaultValue = "") String sigunguName,
+                                                                                        @RequestParam(name = "fclty", defaultValue = "") String fclty,
+                                                                                        @RequestParam(name = "amenity", defaultValue = "") String amenity,
+                                                                                        @RequestParam(name = "industry", defaultValue = "") String industry,
+                                                                                        @RequestParam(name = "theme", defaultValue = "") String theme,
+                                                                                        @RequestParam(name = "allowAnimal", defaultValue = "") String allowAnimal,
+                                                                                        @RequestParam(name = "openSeason", defaultValue = "") String openSeason,
+                                                                                        @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        String[] sigunguNames = new String[0];
+        if (!sigunguName.trim().isEmpty()) {
+            sigunguNames = sigunguName.split(" ");
+        }
+
+        String[] fclties = new String[0];
+        if (!fclty.trim().isEmpty()) {
+            fclties = fclty.split(" ");
+        }
+
+        String[] amenities = new String[0];
+        if (!amenity.trim().isEmpty()) {
+            amenities = amenity.split(" ");
+        }
+
+        String[] industries = new String[0];
+        if (!industry.trim().isEmpty()) {
+            industries = industry.split(" ");
+        }
+
+        String[] themes = new String[0];
+        if (!theme.trim().isEmpty()) {
+            themes = theme.split(" ");
+        }
+
+
+        String[] operSeasons = new String[0];
+        if (!openSeason.trim().isEmpty()) {
+            operSeasons = openSeason.split(" ");
+        }
+
+        String[] allowAnimals = new String[0];
+        if (!allowAnimal.trim().isEmpty()) {
+            allowAnimals = allowAnimal.split(" ");
+        }
+
+        List<ClusteringDoLevelResDTO> results = campsiteService.getCampsiteClusteringByDoLevel(keyword.trim(), doName.trim(),
+                sigunguNames, fclties, amenities, industries, themes, allowAnimals, operSeasons, memberDetails.getMember().getId());
+
+
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 클러스터링 시군구레벨 검색")
+    @GetMapping("/conditions/sigungu-level")
+    public ResponseEntity<List<ClusteringSigunguLevelResDTO>> getCampsiteClusteringBySigunguLevel(@RequestParam(name = "keyword", defaultValue = "") String keyword,
+                                                                                                  @RequestParam(name = "doName", defaultValue = "") String doName,
+                                                                                                  @RequestParam(name = "sigunguName", defaultValue = "") String sigunguName,
+                                                                                                  @RequestParam(name = "fclty", defaultValue = "") String fclty,
+                                                                                                  @RequestParam(name = "amenity", defaultValue = "") String amenity,
+                                                                                                  @RequestParam(name = "industry", defaultValue = "") String industry,
+                                                                                                  @RequestParam(name = "theme", defaultValue = "") String theme,
+                                                                                                  @RequestParam(name = "allowAnimal", defaultValue = "") String allowAnimal,
+                                                                                                  @RequestParam(name = "openSeason", defaultValue = "") String openSeason,
+                                                                                                  @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        String[] sigunguNames = new String[0];
+        if (!sigunguName.trim().isEmpty()) {
+            sigunguNames = sigunguName.split(" ");
+        }
+
+        String[] fclties = new String[0];
+        if (!fclty.trim().isEmpty()) {
+            fclties = fclty.split(" ");
+        }
+
+        String[] amenities = new String[0];
+        if (!amenity.trim().isEmpty()) {
+            amenities = amenity.split(" ");
+        }
+
+        String[] industries = new String[0];
+        if (!industry.trim().isEmpty()) {
+            industries = industry.split(" ");
+        }
+
+        String[] themes = new String[0];
+        if (!theme.trim().isEmpty()) {
+            themes = theme.split(" ");
+        }
+
+
+        String[] operSeasons = new String[0];
+        if (!openSeason.trim().isEmpty()) {
+            operSeasons = openSeason.split(" ");
+        }
+
+        String[] allowAnimals = new String[0];
+        if (!allowAnimal.trim().isEmpty()) {
+            allowAnimals = allowAnimal.split(" ");
+        }
+
+        List<ClusteringSigunguLevelResDTO> results = campsiteService.getCampsiteClusteringBySigunguLevel(keyword.trim(), doName.trim(),
+                sigunguNames, fclties, amenities, industries, themes, allowAnimals, operSeasons, memberDetails.getMember().getId());
+
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "캠핑장 데이터 조회가 성공했을 때 응답"),
+            @ApiResponse(code = 400, message = "입력 데이터(파라미터 타입 및 값) 부적합 시 응답"),
+            @ApiResponse(code = 401, message = "accessToken 부적합 시 응답"),
+    })
+    @ApiOperation(value = "캠핑장 클러스터링 상세 정보 레벨(페이지네이션)")
+    @GetMapping("/conditions/detail-level")
+    public ResponseEntity<CampsitePagingResDTO> getCampsiteClusteringByDetailLevel(@RequestParam(name = "keyword", defaultValue = "") String keyword,
+                                                                                       @RequestParam(name = "doName", defaultValue = "") String doName,
+                                                                                       @RequestParam(name = "sigunguName", defaultValue = "") String sigunguName,
+                                                                                       @RequestParam(name = "fclty", defaultValue = "") String fclty,
+                                                                                       @RequestParam(name = "amenity", defaultValue = "") String amenity,
+                                                                                       @RequestParam(name = "industry", defaultValue = "") String industry,
+                                                                                       @RequestParam(name = "theme", defaultValue = "") String theme,
+                                                                                       @RequestParam(name = "allowAnimal", defaultValue = "") String allowAnimal,
+                                                                                       @RequestParam(name = "openSeason", defaultValue = "") String openSeason,
+                                                                                       @RequestParam(name = "paging", defaultValue = "1") int paging,
+                                                                                       @AuthenticationPrincipal MemberDetails memberDetails) {
+
+        String[] sigunguNames = new String[0];
+        if (!sigunguName.trim().isEmpty()) {
+            sigunguNames = sigunguName.split(" ");
+        }
+
+        String[] fclties = new String[0];
+        if (!fclty.trim().isEmpty()) {
+            fclties = fclty.split(" ");
+        }
+
+        String[] amenities = new String[0];
+        if (!amenity.trim().isEmpty()) {
+            amenities = amenity.split(" ");
+        }
+
+        String[] industries = new String[0];
+        if (!industry.trim().isEmpty()) {
+            industries = industry.split(" ");
+        }
+
+        String[] themes = new String[0];
+        if (!theme.trim().isEmpty()) {
+            themes = theme.split(" ");
+        }
+
+
+        String[] operSeasons = new String[0];
+        if (!openSeason.trim().isEmpty()) {
+            operSeasons = openSeason.split(" ");
+        }
+
+        String[] allowAnimals = new String[0];
+        if (!allowAnimal.trim().isEmpty()) {
+            allowAnimals = allowAnimal.split(" ");
+        }
+
+        CampsitePagingResDTO results = campsiteService.getCampsiteClusteringByDetailLevel(keyword.trim(), doName.trim(),
+                sigunguNames, fclties, amenities, industries, themes, allowAnimals, operSeasons, memberDetails.getMember().getId(), paging);
+
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
 }
