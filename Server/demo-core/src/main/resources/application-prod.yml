@@ -8,3 +8,7 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+
+  data:
+    mongodb:
+      uri: mongodb://root:campinity1308!@mongo:27017/chatDB?authSource=admin
