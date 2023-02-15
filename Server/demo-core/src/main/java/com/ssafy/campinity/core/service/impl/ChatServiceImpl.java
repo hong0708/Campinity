@@ -90,16 +90,7 @@ public class ChatServiceImpl implements ChatService {
                 new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
 
         List<ChatMessage> chatMessageList = chatMessageRepository.findByRoomId(roomId);
-        if (chatMessageList.size() == 0) { // 채팅 내용이 없는 경우
-            return ChatMessageListDTO.builder()
-                    .chatMessages(
-                            List.of(
-                                    ChatMessageItemDTO.builder()
-                                            .chatMessage(ChatMessage.builder().message("").roomId("").sender("").build()).build()
-                            )
-                    )
-                    .build();
-        }
+        if (chatMessageList.size() == 0) { return ChatMessageListDTO.builder().chatMessages(new ArrayList<>()).build();}
 
         List<ChatMessageItemDTO> itemList = new ArrayList<>();
         for (ChatMessage item : chatMessageList)
