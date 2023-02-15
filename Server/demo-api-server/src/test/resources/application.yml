@@ -60,6 +60,10 @@ spring:
     activate:
       on-profile: test
 
+  data:
+    mongodb:
+      uri: mongodb://root:root@localhost:27017/chatDB?authSource=admin
+
 logging:
   config: classpath:log4j2.yml
 
