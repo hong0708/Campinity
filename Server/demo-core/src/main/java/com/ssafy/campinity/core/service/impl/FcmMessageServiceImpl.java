@@ -104,12 +104,12 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .orElseThrow(() -> new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
 
         int successfulSendCnt = 0;
+        if (fcmMessage == null) return successfulSendCnt;
         String campsiteId = fcmMessage.getCampsiteUuid();
 
         Campsite campsite = campsiteRepository.findByUuid(UUID.fromString(fcmMessage.getCampsiteUuid())).orElseThrow(() ->
                 new NoSuchElementException(ErrorMessageEnum.CAMPSITE_NOT_FOUND.getMessage()));
 
-        if (fcmMessage == null) return successfulSendCnt;
 
         // 채팅방 생성 메서드
         chatService.createChatRoom(campsiteId, member.getUuid().toString(), fcmMessage.getMember().getUuid().toString(), fcmMessage.getBody());
@@ -119,7 +119,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .map(FcmToken::getToken)
                 .collect(Collectors.toList());
 
-        if (senderTokens.size() == 0) return 0;
+        if (senderTokens.size() == 0) throw new FcmMessagingException("에러로 인해 이벤트가 만료됐습니다.");
 
         StringBuffer body = new StringBuffer();
         body.append(fcmMessage.getMember().getName() + " 님!\n");
