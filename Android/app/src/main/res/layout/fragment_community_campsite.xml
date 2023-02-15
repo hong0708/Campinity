@@ -25,20 +25,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.airbnb.lottie.LottieAnimationView
-                    android:id="@+id/la_note_open"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/la_note_lock"
-                    android:scaleType="centerCrop"
-                    app:lottie_rawRes="@raw/animation_note_lock"
-                    app:lottie_repeatCount="1"
-                    android:visibility="gone"/>
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_community_map"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/la_note_open"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:layout_margin="40dp"
+                    app:lottie_rawRes="@raw/animation_note_lock" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_toolbar_map"

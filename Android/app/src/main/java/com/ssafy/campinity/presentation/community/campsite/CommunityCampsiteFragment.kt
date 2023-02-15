@@ -14,6 +14,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -65,8 +66,9 @@ class CommunityCampsiteFragment :
     private var isFabOpen = false
     private var isTracking = false
     private var newUserLocation = RecentUserLocation(
-        ApplicationClass.preferences.recentUserLat?.toDouble(),
-        ApplicationClass.preferences.recentUserLat?.toDouble()
+        0.0,0.0
+        /*ApplicationClass.preferences.recentUserLat?.toDouble(),
+        ApplicationClass.preferences.recentUserLat?.toDouble()*/
     )
 
     override fun initView() {
@@ -85,7 +87,6 @@ class CommunityCampsiteFragment :
             override fun onReceive(context: Context, intent: Intent) {
 
                 val test = intent.getSerializableExtra("test") as UserLocation
-
                 newUserLocation.latitude = test.latitude
                 newUserLocation.longitude = test.longitude
 
@@ -209,27 +210,28 @@ class CommunityCampsiteFragment :
                         campsiteMessageBriefInfo.longitude.toDouble()
                     ) < 100
                 ) {
-
-                    binding.apply {
-                        laNoteOpen.apply {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        binding.laNoteOpen.apply {
                             addAnimatorListener(object : AnimatorListener {
                                 override fun onAnimationStart(p0: Animator?) {}
 
                                 override fun onAnimationEnd(p0: Animator?) {
-                                    laNoteOpen.visibility = View.GONE
+                                    binding.laNoteOpen.visibility = View.GONE
                                 }
 
                                 override fun onAnimationCancel(p0: Animator?) {}
 
                                 override fun onAnimationRepeat(p0: Animator?) {}
                             })
-                            speed = 1f
+                            setAnimation(R.raw.unlocked)
+                            speed = 1.5f
                             visibility = View.VISIBLE
                             playAnimation()
                         }
+                        delay(3000)
+                        getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
                     }
-                    // 충분히 가까워서 유효
-                    //getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+
                 } else {
                     //아직 멀어서 불가능
                     showToast("쪽지와 더 근접한 위치에서 열어보세요!")
@@ -589,12 +591,12 @@ class CommunityCampsiteFragment :
                 customImageResourceId = if (i.messageCategory == "리뷰") {
                     R.drawable.ic_review_note_marker
                 } else {
-                    //R.drawable.ic_community_campsite_close_note3
-                    if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 30) {
+                    R.drawable.ic_community_campsite_close_note3
+                    /*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 30) {
                         R.drawable.ic_community_campsite_open_note3
                     } else {
                         R.drawable.ic_community_campsite_close_note3
-                    }
+                    }*/
                 }
                 //isCustomImageAutoscale = false
                 userObject = i
@@ -713,6 +715,12 @@ class CommunityCampsiteFragment :
                 }
             }
         }
+    }
+
+    private fun fadeInView(view: View) {
+        val fadeInAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        view.startAnimation(fadeInAnim)
+        view.visibility = View.VISIBLE
     }
 
     // 이벤트 리스너
