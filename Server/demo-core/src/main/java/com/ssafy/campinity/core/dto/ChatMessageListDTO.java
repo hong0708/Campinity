@@ -8,15 +8,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ChatMessageListDTO {
-
-    private String otherNickname;
-    private String otherProfilePath;
     private List<ChatMessageItemDTO> chatMessages;
 
     @Builder
-    public ChatMessageListDTO(String otherNickname, String otherProfilePath, List<ChatMessageItemDTO> chatMessages) {
-        this.otherNickname = otherNickname;
-        this.otherProfilePath = otherProfilePath;
+    public ChatMessageListDTO(List<ChatMessageItemDTO> chatMessages) {
         this.chatMessages = chatMessages;
     }
 }

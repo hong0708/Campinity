@@ -27,9 +27,9 @@ import java.util.stream.Collectors;
 public class ChatServiceImpl implements ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
+    private final ChatMessageRepository chatMessageRepository;
     private final CampsiteRepository campsiteRepository;
     private final MemberRepository memberRepository;
-    private final ChatMessageRepository chatMessageRepository;
 
     public List<?> getMyChatRoomList(int memberId){
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(() ->
@@ -50,7 +50,6 @@ public class ChatServiceImpl implements ChatService {
                         MyChatRoomResDTO.builder()
                                 .room(room)
                                 .otherProfilePath(other.getProfileImage())
-                                .otherNickname(other.getName())
                                 .build());
         }
         return myChatRoomList;
@@ -74,7 +73,7 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChatMessage saveChatMessage(ChatMessage chatMessage) {
-        return null;
+        return chatMessageRepository.save(chatMessage);
     }
 
     public ChatMessageListDTO getChatMessages(int memberId, String roomId){
@@ -92,15 +91,22 @@ public class ChatServiceImpl implements ChatService {
         List<ChatMessage> chatMessageList = chatMessageRepository.findByRoomId(roomId);
         if (chatMessageList.size() == 0) { // 채팅 내용이 없는 경우
             return ChatMessageListDTO.builder()
-                    .chatMessages(List.of(ChatMessageItemDTO.builder().timeStamp("").senderId("").context("").build()))
+                    .chatMessages(
+                            List.of(
+                                    ChatMessageItemDTO.builder()
+                                            .chatMessage(ChatMessage.builder().message("").id("").roomId("").sender("").build()).otherNickname("")
+                            .build()))
                     .build();
         }
 
-        List<ChatMessageItemDTO> itemList = chatMessageList.stream().map(item -> ChatMessageItemDTO.builder().build()).collect(Collectors.toList());
+        List<ChatMessageItemDTO> itemList = new ArrayList<>();
+        for (ChatMessage item : chatMessageList) {
+            if (item.getSender().equals(other.getUuid().toString()))
+                itemList.add(ChatMessageItemDTO.builder().chatMessage(item).otherNickname(other.getName()).build());
+            else
+                itemList.add(ChatMessageItemDTO.builder().chatMessage(item).otherNickname(member.getName()).build());
+        }
 
-        ChatMessageListDTO chatMessageListDTO = ChatMessageListDTO.builder().build();
-
-
-        return new ChatMessageListDTO();
+        return ChatMessageListDTO.builder().chatMessages(itemList).build();
     }
 }
