@@ -32,7 +32,7 @@ public class ChatController {
     }
 
     @ApiOperation(value = "roomId의 채팅메세지 전체 조회 API입니다.")
-    @GetMapping("{roomId}/messages")
+    @GetMapping("/{roomId}/messages")
     public ResponseEntity<ChatMessageListDTO> getChatMessage(
             @AuthenticationPrincipal MemberDetails memberDetails,
             @PathVariable String roomId){
