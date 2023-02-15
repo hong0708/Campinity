@@ -11,4 +11,4 @@ spring:
 
   data:
     mongodb:
-      uri: mongodb://root:campinity1308!@mongo:27017/chatDB?authSource=admin
+      uri: mongodb://root:root@mongo:27017/chatDB?authSource=admin
