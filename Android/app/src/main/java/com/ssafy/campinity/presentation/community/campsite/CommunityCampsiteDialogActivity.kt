@@ -140,11 +140,14 @@ class CommunityCampsiteDialogActivity :
                 tvMakeReview.setOnClickListener {
                     if (viewModel.content.value == "")
                         showToastMessage("쪽지 내용을 입력해주세요.")
-                    else
+                    else {
+                        viewModel.markerLocation.value =
+                            MarkerLocation(args.userLat.toDouble(), args.userLng.toDouble())
                         viewModel.createCommunityCampsiteMessage(
                             "자유",
                             campsiteId
                         )
+                    }
                 }
             }
         }

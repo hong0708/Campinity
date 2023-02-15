@@ -57,7 +57,7 @@ class LocationService : Service() {
 //        }, (1000L * 60L * 1L), (1000L * 60L * 1L))
 
         // 15초 마다
-        locationClient.getLocationUpdates(1500L).catch { exception ->
+        locationClient.getLocationUpdates(15000L).catch { exception ->
             exception.printStackTrace()
         }.onEach { location ->
 

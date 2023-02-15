@@ -1,6 +1,8 @@
 package com.ssafy.campinity.presentation.community.campsite
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -12,6 +14,7 @@ import android.location.Location
 import android.location.LocationManager
 import android.os.Build
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -30,6 +33,7 @@ import com.ssafy.campinity.common.util.CustomDialogInterface
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
+import com.ssafy.campinity.domain.entity.community.RecentUserLocation
 import com.ssafy.campinity.domain.entity.community.UserLocation
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.community.CommunityActivity
@@ -61,9 +65,16 @@ class CommunityCampsiteFragment :
     private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
-    private var newUserLocation = UserLocation(0.0, 0.0)
+    private var newUserLocation = RecentUserLocation(
+        0.0,0.0
+        /*ApplicationClass.preferences.recentUserLat?.toDouble(),
+        ApplicationClass.preferences.recentUserLat?.toDouble()*/
+    )
 
     override fun initView() {
+        communityCampsiteViewModel.checkIsUserIn(
+            ApplicationClass.preferences.isUserIn.toBoolean()
+        )
         initToggle()
         initObserver()
         initListener()
@@ -76,6 +87,9 @@ class CommunityCampsiteFragment :
             override fun onReceive(context: Context, intent: Intent) {
 
                 val test = intent.getSerializableExtra("test") as UserLocation
+                newUserLocation.latitude = test.latitude
+                newUserLocation.longitude = test.longitude
+
                 communityCampsiteViewModel.checkIsUserIn(
                     DistanceManager.getDistance(
                         test.latitude,
@@ -106,6 +120,9 @@ class CommunityCampsiteFragment :
     override fun onPause() {
         super.onPause()
         binding.clCommunityMap.removeView(mapView)
+        ApplicationClass.preferences.recentUserLat = newUserLocation.latitude.toString()
+        ApplicationClass.preferences.recentUserLng = newUserLocation.longitude.toString()
+        ApplicationClass.preferences.isUserIn = communityCampsiteViewModel.isUserIn.value.toString()
     }
 
     override fun onAttach(context: Context) {
@@ -193,10 +210,31 @@ class CommunityCampsiteFragment :
                         campsiteMessageBriefInfo.longitude.toDouble()
                     ) < 100
                 ) {
-                    // 충분히 가까워서 유효
-                    getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                    CoroutineScope(Dispatchers.Main).launch {
+                        binding.laNoteOpen.apply {
+                            addAnimatorListener(object : AnimatorListener {
+                                override fun onAnimationStart(p0: Animator?) {}
+
+                                override fun onAnimationEnd(p0: Animator?) {
+                                    binding.laNoteOpen.visibility = View.GONE
+                                }
+
+                                override fun onAnimationCancel(p0: Animator?) {}
+
+                                override fun onAnimationRepeat(p0: Animator?) {}
+                            })
+                            setAnimation(R.raw.unlocked)
+                            speed = 1.5f
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+                        delay(3000)
+                        getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                    }
+
                 } else {
                     //아직 멀어서 불가능
+                    showToast("쪽지와 더 근접한 위치에서 열어보세요!")
                 }
             }
         }
@@ -225,7 +263,7 @@ class CommunityCampsiteFragment :
             setMapPosition()
         } else {
             mapView.removeAllPOIItems()
-
+            setMapPosition()
             // 최근 검색 기준으로 초기화
             val recentCampsite =
                 CampsiteBriefInfo(
@@ -304,9 +342,7 @@ class CommunityCampsiteFragment :
                 CoroutineScope(Dispatchers.Main).launch {
                     mapView.currentLocationTrackingMode =
                         MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-                    if (isTracking) {
-                        isTracking = false
-                    }
+
                     // 현재 내위치 기준으로 맵 포인트 가운데로 옮기기
                     setMapPosition()
                     mapView.setZoomLevel(6, true)
@@ -319,6 +355,12 @@ class CommunityCampsiteFragment :
                         mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
                         mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
                     )
+
+                    mapView.currentLocationTrackingMode =
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                    if (isTracking) {
+                        isTracking = false
+                    }
                 }
             }
 
@@ -327,31 +369,43 @@ class CommunityCampsiteFragment :
             }
 
             fabGetHelp.setOnClickListener {
-                navigate(
-                    CommunityCampsiteFragmentDirections
-                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
-                            "도움 주기",
-                            ApplicationClass.preferences.userRecentCampsiteId.toString()
-                        )
-                )
+                if (communityCampsiteViewModel.isUserIn.value == true) {
+                    navigate(
+                        CommunityCampsiteFragmentDirections
+                            .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                                "도움 주기",
+                                ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                                newUserLocation.latitude.toString(),
+                                newUserLocation.longitude.toString()
+                            )
+                    )
+                } else {
+                    showToast("캠핑장 구독 및 해당 캠핑장에 위치해야합니다.")
+                }
             }
 
             fabReview.setOnClickListener {
+                getUserLoc()
                 navigate(
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogActivity(
                             "리뷰 쪽지",
-                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                            newUserLocation.latitude.toString(),
+                            newUserLocation.longitude.toString()
                         )
                 )
             }
 
             fabFreeNote.setOnClickListener {
+                getUserLoc()
                 navigate(
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogActivity(
                             "자유 쪽지",
-                            ApplicationClass.preferences.userRecentCampsiteId.toString()
+                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                            newUserLocation.latitude.toString(),
+                            newUserLocation.longitude.toString()
                         )
                 )
             }
@@ -412,6 +466,19 @@ class CommunityCampsiteFragment :
     private fun getCampsiteTitle(
         campsiteBriefInfo: CampsiteBriefInfo
     ) {
+        // 구독 초기화
+        ApplicationClass.preferences.isSubScribing = false
+        communityCampsiteViewModel.subscribeCampSite(
+            "", ApplicationClass.preferences.fcmToken.toString()
+        )
+        binding.toggleCampsite.isOn = false
+        val onService = requireActivity() as CommunityActivity
+        onService.stopLocationBackground()
+
+        mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+        isTracking = false
+
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
         // 최근 검색 기록을 위한 캠핑장 저장
         binding.tvCampsiteCondition.text = campsiteBriefInfo.campsiteName
@@ -469,19 +536,21 @@ class CommunityCampsiteFragment :
         }
 
         communityCampsiteViewModel.isUserIn.observe(viewLifecycleOwner) { response ->
-            if (response) {
-                showToast("현재 캠핑장 범위에 포함됩니다.")
-                ApplicationClass.preferences.isSubScribing = true
-                communityCampsiteViewModel.subscribeCampSite(
-                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                    ApplicationClass.preferences.fcmToken.toString()
-                )
-            } else {
-                showToast("현재 캠핑장 범위에서 벗어납니다.")
-                ApplicationClass.preferences.isSubScribing = false
-                communityCampsiteViewModel.subscribeCampSite(
-                    "", ApplicationClass.preferences.fcmToken.toString()
-                )
+            if (binding.toggleCampsite.isOn) {
+                if (response) {
+                    showToast("현재 캠핑장 범위에 포함됩니다.")
+                    ApplicationClass.preferences.isSubScribing = true
+                    communityCampsiteViewModel.subscribeCampSite(
+                        ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                        ApplicationClass.preferences.fcmToken.toString()
+                    )
+                } else {
+                    showToast("현재 캠핑장 범위에서 벗어납니다.")
+                    ApplicationClass.preferences.isSubScribing = false
+                    communityCampsiteViewModel.subscribeCampSite(
+                        "", ApplicationClass.preferences.fcmToken.toString()
+                    )
+                }
             }
         }
     }
@@ -523,7 +592,7 @@ class CommunityCampsiteFragment :
                     R.drawable.ic_review_note_marker
                 } else {
                     R.drawable.ic_community_campsite_close_note3
-                    /*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 5) {
+                    /*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 30) {
                         R.drawable.ic_community_campsite_open_note3
                     } else {
                         R.drawable.ic_community_campsite_close_note3
@@ -547,6 +616,10 @@ class CommunityCampsiteFragment :
         if (userNowLocation != null) {
             val userLatitude = userNowLocation.latitude
             val userLongitude = userNowLocation.longitude
+
+            newUserLocation.latitude = userLatitude
+            newUserLocation.longitude = userLongitude
+
             val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
             mapView.setMapCenterPoint(uNowPosition, true)
         }
@@ -594,6 +667,23 @@ class CommunityCampsiteFragment :
         return myLoc.distanceTo(targetLoc)
     }
 
+    @SuppressLint("MissingPermission")
+    private fun getUserLoc() {
+        val lm: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        //위도 , 경도
+        if (userNowLocation != null) {
+            val userLatitude = userNowLocation.latitude
+            val userLongitude = userNowLocation.longitude
+
+            newUserLocation.latitude = userLatitude
+            newUserLocation.longitude = userLongitude
+
+        }
+    }
+
     @SuppressLint("ResourceAsColor")
     private fun setSubscribeState() {
         val onService = requireActivity() as CommunityActivity
@@ -604,6 +694,12 @@ class CommunityCampsiteFragment :
                 if (isOn) {
                     if (ApplicationClass.preferences.userRecentCampsiteId != null) {
                         onService.startLocationBackground()
+                        showToast("현재 캠핑장 범위에 포함됩니다.")
+                        /*ApplicationClass.preferences.isSubScribing = true
+                        communityCampsiteViewModel.subscribeCampSite(
+                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                            ApplicationClass.preferences.fcmToken.toString()
+                        )*/
                     } else {
                         showToast("캠핑장 설정이 필요합니다.")
                         /*CoroutineScope(Dispatchers.Main).launch {
@@ -619,6 +715,12 @@ class CommunityCampsiteFragment :
                 }
             }
         }
+    }
+
+    private fun fadeInView(view: View) {
+        val fadeInAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
+        view.startAnimation(fadeInAnim)
+        view.visibility = View.VISIBLE
     }
 
     // 이벤트 리스너
@@ -641,13 +743,14 @@ class CommunityCampsiteFragment :
         override fun onReceive(p0: Context?, p1: Intent?) {
             val action = p1!!.action
             if (action == "test") {
-                newUserLocation = p1.getSerializableExtra("test") as UserLocation
+                //newUserLocation = p1.getSerializableExtra("test") as UserLocation
             }
         }
     }
 
     object DistanceManager {
         private const val R = 6372.8 * 1000
+
         /**
          * 두 좌표의 거리를 계산한다.
          *
