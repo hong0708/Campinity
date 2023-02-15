@@ -5,7 +5,10 @@ import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchRemoteDataSource
 import com.ssafy.campinity.data.remote.datasource.search.SearchReviewRequest
-import com.ssafy.campinity.domain.entity.search.*
+import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfoPaging
+import com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo
+import com.ssafy.campinity.domain.entity.search.CampsiteNoteBriefInfo
+import com.ssafy.campinity.domain.entity.search.Review
 import com.ssafy.campinity.domain.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Inject
@@ -14,9 +17,9 @@ class SearchRepositoryImpl @Inject constructor(
     private val searchRemoteDataSource: SearchRemoteDataSource
 ) : SearchRepository {
 
-    override suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): Resource<List<CampsiteBriefInfoPaging>> =
+    override suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): Resource<CampsiteBriefInfoPaging> =
         wrapToResource(Dispatchers.IO) {
-            searchRemoteDataSource.getCampsitesByFiltering(filter).map { it.toDomainModel() }
+            searchRemoteDataSource.getCampsitesByFiltering(filter).toDomainModel()
         }
 
     override suspend fun getCampsitesByScope(
@@ -24,13 +27,13 @@ class SearchRepositoryImpl @Inject constructor(
         bottomRightLng: Double,
         topLeftLat: Double,
         topLeftLng: Double
-    ): Resource<List<CampsiteBriefInfoPaging>> = wrapToResource(Dispatchers.IO) {
+    ): Resource<CampsiteBriefInfoPaging> = wrapToResource(Dispatchers.IO) {
         searchRemoteDataSource.getCampsitesByScope(
             bottomRightLat,
             bottomRightLng,
             topLeftLat,
             topLeftLng
-        ).map { it.toDomainModel() }
+        ).toDomainModel()
     }
 
     override suspend fun getCampsiteDetail(campsiteId: String): Resource<CampsiteDetailInfo> =
@@ -65,7 +68,7 @@ class SearchRepositoryImpl @Inject constructor(
         }
 
     override suspend fun scrapCampsite(campsiteId: String): Resource<Boolean> =
-        wrapToResource(Dispatchers.IO){
+        wrapToResource(Dispatchers.IO) {
             searchRemoteDataSource.scrapCampsite(campsiteId).toDomainModel()
         }
 }

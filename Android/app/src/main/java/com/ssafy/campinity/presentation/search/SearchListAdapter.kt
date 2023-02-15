@@ -9,17 +9,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemSearchListBinding
-import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfoPaging
+import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class SearchListAdapter(
     private val context: Context,
-    private var campsites: List<CampsiteBriefInfoPaging>,
+    private var campsites: List<CampsiteBriefInfo>,
     private val onCampsiteClickListener: (Int, String) -> Unit,
     private val navigationToSearchPostboxFragment: (String) -> Unit,
-    private val scrapCampsite: suspend (Int, String) -> String
+    private val scrapCampsite: suspend (Int, String) -> String,
 ) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
 
     private lateinit var binding: ItemSearchListBinding
@@ -44,7 +44,7 @@ class SearchListAdapter(
     override fun getItemCount(): Int = campsites.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(data: List<CampsiteBriefInfoPaging>) {
+    fun setData(data: List<CampsiteBriefInfo>) {
         campsites = data
         notifyDataSetChanged()
     }
@@ -52,15 +52,15 @@ class SearchListAdapter(
     inner class SearchListViewHolder(private val binding: ItemSearchListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: CampsiteBriefInfoPaging) {
+        fun bind(item: CampsiteBriefInfo) {
             binding.item = item
 
-            if (item.data.isScraped)
+            if (item.isScraped)
                 binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
             else
                 binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_off)
 
-            if (item.data.thumbnails.isEmpty()) {
+            if (item.thumbnails.isEmpty()) {
                 binding.rvCampsiteImage.visibility = View.GONE
                 binding.clEmptyCollection.visibility = View.VISIBLE
             } else {
@@ -69,14 +69,14 @@ class SearchListAdapter(
             }
         }
 
-        fun initListener(item: CampsiteBriefInfoPaging) {
+        fun initListener(item: CampsiteBriefInfo) {
             binding.btnPostbox.setOnClickListener {
-                navigationToSearchPostboxFragment(item.data.campsiteId)
+                navigationToSearchPostboxFragment(item.campsiteId)
             }
 
             binding.btnBookmark.setOnClickListener {
                 CoroutineScope(Dispatchers.Main).launch {
-                    val isScraped = scrapCampsite(adapterPosition, item.data.campsiteId)
+                    val isScraped = scrapCampsite(adapterPosition, item.campsiteId)
                     if (isScraped == "true")
                         binding.btnBookmark.setBackgroundResource(R.drawable.ic_bookmark_on)
                     else if (isScraped == "false")
@@ -85,7 +85,7 @@ class SearchListAdapter(
             }
 
             binding.rlCampsite.setOnClickListener {
-                onCampsiteClickListener(adapterPosition, item.data.campsiteId)
+                onCampsiteClickListener(adapterPosition, item.campsiteId)
             }
         }
 
@@ -98,7 +98,7 @@ class SearchListAdapter(
             binding.rvCampsiteImage.adapter =
                 CampsiteBriefImageAdapter(
                     context,
-                    campsites[adapterPosition].data.thumbnails
+                    campsites[adapterPosition].thumbnails
                 ).apply {
                     binding.rvCampsiteImage.setHasFixedSize(true)
                 }

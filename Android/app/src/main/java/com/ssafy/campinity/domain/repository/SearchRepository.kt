@@ -7,14 +7,14 @@ import com.ssafy.campinity.domain.entity.search.*
 
 interface SearchRepository {
 
-    suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): Resource<List<CampsiteBriefInfoPaging>>
+    suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): Resource<CampsiteBriefInfoPaging>
 
     suspend fun getCampsitesByScope(
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
         topLeftLng: Double
-    ): Resource<List<CampsiteBriefInfoPaging>>
+    ): Resource<CampsiteBriefInfoPaging>
 
     suspend fun getCampsiteDetail(campsiteId: String): Resource<CampsiteDetailInfo>
 

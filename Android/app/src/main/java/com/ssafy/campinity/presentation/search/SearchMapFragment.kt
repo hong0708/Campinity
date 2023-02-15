@@ -88,17 +88,17 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         }
 
         searchViewModel.campsiteListData.observe(viewLifecycleOwner) { campsiteBriefInfoList ->
-            if (campsiteBriefInfoList != null && campsiteBriefInfoList.isNotEmpty()) {
-                campsiteBriefInfoList.forEach {
+            if (campsiteBriefInfoList?.data != null && campsiteBriefInfoList.data.isNotEmpty()) {
+                campsiteBriefInfoList.data.forEach {
                     searchViewModel.getCampsiteReviewNotes(
                         it.campsiteId,
                     )
                 }
 
-                drawCampsiteMarkers(campsiteBriefInfoList)
+                drawCampsiteMarkers(campsiteBriefInfoList.data)
                 val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
-                    campsiteBriefInfoList[0].latitude,
-                    campsiteBriefInfoList[0].longitude
+                    campsiteBriefInfoList.data[0].latitude,
+                    campsiteBriefInfoList.data[0].longitude
                 )
                 mapView.setMapCenterPoint(campsiteMainPoint, true)
                 mapView.setZoomLevel(3, true)
@@ -114,7 +114,10 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     private fun drawCampsiteMarkers(markerLocationList: List<CampsiteBriefInfo>) {
         markerLocationList.forEachIndexed { index, campsiteBriefInfo ->
             val markerPosition =
-                MapPoint.mapPointWithGeoCoord(campsiteBriefInfo.latitude, campsiteBriefInfo.longitude)
+                MapPoint.mapPointWithGeoCoord(
+                    campsiteBriefInfo.latitude,
+                    campsiteBriefInfo.longitude
+                )
             val marker = MapPOIItem()
             marker.apply {
                 itemName = "캠핑장 $index"
@@ -171,15 +174,15 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 if (searchViewModel.campsiteListData.value != null) {
                     val markerPosition =
                         MapPoint.mapPointWithGeoCoord(
-                            searchViewModel.campsiteListData.value!![index].latitude,
-                            searchViewModel.campsiteListData.value!![index].longitude,
+                            searchViewModel.campsiteListData.value!!.data[index].latitude,
+                            searchViewModel.campsiteListData.value!!.data[index].longitude,
                         )
                     mapView.setMapCenterPoint(markerPosition, true)
 
                     CampsiteBriefDialog(
                         requireContext(),
                         index,
-                        searchViewModel.campsiteListData.value!![index],
+                        searchViewModel.campsiteListData.value!!.data[index],
                         this::navigationToSearchPostboxFragment,
                         this::onCampsiteClickListener,
                         this::scrapCampsite

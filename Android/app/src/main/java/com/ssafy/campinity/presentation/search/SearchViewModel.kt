@@ -34,9 +34,8 @@ class SearchViewModel @Inject constructor(
     private val getNoteQuestionUseCase: GetNoteQuestionUseCase
 ) : ViewModel() {
 
-    private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfoPaging>?> =
-        MutableLiveData()
-    val campsiteListData: LiveData<List<CampsiteBriefInfoPaging>?> = _campsiteListData
+    private val _campsiteListData: MutableLiveData<CampsiteBriefInfoPaging?> = MutableLiveData()
+    val campsiteListData: LiveData<CampsiteBriefInfoPaging?> = _campsiteListData
 
     private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
     val campsiteData: LiveData<CampsiteDetailInfo?> = _campsiteData
@@ -67,6 +66,11 @@ class SearchViewModel @Inject constructor(
     private val _letters: MutableLiveData<List<NoteQuestionTitle>?> = MutableLiveData()
     val letters: LiveData<List<NoteQuestionTitle>?> = _letters
 
+    private val _submit: MutableLiveData<Int> = MutableLiveData(0)
+    val submit: LiveData<Int> = _submit
+
+    var selectedSido = ""
+    var selectedGugun = ""
     var filter: SearchFilterRequest = SearchFilterRequest()
     var areaList = arrayListOf<AreaListItem>()
     var industry: Array<String> = arrayOf()
@@ -139,7 +143,7 @@ class SearchViewModel @Inject constructor(
             for (i in 2 until stringArray.size) {
                 gugunList.add(
                     GugunItem(
-                        gugun = stringArray[i].split("(")[0],
+                        gugunName = stringArray[i].split("(")[0],
                         campsiteCount = stringArray[i].split("(")[1].split(")")[0].toInt()
                     )
                 )
@@ -157,9 +161,13 @@ class SearchViewModel @Inject constructor(
         season = context.resources.getStringArray(R.array.content_campsite_season)
     }
 
+    fun setSubmit() {
+        _submit.value = if (_submit.value != null) _submit.value!! + 1 else 0
+    }
+
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {
         when (val value = getCampsitesByFilteringUseCase(filter)) {
-            is Resource.Success<List<CampsiteBriefInfoPaging>> -> {
+            is Resource.Success<CampsiteBriefInfoPaging> -> {
                 _campsiteListData.value = value.data
             }
             is Resource.Error -> {
@@ -180,7 +188,7 @@ class SearchViewModel @Inject constructor(
             topLeftLat,
             topLeftLng
         )) {
-            is Resource.Success<List<CampsiteBriefInfoPaging>> -> {
+            is Resource.Success<CampsiteBriefInfoPaging> -> {
                 _campsiteListData.value = value.data
             }
             is Resource.Error -> {
@@ -276,7 +284,7 @@ class SearchViewModel @Inject constructor(
     suspend fun scrapCampsite(position: Int, campsiteId: String) = viewModelScope.async {
         when (val value = scrapCampsiteUseCase(campsiteId)) {
             is Resource.Success<Boolean> -> {
-                _campsiteListData.value!![position].data.isScraped = value.data
+                _campsiteListData.value!!.data[position].isScraped = value.data
                 return@async value.data.toString()
             }
             is Resource.Error -> {

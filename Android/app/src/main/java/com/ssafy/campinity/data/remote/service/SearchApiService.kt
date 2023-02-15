@@ -6,7 +6,7 @@ import retrofit2.http.*
 
 interface SearchApiService {
 
-    @GET("/api/v1/campsites/conditions")
+    @GET("/api/v1/campsites/conditions/detail-level")
     suspend fun getCampsitesByFiltering(
         @Query("allowAnimal") allowAnimal: String?,
         @Query("amenity") amenity: String?,
@@ -18,15 +18,15 @@ interface SearchApiService {
         @Query("sigunguName") sigunguName: String?,
         @Query("theme") theme: String?,
         @Query("paging") paging: Int?
-    ): List<SearchBriefResponse>
+    ): SearchBriefResponse
 
-    @GET("/api/v1/campsites/scope")
+    @GET("/api/v1/campsites/scope/detail-level")
     suspend fun getCampsitesByScope(
         @Query("bottomRightLat") bottomRightLat: Double,
         @Query("bottomRightLng") bottomRightLng: Double,
         @Query("topLeftLat") topLeftLat: Double,
         @Query("topLeftLng") topLeftLng: Double
-    ): List<SearchBriefResponse>
+    ): SearchBriefResponse
 
     @GET("/api/v1/campsites/detail/{campsiteId}")
     suspend fun getCampsiteDetail(@Path("campsiteId") campsiteId: String): SearchDetailResponse

@@ -1,6 +1,5 @@
 package com.ssafy.campinity.presentation.search
 
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -68,8 +67,12 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
             )
 
             searchAreaGuGunAdapter = SearchAreaGuGunAdapter(
-                requireContext(), searchViewModel.areaList[0].gugunList, btnWidth
-            ) { method: String, flag: Boolean -> toggleBtn(method, flag) }
+                requireContext(),
+                searchViewModel.areaList[0].gugunList,
+                searchViewModel.selectedGugun.split(" "),
+                btnWidth,
+                this@SearchAreaFragment::toggleBtnSelectedAll
+            )
 
             adapter = searchAreaGuGunAdapter
 
@@ -82,32 +85,47 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
     }
 
     private fun initListener() {
-        binding.llSelectAll.setOnClickListener {
-            if (isAllSelected) searchAreaGuGunAdapter.unselectAll()
-            else searchAreaGuGunAdapter.selectAll()
+        binding.apply {
+            llSelectAll.setOnClickListener {
+                if (isAllSelected) searchAreaGuGunAdapter.unselectAll()
+                else searchAreaGuGunAdapter.selectAll()
 
-            toggleBtn("selectAll", !isAllSelected)
-            toggleBtn("submit", isAllSelected)
-        }
+                toggleBtnSelectedAll(!isAllSelected)
+            }
 
-        binding.llReset.setOnClickListener {
-            searchAreaGuGunAdapter.unselectAll()
-            toggleBtn("selectAll", false)
-            toggleBtn("submit", false)
-        }
+            llReset.setOnClickListener {
+                searchViewModel.selectedGugun = ""
+                searchAreaGuGunAdapter.unselectAll()
+                toggleBtnSelectedAll(false)
+            }
 
-        binding.btnSubmit.setOnClickListener {
-            val sido = searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].sidoName
-            val gugun = searchViewModel.mapGugun(searchAreaGuGunAdapter.selectedItems.toList())
+            btnSubmit.setOnClickListener {
+                searchViewModel.apply {
+                    selectedSido =
+                        searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].sidoName
+                    selectedGugun =
+                        mapGugun(searchAreaGuGunAdapter.selectedItems.toList())
 
-            searchViewModel.getCampsitesByFiltering(
-                SearchFilterRequest(
-                    doName = sido, sigunguName = gugun, paging = 1
-                )
-            )
-            searchViewModel.setStateBehaviorArea(false)
-            searchAreaSiDoAdapter.selectedPosition = 0
-            searchViewModel.setSido(searchViewModel.areaList[0].sidoName)
+                    if (selectedGugun == "")
+                        getCampsitesByFiltering(
+                            SearchFilterRequest(
+                                paging = 1
+                            )
+                        )
+                    else
+                        getCampsitesByFiltering(
+                            SearchFilterRequest(
+                                doName = selectedSido,
+                                sigunguName = selectedGugun,
+                                paging = 1
+                            )
+                        )
+
+                    setStateBehaviorArea(false)
+                    searchAreaGuGunAdapter.setSelectedGugun(selectedGugun.split(" "))
+                    setSubmit()
+                }
+            }
         }
     }
 
@@ -117,19 +135,12 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                 searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].gugunList
 
             searchAreaGuGunAdapter.unselectAll()
-            searchAreaGuGunAdapter.setData(list)
+            searchAreaGuGunAdapter.setGugun(list)
 
             binding.tvCampsiteCount.text = requireContext().getString(
                 R.string.content_campsite_count,
                 searchViewModel.areaList[searchAreaSiDoAdapter.selectedPosition].campsiteCountAll
             )
-        }
-    }
-
-    private fun toggleBtn(method: String, flag: Boolean) {
-        when (method) {
-            "selectAll" -> toggleBtnSelectedAll(flag)
-            "submit" -> toggleBtnSubmit(flag)
         }
     }
 
@@ -144,20 +155,6 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                 R.drawable.bg_rect_white_grey_alpha30_radius5_stroke1
             )
             this.isAllSelected = false
-        }
-    }
-
-    private fun toggleBtnSubmit(isSelected: Boolean) {
-        binding.btnSubmit.apply {
-            if (isSelected) {
-                this.isClickable = true
-                this.setBackgroundResource(R.drawable.bg_rect_bilbao_radius10)
-                this.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-            } else {
-                this.isClickable = false
-                this.setBackgroundResource(R.drawable.bg_rect_white_smoke_radius10)
-                this.setTextColor(ContextCompat.getColor(requireContext(), R.color.zambezi))
-            }
         }
     }
 }

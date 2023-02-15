@@ -2,6 +2,6 @@ package com.ssafy.campinity.domain.entity.search
 
 data class CampsiteBriefInfoPaging(
     val currentPage: Int,
-    val data: CampsiteBriefInfo,
+    val data: List<CampsiteBriefInfo>,
     val maxPage: Int
 )

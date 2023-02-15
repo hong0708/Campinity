@@ -288,7 +288,9 @@ class SearchFilterFragment : Fragment() {
     private fun initSubmitListener() {
         binding.btnSubmit.setOnClickListener {
             with(searchViewModel) {
-                this.filter = SearchFilterRequest(
+                filter = SearchFilterRequest(
+                    doName = selectedSido,
+                    sigunguName = selectedGugun,
                     industry = selectedIndustry.toString(" "),
                     fclty = selectedFacility.toString(" "),
                     amenity = selectedAmenity.toString(" "),
@@ -297,9 +299,9 @@ class SearchFilterFragment : Fragment() {
                     openSeason = selectedSeason.toString(" "),
                     paging = 1
                 )
-                this.getCampsitesByFiltering(this.filter)
+                getCampsitesByFiltering(this.filter)
                 resetBtn()
-                this.setStateBehaviorFilter(false)
+                setStateBehaviorFilter(false)
             }
         }
     }

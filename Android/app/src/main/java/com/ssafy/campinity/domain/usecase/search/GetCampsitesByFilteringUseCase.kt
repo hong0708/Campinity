@@ -13,7 +13,7 @@ import javax.inject.Singleton
 class GetCampsitesByFilteringUseCase @Inject constructor(
     private val searchRepository: SearchRepository
 ) {
-    suspend operator fun invoke(filter: SearchFilterRequest): Resource<List<CampsiteBriefInfoPaging>> =
+    suspend operator fun invoke(filter: SearchFilterRequest): Resource<CampsiteBriefInfoPaging> =
         withContext(Dispatchers.IO) {
             searchRepository.getCampsitesByFiltering(filter)
         }

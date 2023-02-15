@@ -2,7 +2,7 @@ package com.ssafy.campinity.domain.entity.search
 
 data class CampsiteBriefInfo(
     val campsiteId: String,
-    val campsiteName: String,
+    val campName: String,
     val doName: String,
     val sigunguName: String,
     val messageCnt: Int,

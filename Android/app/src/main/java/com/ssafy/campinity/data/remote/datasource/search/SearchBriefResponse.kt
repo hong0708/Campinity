@@ -9,7 +9,7 @@ data class SearchBriefResponse(
     @SerializedName("currentPage")
     private val currentPage: Int,
     @SerializedName("data")
-    private val data: CampsiteBriefInfo,
+    private val data: List<CampsiteBriefInfo>,
     @SerializedName("maxPage")
     private val maxPage: Int
 ) : DataToDomainMapper<CampsiteBriefInfoPaging> {
