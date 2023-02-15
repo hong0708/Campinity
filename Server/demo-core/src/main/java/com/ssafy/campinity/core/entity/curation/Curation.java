@@ -24,8 +24,8 @@ public class Curation extends BaseEntity {
 
     private String title;
 
-    @Column(length = 1000)
-private String content;
+    @Column(length = 2000)
+    private String content;
 
     private String firstImagePath;
 

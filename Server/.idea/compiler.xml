@@ -11,7 +11,7 @@
         </processorPath>
         <module name="Server.demo-api-server.demo.demo-api-server.main" />
         <module name="Server.demo-core.demo.demo-core.main" />
-        <module name="demo-batch-server.demo.demo-batch-server.main" />
+        <module name="demo.demo-batch-server.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="11" />

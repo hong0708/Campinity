@@ -20,10 +20,10 @@ public class MyChatRoomResDTO {
     private Boolean expired;
 
     @Builder
-    public MyChatRoomResDTO(ChatRoom room, String otherProfilePath) {
+    public MyChatRoomResDTO(ChatRoom room, String otherProfilePath, String otherNickname) {
         this.roomId = room.getId();
         this.otherProfilePath = otherProfilePath;
-        this.name = room.getName();
+        this.name = room.getName() + "에서 " + otherNickname + " 님과의 대화";
         this.subject = room.getFcmMessageBody();
         this.createdAt = room.getCreatedAt().toString();
         this.expired = room.getExpired();

@@ -107,7 +107,7 @@ services:
         ipv4_address: 172.33.0.14
     environment:
       - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=root #local 도커환경에서는 root로 설정하세요.
+      - MONGO_INITDB_ROOT_PASSWORD=root # campinity1308! #local 도커환경에서는 root로 설정하세요.
     restart: always
     ports:
       - 27017:27017
