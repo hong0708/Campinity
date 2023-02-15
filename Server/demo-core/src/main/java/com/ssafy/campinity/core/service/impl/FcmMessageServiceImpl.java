@@ -119,7 +119,7 @@ public class FcmMessageServiceImpl implements FcmMessageService {
                 .map(FcmToken::getToken)
                 .collect(Collectors.toList());
 
-        if (senderTokens.size() == 0) throw new FcmMessagingException("에러로 인해 이벤트가 만료됐습니다.");
+        if (senderTokens.size() == 0) return 0;
 
         StringBuffer body = new StringBuffer();
         body.append(fcmMessage.getMember().getName() + " 님!\n");
