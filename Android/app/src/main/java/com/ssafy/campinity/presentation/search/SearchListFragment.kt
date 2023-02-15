@@ -9,6 +9,7 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchListBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
+import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfoPaging
 import com.ssafy.campinity.presentation.base.BaseFragment
 import kotlinx.coroutines.launch
 
@@ -34,20 +35,12 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                 tvCampsiteNotFound.text = ""
 
             piIndicator.apply {
-                setStartPage(1)
-                setTotalPage(searchViewModel.campsiteListData.value?.maxPage ?: 1)
+                initPageIndicator(1, 1)
                 setGetNextPage { pageNum: Int -> getNextPage(pageNum) }
             }
 
-            with(searchViewModel.campsiteListData.value) {
-                if (this != null) {
-                    if (maxPage in 2..4) {
-                        piIndicator.setTotalPage(maxPage)
-                        piIndicator.visibility = View.VISIBLE
-                    } else if (maxPage > 5)
-                        piIndicator.visibility = View.VISIBLE
-                }
-            }
+            if (searchViewModel.campsiteListData.value != null)
+                initPageIndicator(searchViewModel.campsiteListData.value!!)
         }
     }
 
@@ -82,22 +75,28 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
 
     private fun observeCampsiteListData() {
         searchViewModel.campsiteListData.observe(viewLifecycleOwner) {
-            if (it?.data == null || it.data.isEmpty()) {
-                binding.tvCampsiteNotFound.setText(R.string.content_campsite_not_found)
-                searchListAdapter.setData(listOf())
-            } else {
-                binding.tvCampsiteNotFound.text = ""
-                searchListAdapter.setData(it.data)
+            if (it != null) {
+                if (it.data.isEmpty()) {
+                    binding.tvCampsiteNotFound.setText(R.string.content_campsite_not_found)
+                    searchListAdapter.setData(listOf())
+                    binding.piIndicator.visibility = View.GONE
+                } else {
+                    binding.tvCampsiteNotFound.text = ""
+                    searchListAdapter.setData(it.data)
 
-                setPageIndicator()
+                    binding.piIndicator.visibility = View.VISIBLE
+                }
+
+                if (it.currentPage % 5 == 1)
+                    initPageIndicator(it)
             }
         }
 
-        searchViewModel.submit.observe(viewLifecycleOwner) {
-            if (searchViewModel.campsiteData.value != null) {
-                binding.piIndicator.initPageIndicator(searchViewModel.campsiteListData.value!!.maxPage)
-            }
-        }
+//        searchViewModel.submit.observe(viewLifecycleOwner) {
+//            if (searchViewModel.campsiteData.value != null) {
+//                binding.piIndicator.initPageIndicator(searchViewModel.campsiteListData.value!!.maxPage)
+//            }
+//        }
     }
 
     private fun onCampsiteClickListener(position: Int, campsiteId: String) = lifecycleScope.launch {
@@ -112,20 +111,13 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
         searchListAdapter.notifyDataSetChanged()
     }
 
-    private fun setPageIndicator() {
-        with(searchViewModel.campsiteListData.value) {
-            if (this != null) {
-                if (maxPage < 2) {
-                    binding.piIndicator.visibility = View.GONE
-                } else if (maxPage in 2..4) {
-                    binding.piIndicator.setTotalPage(maxPage)
-                    binding.piIndicator.visibility = View.VISIBLE
-                } else {
-                    binding.piIndicator.setTotalPage(maxPage)
-                    binding.piIndicator.visibility = View.VISIBLE
-                }
+    private fun initPageIndicator(campsite: CampsiteBriefInfoPaging) {
+        binding.piIndicator.visibility =
+            if (campsite.maxPage < 2) View.GONE
+            else {
+                binding.piIndicator.initPageIndicator(campsite.currentPage, campsite.maxPage)
+                View.VISIBLE
             }
-        }
     }
 
     private fun getNextPage(pageNum: Int) {

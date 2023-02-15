@@ -2,6 +2,7 @@ package com.ssafy.campinity.common.util
 
 import android.content.Context
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -20,6 +21,7 @@ class PageIndicator @JvmOverloads constructor(
     private var textSize = 0
     private var baseTextColor = 0
     private var selectedFont = 0
+
     private var totalPages = 10
     private var startPage = 1
     private var endPage = 5
@@ -63,7 +65,7 @@ class PageIndicator @JvmOverloads constructor(
                 highlightPageNumber(currentPage)
                 getNextPage(currentPage)
             } else {
-                context.showToastMessage("마지막 페이지입니다.")
+                context.showToastMessage("이동 할 페이지가 없습니다.")
             }
         }
 
@@ -75,33 +77,70 @@ class PageIndicator @JvmOverloads constructor(
             } else if (currentPage < totalPages) {
                 currentPage += 1
                 startPage = currentPage
-                endPage = if (endPage + 5 > totalPages) totalPages else endPage + 5
+                endPage = if (endPage + 5 < totalPages) endPage + 5 else totalPages
                 setPage()
                 highlightPageNumber(currentPage)
                 getNextPage(currentPage)
+            } else {
+                context.showToastMessage("이동 할 페이지가 없습니다.")
             }
         }
 
-        for (page in 0..endPage - startPage) {
+        for (current in startPage..endPage) {
             val pageId =
-                resources.getIdentifier("tv_page_${page + 1}", "id", context.packageName)
+                resources.getIdentifier(
+                    "tv_page_${current - startPage + 1}",
+                    "id",
+                    context.packageName
+                )
             val pageTextView = findViewById<TextView>(pageId)
 
             pageTextView.setOnClickListener {
-                currentPage = startPage + page
+                Log.d("setOnClickListener", "$current is clicked, start: $startPage, end: $endPage")
+                currentPage = current + startPage - 1
                 highlightPageNumber(currentPage)
                 getNextPage(currentPage)
             }
         }
     }
 
-    private fun highlightPageNumber(selectedNumber: Int) {
-        for (page in 0..endPage - startPage) {
+    private fun setPage() {
+        for (current in startPage..endPage) {
             val pageId =
-                resources.getIdentifier("tv_page_${page + 1}", "id", context.packageName)
+                resources.getIdentifier(
+                    "tv_page_${current - startPage + 1}",
+                    "id",
+                    context.packageName
+                )
+            val pageTextView = findViewById<TextView>(pageId)
+            pageTextView.text = resources.getString(R.string.page_number, current)
+            pageTextView.visibility = View.VISIBLE
+        }
+
+        for (current in endPage + 1 until startPage + 5) {
+            val pageId =
+                resources.getIdentifier(
+                    "tv_page_${current - startPage + 1}",
+                    "id",
+                    context.packageName
+                )
+            val pageTextView = findViewById<TextView>(pageId)
+            pageTextView.text = ""
+            pageTextView.visibility = View.GONE
+        }
+    }
+
+    private fun highlightPageNumber(selectedNumber: Int) {
+        for (current in startPage..endPage) {
+            val pageId =
+                resources.getIdentifier(
+                    "tv_page_${current - startPage + 1}",
+                    "id",
+                    context.packageName
+                )
             val pageTextView = findViewById<TextView>(pageId)
 
-            if (startPage + page == selectedNumber) {
+            if (current == selectedNumber) {
                 pageTextView.typeface = ResourcesCompat.getFont(context, R.font.roboto_bold)
                 pageTextView.setTextColor(ContextCompat.getColor(context, R.color.black))
             } else {
@@ -111,42 +150,17 @@ class PageIndicator @JvmOverloads constructor(
         }
     }
 
-    private fun setPage() {
-        for (index in 0..endPage - startPage) {
-            val pageId =
-                resources.getIdentifier("tv_page_${index + 1}", "id", context.packageName)
-            val pageTextView = findViewById<TextView>(pageId)
-            pageTextView.text = resources.getString(R.string.page_number, startPage + index)
-            pageTextView.visibility = View.VISIBLE
-        }
-
-        for (index in endPage - startPage + 1 until 5) {
-            val pageId =
-                resources.getIdentifier("tv_page_${index + 1}", "id", context.packageName)
-            val pageTextView = findViewById<TextView>(pageId)
-            pageTextView.visibility = View.GONE
-        }
-    }
-
-    fun setStartPage(startPage: Int) {
-        this.startPage = startPage
-        setPage()
-    }
-
-    fun setTotalPage(totalPage: Int) {
-        this.totalPages = totalPage
-    }
-
     fun setGetNextPage(getNextPage: (Int) -> Unit) {
         this.getNextPage = getNextPage
     }
 
-    fun initPageIndicator(totalPage: Int) {
-        this.startPage = 1
-        this.endPage = if (totalPage > 5) 5 else totalPage
-        this.currentPage = 1
+    fun initPageIndicator(currentPage: Int, totalPage: Int) {
+        this.startPage =
+            if (currentPage % 5 == 1) currentPage else currentPage - currentPage % 5 + 1
+        this.endPage = if (totalPage >= startPage + 5) startPage + 4 else totalPage
+        this.currentPage = currentPage
         this.totalPages = totalPage
         setPage()
-        highlightPageNumber(currentPage)
+        highlightPageNumber(this.currentPage)
     }
 }
