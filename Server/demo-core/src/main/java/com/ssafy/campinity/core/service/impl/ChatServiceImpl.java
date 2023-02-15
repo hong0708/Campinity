@@ -94,7 +94,7 @@ public class ChatServiceImpl implements ChatService {
                     .chatMessages(
                             List.of(
                                     ChatMessageItemDTO.builder()
-                                            .chatMessage(ChatMessage.builder().message("").id("").roomId("").sender("").build()).otherNickname("")
+                                            .chatMessage(ChatMessage.builder().message("").roomId("").sender("").build()).otherNickname("")
                             .build()))
                     .build();
         }
