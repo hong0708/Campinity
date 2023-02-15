@@ -31,7 +31,6 @@
             android:layout_height="0dp"
             android:layout_marginTop="20dp"
             android:orientation="vertical"
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_title_chatting_list"
             tools:listitem="@layout/item_chat_room" />

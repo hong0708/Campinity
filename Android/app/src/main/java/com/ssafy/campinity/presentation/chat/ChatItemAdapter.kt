@@ -1,16 +1,17 @@
 package com.ssafy.campinity.presentation.chat
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemChatBinding
 import com.ssafy.campinity.domain.entity.chat.ChatItem
 
-class ChatItemAdapter : RecyclerView.Adapter<ChatItemAdapter.ChatViewHolder>() {
+class ChatItemAdapter(var items: List<ChatItem>) : RecyclerView.Adapter<ChatItemAdapter.ChatViewHolder>() {
 
-    private var items: List<ChatItem> = listOf()
     lateinit var binding: ItemChatBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
@@ -30,12 +31,19 @@ class ChatItemAdapter : RecyclerView.Adapter<ChatItemAdapter.ChatViewHolder>() {
         private val binding: ItemChatBinding
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ChatItem) {
-
+            if (data.sender == ApplicationClass.preferences.nickname) {
+                binding.llOtherSide.visibility = View.GONE
+                binding.llMySide.visibility = View.VISIBLE
+                binding.tvMyName.text = data.sender
+                binding.tvMyMessage.text = data.message
+                binding.tvMyTime.text = data.time
+            } else {
+                binding.llMySide.visibility = View.GONE
+                binding.llOtherSide.visibility = View.VISIBLE
+                binding.tvOtherName.text = data.sender
+                binding.tvOtherMessage.text = data.message
+                binding.tvOtherTime.text = data.time
+            }
         }
-    }
-
-    fun setChatItem(chatItem: List<ChatItem>) {
-        this.items = chatItem
-        notifyDataSetChanged()
     }
 }

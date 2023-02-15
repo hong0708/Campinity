@@ -58,7 +58,7 @@
                 android:id="@+id/et_chat"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 android:autofillHints="message"
                 android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="parent"

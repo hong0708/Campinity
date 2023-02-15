@@ -46,7 +46,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun initView() {
         setData()
-        // homeViewModel.requestCurrentToken()
         getFCMToken()
         initListener()
         initCollection()
@@ -92,10 +91,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     private fun getFCMToken() {
         lifecycleScope.launch {
-            if (ApplicationClass.preferences.fcmToken == null) {
-                val result = FirebaseService().getCurrentToken()
-                ApplicationClass.preferences.fcmToken = result
-            }
+            val result = FirebaseService().getCurrentToken()
+            ApplicationClass.preferences.fcmToken = result
         }
     }
 

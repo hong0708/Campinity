@@ -9,7 +9,7 @@ data class RoomResponse(
     val roomId: String,
     @SerializedName("otherProfilePath")
     val otherProfilePath: String,
-    @SerializedName("title")
+    @SerializedName("name")
     val title: String,
     @SerializedName("subject")
     val subject: String,

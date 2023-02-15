@@ -8,7 +8,7 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemChatRoomBinding
 import com.ssafy.campinity.domain.entity.chat.RoomItem
 
-class ChatRoomAdapter(private val onItemClicked: (roomId: String) -> Unit) :
+class ChatRoomAdapter(private val onItemClicked: (roomId: String, subject: String) -> Unit) :
     RecyclerView.Adapter<ChatRoomAdapter.RoomViewHolder>() {
 
     private var items: List<RoomItem> = listOf()
@@ -29,11 +29,12 @@ class ChatRoomAdapter(private val onItemClicked: (roomId: String) -> Unit) :
 
     class RoomViewHolder(
         private val binding: ItemChatRoomBinding,
-        private val onItemClicked: (roomId: String) -> Unit
+        private val onItemClicked: (roomId: String, subject: String) -> Unit
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: RoomItem) {
+            binding.room = data
             binding.root.setOnClickListener {
-                onItemClicked(data.roomId)
+                onItemClicked(data.roomId, data.subject)
             }
         }
     }

@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
+import com.ssafy.campinity.domain.entity.chat.ChatItem
 import com.ssafy.campinity.domain.entity.chat.RoomItem
 import com.ssafy.campinity.domain.usecase.chat.GetRoomsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,9 @@ class ChatViewModel @Inject constructor(
 
     private val _chatRoomsData: MutableLiveData<List<RoomItem>?> = MutableLiveData()
     val chatRoomsData: LiveData<List<RoomItem>?> = _chatRoomsData
+
+    private val _chatMessages: MutableLiveData<List<ChatItem>?> = MutableLiveData()
+    val chatMessages: LiveData<List<ChatItem>?> = _chatMessages
 
     fun getRooms() = viewModelScope.launch {
         when (val value = getRoomsUseCase()) {

@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
+        <variable
+            name="room"
+            type="com.ssafy.campinity.domain.entity.chat.RoomItem" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -26,7 +29,7 @@
                 android:layout_height="35dp"
                 android:layout_marginStart="20dp"
                 android:contentDescription="@string/image_user_profile"
-                android:src="@drawable/ic_profile_default"
+                android:profileImgString="@{room.otherProfileImg}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -39,6 +42,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="@font/roboto_bold"
                 android:maxLines="1"
+                android:text="@{room.title}"
                 android:textColor="@color/black"
                 android:textSize="18sp"
                 app:layout_constraintStart_toEndOf="@id/iv_other_profile"
@@ -54,8 +58,9 @@
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
                 android:maxLines="1"
+                android:text="@{room.subject}"
                 android:textColor="@color/grey"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="@id/tv_room_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_room_title"
@@ -65,13 +70,12 @@
                 android:id="@+id/tv_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginEnd="10dp"
                 android:fontFamily="@font/roboto_light"
+                android:text="@{room.date}"
                 android:textColor="@color/grey"
                 android:textSize="11sp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/tv_room_title"
                 app:layout_constraintTop_toTopOf="@id/tv_room_title"
                 tools:text="02/14" />
 

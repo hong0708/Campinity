@@ -65,7 +65,7 @@
             app:destination="@id/campsiteDetailFragment" />
         <action
             android:id="@+id/action_homeFragment_to_chattingActivity"
-            app:destination="@id/chattingActivity" />
+            app:destination="@id/chatListActivity" />
     </fragment>
 
     <fragment
@@ -237,9 +237,9 @@
         tools:layout="@layout/activity_search" />
 
     <activity
-        android:id="@+id/chattingActivity"
-        android:name="com.ssafy.campinity.presentation.chat.ChatActivity"
+        android:id="@+id/chatListActivity"
+        android:name="com.ssafy.campinity.presentation.chat.ChatListActivity"
         android:label="ChattingActivity"
-        tools:layout="@layout/activity_chatting" />
+        tools:layout="@layout/activity_chat_list" />
 
 </navigation>
