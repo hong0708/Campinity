@@ -159,6 +159,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {
+        Log.e("getCampsitesByFiltering", "filter: $filter")
         when (val value = getCampsitesByFilteringUseCase(filter)) {
             is Resource.Success<CampsiteBriefInfoPaging> -> {
                 _campsiteListData.value = value.data

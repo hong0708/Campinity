@@ -9,6 +9,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.common.util.toString
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchFilterBinding
@@ -288,20 +289,24 @@ class SearchFilterFragment : Fragment() {
     private fun initSubmitListener() {
         binding.btnSubmit.setOnClickListener {
             with(searchViewModel) {
-                filter = SearchFilterRequest(
-                    doName = selectedSido,
-                    sigunguName = selectedGugun,
-                    industry = selectedIndustry.toString(" "),
-                    fclty = selectedFacility.toString(" "),
-                    amenity = selectedAmenity.toString(" "),
-                    theme = selectedTheme.toString(" "),
-                    allowAnimal = selectedPet.toString(" "),
-                    openSeason = selectedSeason.toString(" "),
-                    paging = 1
-                )
-                getCampsitesByFiltering(this.filter)
-                resetBtn()
-                setStateBehaviorFilter(false)
+                if (selectedGugun == "")
+                    requireContext().showToastMessage("지역을 먼저 선택해주세요.")
+                else {
+                    filter = SearchFilterRequest(
+                        doName = selectedSido,
+                        sigunguName = selectedGugun,
+                        industry = selectedIndustry.toString(" "),
+                        fclty = selectedFacility.toString(" "),
+                        amenity = selectedAmenity.toString(" "),
+                        theme = selectedTheme.toString(" "),
+                        allowAnimal = selectedPet.toString(" "),
+                        openSeason = selectedSeason.toString(" "),
+                        paging = 1
+                    )
+                    getCampsitesByFiltering(this.filter)
+                    resetBtn()
+                    setStateBehaviorFilter(false)
+                }
             }
         }
     }

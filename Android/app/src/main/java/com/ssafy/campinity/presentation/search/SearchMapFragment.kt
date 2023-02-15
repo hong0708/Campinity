@@ -88,20 +88,25 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         }
 
         searchViewModel.campsiteListData.observe(viewLifecycleOwner) { campsiteBriefInfoList ->
-            if (campsiteBriefInfoList?.data != null && campsiteBriefInfoList.data.isNotEmpty()) {
-                campsiteBriefInfoList.data.forEach {
-                    searchViewModel.getCampsiteReviewNotes(
-                        it.campsiteId,
-                    )
-                }
+            if (campsiteBriefInfoList?.data != null) {
+                if (campsiteBriefInfoList.data.isNotEmpty()) {
+                    campsiteBriefInfoList.data.forEach {
+                        searchViewModel.getCampsiteReviewNotes(
+                            it.campsiteId,
+                        )
+                    }
 
-                drawCampsiteMarkers(campsiteBriefInfoList.data)
-                val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
-                    campsiteBriefInfoList.data[0].latitude,
-                    campsiteBriefInfoList.data[0].longitude
-                )
-                mapView.setMapCenterPoint(campsiteMainPoint, true)
-                mapView.setZoomLevel(3, true)
+                    drawCampsiteMarkers(campsiteBriefInfoList.data)
+                    val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
+                        campsiteBriefInfoList.data[0].latitude,
+                        campsiteBriefInfoList.data[0].longitude
+                    )
+                    mapView.setMapCenterPoint(campsiteMainPoint, true)
+                    mapView.setZoomLevel(3, true)
+                }else{
+                    mapView.removeAllPOIItems()
+                    showToast("검색 결과가 없습니다.")
+                }
             }
         }
 
