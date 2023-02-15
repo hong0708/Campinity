@@ -26,6 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="2dp"
                 android:fontFamily="@font/roboto_bold"
                 android:maxLines="1"
                 android:textColor="@color/grey"
@@ -51,18 +52,19 @@
                     android:paddingEnd="15dp"
                     android:paddingBottom="5dp"
                     android:textColor="@color/grey"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     tools:text="안녕하세요" />
 
                 <TextView
                     android:id="@+id/tv_other_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
                     android:maxLines="1"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:visibility="gone"
-                    tools:text="09:00" />
+                    android:textColor="@color/silver"
+                    android:textSize="10sp"
+                    tools:text="09:00"
+                    tools:ignore="SmallSp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -79,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
+                android:layout_marginBottom="2dp"
                 android:fontFamily="@font/roboto_bold"
                 android:maxLines="1"
                 android:textColor="@color/grey"
@@ -97,10 +100,11 @@
                     android:id="@+id/tv_my_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
                     android:maxLines="1"
-                    android:textColor="@color/white"
-                    android:textSize="12sp"
-                    android:visibility="gone"
+                    android:textColor="@color/silver"
+                    android:textSize="10sp"
+                    tools:ignore="SmallSp"
                     tools:text="09:00" />
 
                 <TextView
@@ -115,7 +119,7 @@
                     android:paddingEnd="15dp"
                     android:paddingBottom="5dp"
                     android:textColor="@color/white"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     tools:text="네! 안녕하세요!" />
 
             </LinearLayout>

@@ -3,6 +3,7 @@ package com.ssafy.campinity.presentation.chat
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.gson.Gson
@@ -21,23 +22,23 @@ class ChatRoomActivity : AppCompatActivity() {
     private lateinit var chatItemAdapter: ChatItemAdapter
     private lateinit var roomId: String
     private lateinit var subject: String
-    private val chatList: MutableList<ChatItem> = mutableListOf()
+    private val messageViewModel by viewModels<MessageViewModel>()
+    private var connected = false
+    private var chatList: MutableList<ChatItem> = mutableListOf()
     private val url = "ws://i8d101.p.ssafy.io:8003/chat/websocket"
     private val stompClient = Stomp.over(Stomp.ConnectionProvider.OKHTTP, url)
-    private var connected = false
 
     @SuppressLint("CheckResult")
     override fun onResume() {
         super.onResume()
-        if(!connected){
+        if (!connected) {
             connectStomp()
         }
-        Log.d("getChatRoom", "onResume")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if(connected){
+        if (connected) {
             connected = false
             stompClient.disconnect()
         }
@@ -45,7 +46,7 @@ class ChatRoomActivity : AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
-        if(connected){
+        if (connected) {
             connected = false
             stompClient.disconnect()
         }
@@ -57,27 +58,50 @@ class ChatRoomActivity : AppCompatActivity() {
         binding = ActivityChatRoomBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-        roomId = intent.getStringExtra("roomId").toString()
-        subject = intent.getStringExtra("subject").toString()
-
+        getData()
+        initView()
         initRecyclerView()
         initListener()
         connectStomp()
+    }
 
+    private fun getData() {
+        roomId = intent.getStringExtra("roomId").toString()
+        subject = intent.getStringExtra("subject").toString()
+    }
+
+    private fun initView() {
+        chatItemAdapter = ChatItemAdapter(chatList)
         binding.tvChatSubject.text = subject
+    }
 
+    private fun initRecyclerView() {
+        binding.rvChat.layoutManager = LinearLayoutManager(this@ChatRoomActivity)
+        messageViewModel.chatMessages.observe(this) {
+            if (it != null) {
+                binding.rvChat.adapter = ChatItemAdapter(it)
+                chatList = it.toMutableList()
+            }
+        }
+        messageViewModel.getMessages(roomId)
+    }
 
+    private fun initListener() {
+        binding.ivArrowLeft.setOnClickListener { finish() }
         binding.btnChatSend.setOnClickListener {
             val chatJson = JSONObject()
             chatJson.put("roomId", roomId)
-
             chatJson.put("sender", ApplicationClass.preferences.nickname.toString())
             chatJson.put("message", binding.etChat.text.toString())
             stompClient.send("/pub/chat/${roomId}", chatJson.toString()).subscribe()
-
             binding.etChat.setText("")
         }
+    }
+
+    @SuppressLint("CheckResult")
+    private fun connectStomp() {
+        connected = true
+        stompClient.connect()
 
         stompClient.lifecycle().subscribe { lifecycleEvent ->
             when (lifecycleEvent.type) {
@@ -98,34 +122,13 @@ class ChatRoomActivity : AppCompatActivity() {
                 }
             }
         }
-    }
 
-    private fun initRecyclerView() {
-        chatItemAdapter = ChatItemAdapter(emptyList())
-        binding.rvChat.apply {
-            adapter = chatItemAdapter
-            layoutManager = LinearLayoutManager(this@ChatRoomActivity)
-        }
-    }
-
-    private fun initListener() {
-        binding.ivArrowLeft.setOnClickListener { finish() }
-    }
-
-    @SuppressLint("CheckResult")
-    private fun connectStomp() {
-        connected = true
-        stompClient.connect()
-
-        stompClient.topic("/room/${roomId}").subscribe {
-
-            topicMessage ->
-            Log.i("message Receive", topicMessage.payload)
+        stompClient.topic("/room/${roomId}").subscribe { topicMessage ->
             val message = Gson().fromJson(topicMessage.payload, ChatItem::class.java)
             chatList.add(message)
             runOnUiThread {
                 binding.rvChat.adapter = ChatItemAdapter(chatList.toList())
-                binding.rvChat.scrollToPosition(chatList.size-1)
+                binding.rvChat.scrollToPosition(chatList.size - 1)
             }
         }
     }

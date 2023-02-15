@@ -7,4 +7,7 @@ class ChatRemoteDataSourceImpl @Inject constructor(
     private val chatApiService: ChatApiService
 ) : ChatRemoteDataSource {
     override suspend fun getRooms(): List<RoomResponse> = chatApiService.getRooms()
+
+    override suspend fun getMessages(roomId: String): MessageResponse =
+        chatApiService.getMessages(roomId)
 }

@@ -16,7 +16,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="80dp"
             android:layout_margin="10dp"
             android:background="@drawable/bg_rect_light_yellow_radius15"
             app:layout_constraintEnd_toEndOf="parent"
@@ -44,7 +44,7 @@
                 android:maxLines="1"
                 android:text="@{room.title}"
                 android:textColor="@color/black"
-                android:textSize="18sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toEndOf="@id/iv_other_profile"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="싸피캠핑장에서 코코몽님과의 대화" />
@@ -54,14 +54,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="10dp"
                 android:ellipsize="end"
                 android:fontFamily="@font/roboto_regular"
                 android:maxLines="1"
                 android:text="@{room.subject}"
-                android:textColor="@color/grey"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textColor="@color/zambezi"
+                android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="@id/tv_room_title"
                 app:layout_constraintTop_toBottomOf="@id/tv_room_title"
                 tools:text="고기 남았는데 가져가실 분 구해요" />
@@ -74,10 +72,12 @@
                 android:fontFamily="@font/roboto_light"
                 android:text="@{room.date}"
                 android:textColor="@color/grey"
-                android:textSize="11sp"
+                android:textSize="10sp"
+                android:layout_marginTop="6dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/tv_room_title"
-                tools:text="02/14" />
+                app:layout_constraintTop_toBottomOf="@id/tv_room_subject"
+                tools:text="2023-02-14"
+                tools:ignore="SmallSp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
