@@ -1,16 +1,16 @@
 package com.ssafy.campinity.core.service.impl;
 
-//import com.ssafy.campinity.core.dto.ChatMessageListDTO;
 import com.ssafy.campinity.core.dto.MyChatRoomResDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
+import com.ssafy.campinity.core.entity.chat.ChatMessage;
 import com.ssafy.campinity.core.entity.chat.ChatRoom;
 import com.ssafy.campinity.core.entity.member.Member;
 import com.ssafy.campinity.core.repository.campsite.CampsiteRepository;
+import com.ssafy.campinity.core.repository.chatting.ChatMessageRepository;
 import com.ssafy.campinity.core.repository.chatting.ChatRoomRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.ChatService;
 import com.ssafy.campinity.core.utils.ErrorMessageEnum;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,11 +25,13 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRoomRepository chatRoomRepository;
     private final CampsiteRepository campsiteRepository;
     private final MemberRepository memberRepository;
+    private final ChatMessageRepository chatMessageRepository;
 
-    public ChatServiceImpl(ChatRoomRepository chatRoomRepository, CampsiteRepository campsiteRepository, MemberRepository memberRepository) {
+    public ChatServiceImpl(ChatRoomRepository chatRoomRepository, CampsiteRepository campsiteRepository, MemberRepository memberRepository, ChatMessageRepository chatMessageRepository) {
         this.chatRoomRepository = chatRoomRepository;
         this.campsiteRepository = campsiteRepository;
         this.memberRepository = memberRepository;
+        this.chatMessageRepository = chatMessageRepository;
     }
 
     public List<?> getMyChatRoomList(int memberId){
@@ -72,6 +74,10 @@ public class ChatServiceImpl implements ChatService {
         chatRoomRepository.save(chatRoom);
     }
 
+    @Override
+    public ChatMessage saveChatMessage(ChatMessage chatMessage) {
+        return chatMessageRepository.save(chatMessage);
+    }
 
 //    public ChatMessageListDTO getChatMessages(int memberId, String roomId){
 //        return new ChatMessageListDTO();
