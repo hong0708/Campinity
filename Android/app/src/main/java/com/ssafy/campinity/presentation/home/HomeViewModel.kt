@@ -5,9 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.data.remote.Resource
-import com.ssafy.campinity.data.remote.service.FirebaseService
 import com.ssafy.campinity.domain.entity.collection.CollectionItem
 import com.ssafy.campinity.domain.entity.home.HomeBanner
 import com.ssafy.campinity.domain.entity.home.RankingCampsiteItem
@@ -79,10 +77,5 @@ class HomeViewModel @Inject constructor(
                 Log.e("getHottestCampsites", "getHottestCampsites: ${value.errorMessage}")
             }
         }
-    }
-
-    fun requestCurrentToken() = viewModelScope.launch {
-        val result = FirebaseService().getCurrentToken()
-        ApplicationClass.preferences.fcmToken = result
     }
 }

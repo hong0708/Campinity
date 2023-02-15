@@ -54,5 +54,11 @@ class MainActivity : AppCompatActivity() {
         }
         navGraph.setStartDestination(startDestination)
         navController.graph = navGraph
+
+        if (intent.getStringExtra("state") == "no_assigned") { setDestination() }
+    }
+
+    private fun setDestination() {
+        navController.navigate(R.id.homeFragment)
     }
 }

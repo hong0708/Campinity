@@ -46,7 +46,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     override fun initView() {
         setData()
-        homeViewModel.requestCurrentToken()
         getFCMToken()
         initListener()
         initCollection()
@@ -113,6 +112,9 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
             }
             ivMyPage.setOnClickListener {
                 navigate(HomeFragmentDirections.actionHomeFragmentToMyPageFragment())
+            }
+            ivChatting.setOnClickListener {
+                navigate(HomeFragmentDirections.actionHomeFragmentToChattingActivity())
             }
         }
     }

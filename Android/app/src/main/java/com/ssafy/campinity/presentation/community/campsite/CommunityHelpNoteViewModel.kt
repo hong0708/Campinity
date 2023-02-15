@@ -7,17 +7,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.fcm.FCMMessageRequest
-import com.ssafy.campinity.data.remote.datasource.fcm.FCMReplyRequest
 import com.ssafy.campinity.domain.usecase.fcm.CreateHelpNoteUseCase
-import com.ssafy.campinity.domain.usecase.fcm.RequestReplyHelpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class CommunityHelpNoteViewModel @Inject constructor(
-    private val createHelpNoteUseCase: CreateHelpNoteUseCase,
-    private val requestReplyHelpUseCase: RequestReplyHelpUseCase
+    private val createHelpNoteUseCase: CreateHelpNoteUseCase
 ) : ViewModel() {
 
     private val _isSucceed: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -25,9 +22,6 @@ class CommunityHelpNoteViewModel @Inject constructor(
 
     private val _receiverNum: MutableLiveData<Int?> = MutableLiveData()
     val receiverNum: LiveData<Int?> = _receiverNum
-
-    private val _assigned: MutableLiveData<Boolean?> = MutableLiveData()
-    val assigned: LiveData<Boolean?> = _assigned
 
     fun createHelpNoteMessage(
         body: String,
@@ -49,22 +43,6 @@ class CommunityHelpNoteViewModel @Inject constructor(
                 Log.d(
                     "createHelpNoteMessage", "createHelpNoteMessage: ${value.errorMessage}"
                 )
-            }
-        }
-    }
-
-    fun replyHelp(fcmMessageId: String, fcmToken: String) = viewModelScope.launch {
-        when (val value = requestReplyHelpUseCase(FCMReplyRequest(fcmMessageId, fcmToken))) {
-            is Resource.Success<Int?> -> {
-                if (value.data == 0) {
-                    _assigned.value = false
-                } else {
-                    _assigned.value = true
-                    Log.d("replyHelp", "replyHelp: ${value.data}")
-                }
-            }
-            is Resource.Error -> {
-                Log.e("replyHelp", "${value.errorMessage}")
             }
         }
     }
