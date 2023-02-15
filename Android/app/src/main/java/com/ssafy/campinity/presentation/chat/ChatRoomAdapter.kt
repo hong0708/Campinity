@@ -1,4 +1,4 @@
-package com.ssafy.campinity.presentation.chatting
+package com.ssafy.campinity.presentation.chat
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,7 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemChatRoomBinding
-import com.ssafy.campinity.domain.entity.chatting.RoomItem
+import com.ssafy.campinity.domain.entity.chat.RoomItem
 
 class ChatRoomAdapter(private val onItemClicked: (roomId: String) -> Unit) :
     RecyclerView.Adapter<ChatRoomAdapter.RoomViewHolder>() {

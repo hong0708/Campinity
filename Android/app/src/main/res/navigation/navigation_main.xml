@@ -238,8 +238,8 @@
 
     <activity
         android:id="@+id/chattingActivity"
-        android:name="com.ssafy.campinity.presentation.chatting.ChattingActivity"
+        android:name="com.ssafy.campinity.presentation.chat.ChatActivity"
         android:label="ChattingActivity"
-        tools:layout="@layout/activity_chatting"/>
+        tools:layout="@layout/activity_chatting" />
 
 </navigation>

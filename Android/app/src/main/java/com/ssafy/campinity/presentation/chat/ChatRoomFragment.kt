@@ -1,4 +1,4 @@
-package com.ssafy.campinity.presentation.chatting
+package com.ssafy.campinity.presentation.chat
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -7,7 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.navigation.fragment.navArgs
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentChattingRoomBinding
-import com.ssafy.campinity.domain.entity.chatting.ChatItem
+import com.ssafy.campinity.domain.entity.chat.ChatItem
 import com.ssafy.campinity.presentation.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 import org.json.JSONObject
@@ -16,11 +16,11 @@ import ua.naiksoftware.stomp.dto.LifecycleEvent
 import ua.naiksoftware.stomp.dto.StompHeader
 
 @AndroidEntryPoint
-class ChattingRoomFragment :
+class ChatRoomFragment :
     BaseFragment<FragmentChattingRoomBinding>(R.layout.fragment_chatting_room) {
 
     private lateinit var callback: OnBackPressedCallback
-    private val args by navArgs<ChattingRoomFragmentArgs>()
+    private val args by navArgs<ChatRoomFragmentArgs>()
     private val chatItemAdapter by lazy { ChatItemAdapter() }
 
     private val chatList: MutableList<ChatItem> = mutableListOf()

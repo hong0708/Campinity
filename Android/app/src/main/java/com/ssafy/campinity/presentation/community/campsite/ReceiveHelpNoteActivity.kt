@@ -15,7 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class ReceiveHelpNoteActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityReceiveHelpNoteBinding
-    private val viewModel by viewModels<CommunityHelpNoteViewModel>()
+    private val receiveHelpNoteViewModel by viewModels<ReceiveHelpNoteViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +32,14 @@ class ReceiveHelpNoteActivity : AppCompatActivity() {
 
     private fun initListener() {
         binding.btnReceive.setOnClickListener {
-            viewModel.assigned.observe(this) {
+            receiveHelpNoteViewModel.assigned.observe(this) {
                 if (it == false) {
                     showToastMessage("다음 기회를 노려보세요!")
+                } else {
+                    showToastMessage("당첨!")
                 }
             }
-            viewModel.replyHelp(
+            receiveHelpNoteViewModel.replyHelp(
                 ApplicationClass.preferences.fcmMessageId.toString(),
                 ApplicationClass.preferences.fcmToken.toString()
             )

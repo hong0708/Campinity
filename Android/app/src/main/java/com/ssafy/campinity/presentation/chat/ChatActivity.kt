@@ -1,4 +1,4 @@
-package com.ssafy.campinity.presentation.chatting
+package com.ssafy.campinity.presentation.chat
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +9,7 @@ import com.ssafy.campinity.databinding.ActivityChattingBinding
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ChattingActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityChattingBinding
     private lateinit var navController: NavController

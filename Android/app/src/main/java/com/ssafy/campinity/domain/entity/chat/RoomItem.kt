@@ -1,4 +1,4 @@
-package com.ssafy.campinity.domain.entity.chatting
+package com.ssafy.campinity.domain.entity.chat
 
 data class RoomItem(
     val roomId: String,

@@ -1,6 +1,7 @@
 package com.ssafy.campinity.di
 
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRemoteDataSourceImpl
+import com.ssafy.campinity.data.remote.datasource.chat.ChatRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.collection.CollectionRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.communitycampsite.CommunityRemoteDataSourceImpl
 import com.ssafy.campinity.data.remote.datasource.curation.CurationRemoteDataSourceImpl
@@ -81,4 +82,10 @@ object RepositoryModule {
     fun provideFCMRepository(
         fcmRemoteDataSourceImpl: FCMRemoteDataSourceImpl
     ): FCMRepository = FCMRepositoryImpl(fcmRemoteDataSourceImpl)
+
+    @Provides
+    @Singleton
+    fun provideChatRepository(
+        chatRemoteDataSourceImpl: ChatRemoteDataSourceImpl
+    ): ChatRepository = ChatRepositoryImpl(chatRemoteDataSourceImpl)
 }

@@ -91,4 +91,11 @@ object ServiceModule {
         @AuthInterceptorClient retrofit: Retrofit
     ): FCMApiService =
         retrofit.create(FCMApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideChatApiService(
+        @AuthInterceptorClient retrofit: Retrofit
+    ): ChatApiService =
+        retrofit.create(ChatApiService::class.java)
 }

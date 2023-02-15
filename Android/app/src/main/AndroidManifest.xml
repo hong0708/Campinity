@@ -113,7 +113,7 @@
             android:exported="true" />
 
         <activity
-            android:name=".presentation.chatting.ChattingRoomFragment"
+            android:name=".presentation.chat.ChatRoomFragment"
             android:exported="true" />
 
         <activity
@@ -126,7 +126,7 @@
         </activity>
 
         <activity
-            android:name=".presentation.chatting.ChattingActivity"
+            android:name=".presentation.chat.ChatActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="CHATTING" />

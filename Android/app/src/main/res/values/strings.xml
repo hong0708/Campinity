@@ -576,14 +576,6 @@
     <string name="content_chat_send">전송</string>
     <string name="title_chat_room">Chat Room</string>
 
-    <!-- Chatting -->
-    <string name="content_chat_send">전송</string>
-    <string name="title_chat_room">Chat Room</string>
-
-    <!-- Chatting -->
-    <string name="content_chat_send">전송</string>
-    <string name="title_chat_room">Chat Room</string>
-
     <!-- MyPage Category Spinner -->
     <string-array name="category_array">
         <item>리뷰</item>
