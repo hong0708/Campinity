@@ -50,6 +50,7 @@ public class ChatServiceImpl implements ChatService {
                         MyChatRoomResDTO.builder()
                                 .room(room)
                                 .otherProfilePath(other.getProfileImage())
+                                .otherNickname(other.getName())
                                 .build());
         }
         return myChatRoomList;
@@ -94,18 +95,15 @@ public class ChatServiceImpl implements ChatService {
                     .chatMessages(
                             List.of(
                                     ChatMessageItemDTO.builder()
-                                            .chatMessage(ChatMessage.builder().message("").roomId("").sender("").build()).otherNickname("")
-                            .build()))
+                                            .chatMessage(ChatMessage.builder().message("").roomId("").sender("").build()).build()
+                            )
+                    )
                     .build();
         }
 
         List<ChatMessageItemDTO> itemList = new ArrayList<>();
-        for (ChatMessage item : chatMessageList) {
-            if (item.getSender().equals(other.getUuid().toString()))
-                itemList.add(ChatMessageItemDTO.builder().chatMessage(item).otherNickname(other.getName()).build());
-            else
-                itemList.add(ChatMessageItemDTO.builder().chatMessage(item).otherNickname(member.getName()).build());
-        }
+        for (ChatMessage item : chatMessageList)
+                itemList.add(ChatMessageItemDTO.builder().chatMessage(item).build());
 
         return ChatMessageListDTO.builder().chatMessages(itemList).build();
     }
