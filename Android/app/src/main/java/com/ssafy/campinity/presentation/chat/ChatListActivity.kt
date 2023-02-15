@@ -19,6 +19,8 @@ class ChatListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityChatListBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         initRecyclerView()
         init()
         chatViewModel.getRooms()
@@ -42,6 +44,5 @@ class ChatListActivity : AppCompatActivity() {
         intent.putExtra("roomId", roomId)
         intent.putExtra("subject", subject)
         startActivity(intent)
-        finish()
     }
 }

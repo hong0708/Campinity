@@ -48,18 +48,22 @@ class ChatRoomActivity : AppCompatActivity() {
         if(connected){
             connected = false
             stompClient.disconnect()
-            finish()
         }
     }
 
     @SuppressLint("CheckResult")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityChatRoomBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+
+        roomId = intent.getStringExtra("roomId").toString()
+        subject = intent.getStringExtra("subject").toString()
+
         initRecyclerView()
         initListener()
         connectStomp()
-        roomId = intent.getStringExtra("roomId").toString()
-        subject = intent.getStringExtra("subject").toString()
 
         binding.tvChatSubject.text = subject
 
