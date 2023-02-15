@@ -33,17 +33,21 @@ class ChatItemAdapter(var items: List<ChatItem>) :
     ) : RecyclerView.ViewHolder(binding.root) {
         fun onBind(data: ChatItem) {
             if (data.sender == ApplicationClass.preferences.nickname) {
-                binding.llOtherSide.visibility = View.GONE
-                binding.llMySide.visibility = View.VISIBLE
-                binding.tvMyName.text = data.sender
-                binding.tvMyMessage.text = data.message
-                binding.tvMyTime.text = data.time?.substring(11, 16) ?: ""
+                binding.apply {
+                    llOtherSide.visibility = View.GONE
+                    llMySide.visibility = View.VISIBLE
+                    tvMyName.text = data.sender
+                    tvMyMessage.text = data.message
+                    tvMyTime.text = data.timestamp?.substring(11, 16) ?: ""
+                }
             } else {
-                binding.llMySide.visibility = View.GONE
-                binding.llOtherSide.visibility = View.VISIBLE
-                binding.tvOtherName.text = data.sender
-                binding.tvOtherMessage.text = data.message
-                binding.tvOtherTime.text = data.time?.substring(11, 16) ?: ""
+                binding.apply {
+                    llMySide.visibility = View.GONE
+                    llOtherSide.visibility = View.VISIBLE
+                    tvOtherName.text = data.sender
+                    tvOtherMessage.text = data.message
+                    tvOtherTime.text = data.timestamp?.substring(11, 16) ?: ""
+                }
             }
         }
     }

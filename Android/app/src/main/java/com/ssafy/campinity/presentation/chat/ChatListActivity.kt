@@ -2,7 +2,6 @@ package com.ssafy.campinity.presentation.chat
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,8 +21,7 @@ class ChatListActivity : AppCompatActivity() {
         binding = ActivityChatListBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initRecyclerView()
-        init()
-        chatViewModel.getRooms()
+        getData()
     }
 
     private fun initRecyclerView() {
@@ -32,14 +30,14 @@ class ChatListActivity : AppCompatActivity() {
 
     }
 
-    private fun init(){
+    private fun getData(){
         chatViewModel.chatRoomsData.observe(this) { response ->
             response?.let { chatRoomAdapter.setChatRoom(it) }
         }
+        chatViewModel.getRooms()
     }
 
     private fun getChatRoom(roomId: String, subject: String) {
-        Log.d("getChatRoom", "getChatRoom: $roomId, $subject")
         val intent = Intent(this, ChatRoomActivity::class.java)
         intent.putExtra("roomId", roomId)
         intent.putExtra("subject", subject)

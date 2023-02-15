@@ -23,12 +23,7 @@ class ReceiveHelpNoteViewModel @Inject constructor(
     fun replyHelp(fcmMessageId: String, fcmToken: String) = viewModelScope.launch {
         when (val value = requestReplyHelpUseCase(FCMReplyRequest(fcmMessageId, fcmToken))) {
             is Resource.Success<Int?> -> {
-                if (value.data == 0) {
-                    _assigned.value = false
-                } else {
-                    _assigned.value = true
-                    Log.d("replyHelp", "replyHelp: ${value.data}")
-                }
+                _assigned.value = value.data != 0
             }
             is Resource.Error -> {
                 Log.e("replyHelp", "${value.errorMessage}")
