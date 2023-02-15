@@ -8,10 +8,10 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 public class ChatMessageListDTO {
-    private List<ChatMessageItemDTO> chatMessages;
+    private List<?> chatMessages;
 
     @Builder
-    public ChatMessageListDTO(List<ChatMessageItemDTO> chatMessages) {
+    public ChatMessageListDTO(List<?> chatMessages) {
         this.chatMessages = chatMessages;
     }
 }
