@@ -20,14 +20,10 @@ class ReceiveHelpNoteViewModel @Inject constructor(
     private val _assigned: MutableLiveData<Boolean?> = MutableLiveData()
     val assigned: LiveData<Boolean?> = _assigned
 
-    private val _state: MutableLiveData<Int?> = MutableLiveData()
-    val state: LiveData<Int?> = _state
-
     fun replyHelp(fcmMessageId: String, fcmToken: String) = viewModelScope.launch {
         when (val value = requestReplyHelpUseCase(FCMReplyRequest(fcmMessageId, fcmToken))) {
             is Resource.Success<Int?> -> {
                 _assigned.value = value.data != 0
-                _state.value = value.data
             }
             is Resource.Error -> {
                 Log.e("replyHelp", "${value.errorMessage}")
