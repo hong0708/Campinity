@@ -132,6 +132,7 @@
     <string name="title_receive_help_note">쪽지가 도착했어요!</string>
     <string name="content_receive_help_note">선착순 한 명이 되면\n발신자의 위치가 다시 전송됩니다</string>
     <string name="content_receive_btn">도움받기</string>
+    <string name="la_note_lock">gif_note_lock</string>
 
     <!-- Collection -->
     <string name="title_collection">My Collection</string>

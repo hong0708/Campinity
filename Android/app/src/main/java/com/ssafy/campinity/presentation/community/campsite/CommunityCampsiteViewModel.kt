@@ -52,8 +52,10 @@ class CommunityCampsiteViewModel @Inject constructor(
     private val _isUserIn: MutableLiveData<Boolean> = MutableLiveData(false)
     val isUserIn: MutableLiveData<Boolean> = _isUserIn
 
-    fun checkIsUserIn(check: Boolean) {
-        _isUserIn.value = check
+    fun checkIsUserIn(check: Boolean?) {
+        if (check !=null){
+            _isUserIn.value = check!!
+        }
     }
 
     fun getUserProfile() {

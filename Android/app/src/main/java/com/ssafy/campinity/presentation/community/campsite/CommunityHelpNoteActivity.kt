@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class CommunityHelpNoteActivity : AppCompatActivity() {
 
-    private val args by navArgs<CommunityCampsiteDialogActivityArgs>()
+    private val args by navArgs<CommunityHelpNoteActivityArgs>()
     private lateinit var binding: ActivityWriteHelpNoteBinding
     private lateinit var type: String
     private lateinit var campsiteId: String
@@ -42,8 +42,8 @@ class CommunityHelpNoteActivity : AppCompatActivity() {
                         etUserHelp.text.toString(),
                         campsiteId,
                         etUserLocation.text.toString(),
-                        128.41904925964056,
-                        36.10680223224355,
+                        args.userLat.toDouble(),
+                        args.userLng.toDouble(),
                         type
                     )
                 }

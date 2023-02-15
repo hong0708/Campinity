@@ -1,6 +1,6 @@
 package com.ssafy.campinity.domain.entity.community
 
 data class UserLocation(
-    val latitude: Double,
-    val longitude: Double
+    var latitude: Double,
+    var longitude: Double
 ) : java.io.Serializable
