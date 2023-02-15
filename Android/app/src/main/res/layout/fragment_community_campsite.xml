@@ -25,11 +25,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <ImageView
-                    android:id="@+id/iv_gif"
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/la_note_open"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:contentDescription="@string/gif_note_lock" />
+                    android:contentDescription="@string/la_note_lock"
+                    android:scaleType="centerCrop"
+                    app:lottie_rawRes="@raw/animation_note_lock"
+                    app:lottie_repeatCount="1"
+                    android:visibility="gone"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cl_community_map"

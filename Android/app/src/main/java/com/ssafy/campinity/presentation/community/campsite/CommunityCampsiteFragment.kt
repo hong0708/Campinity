@@ -1,6 +1,8 @@
 package com.ssafy.campinity.presentation.community.campsite
 
 import android.Manifest
+import android.animation.Animator
+import android.animation.Animator.AnimatorListener
 import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.content.BroadcastReceiver
@@ -22,13 +24,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.DataSource
-import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.bumptech.glide.load.engine.GlideException
-import com.bumptech.glide.load.resource.gif.GifDrawable
-import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
@@ -37,6 +32,7 @@ import com.ssafy.campinity.common.util.CustomDialogInterface
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
+import com.ssafy.campinity.domain.entity.community.RecentUserLocation
 import com.ssafy.campinity.domain.entity.community.UserLocation
 import com.ssafy.campinity.presentation.base.BaseFragment
 import com.ssafy.campinity.presentation.community.CommunityActivity
@@ -68,9 +64,15 @@ class CommunityCampsiteFragment :
     private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
-    private var newUserLocation = UserLocation(0.0, 0.0)
+    private var newUserLocation = RecentUserLocation(
+        ApplicationClass.preferences.recentUserLat?.toDouble(),
+        ApplicationClass.preferences.recentUserLat?.toDouble()
+    )
 
     override fun initView() {
+        communityCampsiteViewModel.checkIsUserIn(
+            ApplicationClass.preferences.isUserIn.toBoolean()
+        )
         initToggle()
         initObserver()
         initListener()
@@ -83,6 +85,10 @@ class CommunityCampsiteFragment :
             override fun onReceive(context: Context, intent: Intent) {
 
                 val test = intent.getSerializableExtra("test") as UserLocation
+
+                newUserLocation.latitude = test.latitude
+                newUserLocation.longitude = test.longitude
+
                 communityCampsiteViewModel.checkIsUserIn(
                     DistanceManager.getDistance(
                         test.latitude,
@@ -113,6 +119,9 @@ class CommunityCampsiteFragment :
     override fun onPause() {
         super.onPause()
         binding.clCommunityMap.removeView(mapView)
+        ApplicationClass.preferences.recentUserLat = newUserLocation.latitude.toString()
+        ApplicationClass.preferences.recentUserLng = newUserLocation.longitude.toString()
+        ApplicationClass.preferences.isUserIn = communityCampsiteViewModel.isUserIn.value.toString()
     }
 
     override fun onAttach(context: Context) {
@@ -200,32 +209,25 @@ class CommunityCampsiteFragment :
                         campsiteMessageBriefInfo.longitude.toDouble()
                     ) < 100
                 ) {
-                    Glide.with(requireActivity())
-                        .asGif()
-                        .load(R.drawable.animation_note_lock)
-                        .apply(RequestOptions.diskCacheStrategyOf(DiskCacheStrategy.NONE))
-                        .listener(object : RequestListener<GifDrawable> {
-                            override fun onLoadFailed(
-                                e: GlideException?,
-                                model: Any?,
-                                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                return false
-                            }
-                            override fun onResourceReady(
-                                resource: GifDrawable?,
-                                model: Any?,
-                                target: com.bumptech.glide.request.target.Target<GifDrawable>?,
-                                dataSource: DataSource?,
-                                isFirstResource: Boolean
-                            ): Boolean {
-                                resource?.setLoopCount(1)
-                                return false
-                            }
-                        })
-                        .into(binding.ivGif)
 
+                    binding.apply {
+                        laNoteOpen.apply {
+                            addAnimatorListener(object : AnimatorListener {
+                                override fun onAnimationStart(p0: Animator?) {}
+
+                                override fun onAnimationEnd(p0: Animator?) {
+                                    laNoteOpen.visibility = View.GONE
+                                }
+
+                                override fun onAnimationCancel(p0: Animator?) {}
+
+                                override fun onAnimationRepeat(p0: Animator?) {}
+                            })
+                            speed = 1f
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+                    }
                     // 충분히 가까워서 유효
                     //getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
                 } else {
@@ -338,9 +340,7 @@ class CommunityCampsiteFragment :
                 CoroutineScope(Dispatchers.Main).launch {
                     mapView.currentLocationTrackingMode =
                         MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeading
-                    if (isTracking) {
-                        isTracking = false
-                    }
+
                     // 현재 내위치 기준으로 맵 포인트 가운데로 옮기기
                     setMapPosition()
                     mapView.setZoomLevel(6, true)
@@ -353,6 +353,12 @@ class CommunityCampsiteFragment :
                         mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
                         mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
                     )
+
+                    mapView.currentLocationTrackingMode =
+                        MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+                    if (isTracking) {
+                        isTracking = false
+                    }
                 }
             }
 
@@ -361,16 +367,23 @@ class CommunityCampsiteFragment :
             }
 
             fabGetHelp.setOnClickListener {
-                navigate(
-                    CommunityCampsiteFragmentDirections
-                        .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
-                            "도움 주기",
-                            ApplicationClass.preferences.userRecentCampsiteId.toString()
-                        )
-                )
+                if (communityCampsiteViewModel.isUserIn.value == true) {
+                    navigate(
+                        CommunityCampsiteFragmentDirections
+                            .actionCommunityCampsiteFragmentToCommunityHelpNoteActivity(
+                                "도움 주기",
+                                ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                                newUserLocation.latitude.toString(),
+                                newUserLocation.longitude.toString()
+                            )
+                    )
+                } else {
+                    showToast("캠핑장 구독 및 해당 캠핑장에 위치해야합니다.")
+                }
             }
 
             fabReview.setOnClickListener {
+                getUserLoc()
                 navigate(
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogActivity(
@@ -383,6 +396,7 @@ class CommunityCampsiteFragment :
             }
 
             fabFreeNote.setOnClickListener {
+                getUserLoc()
                 navigate(
                     CommunityCampsiteFragmentDirections
                         .actionCommunityCampsiteFragmentToCommunityCampsiteDialogActivity(
@@ -450,6 +464,19 @@ class CommunityCampsiteFragment :
     private fun getCampsiteTitle(
         campsiteBriefInfo: CampsiteBriefInfo
     ) {
+        // 구독 초기화
+        ApplicationClass.preferences.isSubScribing = false
+        communityCampsiteViewModel.subscribeCampSite(
+            "", ApplicationClass.preferences.fcmToken.toString()
+        )
+        binding.toggleCampsite.isOn = false
+        val onService = requireActivity() as CommunityActivity
+        onService.stopLocationBackground()
+
+        mapView.currentLocationTrackingMode =
+            MapView.CurrentLocationTrackingMode.TrackingModeOnWithoutHeadingWithoutMapMoving
+        isTracking = false
+
         // 해당 캠핑장에 대한 아이디를 넘겨줘서 맵에 마커 그리기
         // 최근 검색 기록을 위한 캠핑장 저장
         binding.tvCampsiteCondition.text = campsiteBriefInfo.campsiteName
@@ -507,19 +534,21 @@ class CommunityCampsiteFragment :
         }
 
         communityCampsiteViewModel.isUserIn.observe(viewLifecycleOwner) { response ->
-            if (response) {
-                showToast("현재 캠핑장 범위에 포함됩니다.")
-                ApplicationClass.preferences.isSubScribing = true
-                communityCampsiteViewModel.subscribeCampSite(
-                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                    ApplicationClass.preferences.fcmToken.toString()
-                )
-            } else {
-                showToast("현재 캠핑장 범위에서 벗어납니다.")
-                ApplicationClass.preferences.isSubScribing = false
-                communityCampsiteViewModel.subscribeCampSite(
-                    "", ApplicationClass.preferences.fcmToken.toString()
-                )
+            if (binding.toggleCampsite.isOn) {
+                if (response) {
+                    showToast("현재 캠핑장 범위에 포함됩니다.")
+                    ApplicationClass.preferences.isSubScribing = true
+                    communityCampsiteViewModel.subscribeCampSite(
+                        ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                        ApplicationClass.preferences.fcmToken.toString()
+                    )
+                } else {
+                    showToast("현재 캠핑장 범위에서 벗어납니다.")
+                    ApplicationClass.preferences.isSubScribing = false
+                    communityCampsiteViewModel.subscribeCampSite(
+                        "", ApplicationClass.preferences.fcmToken.toString()
+                    )
+                }
             }
         }
     }
@@ -592,8 +621,6 @@ class CommunityCampsiteFragment :
             val uNowPosition = MapPoint.mapPointWithGeoCoord(userLatitude, userLongitude)
             mapView.setMapCenterPoint(uNowPosition, true)
         }
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.Q)
@@ -638,6 +665,23 @@ class CommunityCampsiteFragment :
         return myLoc.distanceTo(targetLoc)
     }
 
+    @SuppressLint("MissingPermission")
+    private fun getUserLoc() {
+        val lm: LocationManager =
+            requireActivity().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val userNowLocation: Location? =
+            lm.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+        //위도 , 경도
+        if (userNowLocation != null) {
+            val userLatitude = userNowLocation.latitude
+            val userLongitude = userNowLocation.longitude
+
+            newUserLocation.latitude = userLatitude
+            newUserLocation.longitude = userLongitude
+
+        }
+    }
+
     @SuppressLint("ResourceAsColor")
     private fun setSubscribeState() {
         val onService = requireActivity() as CommunityActivity
@@ -648,6 +692,12 @@ class CommunityCampsiteFragment :
                 if (isOn) {
                     if (ApplicationClass.preferences.userRecentCampsiteId != null) {
                         onService.startLocationBackground()
+                        showToast("현재 캠핑장 범위에 포함됩니다.")
+                        /*ApplicationClass.preferences.isSubScribing = true
+                        communityCampsiteViewModel.subscribeCampSite(
+                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                            ApplicationClass.preferences.fcmToken.toString()
+                        )*/
                     } else {
                         showToast("캠핑장 설정이 필요합니다.")
                         /*CoroutineScope(Dispatchers.Main).launch {
@@ -685,7 +735,7 @@ class CommunityCampsiteFragment :
         override fun onReceive(p0: Context?, p1: Intent?) {
             val action = p1!!.action
             if (action == "test") {
-                newUserLocation = p1.getSerializableExtra("test") as UserLocation
+                //newUserLocation = p1.getSerializableExtra("test") as UserLocation
             }
         }
     }

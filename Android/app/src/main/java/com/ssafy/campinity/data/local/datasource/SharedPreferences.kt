@@ -58,6 +58,18 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("fcmMessageId", null)
         set(value) = prefs.edit().putString("fcmMessageId", value).apply()
 
+    var recentUserLat: String?
+        get() = prefs.getString("recentUserLat", null)
+        set(value) = prefs.edit().putString("recentUserLat", value).apply()
+
+    var recentUserLng: String?
+        get() = prefs.getString("recentUserLng", null)
+        set(value) = prefs.edit().putString("recentUserLng", value).apply()
+
+    var isUserIn: String?
+        get() = prefs.getString("isUserIn", null)
+        set(value) = prefs.edit().putString("isUserIn", value).apply()
+
     fun clearPreferences() {
         prefs.edit().clear().apply()
     }
