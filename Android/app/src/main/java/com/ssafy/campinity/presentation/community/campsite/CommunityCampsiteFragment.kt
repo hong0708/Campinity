@@ -73,6 +73,26 @@ class CommunityCampsiteFragment :
     )
 
     override fun initView() {
+
+        binding.laMapOpen.apply {
+            addAnimatorListener(object : AnimatorListener {
+                override fun onAnimationStart(p0: Animator?) {}
+
+                override fun onAnimationEnd(p0: Animator?) {
+                    binding.laMapOpen.visibility = View.GONE
+                    binding.clBackOpenMap.visibility = View.GONE
+                }
+
+                override fun onAnimationCancel(p0: Animator?) {}
+
+                override fun onAnimationRepeat(p0: Animator?) {}
+            })
+            setAnimation(R.raw.community_map)
+            speed = 1.5f
+            visibility = View.VISIBLE
+            playAnimation()
+        }
+
         communityCampsiteViewModel.checkIsUserIn(
             ApplicationClass.preferences.isUserIn.toBoolean()
         )
@@ -208,6 +228,7 @@ class CommunityCampsiteFragment :
                 )
             }
             else -> {
+
             }
         }
     }
@@ -232,7 +253,6 @@ class CommunityCampsiteFragment :
                     CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
                 )
             }
-
         } else {
             val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
 
@@ -559,7 +579,6 @@ class CommunityCampsiteFragment :
         }
         communityCampsiteViewModel.campsiteMessageBriefInfo.observe(viewLifecycleOwner) { response ->
             drawMarkers(response)
-            Log.d("세림", "initObserver: 그려 마커들")
         }
 
         communityCampsiteViewModel.campsiteBriefInfo.observe(viewLifecycleOwner) { response ->
@@ -715,7 +734,6 @@ class CommunityCampsiteFragment :
 
             newUserLocation.latitude = userLatitude
             newUserLocation.longitude = userLongitude
-
         }
     }
 

@@ -34,12 +34,12 @@
                     android:id="@+id/la_note_open"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
+                    android:layout_margin="40dp"
                     android:scaleType="fitCenter"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:layout_margin="40dp"
                     app:lottie_rawRes="@raw/animation_note_lock" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -263,6 +263,24 @@
                     android:scaleType="center"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_back_open_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"/>
+
+                <com.airbnb.lottie.LottieAnimationView
+                    android:id="@+id/la_map_open"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:scaleType="fitCenter"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lottie_rawRes="@raw/community_map" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

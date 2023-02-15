@@ -1,11 +1,13 @@
 package com.ssafy.campinity.presentation.search
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.util.Log
 import android.view.Gravity
+import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,7 +30,26 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     private lateinit var mapView: MapView
     private val searchViewModel by activityViewModels<SearchViewModel>()
 
-    override fun initView() {}
+    override fun initView() {
+        binding.laMapOpen.apply {
+            addAnimatorListener(object : Animator.AnimatorListener {
+                override fun onAnimationStart(p0: Animator?) {}
+
+                override fun onAnimationEnd(p0: Animator?) {
+                    binding.laMapOpen.visibility = View.GONE
+                    binding.clBackOpenMap.visibility = View.GONE
+                }
+
+                override fun onAnimationCancel(p0: Animator?) {}
+
+                override fun onAnimationRepeat(p0: Animator?) {}
+            })
+            setAnimation(R.raw.community_map)
+            speed = 1.5f
+            visibility = View.VISIBLE
+            playAnimation()
+        }
+    }
 
     override fun onResume() {
         super.onResume()
@@ -92,19 +113,12 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         }
 
         searchViewModel.campsiteListData.observe(viewLifecycleOwner) { campsiteBriefInfoList ->
-
-            Log.d("세림", "observe: 캠핑장 리스트 데이터 옵저빙")
-
             if (campsiteBriefInfoList != null && campsiteBriefInfoList.isNotEmpty()) {
                 campsiteBriefInfoList.forEach {
                     searchViewModel.getCampsiteReviewNotes(
                         it.campsiteId,
                     )
                 }
-
-                /*if (mapView.zoomLevel <7){
-
-                }*/
                 drawCampsiteMarkers(campsiteBriefInfoList)
                 val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
                     campsiteBriefInfoList[0].lat,
@@ -177,7 +191,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
 
-        if (p1!!.tag != 3 || p1.tag != 4) {
+        if (p1!!.tag == 3 || p1.tag == 4) {
 
         } else {
             if (p1 != null) {
@@ -238,6 +252,22 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         p1: MapPOIItem?,
         p2: MapPOIItem.CalloutBalloonButtonType?
     ) {
+        if (p1!!.tag == 4) {
+            mapView.removeAllPOIItems()
+            mapView.setZoomLevel(7, true)
+            val item = p1.userObject as ClusteringDo
+            val markerPosition =
+                MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude)
+            mapView.setMapCenterPoint(markerPosition, true)
+        }
+        else if (p1.tag == 3) {
+            mapView.removeAllPOIItems()
+            mapView.setZoomLevel(4, true)
+            val item = p1.userObject as ClusteringSiGunGu
+            val markerPosition =
+                MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude)
+            mapView.setMapCenterPoint(markerPosition, true)
+        }
     }
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
@@ -252,10 +282,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
 
-        Log.d("세림", "onMapViewZoomLevelChanged: ${p0?.zoomLevel}")
-
         when (p0?.zoomLevel) {
-            in -2..7 -> {
+            in -2..6 -> {
                 mapView.removeAllPOIItems()
                 val a = searchViewModel.campsiteListData.value
                 if (a != null) {
@@ -265,15 +293,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 if (b != null) {
                     drawReviewNoteMarkers(b)
                 }
-                /*communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
-                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
-                    mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
-                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                    mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
-                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
-                )*/
             }
-            in 5..9 -> {
+            in 7..9 -> {
                 mapView.removeAllPOIItems()
                 p0?.removeAllPOIItems()
                 val siGunGuList = searchViewModel.campsiteListSiGunGuData.value
@@ -298,50 +319,81 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
 
-    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-        /*when (p0?.zoomLevel) {
-            in -2..4 -> {
-
-            }
-            else -> {
-            }
-        }*/
-    }
+    override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {}
 
     private fun drawDoMarker(doMarkerLocationList: List<ClusteringDo>) {
-        doMarkerLocationList.forEachIndexed { index, clusteringDo ->
-            val markerPosition =
-                MapPoint.mapPointWithGeoCoord(clusteringDo.latitude, clusteringDo.longitude)
-            val marker = MapPOIItem()
-            marker.apply {
-                itemName = "캠핑장 $index"
-                mapPoint = markerPosition
-                tag = 4
-                markerType = MapPOIItem.MarkerType.CustomImage
-                customImageResourceId = R.drawable.ic_free_note_fab
-                isShowCalloutBalloonOnTouch = false
-            }
-            mapView.addPOIItem(marker)
-        }
-    }
 
-    private fun drawSiGunGu(siGunGuMarkerLocationList: List<ClusteringSiGunGu>) {
-        siGunGuMarkerLocationList.forEachIndexed { index, clusteringSiGunGu ->
+        doMarkerLocationList.forEachIndexed { index, doMarkerLocation ->
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(
-                    clusteringSiGunGu.latitude,
-                    clusteringSiGunGu.longitude
+                    doMarkerLocation.latitude,
+                    doMarkerLocation.longitude
                 )
             val marker = MapPOIItem()
             marker.apply {
-                itemName = "캠핑장 $index"
+                itemName = doMarkerLocation.cnt.toString()
                 mapPoint = markerPosition
-                tag = 3
+                isShowDisclosureButtonOnCalloutBalloon = true
                 markerType = MapPOIItem.MarkerType.CustomImage
-                customImageResourceId = R.drawable.ic_free_note_fab
-                isShowCalloutBalloonOnTouch = false
+                customImageResourceId = R.drawable.ic_do_campsites
+                userObject = doMarkerLocation
+                tag = 4
             }
             mapView.addPOIItem(marker)
         }
+
+        /*for (i in doMarkerLocationList) {
+            val markerPosition =
+                MapPoint.mapPointWithGeoCoord(i.latitude, i.longitude)
+            val marker = MapPOIItem()
+            marker.apply {
+                itemName = i.cnt.toString()
+                mapPoint = markerPosition
+                markerType = MapPOIItem.MarkerType.CustomImage
+                R.drawable.ic_free_note_fab
+                isShowCalloutBalloonOnTouch = false
+                userObject = i
+                tag = 4
+            }
+            mapView.addPOIItem(marker)
+        }*/
+    }
+
+    private fun drawSiGunGu(siGunGuMarkerLocationList: List<ClusteringSiGunGu>) {
+
+        siGunGuMarkerLocationList.forEachIndexed { index, siGunGuMarkerLocation ->
+            val markerPosition =
+                MapPoint.mapPointWithGeoCoord(
+                    siGunGuMarkerLocation.latitude,
+                    siGunGuMarkerLocation.longitude
+                )
+            val marker = MapPOIItem()
+            marker.apply {
+                itemName = siGunGuMarkerLocation.cnt.toString()
+                mapPoint = markerPosition
+                isShowDisclosureButtonOnCalloutBalloon = true
+                markerType = MapPOIItem.MarkerType.CustomImage
+                customImageResourceId = R.drawable.ic_sigungu_campsite
+                userObject = siGunGuMarkerLocation
+                tag = 3
+            }
+            mapView.addPOIItem(marker)
+        }
+
+        /*for (i in siGunGuMarkerLocationList) {
+            val markerPosition =
+                MapPoint.mapPointWithGeoCoord(i.latitude.toDouble(), i.longitude.toDouble())
+            val marker = MapPOIItem()
+            marker.apply {
+                itemName = i.cnt.toString()
+                mapPoint = markerPosition
+                markerType = MapPOIItem.MarkerType.CustomImage
+                R.drawable.ic_free_note_fab
+                isShowCalloutBalloonOnTouch = false
+                userObject = i
+                tag = 3
+            }
+            mapView.addPOIItem(marker)
+        }*/
     }
 }
