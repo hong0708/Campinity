@@ -113,7 +113,9 @@ services:
       - 27017:27017
     command: [ "--bind_ip", "0.0.0.0" ]
     volumes:
-      - mongo-data:/data/db
+      - type: volume
+        source: mongo-data
+        target: /data/db
 
 volumes:
   upload-images:
