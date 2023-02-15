@@ -3,6 +3,7 @@ package com.ssafy.campinity.di
 import com.ssafy.campinity.domain.repository.*
 import com.ssafy.campinity.domain.usecase.auth.GetNewTokenUseCase
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
+import com.ssafy.campinity.domain.usecase.chat.GetRoomsUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionDetailUseCase
 import com.ssafy.campinity.domain.usecase.collection.GetCollectionsUseCase
 import com.ssafy.campinity.domain.usecase.community.*
@@ -226,4 +227,10 @@ object UseCaseModule {
     fun provideGetScrapCampsitesUseCase(
         myPageRepository: MyPageRepository
     ): GetScrapCampsitesUseCase = GetScrapCampsitesUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetRoomsUseCase(
+        chatRepository: ChatRepository
+    ): GetRoomsUseCase =  GetRoomsUseCase(chatRepository)
 }

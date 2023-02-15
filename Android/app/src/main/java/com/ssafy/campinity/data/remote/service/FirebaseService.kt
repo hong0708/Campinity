@@ -16,7 +16,7 @@ import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
-import com.ssafy.campinity.presentation.chatting.ChattingListActivity
+import com.ssafy.campinity.presentation.chat.ChatListActivity
 import com.ssafy.campinity.presentation.community.CommunityActivity
 import com.ssafy.campinity.presentation.community.campsite.ReceiveHelpNoteActivity
 import kotlin.coroutines.resume
@@ -50,7 +50,7 @@ class FirebaseService : FirebaseMessagingService() {
         intent = when (type) {
             "RECEIVE_HELP_NOTE" -> Intent(this, ReceiveHelpNoteActivity::class.java)
             "COMMUNITY" -> Intent(this, CommunityActivity::class.java)
-            else -> Intent(this, ChattingListActivity::class.java)
+            else -> Intent(this, ChatListActivity::class.java)
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         val pendingIntent =
