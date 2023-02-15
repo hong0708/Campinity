@@ -16,9 +16,9 @@ public class ChatMessageItemDTO {
     private String sender;
 
     @Builder
-    public ChatMessageItemDTO(ChatMessage chatMessage, String otherNickname) {
+    public ChatMessageItemDTO(ChatMessage chatMessage) {
         this.context = chatMessage.getMessage();
         this.timeStamp = chatMessage.getTimestamp();
-        this.sender = otherNickname;
+        this.sender = chatMessage.getSender();
     }
 }
