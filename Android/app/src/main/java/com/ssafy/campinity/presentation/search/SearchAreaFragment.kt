@@ -123,7 +123,6 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
 
                     setStateBehaviorArea(false)
                     searchAreaGuGunAdapter.setSelectedGugun(selectedGugun.split(" "))
-                    setSubmit()
                 }
             }
         }

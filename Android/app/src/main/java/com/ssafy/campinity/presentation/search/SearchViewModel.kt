@@ -66,9 +66,6 @@ class SearchViewModel @Inject constructor(
     private val _letters: MutableLiveData<List<NoteQuestionTitle>?> = MutableLiveData()
     val letters: LiveData<List<NoteQuestionTitle>?> = _letters
 
-    private val _submit: MutableLiveData<Int> = MutableLiveData(0)
-    val submit: LiveData<Int> = _submit
-
     var selectedSido = ""
     var selectedGugun = ""
     var filter: SearchFilterRequest = SearchFilterRequest()
@@ -159,10 +156,6 @@ class SearchViewModel @Inject constructor(
         theme = context.resources.getStringArray(R.array.content_campsite_theme)
         pet = context.resources.getStringArray(R.array.content_campsite_pet)
         season = context.resources.getStringArray(R.array.content_campsite_season)
-    }
-
-    fun setSubmit() {
-        _submit.value = if (_submit.value != null) _submit.value!! + 1 else 0
     }
 
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {

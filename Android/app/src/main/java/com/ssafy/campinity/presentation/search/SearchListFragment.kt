@@ -91,12 +91,6 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                     initPageIndicator(it)
             }
         }
-
-//        searchViewModel.submit.observe(viewLifecycleOwner) {
-//            if (searchViewModel.campsiteData.value != null) {
-//                binding.piIndicator.initPageIndicator(searchViewModel.campsiteListData.value!!.maxPage)
-//            }
-//        }
     }
 
     private fun onCampsiteClickListener(position: Int, campsiteId: String) = lifecycleScope.launch {
