@@ -23,8 +23,7 @@ public class ChatMessage {
     private LocalDateTime timestamp;
 
     @Builder
-    public ChatMessage(String id, String roomId, String sender, String message) {
-        this.id = id;
+    public ChatMessage(String roomId, String sender, String message) {
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;
