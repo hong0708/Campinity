@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.databinding.ActivityReceiveHelpNoteBinding
+import com.ssafy.campinity.presentation.MainActivity
 import com.ssafy.campinity.presentation.chat.ChatListActivity
 import com.ssafy.campinity.presentation.community.CommunityActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +37,8 @@ class ReceiveHelpNoteActivity : AppCompatActivity() {
             receiveHelpNoteViewModel.assigned.observe(this) {
                 if (it == false) {
                     showToastMessage("다음 기회를 노려보세요!")
-                    val i = Intent(this, CommunityActivity::class.java)
+                    val i = Intent(this, MainActivity::class.java)
+                    i.putExtra("state", "no_assigned")
                     i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
                     startActivity(i)
                     finish()
