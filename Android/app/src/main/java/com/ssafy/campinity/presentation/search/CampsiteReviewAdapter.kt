@@ -70,7 +70,7 @@ class CampsiteReviewAdapter(
                 }
             }
 
-            binding.ibDeleteReview.setOnClickListener {
+            binding.tvDeleteReview.setOnClickListener {
                 CampsiteReviewDeleteDialog(
                     context,
                     deleteReview,

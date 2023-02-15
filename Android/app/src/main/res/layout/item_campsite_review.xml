@@ -90,16 +90,19 @@
             app:layout_constraintStart_toEndOf="@id/ll_score"
             tools:text="2023.01.20" />
 
-        <ImageButton
-            android:id="@+id/ib_delete_review"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+        <TextView
+            android:id="@+id/tv_delete_review"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/ic_multi_option"
+            android:layout_marginEnd="8dp"
             android:clickable="true"
             android:contentDescription="@string/content_delete_review"
+            android:fontFamily="@font/roboto_regular"
             android:popupBackground="@drawable/bg_rect_bilbao_white_radius15_stroke1"
+            android:text="@string/content_delete_cancel_dialog_2"
+            android:textColor="@color/grey"
+            android:textSize="11sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

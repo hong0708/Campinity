@@ -17,6 +17,8 @@ data class SearchReviewResponse(
     val authorName: String,
     @SerializedName("profileImage")
     val profileImage: String,
+    @SerializedName("memberId")
+    val memberId: String
 ) : DataToDomainMapper<Review> {
     override fun toDomainModel(): Review = Review(
         reviewId = reviewId,
@@ -24,6 +26,7 @@ data class SearchReviewResponse(
         createAt = createdAt,
         rate = rate,
         authorName = authorName,
-        profileImage = profileImage
+        profileImage = profileImage,
+        memberId = memberId
     )
 }
