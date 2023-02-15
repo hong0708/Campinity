@@ -226,4 +226,16 @@ object UseCaseModule {
     fun provideGetScrapCampsitesUseCase(
         myPageRepository: MyPageRepository
     ): GetScrapCampsitesUseCase = GetScrapCampsitesUseCase(myPageRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsitesByDoUseCase(
+        searchRepository: SearchRepository
+    ): getCampsitesByDoUseCase = getCampsitesByDoUseCase(searchRepository)
+
+    @Singleton
+    @Provides
+    fun provideGetCampsitesBySiGunGuUseCase(
+        searchRepository: SearchRepository
+    ): getCampsitesBySiGunGuUseCase = getCampsitesBySiGunGuUseCase(searchRepository)
 }

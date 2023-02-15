@@ -58,4 +58,30 @@ class SearchRemoteDataSourceImpl @Inject constructor(
 
     override suspend fun scrapCampsite(campsiteId: String): SearchScrapResponse =
         searchApiService.scrapCampsite(campsiteId)
+
+    override suspend fun getCampsitesByDo(filter: SearchFilterClusteringRequest): List<SearchDoLevelResponse> =
+        searchApiService.getCampsitesByDo(
+            filter.allowAnimal,
+            filter.amenity,
+            filter.doName,
+            filter.fclty,
+            filter.industry,
+            filter.keyword,
+            filter.openSeason,
+            filter.sigunguName,
+            filter.theme
+        )
+
+    override suspend fun getCampsitesBySiGunGu(filter: SearchFilterClusteringRequest): List<SearchSiGunGuLevelResponse> =
+        searchApiService.getCampsitesBySiGunGu(
+            filter.allowAnimal,
+            filter.amenity,
+            filter.doName,
+            filter.fclty,
+            filter.industry,
+            filter.keyword,
+            filter.openSeason,
+            filter.sigunguName,
+            filter.theme
+        )
 }
