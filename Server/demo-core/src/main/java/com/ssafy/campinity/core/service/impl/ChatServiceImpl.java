@@ -1,5 +1,7 @@
 package com.ssafy.campinity.core.service.impl;
 
+import com.ssafy.campinity.core.dto.ChatMessageItemDTO;
+import com.ssafy.campinity.core.dto.ChatMessageListDTO;
 import com.ssafy.campinity.core.dto.MyChatRoomResDTO;
 import com.ssafy.campinity.core.entity.campsite.Campsite;
 import com.ssafy.campinity.core.entity.chat.ChatMessage;
@@ -11,6 +13,7 @@ import com.ssafy.campinity.core.repository.chatting.ChatRoomRepository;
 import com.ssafy.campinity.core.repository.member.MemberRepository;
 import com.ssafy.campinity.core.service.ChatService;
 import com.ssafy.campinity.core.utils.ErrorMessageEnum;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,19 +23,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
     private final ChatRoomRepository chatRoomRepository;
     private final CampsiteRepository campsiteRepository;
     private final MemberRepository memberRepository;
     private final ChatMessageRepository chatMessageRepository;
-
-    public ChatServiceImpl(ChatRoomRepository chatRoomRepository, CampsiteRepository campsiteRepository, MemberRepository memberRepository, ChatMessageRepository chatMessageRepository) {
-        this.chatRoomRepository = chatRoomRepository;
-        this.campsiteRepository = campsiteRepository;
-        this.memberRepository = memberRepository;
-        this.chatMessageRepository = chatMessageRepository;
-    }
 
     public List<?> getMyChatRoomList(int memberId){
         Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(() ->
@@ -53,6 +50,7 @@ public class ChatServiceImpl implements ChatService {
                         MyChatRoomResDTO.builder()
                                 .room(room)
                                 .otherProfilePath(other.getProfileImage())
+                                .otherNickname(other.getName())
                                 .build());
         }
         return myChatRoomList;
@@ -76,10 +74,33 @@ public class ChatServiceImpl implements ChatService {
 
     @Override
     public ChatMessage saveChatMessage(ChatMessage chatMessage) {
-        return chatMessageRepository.save(chatMessage);
+        return null;
     }
 
-//    public ChatMessageListDTO getChatMessages(int memberId, String roomId){
-//        return new ChatMessageListDTO();
-//    }
+    public ChatMessageListDTO getChatMessages(int memberId, String roomId){
+
+        ChatRoom room = chatRoomRepository.findById(roomId).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessageEnum.CHATROOM_NOT_EXIST.getMessage()));
+        Member member = memberRepository.findMemberByIdAndExpiredIsFalse(memberId).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+
+        List<String> otherUuid = room.getUsers().stream()
+                .filter(user -> !user.equals(member.getUuid().toString())).collect(Collectors.toList());
+        Member other = memberRepository.findMemberByUuidAndExpiredIsFalse(UUID.fromString(otherUuid.get(0))).orElseThrow(() ->
+                new NoSuchElementException(ErrorMessageEnum.USER_NOT_EXIST.getMessage()));
+
+        List<ChatMessage> chatMessageList = chatMessageRepository.findByRoomId(roomId);
+        if (chatMessageList.size() == 0) { // 채팅 내용이 없는 경우
+            return ChatMessageListDTO.builder()
+                    .chatMessages(List.of(ChatMessageItemDTO.builder().timeStamp("").senderId("").context("").build()))
+                    .build();
+        }
+
+        List<ChatMessageItemDTO> itemList = chatMessageList.stream().map(item -> ChatMessageItemDTO.builder().build()).collect(Collectors.toList());
+
+        ChatMessageListDTO chatMessageListDTO = ChatMessageListDTO.builder().build();
+
+
+        return new ChatMessageListDTO();
+    }
 }
