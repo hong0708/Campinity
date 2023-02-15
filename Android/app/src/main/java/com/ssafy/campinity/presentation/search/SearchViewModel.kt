@@ -174,13 +174,15 @@ class SearchViewModel @Inject constructor(
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
+        topLeftLng: Double,
+        paging: Int
     ) = viewModelScope.launch {
         when (val value = getCampsitesByScopeUseCase(
             bottomRightLat,
             bottomRightLng,
             topLeftLat,
-            topLeftLng
+            topLeftLng,
+            paging
         )) {
             is Resource.Success<CampsiteBriefInfoPaging> -> {
                 _campsiteListData.value = value.data

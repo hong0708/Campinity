@@ -81,7 +81,8 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                         mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
                         mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
                         mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
-                        mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+                        mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude,
+                        1
                     )
                     this.setIsSearchAgain(false)
                 }
@@ -103,7 +104,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                     )
                     mapView.setMapCenterPoint(campsiteMainPoint, true)
                     mapView.setZoomLevel(3, true)
-                }else{
+                } else {
                     mapView.removeAllPOIItems()
                     showToast("검색 결과가 없습니다.")
                 }

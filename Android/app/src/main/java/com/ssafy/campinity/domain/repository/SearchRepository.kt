@@ -13,7 +13,8 @@ interface SearchRepository {
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
+        topLeftLng: Double,
+        paging: Int
     ): Resource<CampsiteBriefInfoPaging>
 
     suspend fun getCampsiteDetail(campsiteId: String): Resource<CampsiteDetailInfo>

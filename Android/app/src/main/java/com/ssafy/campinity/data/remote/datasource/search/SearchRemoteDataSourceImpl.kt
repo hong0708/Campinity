@@ -26,12 +26,14 @@ class SearchRemoteDataSourceImpl @Inject constructor(
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
+        topLeftLng: Double,
+        paging: Int
     ): SearchBriefResponse = searchApiService.getCampsitesByScope(
         bottomRightLat,
         bottomRightLng,
         topLeftLat,
-        topLeftLng
+        topLeftLng,
+        paging
     )
 
     override suspend fun getCampsiteDetail(campsiteId: String): SearchDetailResponse =

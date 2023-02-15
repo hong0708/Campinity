@@ -10,7 +10,8 @@ interface SearchRemoteDataSource {
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
+        topLeftLng: Double,
+        paging: Int
     ): SearchBriefResponse
 
     suspend fun getCampsiteDetail(campsiteId: String): SearchDetailResponse

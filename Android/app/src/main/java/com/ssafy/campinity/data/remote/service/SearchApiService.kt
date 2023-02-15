@@ -25,7 +25,8 @@ interface SearchApiService {
         @Query("bottomRightLat") bottomRightLat: Double,
         @Query("bottomRightLng") bottomRightLng: Double,
         @Query("topLeftLat") topLeftLat: Double,
-        @Query("topLeftLng") topLeftLng: Double
+        @Query("topLeftLng") topLeftLng: Double,
+        @Query("paging") paging: Int
     ): SearchBriefResponse
 
     @GET("/api/v1/campsites/detail/{campsiteId}")

@@ -26,13 +26,15 @@ class SearchRepositoryImpl @Inject constructor(
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
+        topLeftLng: Double,
+        paging: Int
     ): Resource<CampsiteBriefInfoPaging> = wrapToResource(Dispatchers.IO) {
         searchRemoteDataSource.getCampsitesByScope(
             bottomRightLat,
             bottomRightLng,
             topLeftLat,
-            topLeftLng
+            topLeftLng,
+            paging
         ).toDomainModel()
     }
 
