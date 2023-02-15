@@ -188,7 +188,7 @@
         android:label="CampsiteDetailFragment"
         tools:layout="@layout/fragment_campsite_detail">
         <argument
-            android:name="sync"
+            android:name="async"
             app:argType="integer" />
         <argument
             android:name="position"
