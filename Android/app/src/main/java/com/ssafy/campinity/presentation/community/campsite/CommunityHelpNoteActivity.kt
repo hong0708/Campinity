@@ -66,7 +66,7 @@ class CommunityHelpNoteActivity : AppCompatActivity() {
 
                             override fun onAnimationEnd(p0: Animator?) {
                                 onBackPressed()
-                                showToastMessage("${viewModel.receiverNum}명이 메시지를 수신했어요!")
+                                showToastMessage("${viewModel.receiverNum.value}명이 메시지를 수신했어요!")
                             }
 
                             override fun onAnimationCancel(p0: Animator?) {}
