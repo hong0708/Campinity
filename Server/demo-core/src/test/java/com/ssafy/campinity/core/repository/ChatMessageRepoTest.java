@@ -16,6 +16,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -53,11 +55,11 @@ public class ChatMessageRepoTest {
         Member savedMember2 = memberRepository.save(member2);
 
         String uuid = UUID.randomUUID().toString();
-        LocalDate localDate = LocalDate.now().minusDays(3);
+        LocalDateTime localDateTime = LocalDateTime.now().minusDays(3);
         ChatRoom chatRoom = ChatRoom.builder()
                 .id(uuid)
                 .fcmMessageBody("body1")
-                .createdAt(localDate)
+                .createdAt(localDateTime)
                 .users(List.of(savedMember1.getUuid().toString(), savedMember2.getUuid().toString()))
                 .name("캠핑장에서 누구와 대화")
                 .build();
