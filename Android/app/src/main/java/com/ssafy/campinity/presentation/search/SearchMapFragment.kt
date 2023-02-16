@@ -298,13 +298,17 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 mapView.removeAllPOIItems()
                 p0?.removeAllPOIItems()
                 val siGunGuList = searchViewModel.campsiteListSiGunGuData.value
-                drawSiGunGu(siGunGuList!!)
+                if (siGunGuList != null){
+                    drawSiGunGu(siGunGuList)
+                }
             }
             else -> {
                 mapView.removeAllPOIItems()
                 p0?.removeAllPOIItems()
                 val doList = searchViewModel.campsiteListDoData.value
-                drawDoMarker(doList!!)
+                if (doList != null){
+                    drawDoMarker(doList)
+                }
             }
         }
     }
