@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,11 +27,11 @@ public class ChatRoom {
     private String name;
     private List<String> users;
     private String fcmMessageBody;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
     private Boolean expired = false;
 
     @Builder
-    public ChatRoom(String id, String name, List<String> users, String fcmMessageBody, LocalDate createdAt) {
+    public ChatRoom(String id, String name, List<String> users, String fcmMessageBody, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.users = users;

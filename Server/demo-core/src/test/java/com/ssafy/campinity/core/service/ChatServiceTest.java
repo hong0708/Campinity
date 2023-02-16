@@ -14,6 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.List;
 
@@ -57,11 +58,11 @@ public class ChatServiceTest {
         Member savedMember4 = memberRepository.save(member4);
 
         String uuid1 = UUID.randomUUID().toString();
-        LocalDate localDate1 = LocalDate.now().minusDays(3);
+        LocalDateTime localDate1 = LocalDateTime.now().minusDays(3);
         String uuid2 = UUID.randomUUID().toString();
-        LocalDate localDate2 = LocalDate.now().minusDays(1);
+        LocalDateTime localDate2 = LocalDateTime.now().minusDays(1);
         String uuid3 = UUID.randomUUID().toString();
-        LocalDate localDate3 = LocalDate.now().minusDays(2);
+        LocalDateTime localDate3 = LocalDateTime.now().minusDays(2);
 
         ChatRoom chatRoom1 = ChatRoom.builder()
                 .id(uuid1)

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -68,7 +69,7 @@ public class ChatServiceImpl implements ChatService {
                 .id(UUID.randomUUID().toString())
                 .users(List.of(appointeeId, senderId))
                 .fcmMessageBody(fcmMessageBody)
-                .createdAt(LocalDate.now()).build();
+                .createdAt(LocalDateTime.now()).build();
         chatRoomRepository.save(chatRoom);
     }
 
