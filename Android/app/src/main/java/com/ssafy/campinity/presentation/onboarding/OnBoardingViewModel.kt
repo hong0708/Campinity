@@ -4,9 +4,13 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.auth0.jwt.JWT
+import com.auth0.jwt.interfaces.DecodedJWT
+import com.google.gson.Gson
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.data.remote.Resource
 import com.ssafy.campinity.data.remote.datasource.auth.AuthRequest
+import com.ssafy.campinity.domain.entity.auth.Sub
 import com.ssafy.campinity.domain.entity.auth.Token
 import com.ssafy.campinity.domain.usecase.auth.GetNewTokenUseCase
 import com.ssafy.campinity.domain.usecase.auth.LoginUseCase
@@ -18,7 +22,7 @@ import javax.inject.Inject
 class OnBoardingViewModel @Inject constructor(
     private val loginUseCase: LoginUseCase,
     private val getNewTokenUseCase: GetNewTokenUseCase
-    ) : ViewModel() {
+) : ViewModel() {
 
     private val _accessToken = MutableLiveData<String?>()
 
@@ -41,6 +45,8 @@ class OnBoardingViewModel @Inject constructor(
                 _refreshToken.value = refreshToken
                 _isExist.value = value.data.isExist
                 ApplicationClass.preferences.isLoggedIn = true
+
+                getUuidFromJwt(value.data.accessToken)
             }
             is Resource.Error -> {
                 Log.d("requestLogin", "requestLogin: ${value.errorMessage}")
@@ -62,6 +68,14 @@ class OnBoardingViewModel @Inject constructor(
             is Resource.Error -> {
                 Log.d("getNewToken", "getNewToken: ${value.errorMessage}")
             }
+        }
+    }
+
+    private fun getUuidFromJwt(jwtToken: String?) {
+        if (jwtToken != null) {
+            val decodedJwt: DecodedJWT = JWT.decode(jwtToken)
+            ApplicationClass.preferences.memberId =
+                Gson().fromJson(decodedJwt.getClaim("sub").asString(), Sub::class.java).uuid
         }
     }
 }

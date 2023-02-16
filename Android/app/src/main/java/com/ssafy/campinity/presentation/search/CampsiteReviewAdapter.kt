@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.ItemCampsiteReviewBinding
 import com.ssafy.campinity.domain.entity.search.Review
@@ -34,6 +35,10 @@ class CampsiteReviewAdapter(
     }
 
     override fun getItemCount(): Int = reviews.size
+
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    override fun getItemViewType(position: Int): Int = position
 
     fun setData(sync: Int, reviews: List<Review>) {
         this.reviews = reviews
@@ -68,6 +73,9 @@ class CampsiteReviewAdapter(
                         tvShowMore.visibility = View.INVISIBLE
                     }
                 }
+
+                if (item.memberId != ApplicationClass.preferences.memberId)
+                    tvDeleteReview.visibility = View.GONE
             }
 
             binding.tvDeleteReview.setOnClickListener {

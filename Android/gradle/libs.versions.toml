@@ -58,6 +58,8 @@ stomp = "1.6.6"
 rxjava = "2.2.5"
 rxandroid = "2.1.0"
 
+jwt = "4.3.0"
+
 [libraries]
 androidx_core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
 androidx_appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
@@ -101,6 +103,7 @@ location = { module = "com.google.android.gms:play-services-location", version.r
 stomp-protocol = { module = "com.github.NaikSoftware:StompProtocolAndroid", version.ref = "stomp" }
 rx-java = { module = "io.reactivex.rxjava2:rxjava", version.ref = "rxjava" }
 rx-android = { module = "io.reactivex.rxjava2:rxandroid", version.ref = "rxandroid" }
+jwt = { module = "com.auth0:java-jwt", version.ref = "jwt" }
 
 [bundles]
 androidx = ["androidx_core", "androidx_appcompat", "androidx-navigation-fragment-ktx", "androidx-navigation-ui-ktx", "androidx-navigation-common", "androidx-navigation-dynamic-features-fragment", "androidx-navigation-testing",

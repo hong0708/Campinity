@@ -109,6 +109,8 @@ dependencies {
 
     implementation libs.rx.java
     implementation libs.rx.android
+
+    implementation libs.jwt
 }
 
 kapt {

@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.search
 
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -363,14 +364,19 @@ class CampsiteDetailFragment :
 
     private fun setReviewData(sync: Int, isInserted: Boolean, position: Int) {
         searchViewModel.campsiteData.value!!.reviews.apply {
-            if (this.size > 3) {
-                reviews = this.subList(0, 3)
-                campsiteReviewAdapter.setData(sync, reviews)
-                campsiteReviewAdapter.notifyDataSetChanged()
+            if (3 < this.size) {
+//                reviews = this.subList(0,3)
+                Log.d("setReviewData", this.toString())
+//                campsiteReviewAdapter.setData(sync, reviews)
+                campsiteReviewAdapter.setData(sync, this)
+                if (isInserted)
+                    campsiteReviewAdapter.notifyItemInserted(position)
+                else
+                    campsiteReviewAdapter.notifyItemRemoved(position)
                 binding.rvCampsiteReview.visibility = View.VISIBLE
                 binding.tvShowListReview.visibility = View.VISIBLE
                 binding.clEmptyCollection.visibility = View.GONE
-            } else if (this.isNotEmpty()) {
+            } else if (this.size in 1..3) {
                 campsiteReviewAdapter.setData(sync, this)
                 if (isInserted)
                     campsiteReviewAdapter.notifyItemInserted(position)
@@ -384,7 +390,7 @@ class CampsiteDetailFragment :
                 binding.tvShowListReview.visibility = View.GONE
                 binding.clEmptyCollection.visibility = View.VISIBLE
                 campsiteReviewAdapter.setData(sync, listOf())
-                campsiteReviewAdapter.notifyDataSetChanged()
+                campsiteReviewAdapter.notifyItemChanged(0)
             }
         }
     }
