@@ -8,10 +8,13 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.ssafy.campinity.common.util.getDeviceWidthPx
 import com.ssafy.campinity.databinding.ItemCampsiteDetailImageBinding
+import kotlin.reflect.KFunction1
 
 class CampsiteDetailImageAdapter(
     private val context: Context,
-    private val thumbnails: List<String>
+    private val thumbnails: List<String>,
+    private val detailImages: List<String>,
+    private val onImgClicked: (imgUri: String) -> Unit
 ) : RecyclerView.Adapter<CampsiteDetailImageAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemCampsiteDetailImageBinding
@@ -31,6 +34,10 @@ class CampsiteDetailImageAdapter(
                 .centerCrop()
                 .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
                 .into(it)
+        }
+
+        binding.ivCampsiteImage.setOnClickListener {
+            onImgClicked(detailImages[position])
         }
 
         if (position <= thumbnails.size) {

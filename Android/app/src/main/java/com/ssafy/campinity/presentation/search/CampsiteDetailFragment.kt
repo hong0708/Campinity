@@ -1,5 +1,6 @@
 package com.ssafy.campinity.presentation.search
 
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,13 +23,18 @@ import kotlinx.coroutines.launch
 
 class CampsiteDetailFragment :
     BaseFragment<FragmentCampsiteDetailBinding>(R.layout.fragment_campsite_detail),
-    CampsiteReviewDialogInterface {
+    CampsiteReviewDialogInterface,
+    CampsiteDetailImageDialogInterface {
 
     private lateinit var contentTheme: Array<String>
     private lateinit var contentFacility: Array<String>
     private lateinit var contentAmenity: Array<String>
     private lateinit var reviews: List<Review>
-
+    private lateinit var thumbnails: List<String>
+    private lateinit var detailImages: List<String>
+    private val campsiteDetailImageAdapter by lazy {
+        CampsiteDetailImageAdapter(requireContext(), thumbnails, detailImages, this::getImgDetail)
+    }
     private val searchViewModel by activityViewModels<SearchViewModel>()
     private val args by navArgs<CampsiteDetailFragmentArgs>()
     private val campsiteReviewAdapter by lazy {
@@ -38,6 +44,9 @@ class CampsiteDetailFragment :
     }
 
     override fun initView() {
+        thumbnails = searchViewModel.campsiteData.value?.thumbnails ?: listOf()
+        detailImages = searchViewModel.campsiteData.value?.images ?: listOf()
+
         initStringArray()
         initFragment()
         initListener()
@@ -131,7 +140,6 @@ class CampsiteDetailFragment :
                         }
                     }
                 }
-
                 mapFacilityAndLeisureList(campsiteDetailInfo!!)
             }
         }
@@ -207,9 +215,13 @@ class CampsiteDetailFragment :
 
     private fun initViewPager() {
         binding.vpCampsiteImage.apply {
-            adapter = CampsiteDetailImageAdapter(
-                requireContext(), searchViewModel.campsiteData.value?.thumbnails ?: listOf()
-            )
+            adapter = campsiteDetailImageAdapter
+
+            /*CampsiteDetailImageAdapter(
+                requireContext(),
+                searchViewModel.campsiteData.value?.thumbnails ?: listOf(),
+                this@CampsiteDetailFragment.getImgDetail()
+            )*/
             orientation = ViewPager2.ORIENTATION_HORIZONTAL
         }
 
@@ -387,5 +399,14 @@ class CampsiteDetailFragment :
                 campsiteReviewAdapter.notifyDataSetChanged()
             }
         }
+    }
+
+    private fun getImgDetail(id: String) {
+        CampsiteDetailImageDialog(requireActivity(), id).show()
+        Log.d("tlqkfsus", "getImgDetail: $id")
+    }
+
+    override fun getDetailImage(id: String) {
+
     }
 }

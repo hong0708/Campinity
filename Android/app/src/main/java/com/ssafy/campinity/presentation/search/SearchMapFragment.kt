@@ -254,7 +254,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     ) {
         if (p1!!.tag == 4) {
             mapView.removeAllPOIItems()
-            mapView.setZoomLevel(7, true)
+            mapView.setZoomLevel(8, true)
             val item = p1.userObject as ClusteringDo
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude)
@@ -262,7 +262,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
         }
         else if (p1.tag == 3) {
             mapView.removeAllPOIItems()
-            mapView.setZoomLevel(4, true)
+            mapView.setZoomLevel(5, true)
             val item = p1.userObject as ClusteringSiGunGu
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude)
