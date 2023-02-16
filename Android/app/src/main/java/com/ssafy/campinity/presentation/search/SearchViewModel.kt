@@ -80,7 +80,7 @@ class SearchViewModel @Inject constructor(
     var selectedGugun = ""
     var filter: SearchFilterRequest = SearchFilterRequest()
     var clusteringFilter: SearchFilterClusteringRequest = SearchFilterClusteringRequest()
-    
+
     var areaList = arrayListOf<AreaListItem>()
     var industry: Array<String> = arrayOf()
     var facility: Array<String> = arrayOf()
@@ -88,7 +88,6 @@ class SearchViewModel @Inject constructor(
     var theme: Array<String> = arrayOf()
     var pet: Array<String> = arrayOf()
     var season: Array<String> = arrayOf()
-
 
     fun mapGugun(gugun: List<String>): String {
         val result = StringBuilder()

@@ -82,7 +82,6 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
                 } else {
                     binding.tvCampsiteNotFound.text = ""
                     searchListAdapter.setData(it.data)
-
                     binding.piIndicator.visibility = View.VISIBLE
                 }
 
