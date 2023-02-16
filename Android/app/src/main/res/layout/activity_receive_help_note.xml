@@ -120,7 +120,7 @@
                 android:scaleType="fitCenter"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:lottie_rawRes="@raw/fcm_letter" />
+                app:lottie_rawRes="@raw/fcm_receive_letter" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
