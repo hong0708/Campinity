@@ -1,9 +1,12 @@
 package com.ssafy.campinity.presentation.community.campsite
 
+import android.animation.Animator
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.navArgs
+import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.databinding.ActivityWriteHelpNoteBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -55,8 +58,26 @@ class CommunityHelpNoteActivity : AppCompatActivity() {
         viewModel.isSucceed.observe(this) {
             when (it) {
                 true -> {
-                    onBackPressed()
-                    showToastMessage("${viewModel.receiverNum}명이 메시지를 수신했어요!")
+                    binding.clWriteHelpNote.visibility = View.GONE
+                    binding.lottieWriteHelpNote.visibility = View.VISIBLE
+                    binding.lottieWriteHelpNote.apply {
+                        addAnimatorListener(object : Animator.AnimatorListener {
+                            override fun onAnimationStart(p0: Animator?) {}
+
+                            override fun onAnimationEnd(p0: Animator?) {
+                                onBackPressed()
+                                showToastMessage("${viewModel.receiverNum}명이 메시지를 수신했어요!")
+                            }
+
+                            override fun onAnimationCancel(p0: Animator?) {}
+
+                            override fun onAnimationRepeat(p0: Animator?) {}
+                        })
+                        setAnimation(R.raw.fcm_send_letter)
+                        speed = 1f
+                        visibility = View.VISIBLE
+                        playAnimation()
+                    }
                 }
                 else -> {}
             }
