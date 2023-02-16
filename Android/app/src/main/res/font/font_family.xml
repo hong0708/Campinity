@@ -15,4 +15,16 @@
         android:font="@font/roboto_light"
         app:font="@font/roboto_light"/>
 
+    <font
+        android:font="@font/nanum_square_regular"
+        app:font="@font/nanum_square_regular"/>
+
+    <font
+        android:font="@font/nanum_square_light"
+        app:font="@font/nanum_square_light"/>
+
+    <font
+        android:font="@font/nanum_square_bold"
+        app:font="@font/nanum_square_bold"/>
+
 </font-family>

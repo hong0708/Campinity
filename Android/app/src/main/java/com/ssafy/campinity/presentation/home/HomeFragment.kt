@@ -212,7 +212,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
         override fun run() {
             while (true) {
                 try {
-                    Thread.sleep(3000)
+                    Thread.sleep(3500)
                     handler.sendEmptyMessage(0)
                 } catch (e: InterruptedException) {
                     Log.e("interrupt", e.message.toString())

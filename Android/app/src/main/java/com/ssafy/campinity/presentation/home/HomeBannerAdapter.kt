@@ -46,7 +46,7 @@ class HomeBannerAdapter(private val onItemClicked: (curationId: String) -> Unit)
         for (i in item) {
             this.items.add(i)
         }
-        notifyItemInserted(this.items.size - 1)
+        notifyItemInserted(this.items.size)
     }
 }
 
