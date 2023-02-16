@@ -63,6 +63,9 @@
         <action
             android:id="@+id/action_homeFragment_to_campsiteDetailFragment"
             app:destination="@id/campsiteDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chattingActivity"
+            app:destination="@id/chatListActivity" />
     </fragment>
 
     <fragment
@@ -188,7 +191,7 @@
         android:label="CampsiteDetailFragment"
         tools:layout="@layout/fragment_campsite_detail">
         <argument
-            android:name="sync"
+            android:name="async"
             app:argType="integer" />
         <argument
             android:name="position"
@@ -232,5 +235,11 @@
         android:name="com.ssafy.campinity.presentation.search.SearchActivity"
         android:label="SearchActivity"
         tools:layout="@layout/activity_search" />
+
+    <activity
+        android:id="@+id/chatListActivity"
+        android:name="com.ssafy.campinity.presentation.chat.ChatListActivity"
+        android:label="ChattingActivity"
+        tools:layout="@layout/activity_chat_list" />
 
 </navigation>

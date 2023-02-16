@@ -302,7 +302,8 @@ class SearchViewModel @Inject constructor(
     suspend fun scrapCampsite(position: Int, campsiteId: String) = viewModelScope.async {
         when (val value = scrapCampsiteUseCase(campsiteId)) {
             is Resource.Success<Boolean> -> {
-                _campsiteListData.value!![position].isScraped = value.data
+                if (_campsiteListData.value != null)
+                    _campsiteListData.value!![position].isScraped = value.data
                 return@async value.data.toString()
             }
             is Resource.Error -> {
