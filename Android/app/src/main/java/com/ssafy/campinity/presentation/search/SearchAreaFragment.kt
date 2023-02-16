@@ -8,6 +8,7 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.common.util.getDeviceWidthPx
+import com.ssafy.campinity.data.remote.datasource.search.SearchFilterClusteringRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchAreaBinding
 import com.ssafy.campinity.domain.entity.search.GugunItem
@@ -105,6 +106,9 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                     doName = sido, sigunguName = gugun
                 )
             )
+            searchViewModel.getCampsitesSiGunGu(SearchFilterClusteringRequest(doName = sido, sigunguName = gugun))
+            searchViewModel.getCampsitesDo(SearchFilterClusteringRequest(doName = sido, sigunguName = gugun))
+
             searchViewModel.setStateBehaviorArea(false)
             searchAreaSiDoAdapter.selectedPosition = 0
             searchViewModel.setSido(searchViewModel.areaList[0].sidoName)

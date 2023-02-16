@@ -13,6 +13,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
@@ -66,12 +67,32 @@ class CommunityCampsiteFragment :
     private var isFabOpen = false
     private var isTracking = false
     private var newUserLocation = RecentUserLocation(
-        0.0,0.0
+        0.0, 0.0
         /*ApplicationClass.preferences.recentUserLat?.toDouble(),
         ApplicationClass.preferences.recentUserLat?.toDouble()*/
     )
 
     override fun initView() {
+
+        binding.laMapOpen.apply {
+            addAnimatorListener(object : AnimatorListener {
+                override fun onAnimationStart(p0: Animator?) {}
+
+                override fun onAnimationEnd(p0: Animator?) {
+                    binding.laMapOpen.visibility = View.GONE
+                    binding.clBackOpenMap.visibility = View.GONE
+                }
+
+                override fun onAnimationCancel(p0: Animator?) {}
+
+                override fun onAnimationRepeat(p0: Animator?) {}
+            })
+            setAnimation(R.raw.community_map)
+            speed = 1.5f
+            visibility = View.VISIBLE
+            playAnimation()
+        }
+
         communityCampsiteViewModel.checkIsUserIn(
             ApplicationClass.preferences.isUserIn.toBoolean()
         )
@@ -154,13 +175,35 @@ class CommunityCampsiteFragment :
     override fun onMapViewCenterPointMoved(p0: MapView?, p1: MapPoint?) {}
 
     override fun onMapViewZoomLevelChanged(p0: MapView?, p1: Int) {
-        communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
-            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
-            mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
-            ApplicationClass.preferences.userRecentCampsiteId.toString(),
-            mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
-            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
-        )
+
+        when (p0?.zoomLevel) {
+            in -2..4 -> {
+                communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
+                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+                    mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                    mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+                )
+            }
+            else -> {
+                mapView.removeAllPOIItems()
+                p0?.removeAllPOIItems()
+                if (ApplicationClass.preferences.userRecentCampsiteLatitude != null
+                    && ApplicationClass.preferences.userRecentCampsiteLongitude != null
+                ) {
+                    drawPostBox(
+                        CampsiteBriefInfo(
+                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                            ApplicationClass.preferences.userRecentCampsiteName.toString(),
+                            ApplicationClass.preferences.userRecentCampsiteAddress.toString(),
+                            ApplicationClass.preferences.userRecentCampsiteLatitude.toString(),
+                            ApplicationClass.preferences.userRecentCampsiteLongitude.toString()
+                        )
+                    )
+                }
+            }
+        }
     }
 
     override fun onMapViewSingleTapped(p0: MapView?, p1: MapPoint?) {}
@@ -174,13 +217,20 @@ class CommunityCampsiteFragment :
     override fun onMapViewDragEnded(p0: MapView?, p1: MapPoint?) {}
 
     override fun onMapViewMoveFinished(p0: MapView?, p1: MapPoint?) {
-        communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
-            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
-            mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
-            ApplicationClass.preferences.userRecentCampsiteId.toString(),
-            mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
-            mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
-        )
+        when (p0?.zoomLevel) {
+            in -2..4 -> {
+                communityCampsiteViewModel.getCampsiteMessageBriefInfoByScope(
+                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
+                    mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
+                    ApplicationClass.preferences.userRecentCampsiteId.toString(),
+                    mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
+                    mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+                )
+            }
+            else -> {
+
+            }
+        }
     }
 
     // 마커 클릭 관련
@@ -196,9 +246,13 @@ class CommunityCampsiteFragment :
         p2: MapPOIItem.CalloutBalloonButtonType?
     ) {
         if (p1!!.tag == 1) {
-            navigate(
-                CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
-            )
+            if (mapView.zoomLevel > 5) {
+                setMapPosition()
+            } else {
+                navigate(
+                    CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
+                )
+            }
         } else {
             val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
 
@@ -680,7 +734,6 @@ class CommunityCampsiteFragment :
 
             newUserLocation.latitude = userLatitude
             newUserLocation.longitude = userLongitude
-
         }
     }
 
@@ -715,12 +768,6 @@ class CommunityCampsiteFragment :
                 }
             }
         }
-    }
-
-    private fun fadeInView(view: View) {
-        val fadeInAnim = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
-        view.startAnimation(fadeInAnim)
-        view.visibility = View.VISIBLE
     }
 
     // 이벤트 리스너

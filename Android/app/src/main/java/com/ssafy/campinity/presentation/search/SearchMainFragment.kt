@@ -13,6 +13,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCa
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.getDeviceHeightPx
 import com.ssafy.campinity.common.util.px
+import com.ssafy.campinity.data.remote.datasource.search.SearchFilterClusteringRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchMainBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -110,6 +111,8 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
 
                 if (id == EditorInfo.IME_ACTION_SEARCH) {
                     searchViewModel.getCampsitesByFiltering(SearchFilterRequest(keyword = textView.text.toString()))
+                    searchViewModel.getCampsitesDo(SearchFilterClusteringRequest(keyword = textView.text.toString()))
+                    searchViewModel.getCampsitesSiGunGu(SearchFilterClusteringRequest(keyword = textView.text.toString()))
 
                     this.clearFocus()
                     this.isFocusable = false

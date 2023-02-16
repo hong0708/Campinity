@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ssafy.campinity.R
 import com.ssafy.campinity.data.remote.Resource
+import com.ssafy.campinity.data.remote.datasource.search.SearchFilterClusteringRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchReviewRequest
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageDetailInfo
@@ -31,11 +32,20 @@ class SearchViewModel @Inject constructor(
     private val writeReviewUseCase: WriteReviewUseCase,
     private val deleteReviewUseCase: DeleteReviewUseCase,
     private val scrapCampsiteUseCase: ScrapCampsiteUseCase,
-    private val getNoteQuestionUseCase: GetNoteQuestionUseCase
+    private val getNoteQuestionUseCase: GetNoteQuestionUseCase,
+    private val getCampsitesBySiGunGuUseCase: getCampsitesBySiGunGuUseCase,
+    private val getCampsitesByDoUseCase: getCampsitesByDoUseCase
 ) : ViewModel() {
 
     private val _campsiteListData: MutableLiveData<List<CampsiteBriefInfo>?> = MutableLiveData()
     val campsiteListData: LiveData<List<CampsiteBriefInfo>?> = _campsiteListData
+
+    private val _campsiteListDoData: MutableLiveData<List<ClusteringDo>?> = MutableLiveData()
+    val campsiteListDoData: LiveData<List<ClusteringDo>?> = _campsiteListDoData
+
+    private val _campsiteListSiGunGuData: MutableLiveData<List<ClusteringSiGunGu>?> =
+        MutableLiveData()
+    val campsiteListSiGunGuData: LiveData<List<ClusteringSiGunGu>?> = _campsiteListSiGunGuData
 
     private val _campsiteData: MutableLiveData<CampsiteDetailInfo?> = MutableLiveData()
     val campsiteData: LiveData<CampsiteDetailInfo?> = _campsiteData
@@ -67,6 +77,7 @@ class SearchViewModel @Inject constructor(
     val letters: LiveData<List<NoteQuestionTitle>?> = _letters
 
     var filter: SearchFilterRequest = SearchFilterRequest()
+    var clusteringFilter: SearchFilterClusteringRequest = SearchFilterClusteringRequest()
     var areaList = arrayListOf<AreaListItem>()
     var industry: Array<String> = arrayOf()
     var facility: Array<String> = arrayOf()
@@ -163,6 +174,28 @@ class SearchViewModel @Inject constructor(
             }
             is Resource.Error -> {
                 Log.e("getCampsitesByFiltering", "getCampsitesByFiltering: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun getCampsitesDo(filter: SearchFilterClusteringRequest) = viewModelScope.launch {
+        when (val value = getCampsitesByDoUseCase(filter)) {
+            is Resource.Success<List<ClusteringDo>> -> {
+                _campsiteListDoData.value = value.data
+            }
+            is Resource.Error -> {
+                Log.e("getCampsitesDo", "getCampsitesDo: ${value.errorMessage}")
+            }
+        }
+    }
+
+    fun getCampsitesSiGunGu(filter: SearchFilterClusteringRequest) = viewModelScope.launch {
+        when (val value = getCampsitesBySiGunGuUseCase(filter)) {
+            is Resource.Success<List<ClusteringSiGunGu>> -> {
+                _campsiteListSiGunGuData.value = value.data
+            }
+            is Resource.Error -> {
+                Log.e("getCampsitesDo", "getCampsitesDo: ${value.errorMessage}")
             }
         }
     }

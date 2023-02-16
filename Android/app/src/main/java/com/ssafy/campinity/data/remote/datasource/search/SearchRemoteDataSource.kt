@@ -28,4 +28,8 @@ interface SearchRemoteDataSource {
     suspend fun deleteReview(reviewId: String): SearchDeleteReviewResponse
 
     suspend fun scrapCampsite(campsiteId: String): SearchScrapResponse
+
+    suspend fun getCampsitesByDo(filter: SearchFilterClusteringRequest): List<SearchDoLevelResponse>
+
+    suspend fun getCampsitesBySiGunGu(filter: SearchFilterClusteringRequest): List<SearchSiGunGuLevelResponse>
 }
