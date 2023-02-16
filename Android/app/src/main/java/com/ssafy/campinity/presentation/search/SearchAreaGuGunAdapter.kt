@@ -16,8 +16,9 @@ import com.ssafy.campinity.domain.entity.search.GugunItem
 class SearchAreaGuGunAdapter(
     private val context: Context,
     private var gugun: List<GugunItem>,
+    private var selectedGugunList: List<String>,
     private val btnWidth: Int,
-    private val toggleBtn: (String, Boolean) -> Unit
+    private val toggleSelectAllBtn: (Boolean) -> Unit
 ) : RecyclerView.Adapter<SearchAreaGuGunAdapter.ViewHolder>() {
 
     private lateinit var binding: ItemSearchAreaGugunBinding
@@ -33,7 +34,7 @@ class SearchAreaGuGunAdapter(
             val items = mutableListOf<String>()
 
             mSelectedItem.forEach { position, isSelected ->
-                if (isSelected) items.add(gugun[position].gugun)
+                if (isSelected) items.add(gugun[position].gugunName)
             }
 
             return items
@@ -43,6 +44,7 @@ class SearchAreaGuGunAdapter(
         binding = ItemSearchAreaGugunBinding.inflate(
             LayoutInflater.from(parent.context), parent, false
         )
+        initSelected()
         return ViewHolder(binding)
     }
 
@@ -54,9 +56,15 @@ class SearchAreaGuGunAdapter(
     override fun getItemCount(): Int = gugun.size
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setData(gugun: List<GugunItem>) {
+    fun setGugun(gugun: List<GugunItem>) {
         this.gugun = gugun
+        initSelected()
+        toggleSelectAllBtn()
         notifyDataSetChanged()
+    }
+
+    fun setSelectedGugun(selectedGugun: List<String>) {
+        this.selectedGugunList = selectedGugun
     }
 
     fun selectAll() {
@@ -75,15 +83,22 @@ class SearchAreaGuGunAdapter(
                 notifyItemChanged(position)
             }
         }
-        toggleBtn()
+        toggleSelectAllBtn()
     }
 
-    fun toggleBtn() {
-        if (selectedItemCount == itemCount) toggleBtn("selectAll", true)
-        else toggleBtn("selectAll", false)
+    fun toggleSelectAllBtn() {
+        if (selectedItemCount == itemCount) toggleSelectAllBtn(true)
+        else toggleSelectAllBtn(false)
+    }
 
-        if (selectedItemCount > 0) toggleBtn("submit", true)
-        else toggleBtn("submit", false)
+    private fun initSelected() {
+        selectedGugunList.forEach { selectedGugun ->
+            gugun.forEachIndexed { index, gugunItem ->
+                if (selectedGugun == gugunItem.gugunName) {
+                    mSelectedItem.put(index, true)
+                }
+            }
+        }
     }
 
     inner class ViewHolder(private val binding: ItemSearchAreaGugunBinding) :
@@ -122,7 +137,7 @@ class SearchAreaGuGunAdapter(
                     )
                 }
 
-                toggleBtn()
+                toggleSelectAllBtn()
             }
         }
     }

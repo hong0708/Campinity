@@ -9,9 +9,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.common.util.toString
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterClusteringRequest
-import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchFilterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -289,29 +289,35 @@ class SearchFilterFragment : Fragment() {
     private fun initSubmitListener() {
         binding.btnSubmit.setOnClickListener {
             with(searchViewModel) {
-                this.filter = SearchFilterRequest(
-                    industry = selectedIndustry.toString(" "),
-                    fclty = selectedFacility.toString(" "),
-                    amenity = selectedAmenity.toString(" "),
-                    theme = selectedTheme.toString(" "),
-                    allowAnimal = selectedPet.toString(" "),
-                    openSeason = selectedSeason.toString(" ")
-                )
-                this.getCampsitesByFiltering(this.filter)
+                if (selectedGugun == "")
+                    requireContext().showToastMessage("지역을 먼저 선택해주세요.")
+                else {
+                    filter.apply {
+                        industry = selectedIndustry.toString(" ")
+                        fclty = selectedFacility.toString(" ")
+                        amenity = selectedAmenity.toString(" ")
+                        theme = selectedTheme.toString(" ")
+                        allowAnimal = selectedPet.toString(" ")
+                        openSeason = selectedSeason.toString(" ")
+                        paging = 1
+                    }
+                    getCampsitesByFiltering(filter)
 
-                this.clusteringFilter = SearchFilterClusteringRequest(
-                    industry = selectedIndustry.toString(" "),
-                    fclty = selectedFacility.toString(" "),
-                    amenity = selectedAmenity.toString(" "),
-                    theme = selectedTheme.toString(" "),
-                    allowAnimal = selectedPet.toString(" "),
-                    openSeason = selectedSeason.toString(" ")
-                )
-                this.getCampsitesSiGunGu(clusteringFilter)
-                this.getCampsitesDo(clusteringFilter)
 
-                resetBtn()
-                this.setStateBehaviorFilter(false)
+                    clusteringFilter = SearchFilterClusteringRequest(
+                        industry = selectedIndustry.toString(" "),
+                        fclty = selectedFacility.toString(" "),
+                        amenity = selectedAmenity.toString(" "),
+                        theme = selectedTheme.toString(" "),
+                        allowAnimal = selectedPet.toString(" "),
+                        openSeason = selectedSeason.toString(" ")
+                    )
+                    getCampsitesSiGunGu(clusteringFilter)
+                    getCampsitesDo(clusteringFilter)
+
+                    resetBtn()
+                    setStateBehaviorFilter(false)
+                }
             }
         }
     }

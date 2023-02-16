@@ -94,7 +94,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
             }
         }
 
-        mapView.setZoomLevel(1, true)
+        mapView.setZoomLevel(6, true)
         mapView.setPOIItemEventListener(this)
     }
 
@@ -106,26 +106,33 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                         mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.latitude,
                         mapView.mapPointBounds.topRight.mapPointGeoCoord.longitude,
                         mapView.mapPointBounds.topRight.mapPointGeoCoord.latitude,
-                        mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude
+                        mapView.mapPointBounds.bottomLeft.mapPointGeoCoord.longitude,
+                        1
                     )
                     this.setIsSearchAgain(false)
                 }
         }
 
         searchViewModel.campsiteListData.observe(viewLifecycleOwner) { campsiteBriefInfoList ->
-            if (campsiteBriefInfoList != null && campsiteBriefInfoList.isNotEmpty()) {
-                campsiteBriefInfoList.forEach {
-                    searchViewModel.getCampsiteReviewNotes(
-                        it.campsiteId,
+            if (campsiteBriefInfoList?.data != null) {
+                if (campsiteBriefInfoList.data.isNotEmpty()) {
+                    campsiteBriefInfoList.data.forEach {
+                        searchViewModel.getCampsiteReviewNotes(
+                            it.campsiteId,
+                        )
+                    }
+
+                    drawCampsiteMarkers(campsiteBriefInfoList.data)
+                    val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
+                        campsiteBriefInfoList.data[0].latitude,
+                        campsiteBriefInfoList.data[0].longitude
                     )
+                    mapView.setMapCenterPoint(campsiteMainPoint, true)
+                    mapView.setZoomLevel(3, true)
+                } else {
+                    mapView.removeAllPOIItems()
+                    showToast("검색 결과가 없습니다.")
                 }
-                drawCampsiteMarkers(campsiteBriefInfoList)
-                val campsiteMainPoint = MapPoint.mapPointWithGeoCoord(
-                    campsiteBriefInfoList[0].lat,
-                    campsiteBriefInfoList[0].lng
-                )
-                mapView.setMapCenterPoint(campsiteMainPoint, true)
-                mapView.setZoomLevel(3, true)
             }
         }
 
@@ -138,7 +145,10 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
     private fun drawCampsiteMarkers(markerLocationList: List<CampsiteBriefInfo>) {
         markerLocationList.forEachIndexed { index, campsiteBriefInfo ->
             val markerPosition =
-                MapPoint.mapPointWithGeoCoord(campsiteBriefInfo.lat, campsiteBriefInfo.lng)
+                MapPoint.mapPointWithGeoCoord(
+                    campsiteBriefInfo.latitude,
+                    campsiteBriefInfo.longitude
+                )
             val marker = MapPOIItem()
             marker.apply {
                 itemName = "캠핑장 $index"
@@ -191,47 +201,43 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
 
-        if (p1!!.tag == 3 || p1.tag == 4) {
+        if (!(p1!!.tag == 3 || p1.tag == 4)) {
+            val index = p1.itemName.split(" ")[1].toInt()
 
-        } else {
-            if (p1 != null) {
-                val index = p1.itemName.split(" ")[1].toInt()
+            if (p1.itemName.split(" ")[0] == "캠핑장") {
+                if (searchViewModel.campsiteListData.value != null) {
+                    val markerPosition =
+                        MapPoint.mapPointWithGeoCoord(
+                            searchViewModel.campsiteListData.value!!.data[index].latitude,
+                            searchViewModel.campsiteListData.value!!.data[index].longitude,
+                        )
+                    mapView.setMapCenterPoint(markerPosition, true)
 
-                if (p1.itemName.split(" ")[0] == "캠핑장") {
-                    if (searchViewModel.campsiteListData.value != null) {
-                        val markerPosition =
-                            MapPoint.mapPointWithGeoCoord(
-                                searchViewModel.campsiteListData.value!![index].lat,
-                                searchViewModel.campsiteListData.value!![index].lng,
-                            )
-                        mapView.setMapCenterPoint(markerPosition, true)
-
-                        CampsiteBriefDialog(
-                            requireContext(),
-                            index,
-                            searchViewModel.campsiteListData.value!![index],
-                            this::navigationToSearchPostboxFragment,
-                            this::onCampsiteClickListener,
-                            this::scrapCampsite
-                        ).apply {
-                            window?.setGravity(Gravity.BOTTOM)
-                            window?.setDimAmount(0f)
-                            show()
-                        }
+                    CampsiteBriefDialog(
+                        requireContext(),
+                        index,
+                        searchViewModel.campsiteListData.value!!.data[index],
+                        this::navigationToSearchPostboxFragment,
+                        this::onCampsiteClickListener,
+                        this::scrapCampsite
+                    ).apply {
+                        window?.setGravity(Gravity.BOTTOM)
+                        window?.setDimAmount(0f)
+                        show()
                     }
-                } else {
-                    if (searchViewModel.campsiteNoteList.value != null) {
-                        lifecycleScope.launch {
-                            val done = searchViewModel.getCampsiteMessageDetailInfo(
-                                searchViewModel.campsiteNoteList.value!![index].messageId
-                            )
+                }
+            } else {
+                if (searchViewModel.campsiteNoteList.value != null) {
+                    lifecycleScope.launch {
+                        val done = searchViewModel.getCampsiteMessageDetailInfo(
+                            searchViewModel.campsiteNoteList.value!![index].messageId
+                        )
 
-                            if (done)
-                                SearchReviewNoteDetailDialog(
-                                    requireContext(),
-                                    searchViewModel.campsiteMessageDetailInfo.value!!
-                                ).show()
-                        }
+                        if (done)
+                            SearchReviewNoteDetailDialog(
+                                requireContext(),
+                                searchViewModel.campsiteMessageDetailInfo.value!!
+                            ).show()
                     }
                 }
             }
@@ -259,8 +265,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
             val markerPosition =
                 MapPoint.mapPointWithGeoCoord(item.latitude, item.longitude)
             mapView.setMapCenterPoint(markerPosition, true)
-        }
-        else if (p1.tag == 3) {
+        } else if (p1.tag == 3) {
             mapView.removeAllPOIItems()
             mapView.setZoomLevel(4, true)
             val item = p1.userObject as ClusteringSiGunGu
@@ -287,7 +292,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 mapView.removeAllPOIItems()
                 val a = searchViewModel.campsiteListData.value
                 if (a != null) {
-                    drawCampsiteMarkers(a)
+                    drawCampsiteMarkers(a.data)
                 }
                 val b = searchViewModel.campsiteNoteList.value
                 if (b != null) {
@@ -298,7 +303,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 mapView.removeAllPOIItems()
                 p0?.removeAllPOIItems()
                 val siGunGuList = searchViewModel.campsiteListSiGunGuData.value
-                if (siGunGuList != null){
+                if (siGunGuList != null) {
                     drawSiGunGu(siGunGuList)
                 }
             }
@@ -306,7 +311,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 mapView.removeAllPOIItems()
                 p0?.removeAllPOIItems()
                 val doList = searchViewModel.campsiteListDoData.value
-                if (doList != null){
+                if (doList != null) {
                     drawDoMarker(doList)
                 }
             }

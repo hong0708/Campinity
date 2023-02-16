@@ -4,14 +4,15 @@ import com.ssafy.campinity.data.remote.datasource.note.NoteBriefResponse
 
 interface SearchRemoteDataSource {
 
-    suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): List<SearchBriefResponse>
+    suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): SearchBriefResponse
 
     suspend fun getCampsitesByScope(
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
-    ): List<SearchBriefResponse>
+        topLeftLng: Double,
+        paging: Int
+    ): SearchBriefResponse
 
     suspend fun getCampsiteDetail(campsiteId: String): SearchDetailResponse
 

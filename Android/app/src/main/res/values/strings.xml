@@ -196,6 +196,7 @@
     <string name="title_filter_pet">반려동물 동반 가능</string>
     <string name="title_filter_season">운영 계절</string>
     <string name="content_average_rate">%.1f</string>
+    <string name="content_campsite_brief_area">%s %s</string>
     <array name="content_campsite_industry">
         <item name="content_campsite_industry_1">일반야영장</item>
         <item name="content_campsite_industry_2">자동차야영장</item>
@@ -595,4 +596,7 @@
     <string-array name="review_spinner">
         <item>삭제</item>
     </string-array>
+
+    <!-- page indicator -->
+    <string name="page_number">%d</string>
 </resources>

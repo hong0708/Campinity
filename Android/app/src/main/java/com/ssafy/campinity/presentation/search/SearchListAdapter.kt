@@ -19,7 +19,7 @@ class SearchListAdapter(
     private var campsites: List<CampsiteBriefInfo>,
     private val onCampsiteClickListener: (Int, String) -> Unit,
     private val navigationToSearchPostboxFragment: (String) -> Unit,
-    private val scrapCampsite: suspend (Int, String) -> String
+    private val scrapCampsite: suspend (Int, String) -> String,
 ) : RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder>() {
 
     private lateinit var binding: ItemSearchListBinding
@@ -96,7 +96,10 @@ class SearchListAdapter(
                 false
             )
             binding.rvCampsiteImage.adapter =
-                CampsiteBriefImageAdapter(context, campsites[adapterPosition].thumbnails).apply {
+                CampsiteBriefImageAdapter(
+                    context,
+                    campsites[adapterPosition].thumbnails
+                ).apply {
                     binding.rvCampsiteImage.setHasFixedSize(true)
                 }
         }

@@ -20,5 +20,7 @@ data class SearchFilterRequest(
     @SerializedName("sigunguName")
     var sigunguName: String = "",
     @SerializedName("theme")
-    var theme: String = ""
+    var theme: String = "",
+    @SerializedName("paging")
+    var paging: Int = 1
 )

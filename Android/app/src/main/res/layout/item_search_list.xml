@@ -27,7 +27,7 @@
             android:layout_toStartOf="@id/btn_postbox"
             android:fontFamily="@font/roboto_bold"
             android:gravity="center_vertical|start"
-            android:text="@{item.campsiteName}"
+            android:text="@{item.campName}"
             android:textColor="@color/black"
             android:textSize="16sp"
             tools:text="비니비니글램핑" />
@@ -41,7 +41,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
-            android:text="@{item.area}"
+            android:text="@{@string/content_campsite_brief_area(item.doName, item.sigunguName)}"
             android:textColor="@color/grey"
             android:textSize="10sp"
             tools:text="경기도 포천시" />
@@ -78,7 +78,7 @@
             android:layout_toEndOf="@id/tv_campsite_note"
             android:fontFamily="@font/roboto_regular"
             android:gravity="center"
-            android:text="@{Integer.toString(item.noteCount)}"
+            android:text="@{Integer.toString(item.messageCnt)}"
             android:textColor="@color/grey"
             android:textSize="10sp"
             tools:text="50" />

@@ -12,11 +12,13 @@ class GetCampsitesByScopeUseCase @Inject constructor(
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
+        topLeftLng: Double,
+        paging: Int
     ) = searchRepository.getCampsitesByScope(
         bottomRightLat,
         bottomRightLng,
         topLeftLat,
-        topLeftLng
+        topLeftLng,
+        paging
     )
 }

@@ -110,7 +110,9 @@ class SearchMainFragment : BaseFragment<FragmentSearchMainBinding>(R.layout.frag
                 var handled = false
 
                 if (id == EditorInfo.IME_ACTION_SEARCH) {
-                    searchViewModel.getCampsitesByFiltering(SearchFilterRequest(keyword = textView.text.toString()))
+                    searchViewModel.filter =
+                        SearchFilterRequest(keyword = textView.text.toString(), paging = 1)
+                    searchViewModel.getCampsitesByFiltering(searchViewModel.filter)
                     searchViewModel.getCampsitesDo(SearchFilterClusteringRequest(keyword = textView.text.toString()))
                     searchViewModel.getCampsitesSiGunGu(SearchFilterClusteringRequest(keyword = textView.text.toString()))
 

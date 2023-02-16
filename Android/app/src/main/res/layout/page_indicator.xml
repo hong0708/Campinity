@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_arrow_left"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/ic_arrow_left" />
+
+        <TextView
+            android:id="@+id/tv_page_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="14sp"
+            tools:text="1" />
+
+        <TextView
+            android:id="@+id/tv_page_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="14sp"
+            tools:text="2" />
+
+        <TextView
+            android:id="@+id/tv_page_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="14sp"
+            tools:text="3" />
+
+        <TextView
+            android:id="@+id/tv_page_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="14sp"
+            tools:text="4" />
+
+        <TextView
+            android:id="@+id/tv_page_5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="8dp"
+            android:fontFamily="@font/roboto_bold"
+            android:textSize="14sp"
+            tools:text="5" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_arrow_right"
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/ic_arrow_right_pagination" />
+    </LinearLayout>
+</layout>

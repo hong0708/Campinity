@@ -8,7 +8,7 @@ class SearchRemoteDataSourceImpl @Inject constructor(
     private val searchApiService: SearchApiService
 ) : SearchRemoteDataSource {
 
-    override suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): List<SearchBriefResponse> =
+    override suspend fun getCampsitesByFiltering(filter: SearchFilterRequest): SearchBriefResponse =
         searchApiService.getCampsitesByFiltering(
             filter.allowAnimal,
             filter.amenity,
@@ -18,19 +18,22 @@ class SearchRemoteDataSourceImpl @Inject constructor(
             filter.keyword,
             filter.openSeason,
             filter.sigunguName,
-            filter.theme
+            filter.theme,
+            filter.paging
         )
 
     override suspend fun getCampsitesByScope(
         bottomRightLat: Double,
         bottomRightLng: Double,
         topLeftLat: Double,
-        topLeftLng: Double
-    ): List<SearchBriefResponse> = searchApiService.getCampsitesByScope(
+        topLeftLng: Double,
+        paging: Int
+    ): SearchBriefResponse = searchApiService.getCampsitesByScope(
         bottomRightLat,
         bottomRightLng,
         topLeftLat,
-        topLeftLng
+        topLeftLng,
+        paging
     )
 
     override suspend fun getCampsiteDetail(campsiteId: String): SearchDetailResponse =
