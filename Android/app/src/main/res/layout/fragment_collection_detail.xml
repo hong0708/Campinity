@@ -16,7 +16,7 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="500dp"
             android:contentDescription="@string/image_curation_detail"
             android:normalImgUri="@{collectionDetail.imagePath}"
             android:scaleType="fitXY"
@@ -92,7 +92,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="350dp"
             android:background="@drawable/bg_rect_white_radius30_top"
             android:elevation="20dp"
             app:layout_constraintBottom_toBottomOf="parent">
@@ -141,6 +141,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/roboto_regular"
                     android:gravity="top"
+                    android:lineSpacingExtra="5dp"
                     android:text="@{collectionDetail.content}"
                     android:textColor="@color/zambezi"
                     android:textSize="16sp"
