@@ -13,9 +13,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
-import android.util.Log
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -234,7 +232,43 @@ class CommunityCampsiteFragment :
     }
 
     // 마커 클릭 관련
-    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {}
+    override fun onPOIItemSelected(p0: MapView?, p1: MapPOIItem?) {
+        if (p1!!.tag != 1) {
+            val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
+
+            if (getDistance(
+                    campsiteMessageBriefInfo.latitude.toDouble(),
+                    campsiteMessageBriefInfo.longitude.toDouble()
+                ) < 100
+            ) {
+                CoroutineScope(Dispatchers.Main).launch {
+                    binding.laNoteOpen.apply {
+                        addAnimatorListener(object : AnimatorListener {
+                            override fun onAnimationStart(p0: Animator?) {}
+
+                            override fun onAnimationEnd(p0: Animator?) {
+                                binding.laNoteOpen.visibility = View.GONE
+                            }
+
+                            override fun onAnimationCancel(p0: Animator?) {}
+
+                            override fun onAnimationRepeat(p0: Animator?) {}
+                        })
+                        setAnimation(R.raw.unlocked)
+                        speed = 1.5f
+                        visibility = View.VISIBLE
+                        playAnimation()
+                    }
+                    delay(3000)
+                    getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                }
+
+            } else {
+                //아직 멀어서 불가능
+                showToast("쪽지와 더 근접한 위치에서 열어보세요!")
+            }
+        }
+    }
 
     @Deprecated("Deprecated in Java")
     override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
@@ -246,8 +280,15 @@ class CommunityCampsiteFragment :
         p2: MapPOIItem.CalloutBalloonButtonType?
     ) {
         if (p1!!.tag == 1) {
-            if (mapView.zoomLevel > 5) {
-                setMapPosition()
+            if (mapView.zoomLevel > 6) {
+                mapView.setZoomLevel(3, true)
+
+                mapView.setMapCenterPoint(
+                    MapPoint.mapPointWithGeoCoord(
+                        p1.mapPoint.mapPointGeoCoord.latitude,
+                        p1.mapPoint.mapPointGeoCoord.longitude
+                    ), true
+                )
             } else {
                 navigate(
                     CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
@@ -642,16 +683,25 @@ class CommunityCampsiteFragment :
                 itemName = i.content
                 mapPoint = markerPosition
                 markerType = MapPOIItem.MarkerType.CustomImage
-                customImageResourceId = if (i.messageCategory == "리뷰") {
+
+                if (i.messageCategory == "리뷰") {
+                    customImageResourceId = R.drawable.ic_review_note_marker
+                } else {
+                    customImageResourceId = R.drawable.ic_community_campsite_close_note3
+                    isShowCalloutBalloonOnTouch = false
+                }
+
+                /*customImageResourceId = if (i.messageCategory == "리뷰") {
                     R.drawable.ic_review_note_marker
                 } else {
                     R.drawable.ic_community_campsite_close_note3
-                    /*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 30) {
+                    *//*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 30) {
                         R.drawable.ic_community_campsite_open_note3
                     } else {
                         R.drawable.ic_community_campsite_close_note3
-                    }*/
-                }
+                    }*//*
+                }*/
+                //isShowCalloutBalloonOnTouch = false
                 //isCustomImageAutoscale = false
                 userObject = i
                 tag = 2
