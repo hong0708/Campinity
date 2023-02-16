@@ -53,4 +53,30 @@ interface SearchApiService {
     suspend fun scrapCampsite(
         @Path("campsiteId") campsiteId: String
     ): SearchScrapResponse
+
+    @GET("/api/v1/campsites/conditions/do-level")
+    suspend fun getCampsitesByDo(
+        @Query("allowAnimal") allowAnimal: String?,
+        @Query("amenity") amenity: String?,
+        @Query("doName") doName: String?,
+        @Query("fclty") fclty: String?,
+        @Query("industry") industry: String?,
+        @Query("keyword") keyword: String?,
+        @Query("openSeason") openSeason: String?,
+        @Query("sigunguName") sigunguName: String?,
+        @Query("theme") theme: String?,
+    ): List<SearchDoLevelResponse>
+
+    @GET("/api/v1/campsites/conditions/sigungu-level")
+    suspend fun getCampsitesBySiGunGu(
+        @Query("allowAnimal") allowAnimal: String?,
+        @Query("amenity") amenity: String?,
+        @Query("doName") doName: String?,
+        @Query("fclty") fclty: String?,
+        @Query("industry") industry: String?,
+        @Query("keyword") keyword: String?,
+        @Query("openSeason") openSeason: String?,
+        @Query("sigunguName") sigunguName: String?,
+        @Query("theme") theme: String?,
+    ): List<SearchSiGunGuLevelResponse>
 }

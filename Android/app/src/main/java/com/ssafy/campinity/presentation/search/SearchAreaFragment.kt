@@ -7,6 +7,7 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.GridItemDecoration
 import com.ssafy.campinity.common.util.dp
 import com.ssafy.campinity.common.util.getDeviceWidthPx
+import com.ssafy.campinity.data.remote.datasource.search.SearchFilterClusteringRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchAreaBinding
 import com.ssafy.campinity.domain.entity.search.GugunItem
@@ -106,13 +107,25 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                     selectedGugun =
                         mapGugun(searchAreaGuGunAdapter.selectedItems.toList())
 
-                    if (selectedGugun == "")
+                    if (selectedGugun == "") {
                         getCampsitesByFiltering(
                             SearchFilterRequest(
                                 paging = 1
                             )
                         )
-                    else
+                        searchViewModel.getCampsitesSiGunGu(
+                            SearchFilterClusteringRequest(
+                                doName = sido,
+                                sigunguName = gugun
+                            )
+                        )
+                        searchViewModel.getCampsitesDo(
+                            SearchFilterClusteringRequest(
+                                doName = sido,
+                                sigunguName = gugun
+                            )
+                        )
+                    } else {
                         getCampsitesByFiltering(
                             SearchFilterRequest(
                                 doName = selectedSido,
@@ -120,7 +133,19 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                                 paging = 1
                             )
                         )
-
+                        searchViewModel.getCampsitesSiGunGu(
+                            SearchFilterClusteringRequest(
+                                doName = sido,
+                                sigunguName = gugun
+                            )
+                        )
+                        searchViewModel.getCampsitesDo(
+                            SearchFilterClusteringRequest(
+                                doName = sido,
+                                sigunguName = gugun
+                            )
+                        )
+                    }
                     setStateBehaviorArea(false)
                     searchAreaGuGunAdapter.setSelectedGugun(selectedGugun.split(" "))
                 }
