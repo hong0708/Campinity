@@ -8,118 +8,138 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_rect_white_radius15_dialog">
+        android:layout_height="match_parent">
 
-        <ImageView
-            android:id="@+id/iv_cancel_help_dialog"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:contentDescription="@string/image_close_dialog"
-            android:src="@drawable/ic_cancel"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_write_help_note"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_rect_white_radius15_dialog">
 
-        <TextView
-            android:id="@+id/tv_help_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/title_help"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/iv_cancel_help_dialog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:contentDescription="@string/image_close_dialog"
+                android:src="@drawable/ic_cancel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_user_location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="18dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/content_user_location"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_help_title" />
+            <TextView
+                android:id="@+id/tv_help_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/title_help"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/et_user_location"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginEnd="28dp"
-            android:autofillHints="no"
-            android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
-            android:fontFamily="@font/roboto_regular"
-            android:hint="@string/content_user_location_hint"
-            android:inputType="textMultiLine"
-            android:lineSpacingExtra="5dp"
-            android:paddingStart="12dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="10dp"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@+id/tv_user_location"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_location" />
+            <TextView
+                android:id="@+id/tv_user_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="18dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/content_user_location"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_help_title" />
 
-        <TextView
-            android:id="@+id/tv_user_help"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="@font/roboto_bold"
-            android:text="@string/content_user_help"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/et_user_location" />
+            <EditText
+                android:id="@+id/et_user_location"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="6dp"
+                android:layout_marginEnd="28dp"
+                android:autofillHints="no"
+                android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/content_user_location_hint"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="5dp"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tv_user_location"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_location" />
 
-        <EditText
-            android:id="@+id/et_user_help"
-            android:layout_width="0dp"
-            android:layout_height="250dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="28dp"
-            android:autofillHints="no"
-            android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
-            android:fontFamily="@font/roboto_regular"
-            android:hint="@string/content_user_help_hint"
-            android:inputType="textMultiLine"
-            android:lineSpacingExtra="5dp"
-            android:paddingStart="12dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="10dp"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/tv_user_help"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_help" />
+            <TextView
+                android:id="@+id/tv_user_help"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_bold"
+                android:text="@string/content_user_help"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/et_user_location" />
 
-        <TextView
-            android:id="@+id/btn_make_note_help"
-            android:layout_width="0dp"
-            android:layout_height="47dp"
-            android:layout_marginStart="28dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="28dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/bg_rect_bilbao_radius10"
-            android:fontFamily="@font/roboto_bold"
-            android:gravity="center"
-            android:text="@string/content_make_help"
-            android:textColor="@color/white"
-            android:textSize="16sp"
+            <EditText
+                android:id="@+id/et_user_help"
+                android:layout_width="0dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="28dp"
+                android:autofillHints="no"
+                android:background="@drawable/bg_rect_white_smoke_white_radius15_stroke1"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/content_user_help_hint"
+                android:inputType="textMultiLine"
+                android:lineSpacingExtra="5dp"
+                android:paddingStart="12dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="10dp"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_user_help"
+                app:layout_constraintTop_toBottomOf="@id/tv_user_help" />
+
+            <TextView
+                android:id="@+id/btn_make_note_help"
+                android:layout_width="0dp"
+                android:layout_height="47dp"
+                android:layout_marginStart="28dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="28dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_rect_bilbao_radius10"
+                android:fontFamily="@font/roboto_bold"
+                android:gravity="center"
+                android:text="@string/content_make_help"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/et_user_help" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie_write_help_note"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="@color/white"
+            android:contentDescription="@string/image_receive_help_note"
+            android:padding="30dp"
+            android:scaleType="fitCenter"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_user_help" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:lottie_rawRes="@raw/fcm_send_letter" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
