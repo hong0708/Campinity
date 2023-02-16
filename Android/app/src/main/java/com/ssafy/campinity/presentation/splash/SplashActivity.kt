@@ -41,6 +41,7 @@ class SplashActivity : AppCompatActivity() {
     private fun setUserMap() {
         ApplicationClass.preferences.isUserInSearch = false.toString()
         ApplicationClass.preferences.isUserInCommunity = false.toString()
+        ApplicationClass.preferences.isUserCanAnswer = false.toString()
     }
 
     private fun setNickname() {
