@@ -31,10 +31,16 @@ class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash)
+        setUserMap()
         moveSunImg()
         fadeOutBackground()
         checkTokenValidation()
         setNickname()
+    }
+
+    private fun setUserMap() {
+        ApplicationClass.preferences.isUserInSearch = false.toString()
+        ApplicationClass.preferences.isUserInCommunity = false.toString()
     }
 
     private fun setNickname() {

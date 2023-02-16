@@ -11,6 +11,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentSearchMapBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
@@ -32,22 +33,28 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
 
     override fun initView() {
         binding.laMapOpen.apply {
-            addAnimatorListener(object : Animator.AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {}
+            if (ApplicationClass.preferences.isUserInSearch == false.toString()) {
+                addAnimatorListener(object : Animator.AnimatorListener {
+                    override fun onAnimationStart(p0: Animator?) {}
 
-                override fun onAnimationEnd(p0: Animator?) {
-                    binding.laMapOpen.visibility = View.GONE
-                    binding.clBackOpenMap.visibility = View.GONE
-                }
+                    override fun onAnimationEnd(p0: Animator?) {
+                        binding.laMapOpen.visibility = View.GONE
+                        binding.clBackOpenMap.visibility = View.GONE
+                        ApplicationClass.preferences.isUserInSearch = true.toString()
+                    }
 
-                override fun onAnimationCancel(p0: Animator?) {}
+                    override fun onAnimationCancel(p0: Animator?) {}
 
-                override fun onAnimationRepeat(p0: Animator?) {}
-            })
-            setAnimation(R.raw.community_map)
-            speed = 1.5f
-            visibility = View.VISIBLE
-            playAnimation()
+                    override fun onAnimationRepeat(p0: Animator?) {}
+                })
+                setAnimation(R.raw.community_map)
+                speed = 1.5f
+                visibility = View.VISIBLE
+                playAnimation()
+            } else {
+                binding.laMapOpen.visibility = View.GONE
+                binding.clBackOpenMap.visibility = View.GONE
+            }
         }
     }
 

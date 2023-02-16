@@ -73,22 +73,28 @@ class CommunityCampsiteFragment :
     override fun initView() {
 
         binding.laMapOpen.apply {
-            addAnimatorListener(object : AnimatorListener {
-                override fun onAnimationStart(p0: Animator?) {}
+            if (ApplicationClass.preferences.isUserInCommunity == false.toString()) {
+                addAnimatorListener(object : AnimatorListener {
+                    override fun onAnimationStart(p0: Animator?) {}
 
-                override fun onAnimationEnd(p0: Animator?) {
-                    binding.laMapOpen.visibility = View.GONE
-                    binding.clBackOpenMap.visibility = View.GONE
-                }
+                    override fun onAnimationEnd(p0: Animator?) {
+                        binding.laMapOpen.visibility = View.GONE
+                        binding.clBackOpenMap.visibility = View.GONE
+                        ApplicationClass.preferences.isUserInCommunity = true.toString()
+                    }
 
-                override fun onAnimationCancel(p0: Animator?) {}
+                    override fun onAnimationCancel(p0: Animator?) {}
 
-                override fun onAnimationRepeat(p0: Animator?) {}
-            })
-            setAnimation(R.raw.community_map)
-            speed = 1.5f
-            visibility = View.VISIBLE
-            playAnimation()
+                    override fun onAnimationRepeat(p0: Animator?) {}
+                })
+                setAnimation(R.raw.community_map)
+                speed = 1.5f
+                visibility = View.VISIBLE
+                playAnimation()
+            } else {
+                binding.laMapOpen.visibility = View.GONE
+                binding.clBackOpenMap.visibility = View.GONE
+            }
         }
 
         communityCampsiteViewModel.checkIsUserIn(
@@ -236,36 +242,40 @@ class CommunityCampsiteFragment :
         if (p1!!.tag != 1) {
             val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
 
-            if (getDistance(
-                    campsiteMessageBriefInfo.latitude.toDouble(),
-                    campsiteMessageBriefInfo.longitude.toDouble()
-                ) < 100
-            ) {
-                CoroutineScope(Dispatchers.Main).launch {
-                    binding.laNoteOpen.apply {
-                        addAnimatorListener(object : AnimatorListener {
-                            override fun onAnimationStart(p0: Animator?) {}
-
-                            override fun onAnimationEnd(p0: Animator?) {
-                                binding.laNoteOpen.visibility = View.GONE
-                            }
-
-                            override fun onAnimationCancel(p0: Animator?) {}
-
-                            override fun onAnimationRepeat(p0: Animator?) {}
-                        })
-                        setAnimation(R.raw.unlocked)
-                        speed = 1.5f
-                        visibility = View.VISIBLE
-                        playAnimation()
-                    }
-                    delay(3000)
-                    getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
-                }
-
+            if (campsiteMessageBriefInfo.messageCategory == "리뷰") {
+                getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
             } else {
-                //아직 멀어서 불가능
-                showToast("쪽지와 더 근접한 위치에서 열어보세요!")
+                if (getDistance(
+                        campsiteMessageBriefInfo.latitude.toDouble(),
+                        campsiteMessageBriefInfo.longitude.toDouble()
+                    ) < 100
+                ) {
+                    CoroutineScope(Dispatchers.Main).launch {
+                        binding.laNoteOpen.apply {
+                            addAnimatorListener(object : AnimatorListener {
+                                override fun onAnimationStart(p0: Animator?) {}
+
+                                override fun onAnimationEnd(p0: Animator?) {
+                                    binding.laNoteOpen.visibility = View.GONE
+                                }
+
+                                override fun onAnimationCancel(p0: Animator?) {}
+
+                                override fun onAnimationRepeat(p0: Animator?) {}
+                            })
+                            setAnimation(R.raw.unlocked)
+                            speed = 1.5f
+                            visibility = View.VISIBLE
+                            playAnimation()
+                        }
+                        delay(3000)
+                        getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
+                    }
+
+                } else {
+                    //아직 멀어서 불가능
+                    showToast("쪽지와 더 근접한 위치에서 열어보세요!")
+                }
             }
         }
     }
@@ -294,7 +304,7 @@ class CommunityCampsiteFragment :
                     CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
                 )
             }
-        } else {
+        } /*else {
             val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
 
             if (campsiteMessageBriefInfo.messageCategory == "리뷰") {
@@ -332,7 +342,7 @@ class CommunityCampsiteFragment :
                     showToast("쪽지와 더 근접한 위치에서 열어보세요!")
                 }
             }
-        }
+        }*/
     }
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
@@ -683,12 +693,11 @@ class CommunityCampsiteFragment :
                 itemName = i.content
                 mapPoint = markerPosition
                 markerType = MapPOIItem.MarkerType.CustomImage
-
+                isShowCalloutBalloonOnTouch = false
                 if (i.messageCategory == "리뷰") {
                     customImageResourceId = R.drawable.ic_review_note_marker
                 } else {
                     customImageResourceId = R.drawable.ic_community_campsite_close_note3
-                    isShowCalloutBalloonOnTouch = false
                 }
 
                 /*customImageResourceId = if (i.messageCategory == "리뷰") {
