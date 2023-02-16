@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:listitem="@layout/item_search_list" />
 
-        <com.ssafy.campinity.common.util.PageIndicator
+        <com.ssafy.campinity.presentation.search.PageIndicator
             android:id="@+id/pi_indicator"
             android:layout_width="wrap_content"
             android:layout_height="14dp"

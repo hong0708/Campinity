@@ -1,4 +1,4 @@
-package com.ssafy.campinity.common.util
+package com.ssafy.campinity.presentation.search
 
 import android.content.Context
 import android.util.AttributeSet
@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import com.ssafy.campinity.R
+import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.databinding.PageIndicatorBinding
 
 class PageIndicator @JvmOverloads constructor(
