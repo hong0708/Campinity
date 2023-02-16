@@ -335,7 +335,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 mapPoint = markerPosition
                 isShowDisclosureButtonOnCalloutBalloon = true
                 markerType = MapPOIItem.MarkerType.CustomImage
-                customImageResourceId = R.drawable.ic_do_campsites
+                customImageResourceId = R.drawable.ic_do_80//_campsites
                 userObject = doMarkerLocation
                 tag = 4
             }
@@ -373,7 +373,7 @@ class SearchMapFragment : BaseFragment<FragmentSearchMapBinding>(R.layout.fragme
                 mapPoint = markerPosition
                 isShowDisclosureButtonOnCalloutBalloon = true
                 markerType = MapPOIItem.MarkerType.CustomImage
-                customImageResourceId = R.drawable.ic_sigungu_campsite
+                customImageResourceId = R.drawable.ic_si_80_green/*_campsite_zone*/
                 userObject = siGunGuMarkerLocation
                 tag = 3
             }
