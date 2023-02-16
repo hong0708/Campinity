@@ -113,18 +113,8 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                                 paging = 1
                             )
                         )
-                        searchViewModel.getCampsitesSiGunGu(
-                            SearchFilterClusteringRequest(
-                                doName = sido,
-                                sigunguName = gugun
-                            )
-                        )
-                        searchViewModel.getCampsitesDo(
-                            SearchFilterClusteringRequest(
-                                doName = sido,
-                                sigunguName = gugun
-                            )
-                        )
+                        searchViewModel.getCampsitesSiGunGu(SearchFilterClusteringRequest())
+                        searchViewModel.getCampsitesDo(SearchFilterClusteringRequest())
                     } else {
                         getCampsitesByFiltering(
                             SearchFilterRequest(
@@ -135,14 +125,14 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                         )
                         searchViewModel.getCampsitesSiGunGu(
                             SearchFilterClusteringRequest(
-                                doName = sido,
-                                sigunguName = gugun
+                                doName = selectedSido,
+                                sigunguName = selectedGugun
                             )
                         )
                         searchViewModel.getCampsitesDo(
                             SearchFilterClusteringRequest(
-                                doName = sido,
-                                sigunguName = gugun
+                                doName = selectedSido,
+                                sigunguName = selectedGugun
                             )
                         )
                     }

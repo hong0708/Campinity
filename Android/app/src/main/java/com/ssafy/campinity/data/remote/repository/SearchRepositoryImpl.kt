@@ -2,14 +2,10 @@ package com.ssafy.campinity.data.remote.repository
 
 import com.ssafy.campinity.common.util.wrapToResource
 import com.ssafy.campinity.data.remote.Resource
+import com.ssafy.campinity.data.remote.datasource.search.SearchFilterClusteringRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.data.remote.datasource.search.SearchRemoteDataSource
 import com.ssafy.campinity.data.remote.datasource.search.SearchReviewRequest
-import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfoPaging
-import com.ssafy.campinity.domain.entity.search.CampsiteDetailInfo
-import com.ssafy.campinity.domain.entity.search.CampsiteNoteBriefInfo
-import com.ssafy.campinity.domain.entity.search.Review
-import com.ssafy.campinity.data.remote.datasource.search.*
 import com.ssafy.campinity.domain.entity.search.*
 import com.ssafy.campinity.domain.repository.SearchRepository
 import kotlinx.coroutines.Dispatchers
