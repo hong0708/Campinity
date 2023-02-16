@@ -12,7 +12,6 @@ import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.showToastMessage
 import com.ssafy.campinity.common.util.toString
 import com.ssafy.campinity.data.remote.datasource.search.SearchFilterClusteringRequest
-import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchFilterBinding
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -293,18 +292,16 @@ class SearchFilterFragment : Fragment() {
                 if (selectedGugun == "")
                     requireContext().showToastMessage("지역을 먼저 선택해주세요.")
                 else {
-                    filter = SearchFilterRequest(
-                        doName = selectedSido,
-                        sigunguName = selectedGugun,
-                        industry = selectedIndustry.toString(" "),
-                        fclty = selectedFacility.toString(" "),
-                        amenity = selectedAmenity.toString(" "),
-                        theme = selectedTheme.toString(" "),
-                        allowAnimal = selectedPet.toString(" "),
-                        openSeason = selectedSeason.toString(" "),
+                    filter.apply {
+                        industry = selectedIndustry.toString(" ")
+                        fclty = selectedFacility.toString(" ")
+                        amenity = selectedAmenity.toString(" ")
+                        theme = selectedTheme.toString(" ")
+                        allowAnimal = selectedPet.toString(" ")
+                        openSeason = selectedSeason.toString(" ")
                         paging = 1
-                    )
-                    getCampsitesByFiltering(this.filter)
+                    }
+                    getCampsitesByFiltering(filter)
 
 
                     clusteringFilter = SearchFilterClusteringRequest(

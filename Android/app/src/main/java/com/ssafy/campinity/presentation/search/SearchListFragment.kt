@@ -6,7 +6,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ssafy.campinity.R
-import com.ssafy.campinity.data.remote.datasource.search.SearchFilterRequest
 import com.ssafy.campinity.databinding.FragmentSearchListBinding
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.search.CampsiteBriefInfoPaging
@@ -115,15 +114,9 @@ class SearchListFragment : BaseFragment<FragmentSearchListBinding>(R.layout.frag
     }
 
     private fun getNextPage(pageNum: Int) {
-        if (searchViewModel.selectedGugun == "")
-            searchViewModel.getCampsitesByFiltering(SearchFilterRequest(paging = pageNum))
-        else
-            searchViewModel.getCampsitesByFiltering(
-                SearchFilterRequest(
-                    doName = searchViewModel.selectedSido,
-                    sigunguName = searchViewModel.selectedGugun,
-                    paging = pageNum
-                )
-            )
+        searchViewModel.apply {
+            filter.paging = pageNum
+            getCampsitesByFiltering(filter)
+        }
     }
 }

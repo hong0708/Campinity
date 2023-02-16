@@ -80,6 +80,7 @@ class SearchViewModel @Inject constructor(
     var selectedGugun = ""
     var filter: SearchFilterRequest = SearchFilterRequest()
     var clusteringFilter: SearchFilterClusteringRequest = SearchFilterClusteringRequest()
+    
     var areaList = arrayListOf<AreaListItem>()
     var industry: Array<String> = arrayOf()
     var facility: Array<String> = arrayOf()
@@ -87,6 +88,7 @@ class SearchViewModel @Inject constructor(
     var theme: Array<String> = arrayOf()
     var pet: Array<String> = arrayOf()
     var season: Array<String> = arrayOf()
+
 
     fun mapGugun(gugun: List<String>): String {
         val result = StringBuilder()
@@ -170,7 +172,6 @@ class SearchViewModel @Inject constructor(
     }
 
     fun getCampsitesByFiltering(filter: SearchFilterRequest) = viewModelScope.launch {
-        Log.e("getCampsitesByFiltering", "filter: $filter")
         when (val value = getCampsitesByFilteringUseCase(filter)) {
             is Resource.Success<CampsiteBriefInfoPaging> -> {
                 _campsiteListData.value = value.data

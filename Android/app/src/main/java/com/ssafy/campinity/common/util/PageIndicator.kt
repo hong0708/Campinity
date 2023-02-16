@@ -2,7 +2,6 @@ package com.ssafy.campinity.common.util
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
@@ -96,7 +95,6 @@ class PageIndicator @JvmOverloads constructor(
             val pageTextView = findViewById<TextView>(pageId)
 
             pageTextView.setOnClickListener {
-                Log.d("setOnClickListener", "$current is clicked, start: $startPage, end: $endPage")
                 currentPage = current + startPage - 1
                 highlightPageNumber(currentPage)
                 getNextPage(currentPage)

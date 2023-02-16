@@ -108,21 +108,17 @@ class SearchAreaFragment : BaseFragment<FragmentSearchAreaBinding>(R.layout.frag
                         mapGugun(searchAreaGuGunAdapter.selectedItems.toList())
 
                     if (selectedGugun == "") {
-                        getCampsitesByFiltering(
-                            SearchFilterRequest(
-                                paging = 1
-                            )
-                        )
+                        filter = SearchFilterRequest(paging = 1)
+                        getCampsitesByFiltering(filter)
                         searchViewModel.getCampsitesSiGunGu(SearchFilterClusteringRequest())
                         searchViewModel.getCampsitesDo(SearchFilterClusteringRequest())
                     } else {
-                        getCampsitesByFiltering(
-                            SearchFilterRequest(
-                                doName = selectedSido,
-                                sigunguName = selectedGugun,
-                                paging = 1
-                            )
+                        filter = SearchFilterRequest(
+                            doName = selectedSido,
+                            sigunguName = selectedGugun,
+                            paging = 1
                         )
+                        getCampsitesByFiltering(filter)
                         searchViewModel.getCampsitesSiGunGu(
                             SearchFilterClusteringRequest(
                                 doName = selectedSido,
