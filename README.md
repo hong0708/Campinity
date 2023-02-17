@@ -126,11 +126,11 @@
 
 ### 📌Campinity 기획 배경
 
-![차트1.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d75df46a-f8ff-4bd2-8ee1-b86e2527c283/%EC%B0%A8%ED%8A%B81.png)
+![KakaoTalk_20230217_121235438.png](./KakaoTalk_20230217_121235438.png)
 
-![차트2.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/243d382c-36b9-4dba-9a49-e54a69abdbd6/%EC%B0%A8%ED%8A%B82.png)
+![KakaoTalk_20230217_121235596.png](./KakaoTalk_20230217_121235596.png)
 
-![차트3.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ce62a27e-0589-483b-940e-a06e60a3ea35/%EC%B0%A8%ED%8A%B83.png)
+![KakaoTalk_20230217_121235777.png](./KakaoTalk_20230217_121235777.png)
 
 캠핑 산업은 지속적으로 커져 감에 반해서 현재 캠핑장과 관련된 자료를 얻을 수 있는 앱과 카페는 거의 없는 편입니다. 있다고 하더라도 보통 예약과 정보 전달에 치중된 경우가 대부분이고, 정보들 역시 여러 플랫폼으로 분산되어 있어서 캠핑에 관한 정보를 얻기 위해서는 여러 플랫폼을 방문해야 합니다. 보통 사용자들은 캠핑시에는 위생시설, 접근성, 사이트 편리성을 주로 고려하여 캠핑장을 선택한다고 합니다. 그러나 위생시설이나 접근성 같은 정보들은 현재의 플랫폼들에서 얻기에는 무리가 있습니다.
 
@@ -165,32 +165,32 @@
 > 전체 기술 스택
 > 
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ad537720-ae03-4250-a442-8f79a4536510/Untitled.png)
+![KakaoTalk_20230217_121317689.png](./KakaoTalk_20230217_121317689.png)
 
 > ERD 다이어그램
 > 
 
-![erd_v2 (2).png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c31894c0-ffcb-43b8-a6fe-e8c8c9a933a7/erd_v2_(2).png)
+![KakaoTalk_20230217_121349147.png](./KakaoTalk_20230217_121349147.png)
 
 > 요구사항 명세서
 > 
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/3a65bbf4-ee1b-498c-bd20-4fce86713287/Untitled.png)
+![KakaoTalk_20230217_121509675.png](./KakaoTalk_20230217_121509675.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e02dafe7-4fc0-4ac2-b125-1fdcd94a3d95/Untitled.png)
+![KakaoTalk_20230217_121528407.png](./KakaoTalk_20230217_121528407.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/e82e736f-433c-41e6-b1bf-01dff8073c1d/Untitled.png)
+![KakaoTalk_20230217_121554050.png](./KakaoTalk_20230217_121554050.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5e58479b-1a0e-4051-9e1f-7fabbbbfe735/Untitled.png)
+![KakaoTalk_20230217_121623938.png](./KakaoTalk_20230217_121623938.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/ef62a52d-1aa0-458a-b8bf-5ff37bb57cb7/Untitled.png)
+![KakaoTalk_20230217_121639297.png](./KakaoTalk_20230217_121639297.png)
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4359aa67-7230-491c-a83f-821eef2387f8/Untitled.png)
+![KakaoTalk_20230217_121720445.png](./KakaoTalk_20230217_121720445.png)
 
 > API 명세서
 > 
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2f5c4074-0d32-4145-8049-f05f7d6022c3/Untitled.png)
+![KakaoTalk_20230217_121808980.png](./KakaoTalk_20230217_121808980.png)
 
 [https://nosy-elbow-d3d.notion.site/REST-API-27368aa23a124e3588456d57a5766905](https://www.notion.so/REST-API-27368aa23a124e3588456d57a5766905)
 
@@ -426,7 +426,7 @@
 > 아키텍처 구조
 > 
 
-![아키텍처.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/414bdb17-2c0a-471a-9361-48819d72aa27/%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98.png)
+![KakaoTalk_20230217_121249506.png](./KakaoTalk_20230217_121249506.png)
 
 ## 👨‍👦‍👦 Team Member
 
