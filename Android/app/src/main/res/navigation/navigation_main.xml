@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/permissionFragment">
+
+    <fragment
+        android:id="@+id/permissionFragment"
+        android:name="com.ssafy.campinity.presentation.onboarding.PermissionFragment"
+        android:label="fragment_permission"
+        tools:layout="@layout/fragment_permission">
+        <action
+            android:id="@+id/action_permissionFragment_to_onboardingFragment"
+            app:destination="@id/onBoardingFragment" />
+        <action
+            android:id="@+id/action_permissionFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.ssafy.campinity.presentation.onboarding.OnBoardingFragment"
+        android:label="OnboardingFragment"
+        tools:layout="@layout/fragment_onboarding">
+        <action
+            android:id="@+id/action_onBoardingFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+        <action
+            android:id="@+id/action_onBoardingFragment_to_existingUserFragment"
+            app:destination="@id/existingUserFragment" />
+        <action
+            android:id="@+id/action_onBoardingFragment_to_joinFragment"
+            app:destination="@id/joinFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ssafy.campinity.presentation.home.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_collectionFragment"
+            app:destination="@id/collectionFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_communityActivity"
+            app:destination="@id/communityActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_searchActivity"
+            app:destination="@id/searchActivity" />
+        <action
+            android:id="@+id/action_homeFragment_to_curationFragment"
+            app:destination="@id/curationFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_curationDetailFragment"
+            app:destination="@id/curationDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_collectionDetailFragment"
+            app:destination="@id/collectionDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_myPageFragment"
+            app:destination="@id/myPageFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_campsiteDetailFragment"
+            app:destination="@id/campsiteDetailFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_chattingActivity"
+            app:destination="@id/chatListActivity" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectionFragment"
+        android:name="com.ssafy.campinity.presentation.collection.CollectionFragment"
+        android:label="CollectionFragment"
+        tools:layout="@layout/fragment_collection">
+        <action
+            android:id="@+id/action_collectionFragment_to_collectionDetailFragment"
+            app:destination="@id/collectionDetailFragment" />
+        <action
+            android:id="@+id/action_collectionFragment_to_createCollectionFragment"
+            app:destination="@id/createCollectionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/collectionDetailFragment"
+        android:name="com.ssafy.campinity.presentation.collection.CollectionDetailFragment"
+        android:label="CollectionDetailFragment"
+        tools:layout="@layout/fragment_collection_detail">
+        <argument
+            android:name="collectionId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_collectionDetailFragment_to_updateCollectionFragment"
+            app:destination="@id/updateCollectionFragment" />
+        <action
+            android:id="@+id/action_collectionDetailFragment_to_updateCollectionFragment2"
+            app:destination="@id/updateCollectionFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/curationFragment"
+        android:name="com.ssafy.campinity.presentation.curation.CurationFragment"
+        android:label="CurationFragment"
+        tools:layout="@layout/fragment_curation">
+        <action
+            android:id="@+id/action_curationFragment_to_curationDetailFragment"
+            app:destination="@id/curationDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/curationDetailFragment"
+        android:name="com.ssafy.campinity.presentation.curation.CurationDetailFragment"
+        android:label="CurationDetailFragment"
+        tools:layout="@layout/fragment_curation_detail">
+        <argument
+            android:name="curationId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/existingUserFragment"
+        android:name="com.ssafy.campinity.presentation.join.ExistingUserFragment"
+        android:label="ExistingUserFragment"
+        tools:layout="@layout/fragment_existing_user">
+        <action
+            android:id="@+id/action_existingUserFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/joinFragment"
+        android:name="com.ssafy.campinity.presentation.join.JoinFragment"
+        android:label="JoinFragment"
+        tools:layout="@layout/fragment_join">
+        <action
+            android:id="@+id/action_joinFragment_to_existingUserFragment"
+            app:destination="@id/existingUserFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+        <action
+            android:id="@+id/action_joinFragment_to_completeJoinFragment"
+            app:destination="@id/completeJoinFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/myPageFragment"
+        android:name="com.ssafy.campinity.presentation.mypage.MyPageFragment"
+        android:label="MyPageFragment"
+        tools:layout="@layout/fragment_my_page">
+        <action
+            android:id="@+id/action_myPageFragment_to_onBoardingFragment"
+            app:destination="@id/onBoardingFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_curationDetailFragment"
+            app:destination="@id/curationDetailFragment" />
+        <action
+            android:id="@+id/action_myPageFragment_to_campsiteDetailFragment"
+            app:destination="@id/campsiteDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/completeJoinFragment"
+        android:name="com.ssafy.campinity.presentation.join.CompleteJoinFragment"
+        android:label="CompleteJoinFragment"
+        tools:layout="@layout/fragment_complete_join">
+        <action
+            android:id="@+id/action_completeJoinFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/updateCollectionFragment"
+        android:name="com.ssafy.campinity.presentation.collection.UpdateCollectionFragment"
+        android:label="UpdateCollectionFragment"
+        tools:layout="@layout/fragment_update_collection">
+        <argument
+            android:name="collectionId"
+            app:argType="string" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/createCollectionFragment"
+        android:name="com.ssafy.campinity.presentation.collection.CreateCollectionFragment"
+        android:label="CreateCollectionFragment"
+        tools:layout="@layout/fragment_create_collection" />
+
+    <fragment
+        android:id="@+id/campsiteDetailFragment"
+        android:name="com.ssafy.campinity.presentation.search.CampsiteDetailFragment"
+        android:label="CampsiteDetailFragment"
+        tools:layout="@layout/fragment_campsite_detail">
+        <argument
+            android:name="async"
+            app:argType="integer" />
+        <argument
+            android:name="position"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_campsiteDetailFragment_to_searchPostboxFragment"
+            app:destination="@id/searchPostboxFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchPostboxFragment"
+        android:name="com.ssafy.campinity.presentation.search.SearchPostboxFragment"
+        android:label="fragment_search_postbox"
+        tools:layout="@layout/fragment_search_postbox">
+        <argument
+            android:name="campsiteId"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_searchPostboxFragment_to_searchLetterDetailFragment"
+            app:destination="@+id/searchLetterDetailFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/searchLetterDetailFragment"
+        android:name="com.ssafy.campinity.presentation.search.SearchLetterDetailFragment"
+        android:label="fragment_search_letter_detail"
+        tools:layout="@layout/fragment_search_letter_detail">
+        <argument
+            android:name="question_id"
+            app:argType="string" />
+    </fragment>
+
+    <activity
+        android:id="@+id/communityActivity"
+        android:name="com.ssafy.campinity.presentation.community.CommunityActivity"
+        tools:label="CommunityActivity"
+        tools:layout="@layout/activity_community" />
+
+    <activity
+        android:id="@+id/searchActivity"
+        android:name="com.ssafy.campinity.presentation.search.SearchActivity"
+        android:label="SearchActivity"
+        tools:layout="@layout/activity_search" />
+
+    <activity
+        android:id="@+id/chatListActivity"
+        android:name="com.ssafy.campinity.presentation.chat.ChatListActivity"
+        android:label="ChattingActivity"
+        tools:layout="@layout/activity_chat_list" />
+
+</navigation>

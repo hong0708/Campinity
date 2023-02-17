@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.search.SearchMainFragment">
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_map"
+            android:name="com.ssafy.campinity.presentation.search.SearchMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_search_map" />
+
+        <LinearLayout
+            android:id="@+id/ll_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+            <View
+                android:id="@+id/view_empty_space"
+                android:layout_width="match_parent"
+                android:layout_height="115dp"
+                android:background="@color/white"
+                android:visibility="invisible" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fcv_list"
+                android:name="com.ssafy.campinity.presentation.search.SearchListFragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:layout="@layout/fragment_search_list" />
+        </LinearLayout>
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_area"
+            android:name="com.ssafy.campinity.presentation.search.SearchAreaFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            tools:layout="@layout/fragment_search_area" />
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fcv_filter"
+            android:name="com.ssafy.campinity.presentation.search.SearchFilterFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:behavior_hideable="true"
+            app:behavior_peekHeight="0dp"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+            tools:layout="@layout/fragment_search_filter" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cl_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_search"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <EditText
+                    android:id="@+id/et_search_by_name"
+                    android:layout_width="0dp"
+                    android:layout_height="36dp"
+                    android:layout_marginHorizontal="16dp"
+                    android:layout_marginTop="20dp"
+                    android:autofillHints="name"
+                    android:background="@drawable/bg_rect_white_radius12"
+                    android:drawableStart="@drawable/ic_search"
+                    android:drawablePadding="9dp"
+                    android:elevation="10dp"
+                    android:fontFamily="@font/roboto_regular"
+                    android:hint="@string/content_search_by_name"
+                    android:imeOptions="actionSearch"
+                    android:inputType="text"
+                    android:paddingHorizontal="8dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/silver"
+                    android:textSize="16sp"
+                    android:theme="@style/EditTextStyle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <RelativeLayout
+                    android:id="@+id/rl_area"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="13dp"
+                    android:background="@drawable/bg_rect_white_radius12"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/et_search_by_name"
+                    app:layout_constraintTop_toBottomOf="@id/et_search_by_name">
+
+                    <ImageView
+                        android:id="@+id/iv_area"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginVertical="7dp"
+                        android:layout_marginStart="11dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:contentDescription="@string/image_area"
+                        android:foregroundGravity="center"
+                        android:src="@drawable/ic_location_black" />
+
+                    <TextView
+                        android:id="@+id/tv_area"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/iv_area"
+                        android:layout_alignBottom="@id/iv_area"
+                        android:layout_marginStart="2dp"
+                        android:layout_marginEnd="14dp"
+                        android:layout_toEndOf="@id/iv_area"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/content_area"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_filter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_rect_white_radius12"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintStart_toEndOf="@id/rl_area"
+                    app:layout_constraintTop_toBottomOf="@id/et_search_by_name">
+
+                    <ImageView
+                        android:id="@+id/iv_filter"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginVertical="7dp"
+                        android:layout_marginStart="11dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:contentDescription="@string/image_filter"
+                        android:foregroundGravity="center"
+                        android:src="@drawable/ic_filter" />
+
+                    <TextView
+                        android:id="@+id/tv_filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/iv_filter"
+                        android:layout_alignBottom="@id/iv_filter"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="14dp"
+                        android:layout_toEndOf="@id/iv_filter"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/content_filter"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_search_again"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_rect_white_radius12"
+                    android:clickable="true"
+                    android:elevation="4dp"
+                    android:gravity="center_vertical"
+                    app:layout_constraintStart_toEndOf="@id/rl_filter"
+                    app:layout_constraintTop_toBottomOf="@id/et_search_by_name">
+
+                    <ImageView
+                        android:id="@+id/iv_search_again"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_alignParentStart="true"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginVertical="7dp"
+                        android:layout_marginStart="11dp"
+                        android:layout_marginTop="7dp"
+                        android:layout_marginBottom="7dp"
+                        android:contentDescription="@string/image_search_now_location"
+                        android:foregroundGravity="center"
+                        android:src="@drawable/ic_refresh" />
+
+                    <TextView
+                        android:id="@+id/tv_search_again"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/iv_search_again"
+                        android:layout_alignBottom="@id/iv_search_again"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="14dp"
+                        android:layout_toEndOf="@id/iv_search_again"
+                        android:fontFamily="@font/roboto_regular"
+                        android:text="@string/content_search_in_this_scope"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_show_list"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_circle_white"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/image_show_campsite_as_list"
+                    android:src="@drawable/ic_show_list" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/rl_show_map"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/bg_circle_white"
+                android:clickable="true"
+                android:elevation="4dp"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/image_show_campsite_as_map"
+                    android:src="@drawable/ic_show_map" />
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

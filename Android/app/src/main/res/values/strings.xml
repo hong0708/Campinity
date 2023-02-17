@@ -1,0 +1,602 @@
+<resources>
+    <string name="app_name">CAMPINITY</string>
+
+    <!-- Splash -->
+    <string name="title_splash">Campinity</string>
+    <string name="content_splash">캠핑은 Campinity와 함께!</string>
+    <string name="image_splash_sun">image_splash_sun</string>
+    <string name="image_splash_mountain">image_splash_mountain</string>
+    <string name="image_splash_logo">image_splash_logo</string>
+    <string name="image_splash_background">image_splash_background</string>
+
+    <!-- Permission -->
+    <string name="title_permission">Campinity 접근 권한 안내</string>
+    <string name="content_permission">campinity에서는 다음 권한을 사용하오니 허용해 주시기 바랍니다.</string>
+    <string name="title_permission_camera">카메라 (선택)</string>
+    <string name="content_permission_camera">사진 촬영을 위해 허용</string>
+    <string name="title_permission_gallery">사진 (선택)</string>
+    <string name="content_permission_gallery">사진 등록을 위한 촬영, 이미지 저장을 위해 이용</string>
+    <string name="title_permission_location">위치정보 (선택)</string>
+    <string name="content_permission_location">현재 위치한 캠핑장 검색을 위해 이용</string>
+    <string name="title_permission_notification">알림 (선택)</string>
+    <string name="content_permission_notification">이벤트 알림 전송을 위해 이용</string>
+    <string name="content_confirm">확인</string>
+    <string name="image_permission_camera">image_permission_camera</string>
+    <string name="image_permission_gallery">image_permission_gallery</string>
+    <string name="image_permission_location">image_permission_location</string>
+    <string name="image_permission_notification">image_permission_notification</string>
+
+    <!-- OnBoarding -->
+    <array name="content_on_boarding_banner">
+        <item name="content_on_boarding_banner_1">캠핑은 가고 싶은데\n어떤 것부터 해야 할 지 모르겠나요?</item>
+        <item name="content_on_boarding_banner_2">캠핑장을 사용하고 있는 사람들에게\n궁금한 점이 있지 않으신가요?</item>
+        <item name="content_on_boarding_banner_3">캠핑장을 같이 사용하는 사람들과\n소통하고 싶지 않으신가요?</item>
+    </array>
+    <array name="content_on_boarding_banner_sub">
+        <item name="content_on_boarding_banner_sub_1">campinity와 함께 준비해보세요!</item>
+        <item name="content_on_boarding_banner_sub_2">campinity에서는 실시간으로 물어볼 수 있어요!</item>
+        <item name="content_on_boarding_banner_sub_3">campinity에서 다른 사람들과 추억을 나눠보세요!</item>
+    </array>
+    <string name="image_onboarding_banner">image_onboarding_banner</string>
+
+    <!-- Join -->
+    <string name="title_join">회원 정보 입력</string>
+    <string name="content_join">Campinity에서 사용할\n고객님의 정보를 입력해주세요!</string>
+    <string name="content_hint_join">닉네임을 입력해주세요</string>
+    <string name="content_duplicate_check">중복 확인</string>
+    <string name="content_btn_confirm">회원 정보 작성 완료</string>
+    <string name="content_existing_user">안녕하세요. %s님!\n오랜만에 뵙네요.</string>
+    <string name="image_complete_join">image_complete_join</string>
+    <string name="content_join_cancle_dialog_1">닉네임만 입력하면\n회원가입은 완료됩니다.</string>
+    <string name="content_join_cancle_dialog_2">정말</string>
+    <string name="content_join_cancle_dialog_3">취소</string>
+    <string name="content_join_cancle_dialog_4">하시겠어요?</string>
+    <string name="content_cancel">취소</string>
+    <string name="content_join_complete">%s님!\n회원가입이 완료되었습니다.</string>
+
+    <!-- Home -->
+    <string name="image_arrow_left">image_arrow_left</string>
+    <string name="image_profile">image_profile</string>
+    <string name="title_search_button">검색</string>
+    <string name="content_search_button">캠핑장 정보 검색</string>
+    <string name="title_community_button">커뮤니티</string>
+    <string name="content_community_button">캠핑장 이웃들과\n소통하기</string>
+    <string name="title_home">Campinity</string>
+    <string name="image_home_mypage_btn">image_home_mypage_btn</string>
+    <string name="image_home_notification_btn">image_home_notification_btn</string>
+    <string name="image_home_search">image_home_search</string>
+    <string name="image_home_community">image_home_community</string>
+    <string name="title_home_collection">나의 컬렉션</string>
+    <string name="content_collection_more">더 보기</string>
+    <string name="title_home_popular_camping_site">지금 가장 HOT한 캠핑장 Top 5</string>
+    <string name="title_home_score_camping_site">평점 좋은 캠핑장 Top 5</string>
+    <string name="image_home_collection">image_home_collection</string>
+    <string name="image_home_banner">image_home_banner</string>
+    <string name="image_location_home_camping_site">image_location_home_camping_site</string>
+    <string name="content_home_banner_more">더보기</string>
+    <string name="content_home_empty_collection">컬렉션이 존재하지 않습니다.</string>
+    <string name="content_home_campsite_location">%s, %s</string>
+
+    <!-- Dialog -->
+    <!-- 공통 단어 정리하기 -->
+    <string name="title_review_note">리뷰쪽지</string>
+    <string name="content_add_photo">사진 추가하기</string>
+    <string name="content_select_marker_location">마커 위치 선택</string>
+    <string name="content_write_review_note">작성하기</string>
+    <string name="content_review_hint">캠핑장의 특정 사이트에 대한 리뷰를 남겨보세요.</string>
+    <string name="image_add_photo">image_add_photo</string>
+    <string name="image_close_dialog">image_close_dialog</string>
+    <string name="image_curation">image_curation</string>
+    <string name="title_help">도움주기</string>
+    <string name="content_user_location">내 위치를 알려주세요.</string>
+    <string name="content_user_help">도움을 줄 내용을 작성해주세요.</string>
+    <string name="content_event_time">이벤트 유지 시간</string>
+    <string name="content_event_time_ex">오후 8:00</string>
+    <string name="content_until_time">까지</string>
+    <string name="content_make_help">생성하기</string>
+    <string name="content_user_location_hint">도움을 받을 사람이 보고 찾아올 수 있게\n자세하게 작성해주세요.</string>
+    <string name="content_user_help_hint">도움을 주실 수 있는 내용을 작성해주세요!\n간단한 위치 설명도 함께 작성해주세요!</string>
+    <string name="content_select_marker">확인</string>
+    <string name="content_cancel_marker">취소</string>
+    <string name="title_write_question_note">질문을 남겨주세요!</string>
+    <string name="content_write_question">확인</string>
+    <string name="content_cancel_question">취소</string>
+    <string name="title_write_free_note">자유 쪽지</string>
+    <string name="image_user_profile">image_user_profile</string>
+    <string name="image_review_content">image_review_content</string>
+    <string name="content_note_question_answer">질문에 대한 답변을 작성해주세요.</string>
+    <string name="content_user_answer">나의 답변</string>
+    <string name="content_user_question_input">캠핑장에 질문을 남겨주세요.</string>
+
+    <!-- Community campsite-->
+    <string name="image_back_to_main">image_back_to_main</string>
+    <string name="content_campsite_condition">미 지정</string>
+    <string name="image_campsite_condition">image_campsite_condition</string>
+    <string name="image_floatingactionbutton_help">image_floatingactionbutton_help</string>
+    <string name="image_floatingactionbutton_get_help">image_floatingactionbutton_get_help</string>
+    <string name="image_floatingactionbutton_review">image_floatingactionbutton_review</string>
+    <string name="image_floatingactionbutton_free">image_floatingactionbutton_free</string>
+    <string name="image_floatingactionbutton_main">image_floatingactionbutton_main</string>
+    <string name="title_campsite_condition">캠핑장 설정</string>
+    <string name="content_select_campsite_condition">검색</string>
+    <string name="content_search_campsite">현재 위치로 검색</string>
+    <string name="image_aim">image_aim</string>
+    <string name="image_search_now_location">image_search_now_location</string>
+    <string name="content_search_campsite_name">캠핑장 이름으로 검색</string>
+    <string name="content_campsite_help">도움 받기</string>
+    <string name="content_campsite_get_help">도움 주기</string>
+    <string name="content_campsite_review">리뷰 쪽지</string>
+    <string name="content_campsite_free">자유 쪽지</string>
+    <string name="image_campsite_title_icon">image_campsite_title_icon</string>
+    <string name="note_format">%s 쪽지</string>
+    <string name="title_receive_help_note">쪽지가 도착했어요!</string>
+    <string name="content_receive_help_note">선착순 한 명이 되면\n발신자의 위치가 다시 전송됩니다</string>
+    <string name="content_receive_btn">도움받기</string>
+    <string name="la_note_lock">gif_note_lock</string>
+    <string name="content_guide_help_note">도움을 받아보세요!</string>
+    <string name="image_receive_help_note">image_receive_help_note</string>
+
+    <!-- Collection -->
+    <string name="title_collection">My Collection</string>
+    <string name="content_collection">나의 캠핑 기록을 확인해보세요!</string>
+    <string name="content_add_collection">컬렉션 추가</string>
+    <string name="image_collection_mode">image_collection_mode</string>
+    <string name="image_curation_detail">image_curation_detail</string>
+    <string name="image_multi_option">image_multi_option</string>
+    <string name="image_share">image_share</string>
+    <string name="content_share">공유하기</string>
+    <string name="content_delete_cancel_dialog">삭제하면 컬렉션을\n 되돌릴 수 없습니다.</string>
+    <string name="content_delete_cancel_dialog_2">삭제</string>
+    <string name="title_create_collection">컬렉션 생성</string>
+    <string name="title_update_collection">컬렉션 수정</string>
+    <string name="title_create_collection_date">날짜</string>
+    <string name="image_arrow_right">image_arrow_right</string>
+    <string name="title_create_collection_location">위치</string>
+    <string name="content_edittext_location">캠핑장의 이름을 입력해주세요!</string>
+    <string name="title_create_collection_description">내용</string>
+    <string name="content_edittext_description">캠핑을 다녀온 소감을 자유롭게 입력해주세요!</string>
+    <string name="content_collection_delete">삭제하기</string>
+    <string name="content_collection_update">수정하기</string>
+    <string name="content_collection_date">%d/%02d/%02d</string>
+    <string name="content_collection_file_delete">사진을 삭제하시겠습니까?</string>
+    <string name="image_collection_photo">image_collection_photo</string>
+
+    <!-- Search -->
+    <string name="content_search_by_name">캠핑장 이름으로 검색</string>
+    <string name="content_area">지역</string>
+    <string name="image_area">지역 필터링 선택 버튼</string>
+    <string name="content_filter">필터</string>
+    <string name="content_search_in_this_scope">현 지도에서 검색</string>
+    <string name="image_show_campsite_as_list">캠핑장 목록을 리스트로 보는 버튼입니다.</string>
+    <string name="image_show_campsite_as_map">캠핑장 목록을 지도로 보는 버튼입니다.</string>
+    <string name="title_campsite_pet">반려동물 동반 가능</string>
+    <string name="image_camping_site">캠핑장 사진입니다.</string>
+    <string name="image_campsite_location">캠핑장 위치 정보</string>
+    <string name="title_campsite_long_content">캠핑장 소개</string>
+    <string name="content_show_more_long_content">더보기</string>
+    <string name="title_additional_info">기본정보</string>
+    <string name="title_campsite_oper_season">운영 기간</string>
+    <string name="title_campsite_how_to_reserve">예약 방법</string>
+    <string name="title_campsite_homepage_url">홈페이지</string>
+    <string name="title_campsite_amenity">시설 및 레저</string>
+    <string name="title_review">리뷰</string>
+    <string name="content_write_review">리뷰 작성하기</string>
+    <string name="content_campsite_review_score">점</string>
+    <string name="image_campsite_score_aver">캠핑장 평균 평점입니다.</string>
+    <string name="content_show_list_review">후기 더 보기</string>
+    <string name="image_filter">필터링 선택 버튼</string>
+    <string name="content_note_count">쪽지</string>
+    <string name="image_review_profile">프로필 사진입니다.</string>
+    <string name="image_review_star">캠핑장 리뷰 별점 이미지입니다.</string>
+    <string name="image_campsite_facility_and_leisure">캠핑장의 시설 및 레저 이미지입니다.</string>
+    <string name="content_campsite_not_found">검색 된 캠핑장이 없습니다.</string>
+    <string name="title_filter_facility">내부 시설</string>
+    <string name="title_filter_amenity">부대 시설</string>
+    <string name="title_filter_theme">테마</string>
+    <string name="title_filter_pet">반려동물 동반 가능</string>
+    <string name="title_filter_season">운영 계절</string>
+    <string name="content_average_rate">%.1f</string>
+    <string name="content_campsite_brief_area">%s %s</string>
+    <array name="content_campsite_industry">
+        <item name="content_campsite_industry_1">일반야영장</item>
+        <item name="content_campsite_industry_2">자동차야영장</item>
+        <item name="content_campsite_industry_3">카라반</item>
+        <item name="content_campsite_industry_4">글램핑</item>
+    </array>
+    <array name="content_campsite_theme">
+        <item name="content_campsite_theme_1">걷기길</item>
+        <item name="content_campsite_theme_2">수상레저</item>
+        <item name="content_campsite_theme_3">항공레저</item>
+        <item name="content_campsite_theme_4">여름물놀이</item>
+        <item name="content_campsite_theme_5">가을단풍명소</item>
+        <item name="content_campsite_theme_6">봄꽃여행</item>
+        <item name="content_campsite_theme_7">겨율눈꽃명소</item>
+        <item name="content_campsite_theme_8">일출명소</item>
+        <item name="content_campsite_theme_9">액티비티</item>
+        <item name="content_campsite_theme_10">낚시</item>
+        <item name="content_campsite_theme_11">스키</item>
+        <item name="content_campsite_theme_12">일몰명소</item>
+    </array>
+    <array name="content_campsite_facility">
+        <item name="content_campsite_facility_1">침대</item>
+        <item name="content_campsite_facility_2">TV</item>
+        <item name="content_campsite_facility_3">내부샤워실</item>
+        <item name="content_campsite_facility_4">냉장고</item>
+        <item name="content_campsite_facility_5">유,무선인터넷</item>
+        <item name="content_campsite_facility_6">내부화장실</item>
+        <item name="content_campsite_facility_7">난방기구</item>
+        <item name="content_campsite_facility_8">에어컨</item>
+        <item name="content_campsite_facility_9">취사도구</item>
+    </array>
+    <array name="content_campsite_amenity">
+        <item name="content_campsite_amenity_1">운동장</item>
+        <item name="content_campsite_amenity_2">운동시설</item>
+        <item name="content_campsite_amenity_3">전기</item>
+        <item name="content_campsite_amenity_4">마트,편의점</item>
+        <item name="content_campsite_amenity_5">장작판매</item>
+        <item name="content_campsite_amenity_6">온수</item>
+        <item name="content_campsite_amenity_7">물놀이장</item>
+        <item name="content_campsite_amenity_8">무선인터넷</item>
+        <item name="content_campsite_amenity_9">트렘폴린</item>
+        <item name="content_campsite_amenity_10">산책로</item>
+        <item name="content_campsite_amenity_11">놀이터</item>
+    </array>
+    <array name="content_campsite_pet">
+        <item name="content_campsite_pet_1">가능</item>
+        <item name="content_campsite_pet_2">가능(소형견)</item>
+        <item name="content_campsite_pet_3">불가능</item>
+    </array>
+    <array name="content_campsite_season">
+        <item name="content_campsite_oper_season_1">봄</item>
+        <item name="content_campsite_oper_season_2">여름</item>
+        <item name="content_campsite_oper_season_3">가을</item>
+        <item name="content_campsite_oper_season_4">겨울</item>
+    </array>
+
+    <!-- Community note-->
+    <string name="img_post_box_back">img_post_box_back</string>
+    <string name="img_post_box_color">img_post_box_color</string>
+    <string name="content_make_note">새 편지</string>
+    <string name="content_note_answer">답변 작성</string>
+
+    <!-- Curation -->
+    <string name="image_book_mark">image_book_mark</string>
+    <string name="title_curation">Curation</string>
+
+    <!-- Search area -->
+    <string name="title_select_area">지역 설정</string>
+    <string name="content_submit">적용하기</string>
+    <string name="content_reset">초기화</string>
+    <string name="content_select_all">전체</string>
+    <string name="content_campsite_count">(%1$d)</string>
+    <string-array name="area_gangwon">
+        <item name="gangwon_title">강원도</item>
+        <item name="gangwon_campsite_count_all">667</item>
+        <item name="gangwon_content_1">강릉시(31)</item>
+        <item name="gangwon_content_2">고성군(24)</item>
+        <item name="gangwon_content_3">동해시(7)</item>
+        <item name="gangwon_content_4">삼척시(21)</item>
+        <item name="gangwon_content_5">속초시(4)</item>
+        <item name="gangwon_content_6">양구군(11)</item>
+        <item name="gangwon_content_7">양양군(50)</item>
+        <item name="gangwon_content_8">영월군(127)</item>
+        <item name="gangwon_content_9">원주시(39)</item>
+        <item name="gangwon_content_10">인제군(52)</item>
+        <item name="gangwon_content_11">정선군(29)</item>
+        <item name="gangwon_content_12">철원군(17)</item>
+        <item name="gangwon_content_13">춘천시(52)</item>
+        <item name="gangwon_content_14">태백시(6)</item>
+        <item name="gangwon_content_15">평창군(40)</item>
+        <item name="gangwon_content_16">홍천군(91)</item>
+        <item name="gangwon_content_17">화천군(19)</item>
+        <item name="gangwon_content_18">횡성군(47)</item>
+    </string-array>
+    <string-array name="area_gyeonggi">
+        <item name="gyeonggi_title">경기도</item>
+        <item name="gyeonggi_campsite_count_all">814</item>
+        <item name="gyeonggi_content_1">가평군(235)</item>
+        <item name="gyeonggi_content_2">고양시(4)</item>
+        <item name="gyeonggi_content_3">과천시(2)</item>
+        <item name="gyeonggi_content_4">광명시(1)</item>
+        <item name="gyeonggi_content_5">광주시(6)</item>
+        <item name="gyeonggi_content_6">구리시(3)</item>
+        <item name="gyeonggi_content_7">군포시(1)</item>
+        <item name="gyeonggi_content_8">김포시(12)</item>
+        <item name="gyeonggi_content_9">남양주시(24)</item>
+        <item name="gyeonggi_content_10">동두천시(13)</item>
+        <item name="gyeonggi_content_11">성남시(1)</item>
+        <item name="gyeonggi_content_12">수원시(2)</item>
+        <item name="gyeonggi_content_13">시흥시(7)</item>
+        <item name="gyeonggi_content_14">안산시(19)</item>
+        <item name="gyeonggi_content_15">안성시(24)</item>
+        <item name="gyeonggi_content_16">안양시(2)</item>
+        <item name="gyeonggi_content_17">양주시(31)</item>
+        <item name="gyeonggi_content_18">양평군(72)</item>
+        <item name="gyeonggi_content_19">여주시(18)</item>
+        <item name="gyeonggi_content_20">연천군(50)</item>
+        <item name="gyeonggi_content_21">오산시(1)</item>
+        <item name="gyeonggi_content_22">용인시(44)</item>
+        <item name="gyeonggi_content_23">의왕시(2)</item>
+        <item name="gyeonggi_content_24">의정부시(3)</item>
+        <item name="gyeonggi_content_25">이천시(7)</item>
+        <item name="gyeonggi_content_26">파주시(41)</item>
+        <item name="gyeonggi_content_27">평택시(9)</item>
+        <item name="gyeonggi_content_28">포천시(162)</item>
+        <item name="gyeonggi_content_29">하남시(2)</item>
+        <item name="gyeonggi_content_30">화성시(16)</item>
+    </string-array>
+    <string-array name="area_gyeongsang_south">
+        <item name="gyeongsang_south_title">경상남도</item>
+        <item name="gyeongsang_south_campsite_count_all">335</item>
+        <item name="gyeongsang_south_content_1">거제시(14)</item>
+        <item name="gyeongsang_south_content_2">거창군(19)</item>
+        <item name="gyeongsang_south_content_3">고성군(21)</item>
+        <item name="gyeongsang_south_content_4">김해시(7)</item>
+        <item name="gyeongsang_south_content_5">남해군(24)</item>
+        <item name="gyeongsang_south_content_6">밀양시(46)</item>
+        <item name="gyeongsang_south_content_7">사천시(18)</item>
+        <item name="gyeongsang_south_content_8">산청군(35)</item>
+        <item name="gyeongsang_south_content_9">양산시(17)</item>
+        <item name="gyeongsang_south_content_10">의령군(8)</item>
+        <item name="gyeongsang_south_content_11">진주시(7)</item>
+        <item name="gyeongsang_south_content_12">창녕군(9)</item>
+        <item name="gyeongsang_south_content_13">창원시(12)</item>
+        <item name="gyeongsang_south_content_14">통영시(21)</item>
+        <item name="gyeongsang_south_content_15">하동군(19)</item>
+        <item name="gyeongsang_south_content_16">함안군(5)</item>
+        <item name="gyeongsang_south_content_17">함양군(20)</item>
+        <item name="gyeongsang_south_content_18">함천군(33)</item>
+    </string-array>
+    <string-array name="area_gyeongsang_north">
+        <item name="gyeongsang_north_title">경상북도</item>
+        <item name="gyeongsang_north_campsite_count_all">405</item>
+        <item name="gyeongsang_north_content_1">경산시(3)</item>
+        <item name="gyeongsang_north_content_2">경주시(66)</item>
+        <item name="gyeongsang_north_content_3">고령군(17)</item>
+        <item name="gyeongsang_north_content_4">구미시(6)</item>
+        <item name="gyeongsang_north_content_5">군위군(13)</item>
+        <item name="gyeongsang_north_content_6">김천시(23)</item>
+        <item name="gyeongsang_north_content_7">문경시(24)</item>
+        <item name="gyeongsang_north_content_8">봉화군(19)</item>
+        <item name="gyeongsang_north_content_9">상주시(16)</item>
+        <item name="gyeongsang_north_content_10">성주군(20)</item>
+        <item name="gyeongsang_north_content_11">안동시(10)</item>
+        <item name="gyeongsang_north_content_12">영덕군(9)</item>
+        <item name="gyeongsang_north_content_13">영양군(2)</item>
+        <item name="gyeongsang_north_content_14">영주시(13)</item>
+        <item name="gyeongsang_north_content_15">영천시(18)</item>
+        <item name="gyeongsang_north_content_16">예천군(5)</item>
+        <item name="gyeongsang_north_content_17">울릉군(3)</item>
+        <item name="gyeongsang_north_content_18">울진군(14)</item>
+        <item name="gyeongsang_north_content_19">의성군(3)</item>
+        <item name="gyeongsang_north_content_20">청도군(51)</item>
+        <item name="gyeongsang_north_content_21">청송군(5)</item>
+        <item name="gyeongsang_north_content_22">칠곡군(19)</item>
+        <item name="gyeongsang_north_content_23">포항시(46)</item>
+    </string-array>
+    <string-array name="area_gwangju">
+        <item name="gwangju_title">광주시</item>
+        <item name="gwangju_campsite_count_all">5</item>
+        <item name="gwangju_content_1">광산구(1)</item>
+        <item name="gwangju_content_2">남구(2)</item>
+        <item name="gwangju_content_3">북구(1)</item>
+        <item name="gwangju_content_4">서구(1)</item>
+    </string-array>
+    <string-array name="area_daegu">
+        <item name="daegu_title">대구시</item>
+        <item name="daegu_campsite_count_all">20</item>
+        <item name="daegu_content_1">달서구(1)</item>
+        <item name="daegu_content_2">달성군(9)</item>
+        <item name="daegu_content_3">동구(6)</item>
+        <item name="daegu_content_4">북구(2)</item>
+        <item name="daegu_content_5">수성구(2)</item>
+    </string-array>
+    <string-array name="area_daejeon">
+        <item name="daejeon_title">대전시</item>
+        <item name="daejeon_campsite_count_all">15</item>
+        <item name="daejeon_content_1">대덕구(3)</item>
+        <item name="daejeon_content_2">동구(4)</item>
+        <item name="daejeon_content_3">서구(2)</item>
+        <item name="daejeon_content_4">유성구(5)</item>
+        <item name="daejeon_content_5">중구(1)</item>
+    </string-array>
+    <string-array name="area_busan">
+        <item name="busan_title">부산시</item>
+        <item name="busan_campsite_count_all">10</item>
+        <item name="busan_content_1">강서구(1)</item>
+        <item name="busan_content_2">기장군(5)</item>
+        <item name="busan_content_3">동구(1)</item>
+        <item name="busan_content_4">북구(1)</item>
+        <item name="busan_content_5">사상구(1)</item>
+        <item name="busan_content_5">영도구(1)</item>
+    </string-array>
+    <string-array name="area_seoul">
+        <item name="seoul_title">서울시</item>
+        <item name="seoul_campsite_count_all">15</item>
+        <item name="seoul_content_1">강동구(1)</item>
+        <item name="seoul_content_2">강북구(1)</item>
+        <item name="seoul_content_3">강서구(1)</item>
+        <item name="seoul_content_4">관악구(1)</item>
+        <item name="seoul_content_5">구로구(2)</item>
+        <item name="seoul_content_6">노원구(1)</item>
+        <item name="seoul_content_7">도봉구(1)</item>
+        <item name="seoul_content_8">마포구(2)</item>
+        <item name="seoul_content_9">서초구(1)</item>
+        <item name="seoul_content_10">성동구(1)</item>
+        <item name="seoul_content_11">은평구(1)</item>
+        <item name="seoul_content_12">종로구(1)</item>
+        <item name="seoul_content_13">중랑구(1)</item>
+    </string-array>
+    <string-array name="area_sejong">
+        <item name="sejong_title">세종시</item>
+        <item name="sejong_campsite_count_all">7</item>
+        <item name="sejong_content_1">금남면(1)</item>
+        <item name="sejong_content_2">세종시(2)</item>
+        <item name="sejong_content_3">연서면(2)</item>
+        <item name="sejong_content_4">전동면(2)</item>
+    </string-array>
+    <string-array name="area_ulsan">
+        <item name="ulsan_title">울산시</item>
+        <item name="ulsan_campsite_count_all">27</item>
+        <item name="ulsan_content_1">동구(2)</item>
+        <item name="ulsan_content_2">북구(4)</item>
+        <item name="ulsan_content_3">울주군(17)</item>
+        <item name="ulsan_content_4">중구(4)</item>
+    </string-array>
+    <string-array name="area_incheon">
+        <item name="incheon_title">인천시</item>
+        <item name="incheon_campsite_count_all">102</item>
+        <item name="incheon_content_1">강화군(58)</item>
+        <item name="incheon_content_2">계양구(1)</item>
+        <item name="incheon_content_3">남동구(3)</item>
+        <item name="incheon_content_4">서구(2)</item>
+        <item name="incheon_content_5">연수구(2)</item>
+        <item name="incheon_content_6">옹진군(27)</item>
+        <item name="incheon_content_7">중구(9)</item>
+    </string-array>
+    <string-array name="area_jeonla_south">
+        <item name="jeonla_south_title">전라남도</item>
+        <item name="jeonla_south_campsite_count_all">183</item>
+        <item name="jeonla_south_content_1">강진군(7)</item>
+        <item name="jeonla_south_content_2">고흥군(12)</item>
+        <item name="jeonla_south_content_3">곡성군(17)</item>
+        <item name="jeonla_south_content_4">광양시(9)</item>
+        <item name="jeonla_south_content_5">구례군(6)</item>
+        <item name="jeonla_south_content_6">나주시(6)</item>
+        <item name="jeonla_south_content_7">담양군(13)</item>
+        <item name="jeonla_south_content_8">목포시(1)</item>
+        <item name="jeonla_south_content_9">무안군(7)</item>
+        <item name="jeonla_south_content_10">보성군(10)</item>
+        <item name="jeonla_south_content_11">순천시(6)</item>
+        <item name="jeonla_south_content_12">신안군(8)</item>
+        <item name="jeonla_south_content_13">여수시(18)</item>
+        <item name="jeonla_south_content_14">영광군(7)</item>
+        <item name="jeonla_south_content_15">영암군(5)</item>
+        <item name="jeonla_south_content_16">완도군(3)</item>
+        <item name="jeonla_south_content_17">장성군(17)</item>
+        <item name="jeonla_south_content_18">장흥군(7)</item>
+        <item name="jeonla_south_content_19">진도군(1)</item>
+        <item name="jeonla_south_content_20">함평군(6)</item>
+        <item name="jeonla_south_content_21">해남군(6)</item>
+        <item name="jeonla_south_content_22">화순군(11)</item>
+    </string-array>
+    <string-array name="area_jeonla_north">
+        <item name="jeonla_north_title">전라북도</item>
+        <item name="jeonla_north_campsite_count_all">143</item>
+        <item name="jeonla_north_content_1">고창군(9)</item>
+        <item name="jeonla_north_content_2">군산시(4)</item>
+        <item name="jeonla_north_content_3">김제시(3)</item>
+        <item name="jeonla_north_content_4">남원시(12)</item>
+        <item name="jeonla_north_content_5">무주군(31)</item>
+        <item name="jeonla_north_content_6">부안군(11)</item>
+        <item name="jeonla_north_content_7">순창군(14)</item>
+        <item name="jeonla_north_content_8">완주군(23)</item>
+        <item name="jeonla_north_content_9">익산시(3)</item>
+        <item name="jeonla_north_content_10">임실군(5)</item>
+        <item name="jeonla_north_content_11">장수군(6)</item>
+        <item name="jeonla_north_content_12">전주시(1)</item>
+        <item name="jeonla_north_content_13">정읍시(9)</item>
+        <item name="jeonla_north_content_14">진안군(12)</item>
+    </string-array>
+    <string-array name="area_jeju">
+        <item name="jeju_title">제주도</item>
+        <item name="jeju_campsite_count_all">48</item>
+        <item name="jeju_content_1">서귀포시(17)</item>
+        <item name="jeju_content_2">제주시(31)</item>
+    </string-array>
+    <string-array name="area_chungcheong_south">
+        <item name="chungcheong_south_title">충청남도</item>
+        <item name="chungcheong_south_campsite_count_all">291</item>
+        <item name="chungcheong_south_content_1">공주시(26)</item>
+        <item name="chungcheong_south_content_2">금산군(17)</item>
+        <item name="chungcheong_south_content_3">논산시(16)</item>
+        <item name="chungcheong_south_content_4">당진시(12)</item>
+        <item name="chungcheong_south_content_5">보령시(21)</item>
+        <item name="chungcheong_south_content_6">부여군(12)</item>
+        <item name="chungcheong_south_content_7">서산시(15)</item>
+        <item name="chungcheong_south_content_8">서천군(23)</item>
+        <item name="chungcheong_south_content_9">아산시(19)</item>
+        <item name="chungcheong_south_content_10">예산군(13)</item>
+        <item name="chungcheong_south_content_11">천안시(16)</item>
+        <item name="chungcheong_south_content_12">청양군(10)</item>
+        <item name="chungcheong_south_content_13">태안군(80)</item>
+        <item name="chungcheong_south_content_14">홍성군(11)</item>
+    </string-array>
+    <string-array name="area_chungcheong_north">
+        <item name="chungcheong_north_title">충청북도</item>
+        <item name="chungcheong_north_campsite_count_all">241</item>
+        <item name="chungcheong_north_content_1">괴산군(39)</item>
+        <item name="chungcheong_north_content_2">단양군(26)</item>
+        <item name="chungcheong_north_content_3">보은군(15)</item>
+        <item name="chungcheong_north_content_4">영동군(12)</item>
+        <item name="chungcheong_north_content_5">옥천군(5)</item>
+        <item name="chungcheong_north_content_6">음성군(5)</item>
+        <item name="chungcheong_north_content_7">제천시(76)</item>
+        <item name="chungcheong_north_content_8">증평군(1)</item>
+        <item name="chungcheong_north_content_9">진천군(10)</item>
+        <item name="chungcheong_north_content_10">청주시(17)</item>
+        <item name="chungcheong_north_content_11">충주시(35)</item>
+    </string-array>
+
+    <!-- Search filter -->
+    <string name="title_filter">관심 필터 설정</string>
+    <string name="title_my_letter">내 편지함</string>
+    <string name="content_new_letter">새 편지</string>
+    <string name="title_filter_industry">사업</string>
+
+    <!-- Notification -->
+    <string name="notification_channel_id">Channel_Id</string>
+    <string name="notification_channel_name">campinity</string>
+
+    <!-- MyPage -->
+    <string name="title_my_page">My Page</string>
+    <string name="image_my_page_profile">image_my_page_profile</string>
+    <string name="image_edit_profile">image_edit_profile</string>
+    <string name="content_btn_edit_profile">프로필 수정</string>
+    <string name="content_my_note">내 쪽지</string>
+    <string name="content_terms">서비스 이용약관</string>
+    <string name="content_log_out">로그아웃</string>
+    <string name="content_version">버전</string>
+    <string name="content_confirm_edit_profile">회원 정보 수정 완료</string>
+    <string name="content_edit_profile">Campinity에서 사용할 정보를\n다시 입력해주세요!</string>
+    <string name="content_logout">로그아웃하시겠습니까?</string>
+    <string name="content_app_version">v1.0.0</string>
+    <string name="content_home_empty_note">쪽지가 존재하지 않습니다.</string>
+
+    <!-- Custom Toast -->
+    <string name="image_custom_toast">image_custom_toast</string>
+    <string name="title_write_review">리뷰 작성하기</string>
+    <string name="title_review_count">별점을 선택해주세요</string>
+    <string name="image_review_count">리뷰 점수를 매기는 버튼입니다</string>
+    <string name="content_review">리뷰를 작성해주세요</string>
+    <string name="content_write_campsite_review_hint">캠핑장에 대한 리뷰를 자세하게 작성해주세요</string>
+    <string name="content_write_review_button">작성하기</string>
+    <string name="title_delete_review">삭제하면 리뷰를\n되돌릴 수 없습니다.</string>
+    <string name="content_delete_review">리뷰 삭제 버튼입니다</string>
+    <string name="image_campsite_no_images">등록된 캠핑장 사진이 없습니다.</string>
+    <string name="content_empty_scrap">스크랩 내역이 존재하지 않습니다.</string>
+    <string name="content_campsite_review_empty">등록된 리뷰가 없습니다.</string>
+
+    <!-- Chatting -->
+    <string name="content_chat_send">전송</string>
+    <string name="title_chat_room">Chat Room</string>
+
+    <!-- MyPage Category Spinner -->
+    <string-array name="category_array">
+        <item>리뷰</item>
+        <item>자유</item>
+    </string-array>
+
+    <string-array name="my_scrap_array">
+        <item>캠핑장</item>
+        <item>큐레이션</item>
+    </string-array>
+
+    <!-- Campsite Review Item Spinner -->
+    <string-array name="review_spinner">
+        <item>삭제</item>
+    </string-array>
+
+    <!-- page indicator -->
+    <string name="page_number">%d</string>
+</resources>

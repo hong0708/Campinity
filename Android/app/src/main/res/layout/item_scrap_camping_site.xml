@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="campsite"
+            type="com.ssafy.campinity.domain.entity.mypage.ScrapCampsite" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="155dp"
+        android:layout_height="100dp"
+        android:background="@drawable/bg_rect_white_smoke_radius15"
+        android:clipToOutline="true"
+        tools:targetApi="s">
+
+        <ImageView
+            android:id="@+id/iv_home_camping_site"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_home_collection"
+            android:rankingImgUri="@{campsite.firstImageUrl}"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/bg_home_banner" />
+
+        <TextView
+            android:id="@+id/tv_title_home_camping_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@{campsite.campName}"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/iv_location_home_camping_site"
+            app:layout_constraintStart_toStartOf="@id/iv_location_home_camping_site"
+            tools:text="비니비니 글램핑" />
+
+        <ImageView
+            android:id="@+id/iv_location_home_camping_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="10dp"
+            android:contentDescription="@string/image_location_home_camping_site"
+            android:src="@drawable/ic_home_location_white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_location_home_camping_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@{@string/content_home_campsite_location(campsite.sigunguName, campsite.doName)}"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="@id/iv_location_home_camping_site"
+            app:layout_constraintStart_toEndOf="@id/iv_location_home_camping_site"
+            app:layout_constraintTop_toTopOf="@id/iv_location_home_camping_site"
+            tools:ignore="SmallSp"
+            tools:text="서울 특별시" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

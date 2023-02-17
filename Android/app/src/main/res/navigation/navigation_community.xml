@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_community"
+    app:startDestination="@id/communityCampsiteFragment">
+
+    <fragment
+        android:id="@+id/communityCampsiteFragment"
+        android:name="com.ssafy.campinity.presentation.community.campsite.CommunityCampsiteFragment"
+        android:label="fragment_community_campsite"
+        tools:layout="@layout/fragment_community_campsite">
+
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_communityCampsiteDialogActivity"
+            app:destination="@id/communityCampsiteDialogActivity" />
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_communityHelpNoteActivity"
+            app:destination="@id/communityHelpNoteActivity" />
+        <action
+            android:id="@+id/action_communityCampsiteFragment_to_communityNoteActivity"
+            app:destination="@id/communityNoteActivity" />
+
+    </fragment>
+
+    <activity
+        android:id="@+id/communityCampsiteDialogActivity"
+        android:name="com.ssafy.campinity.presentation.community.campsite.CommunityCampsiteDialogActivity"
+        android:label="activity_community_campsite_dialog"
+        tools:layout="@layout/activity_community_campsite_message_dialog">
+        <argument
+            android:name="dialog_type"
+            app:argType="string" />
+        <argument
+            android:name="campsite_id"
+            app:argType="string" />
+        <argument
+            android:name="user_lat"
+            app:argType="string" />
+        <argument
+            android:name="user_lng"
+            app:argType="string" />
+    </activity>
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="com.ssafy.campinity.presentation.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+
+    <activity
+        android:id="@+id/communityNoteActivity"
+        android:name="com.ssafy.campinity.presentation.community.note.CommunityNoteActivity"
+        android:label="activity_community_note"
+        tools:layout="@layout/activity_community_note">
+    </activity>
+
+    <activity
+        android:id="@+id/communityHelpNoteActivity"
+        android:name="com.ssafy.campinity.presentation.community.campsite.CommunityHelpNoteActivity"
+        android:label="CommunityHelpNoteActivity"
+        tools:layout="@layout/activity_write_help_note">
+        <argument
+            android:name="dialog_type"
+            app:argType="string" />
+        <argument
+            android:name="campsite_id"
+            app:argType="string" />
+        <argument
+            android:name="user_lat"
+            app:argType="string" />
+        <argument
+            android:name="user_lng"
+            app:argType="string" />
+    </activity>
+
+</navigation>
