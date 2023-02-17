@@ -11,113 +11,113 @@
 
 ---
 
-![Screenshot_20230217_104507_CAMPINITY.jpg](./Screenshot_20230217_104507_CAMPINITY.jpg)
-![Screenshot_20230217_104514_CAMPINITY.jpg](./Screenshot_20230217_104514_CAMPINITY.jpg)
+![Screenshot_20230217_104507_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104507_CAMPINITY.jpg)
+![Screenshot_20230217_104514_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104514_CAMPINITY.jpg)
 
 ### 👟 로그인/ 회원가입 화면
 
 ---
 
-![Screenshot_20230217_104531_CAMPINITY.jpg](./Screenshot_20230217_104531_CAMPINITY.jpg)
-![Screenshot_20230217_104557_CAMPINITY.jpg](./Screenshot_20230217_104557_CAMPINITY.jpg)
-![회원 정보 입력 페이지.png](./회원 정보 입력 페이지.png)
-![취소 확인 다이어로그.png](./취소 확인 다이어로그.png)
-![회원 가입 환영 페이지.png](./회원 가입 환영 페이지.png)
+![Screenshot_20230217_104531_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104531_CAMPINITY.jpg)
+![Screenshot_20230217_104557_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104557_CAMPINITY.jpg)
+![회원 정보 입력 페이지.png](./readme-images/회원 정보 입력 페이지.png)
+![취소 확인 다이어로그.png](./readme-images/취소 확인 다이어로그.png)
+![회원 가입 환영 페이지.png](./readme-images/회원 가입 환영 페이지.png)
 
 ### 🗺 홈
 
 ---
 
-![Screenshot_20230217_104607_CAMPINITY.jpg](./Screenshot_20230217_104607_CAMPINITY.jpg)
-![Screenshot_20230217_111023_CAMPINITY.jpg](./Screenshot_20230217_111023_CAMPINITY.jpg)
-![Screenshot_20230217_111027_CAMPINITY.jpg](./Screenshot_20230217_111027_CAMPINITY.jpg)
+![Screenshot_20230217_104607_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104607_CAMPINITY.jpg)
+![Screenshot_20230217_111023_CAMPINITY.jpg](./readme-images/Screenshot_20230217_111023_CAMPINITY.jpg)
+![Screenshot_20230217_111027_CAMPINITY.jpg](./readme-images/Screenshot_20230217_111027_CAMPINITY.jpg)
 
 ### 🗺 커뮤니티
 
 ---
 
-![Screenshot_20230217_104621_CAMPINITY.jpg](./Screenshot_20230217_104621_CAMPINITY.jpg)
-![Screenshot_20230217_104628_CAMPINITY.jpg](./Screenshot_20230217_104628_CAMPINITY.jpg)
-![Screenshot_20230217_104645_CAMPINITY.jpg](./Screenshot_20230217_104645_CAMPINITY.jpg)
-![Screenshot_20230217_104651_CAMPINITY.jpg](./Screenshot_20230217_104651_CAMPINITY.jpg)
-![Screenshot_20230217_104741_CAMPINITY.jpg](./Screenshot_20230217_104741_CAMPINITY.jpg)
-![Screenshot_20230217_104751_CAMPINITY.jpg](./Screenshot_20230217_104751_CAMPINITY.jpg)
-![Screenshot_20230217_104755_CAMPINITY.jpg](./Screenshot_20230217_104755_CAMPINITY.jpg)
-![Screenshot_20230217_104820_CAMPINITY.jpg](./Screenshot_20230217_104820_CAMPINITY.jpg)
-![Screenshot_20230217_104824_CAMPINITY.jpg](./Screenshot_20230217_104824_CAMPINITY.jpg)
-![Screenshot_20230217_104832_CAMPINITY-1.jpg](./Screenshot_20230217_104832_CAMPINITY-1.jpg)
-![Screenshot_20230217_104840_CAMPINITY.jpg](./Screenshot_20230217_104840_CAMPINITY.jpg)
-![Screenshot_20230217_104844_CAMPINITY.jpg](./Screenshot_20230217_104844_CAMPINITY.jpg)
-![Screenshot_20230217_104905_CAMPINITY.jpg](./Screenshot_20230217_104905_CAMPINITY.jpg)
-![Screenshot_20230217_104909_CAMPINITY.jpg](./Screenshot_20230217_104909_CAMPINITY.jpg)
-![Screenshot_20230217_104909_CAMPINITY-1.jpg](./Screenshot_20230217_104909_CAMPINITY-1.jpg)
-![Screenshot_20230217_104932_CAMPINITY.jpg](./Screenshot_20230217_104932_CAMPINITY.jpg)
-![Screenshot_20230217_104939_CAMPINITY.jpg](./Screenshot_20230217_104939_CAMPINITY.jpg)
-![Screenshot_20230217_104945_CAMPINITY.jpg](./Screenshot_20230217_104945_CAMPINITY.jpg)
-![Screenshot_20230217_105034_CAMPINITY.jpg](./Screenshot_20230217_105034_CAMPINITY.jpg)
-![Screenshot_20230217_105030_CAMPINITY.jpg](./Screenshot_20230217_105030_CAMPINITY.jpg)
-![Screenshot_20230217_105056_CAMPINITY.jpg](./Screenshot_20230217_105056_CAMPINITY.jpg)
-![Screenshot_20230217-093224_CAMPINITY.jpg](./Screenshot_20230217-093224_CAMPINITY.jpg)
-![Screenshot_20230217-111528_CAMPINITY.jpg](./Screenshot_20230217-111528_CAMPINITY.jpg)
-![Screenshot_20230217-092058_CAMPINITY.jpg](./Screenshot_20230217-092058_CAMPINITY.jpg)
+![Screenshot_20230217_104621_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104621_CAMPINITY.jpg)
+![Screenshot_20230217_104628_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104628_CAMPINITY.jpg)
+![Screenshot_20230217_104645_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104645_CAMPINITY.jpg)
+![Screenshot_20230217_104651_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104651_CAMPINITY.jpg)
+![Screenshot_20230217_104741_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104741_CAMPINITY.jpg)
+![Screenshot_20230217_104751_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104751_CAMPINITY.jpg)
+![Screenshot_20230217_104755_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104755_CAMPINITY.jpg)
+![Screenshot_20230217_104820_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104820_CAMPINITY.jpg)
+![Screenshot_20230217_104824_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104824_CAMPINITY.jpg)
+![Screenshot_20230217_104832_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_104832_CAMPINITY-1.jpg)
+![Screenshot_20230217_104840_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104840_CAMPINITY.jpg)
+![Screenshot_20230217_104844_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104844_CAMPINITY.jpg)
+![Screenshot_20230217_104905_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104905_CAMPINITY.jpg)
+![Screenshot_20230217_104909_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104909_CAMPINITY.jpg)
+![Screenshot_20230217_104909_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_104909_CAMPINITY-1.jpg)
+![Screenshot_20230217_104932_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104932_CAMPINITY.jpg)
+![Screenshot_20230217_104939_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104939_CAMPINITY.jpg)
+![Screenshot_20230217_104945_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104945_CAMPINITY.jpg)
+![Screenshot_20230217_105034_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105034_CAMPINITY.jpg)
+![Screenshot_20230217_105030_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105030_CAMPINITY.jpg)
+![Screenshot_20230217_105056_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105056_CAMPINITY.jpg)
+![Screenshot_20230217-093224_CAMPINITY.jpg](./readme-images/Screenshot_20230217-093224_CAMPINITY.jpg)
+![Screenshot_20230217-111528_CAMPINITY.jpg](./readme-images/Screenshot_20230217-111528_CAMPINITY.jpg)
+![Screenshot_20230217-092058_CAMPINITY.jpg](./readme-images/Screenshot_20230217-092058_CAMPINITY.jpg)
 
 ### 🗺 캠핑장 검색
 
 ---
 
-![Screenshot_20230217_105120_CAMPINITY.jpg](./Screenshot_20230217_105120_CAMPINITY.jpg)
-![Screenshot_20230217_105145_CAMPINITY.jpg](./Screenshot_20230217_105145_CAMPINITY.jpg)
-![Screenshot_20230217_105217_CAMPINITY.jpg](./Screenshot_20230217_105217_CAMPINITY.jpg)
-![Screenshot_20230217_105919_CAMPINITY.jpg](./Screenshot_20230217_105919_CAMPINITY.jpg)
-![Screenshot_20230217_110000_CAMPINITY.jpg](./Screenshot_20230217_110000_CAMPINITY.jpg)
-![Screenshot_20230217_110118_CAMPINITY.jpg](./Screenshot_20230217_110118_CAMPINITY.jpg)
-![Screenshot_20230217_105223_CAMPINITY.jpg](./Screenshot_20230217_105223_CAMPINITY.jpg)
-![Screenshot_20230217_105235_CAMPINITY.jpg](./Screenshot_20230217_105235_CAMPINITY.jpg)
-![Screenshot_20230217_105243_CAMPINITY.jpg](./Screenshot_20230217_105243_CAMPINITY.jpg)
-![Screenshot_20230217_105258_CAMPINITY.jpg](./Screenshot_20230217_105258_CAMPINITY.jpg)
-![Screenshot_20230217_105306_CAMPINITY.jpg](./Screenshot_20230217_105306_CAMPINITY.jpg)
-![Screenshot_20230217_105314_CAMPINITY.jpg](./Screenshot_20230217_105314_CAMPINITY.jpg)
-![Screenshot_20230217_105320_CAMPINITY.jpg](./Screenshot_20230217_105320_CAMPINITY.jpg)
-![Screenshot_20230217_105335_CAMPINITY.jpg](./Screenshot_20230217_105335_CAMPINITY.jpg)
-![Screenshot_20230217_110303_CAMPINITY-1.jpg](./Screenshot_20230217_110303_CAMPINITY-1.jpg)
-![Screenshot_20230217_110118_CAMPINITY-1.jpg](./Screenshot_20230217_110118_CAMPINITY-1.jpg)
-![Screenshot_20230217_110359_CAMPINITY.jpg](./Screenshot_20230217_110359_CAMPINITY.jpg)
-![Screenshot_20230217_110359_CAMPINITY-1.jpg](./Screenshot_20230217_110359_CAMPINITY-1.jpg)
-![Screenshot_20230217_110445_CAMPINITY.jpg](./Screenshot_20230217_110445_CAMPINITY.jpg)
+![Screenshot_20230217_105120_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105120_CAMPINITY.jpg)
+![Screenshot_20230217_105145_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105145_CAMPINITY.jpg)
+![Screenshot_20230217_105217_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105217_CAMPINITY.jpg)
+![Screenshot_20230217_105919_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105919_CAMPINITY.jpg)
+![Screenshot_20230217_110000_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110000_CAMPINITY.jpg)
+![Screenshot_20230217_110118_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110118_CAMPINITY.jpg)
+![Screenshot_20230217_105223_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105223_CAMPINITY.jpg)
+![Screenshot_20230217_105235_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105235_CAMPINITY.jpg)
+![Screenshot_20230217_105243_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105243_CAMPINITY.jpg)
+![Screenshot_20230217_105258_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105258_CAMPINITY.jpg)
+![Screenshot_20230217_105306_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105306_CAMPINITY.jpg)
+![Screenshot_20230217_105314_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105314_CAMPINITY.jpg)
+![Screenshot_20230217_105320_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105320_CAMPINITY.jpg)
+![Screenshot_20230217_105335_CAMPINITY.jpg](./readme-images/Screenshot_20230217_105335_CAMPINITY.jpg)
+![Screenshot_20230217_110303_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_110303_CAMPINITY-1.jpg)
+![Screenshot_20230217_110118_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_110118_CAMPINITY-1.jpg)
+![Screenshot_20230217_110359_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110359_CAMPINITY.jpg)
+![Screenshot_20230217_110359_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_110359_CAMPINITY-1.jpg)
+![Screenshot_20230217_110445_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110445_CAMPINITY.jpg)
 
 ### 🗺 큐레이션
 
 ---
 
-![Screenshot_20230217_110503_CAMPINITY.jpg](./Screenshot_20230217_110503_CAMPINITY.jpg)
-![Screenshot_20230217_110506_CAMPINITY.jpg](./Screenshot_20230217_110506_CAMPINITY.jpg)
-![Screenshot_20230217_110509_CAMPINITY.jpg](./Screenshot_20230217_110509_CAMPINITY.jpg)
-![Screenshot_20230217_110509_CAMPINITY-1.jpg](./Screenshot_20230217_110509_CAMPINITY-1.jpg)
-![Screenshot_20230217_110515_CAMPINITY.jpg](./Screenshot_20230217_110515_CAMPINITY.jpg)
+![Screenshot_20230217_110503_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110503_CAMPINITY.jpg)
+![Screenshot_20230217_110506_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110506_CAMPINITY.jpg)
+![Screenshot_20230217_110509_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110509_CAMPINITY.jpg)
+![Screenshot_20230217_110509_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_110509_CAMPINITY-1.jpg)
+![Screenshot_20230217_110515_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110515_CAMPINITY.jpg)
 
 ### 🗺 컬렉션
 
 ---
 
-![Screenshot_20230217_110709_CAMPINITY.jpg](./Screenshot_20230217_110709_CAMPINITY.jpg)
-![Screenshot_20230217_110658_CAMPINITY.jpg](./Screenshot_20230217_110658_CAMPINITY.jpg)
-![Screenshot_20230217_110658_CAMPINITY-1.jpg](./Screenshot_20230217_110658_CAMPINITY-1.jpg)
-![Screenshot_20230217_110934_CAMPINITY.jpg](./Screenshot_20230217_110934_CAMPINITY.jpg)
-![Screenshot_20230217_110715_CAMPINITY.jpg](./Screenshot_20230217_110715_CAMPINITY.jpg)
-![Screenshot_20230217_110719_CAMPINITY.jpg](./Screenshot_20230217_110719_CAMPINITY.jpg)
-![Screenshot_20230217_110731_CAMPINITY.jpg](./Screenshot_20230217_110731_CAMPINITY.jpg)
-![Screenshot_20230217_110736_CAMPINITY.jpg](./Screenshot_20230217_110736_CAMPINITY.jpg)
-![Screenshot_20230217_110743_CAMPINITY.jpg](./Screenshot_20230217_110743_CAMPINITY.jpg)
+![Screenshot_20230217_110709_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110709_CAMPINITY.jpg)
+![Screenshot_20230217_110658_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110658_CAMPINITY.jpg)
+![Screenshot_20230217_110658_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_110658_CAMPINITY-1.jpg)
+![Screenshot_20230217_110934_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110934_CAMPINITY.jpg)
+![Screenshot_20230217_110715_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110715_CAMPINITY.jpg)
+![Screenshot_20230217_110719_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110719_CAMPINITY.jpg)
+![Screenshot_20230217_110731_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110731_CAMPINITY.jpg)
+![Screenshot_20230217_110736_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110736_CAMPINITY.jpg)
+![Screenshot_20230217_110743_CAMPINITY.jpg](./readme-images/Screenshot_20230217_110743_CAMPINITY.jpg)
 
 ### 🗺 마이페이지
 
 ---
 
-![Screenshot_20230217_112739_CAMPINITY.jpg](./Screenshot_20230217_112739_CAMPINITY.jpg)
-![Screenshot_20230217_112745_CAMPINITY-1.jpg](./Screenshot_20230217_112745_CAMPINITY-1.jpg)
-![Screenshot_20230217_112745_CAMPINITY-2.jpg](./Screenshot_20230217_112745_CAMPINITY-2.jpg)
-![Screenshot_20230217_112828_CAMPINITY.jpg](./Screenshot_20230217_112828_CAMPINITY.jpg)
-![Screenshot_20230217_112745_CAMPINITY.jpg](./Screenshot_20230217_112745_CAMPINITY.jpg)
+![Screenshot_20230217_112739_CAMPINITY.jpg](./readme-images/Screenshot_20230217_112739_CAMPINITY.jpg)
+![Screenshot_20230217_112745_CAMPINITY-1.jpg](./readme-images/Screenshot_20230217_112745_CAMPINITY-1.jpg)
+![Screenshot_20230217_112745_CAMPINITY-2.jpg](./readme-images/Screenshot_20230217_112745_CAMPINITY-2.jpg)
+![Screenshot_20230217_112828_CAMPINITY.jpg](./readme-images/Screenshot_20230217_112828_CAMPINITY.jpg)
+![Screenshot_20230217_112745_CAMPINITY.jpg](./readme-images/Screenshot_20230217_112745_CAMPINITY.jpg)
 
 ### 📌프로젝트 진행기간
 
@@ -126,11 +126,11 @@
 
 ### 📌Campinity 기획 배경
 
-![KakaoTalk_20230217_121235438.png](./KakaoTalk_20230217_121235438.png)
+![KakaoTalk_20230217_121235438.png](./readme-images/KakaoTalk_20230217_121235438.png)
 
-![KakaoTalk_20230217_121235596.png](./KakaoTalk_20230217_121235596.png)
+![KakaoTalk_20230217_121235596.png](./readme-images/KakaoTalk_20230217_121235596.png)
 
-![KakaoTalk_20230217_121235777.png](./KakaoTalk_20230217_121235777.png)
+![KakaoTalk_20230217_121235777.png](./readme-images/KakaoTalk_20230217_121235777.png)
 
 캠핑 산업은 지속적으로 커져 감에 반해서 현재 캠핑장과 관련된 자료를 얻을 수 있는 앱과 카페는 거의 없는 편입니다. 있다고 하더라도 보통 예약과 정보 전달에 치중된 경우가 대부분이고, 정보들 역시 여러 플랫폼으로 분산되어 있어서 캠핑에 관한 정보를 얻기 위해서는 여러 플랫폼을 방문해야 합니다. 보통 사용자들은 캠핑시에는 위생시설, 접근성, 사이트 편리성을 주로 고려하여 캠핑장을 선택한다고 합니다. 그러나 위생시설이나 접근성 같은 정보들은 현재의 플랫폼들에서 얻기에는 무리가 있습니다.
 
@@ -165,32 +165,32 @@
 > 전체 기술 스택
 > 
 
-![KakaoTalk_20230217_121317689.png](./KakaoTalk_20230217_121317689.png)
+![KakaoTalk_20230217_121317689.png](./readme-images/KakaoTalk_20230217_121317689.png)
 
 > ERD 다이어그램
 > 
 
-![KakaoTalk_20230217_121349147.png](./KakaoTalk_20230217_121349147.png)
+![KakaoTalk_20230217_121349147.png](./readme-images/KakaoTalk_20230217_121349147.png)
 
 > 요구사항 명세서
 > 
 
-![KakaoTalk_20230217_121509675.png](./KakaoTalk_20230217_121509675.png)
+![KakaoTalk_20230217_121509675.png](./readme-images/KakaoTalk_20230217_121509675.png)
 
-![KakaoTalk_20230217_121528407.png](./KakaoTalk_20230217_121528407.png)
+![KakaoTalk_20230217_121528407.png](./readme-images/KakaoTalk_20230217_121528407.png)
 
-![KakaoTalk_20230217_121554050.png](./KakaoTalk_20230217_121554050.png)
+![KakaoTalk_20230217_121554050.png](./readme-images/KakaoTalk_20230217_121554050.png)
 
-![KakaoTalk_20230217_121623938.png](./KakaoTalk_20230217_121623938.png)
+![KakaoTalk_20230217_121623938.png](./readme-images/KakaoTalk_20230217_121623938.png)
 
-![KakaoTalk_20230217_121639297.png](./KakaoTalk_20230217_121639297.png)
+![KakaoTalk_20230217_121639297.png](./readme-images/KakaoTalk_20230217_121639297.png)
 
-![KakaoTalk_20230217_121720445.png](./KakaoTalk_20230217_121720445.png)
+![KakaoTalk_20230217_121720445.png](./readme-images/KakaoTalk_20230217_121720445.png)
 
 > API 명세서
 > 
 
-![KakaoTalk_20230217_121808980.png](./KakaoTalk_20230217_121808980.png)
+![KakaoTalk_20230217_121808980.png](./readme-images/KakaoTalk_20230217_121808980.png)
 
 [https://nosy-elbow-d3d.notion.site/REST-API-27368aa23a124e3588456d57a5766905](https://www.notion.so/REST-API-27368aa23a124e3588456d57a5766905)
 
@@ -426,7 +426,7 @@
 > 아키텍처 구조
 > 
 
-![KakaoTalk_20230217_121249506.png](./KakaoTalk_20230217_121249506.png)
+![KakaoTalk_20230217_121249506.png](./readme-images/KakaoTalk_20230217_121249506.png)
 
 ## 👨‍👦‍👦 Team Member
 
