@@ -13,6 +13,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Build
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.RequiresApi
@@ -277,19 +278,7 @@ class CommunityCampsiteFragment :
                     showToast("쪽지와 더 근접한 위치에서 열어보세요!")
                 }
             }
-        }
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
-    }
-
-    override fun onCalloutBalloonOfPOIItemTouched(
-        p0: MapView?,
-        p1: MapPOIItem?,
-        p2: MapPOIItem.CalloutBalloonButtonType?
-    ) {
-        if (p1!!.tag == 1) {
+        } else {
             if (mapView.zoomLevel > 6) {
                 mapView.setZoomLevel(3, true)
 
@@ -304,7 +293,34 @@ class CommunityCampsiteFragment :
                     CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
                 )
             }
-        } /*else {
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onCalloutBalloonOfPOIItemTouched(p0: MapView?, p1: MapPOIItem?) {
+    }
+
+    override fun onCalloutBalloonOfPOIItemTouched(
+        p0: MapView?,
+        p1: MapPOIItem?,
+        p2: MapPOIItem.CalloutBalloonButtonType?
+    ) {
+        /*if (p1!!.tag == 1) {
+            if (mapView.zoomLevel > 6) {
+                mapView.setZoomLevel(3, true)
+
+                mapView.setMapCenterPoint(
+                    MapPoint.mapPointWithGeoCoord(
+                        p1.mapPoint.mapPointGeoCoord.latitude,
+                        p1.mapPoint.mapPointGeoCoord.longitude
+                    ), true
+                )
+            } else {
+                navigate(
+                    CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
+                )
+            }
+        } *//*else {
             val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
 
             if (campsiteMessageBriefInfo.messageCategory == "리뷰") {
@@ -352,12 +368,17 @@ class CommunityCampsiteFragment :
     }
 
     private fun initToggle() {
+        val onService = requireActivity() as CommunityActivity
         when (ApplicationClass.preferences.isSubScribing) {
             true -> {
                 binding.toggleCampsite.isOn = true
+                onService.startLocationBackground()
             }
             false -> {
                 binding.toggleCampsite.isOn = false
+                onService.stopLocationBackground()
+                ApplicationClass.preferences.isSubScribing = false
+                communityCampsiteViewModel.checkIsUserIn(false)
             }
         }
     }
@@ -649,12 +670,14 @@ class CommunityCampsiteFragment :
                         ApplicationClass.preferences.userRecentCampsiteId.toString(),
                         ApplicationClass.preferences.fcmToken.toString()
                     )
+                    ApplicationClass.preferences.isUserCanAnswer = true.toString()
                 } else {
                     showToast("현재 캠핑장 범위에서 벗어납니다.")
                     ApplicationClass.preferences.isSubScribing = false
                     communityCampsiteViewModel.subscribeCampSite(
                         "", ApplicationClass.preferences.fcmToken.toString()
                     )
+                    ApplicationClass.preferences.isUserCanAnswer = false.toString()
                 }
             }
         }
@@ -673,6 +696,7 @@ class CommunityCampsiteFragment :
             mapPoint = markerPosition
             markerType = MapPOIItem.MarkerType.CustomImage
             customImageResourceId = R.drawable.ic_community_campsite_marker3
+            isShowCalloutBalloonOnTouch = false
             //isCustomImageAutoscale = true
             userObject = campsite
             tag = 1
@@ -806,7 +830,8 @@ class CommunityCampsiteFragment :
                 if (isOn) {
                     if (ApplicationClass.preferences.userRecentCampsiteId != null) {
                         onService.startLocationBackground()
-                        showToast("현재 캠핑장 범위에 포함됩니다.")
+                        Log.d("세림", "setSubscribeState: 켜져있음")
+                        //showToast("현재 캠핑장 범위에 포함됩니다.")
                         /*ApplicationClass.preferences.isSubScribing = true
                         communityCampsiteViewModel.subscribeCampSite(
                             ApplicationClass.preferences.userRecentCampsiteId.toString(),
@@ -819,11 +844,13 @@ class CommunityCampsiteFragment :
                         }*/
                     }
                 } else {
+                    Log.d("세림", "setSubscribeState: 꺼져있음")
                     onService.stopLocationBackground()
                     ApplicationClass.preferences.isSubScribing = false
                     communityCampsiteViewModel.subscribeCampSite(
                         "", ApplicationClass.preferences.fcmToken.toString()
                     )
+                    ApplicationClass.preferences.isUserCanAnswer = false.toString()
                 }
             }
         }

@@ -4,6 +4,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.databinding.FragmentCommunityNoteDetailBinding
 import com.ssafy.campinity.presentation.base.BaseFragment
@@ -43,12 +44,16 @@ class CommunityNoteDetailFragment :
                 popBackStack()
             }
             tvMakeAnswer.setOnClickListener {
-                CommunityNoteAnswerDialog(
-                    requireContext(),
-                    this@CommunityNoteDetailFragment,
-                    args.questionId,
-                    binding.tvNoteQuestionContent.text.toString()
-                ).show()
+                if (ApplicationClass.preferences.isUserCanAnswer == true.toString()) {
+                    CommunityNoteAnswerDialog(
+                        requireContext(),
+                        this@CommunityNoteDetailFragment,
+                        args.questionId,
+                        binding.tvNoteQuestionContent.text.toString()
+                    ).show()
+                } else {
+                    showToast("캠핑장을 구독중이어야 답변이 가능합니다.")
+                }
             }
         }
     }

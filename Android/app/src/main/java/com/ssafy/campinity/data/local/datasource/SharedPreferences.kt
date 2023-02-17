@@ -78,6 +78,10 @@ class SharedPreferences(context: Context) {
         get() = prefs.getString("isUserInSearch", null)
         set(value) = prefs.edit().putString("isUserInSearch", value).apply()
 
+    var isUserCanAnswer: String?
+        get() = prefs.getString("isUserCanAnswer", null)
+        set(value) = prefs.edit().putString("isUserCanAnswer", value).apply()
+
     fun clearPreferences() {
         prefs.edit().clear().apply()
     }
