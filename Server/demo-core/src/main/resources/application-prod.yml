@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://database:3306/campinity
+    username: server
+    password: ssafy123!
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+  data:
+    mongodb:
+      uri: mongodb://root:root@mongo:27017/chatDB?authSource=admin

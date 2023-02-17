@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://database:3306/campinity  #test코드 실행할 때는 localhost로 변경
+    username: root
+    password: root
+
+  data:
+    mongodb:
+      uri: mongodb://root:root@mongo:27017/chatDB?authSource=admin
