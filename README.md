@@ -11,18 +11,18 @@
 
 ---
 
-![Screenshot_20230217_104507_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104507_CAMPINITY.jpg)
-![Screenshot_20230217_104514_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104514_CAMPINITY.jpg)
+<img src="./readme-images/Screenshot_20230217_104507_CAMPINITY.jpg"  width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_104514_CAMPINITY.jpg"  width="200" height="400"/>
 
 ### 👟 로그인/ 회원가입 화면
 
 ---
 
-![Screenshot_20230217_104531_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104531_CAMPINITY.jpg)
-![Screenshot_20230217_104557_CAMPINITY.jpg](./readme-images/Screenshot_20230217_104557_CAMPINITY.jpg)
-![회원 정보 입력 페이지.png](./readme-images/회원 정보 입력 페이지.png)
-![취소 확인 다이어로그.png](./readme-images/취소 확인 다이어로그.png)
-![회원 가입 환영 페이지.png](./readme-images/회원 가입 환영 페이지.png)
+<img src="./readme-images/Screenshot_20230217_104531_CAMPINITY.jpg" width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_104557_CAMPINITY.jpg" width="200" height="400"/>
+<img src="./readme-images/회원_정보_입력_페이지.jpg" width="200" height="400"/>
+<img src="./readme-images/취소_확인_다이어로그.jpg" width="200" height="400"/>
+<img src="./readme-images/회원_가입_환영_페이지.jpg" width="200" height="400"/>
 
 ### 🗺 홈
 
