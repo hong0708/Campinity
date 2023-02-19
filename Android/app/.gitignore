@@ -1,1 +1,6 @@
 /build
+.idea
+# App Key
+src/main/res/values/kakao_app_key.xml
+# google-services.json
+src/google-services.json

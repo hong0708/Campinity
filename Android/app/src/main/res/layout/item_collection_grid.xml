@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="collectionGrid"
+            type="com.ssafy.campinity.domain.entity.collection.CollectionItem" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="250dp">
+
+        <ImageView
+            android:id="@+id/iv_home_collection"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/image_home_collection"
+            android:roundedImgUri="@{collectionGrid.imagePath}"
+            android:scaleType="fitXY"
+            android:src="@drawable/bg_splash"
+            app:layout_constraintCircleRadius="15dp" />
+
+        <TextView
+            android:id="@+id/tv_title_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@{collectionGrid.campsiteName}"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@id/tv_date_collection"
+            app:layout_constraintStart_toStartOf="@id/tv_date_collection"
+            tools:text="싸피캠핑장" />
+
+        <TextView
+            android:id="@+id/tv_date_collection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="16dp"
+            android:fontFamily="@font/roboto_bold"
+            android:text="@{collectionGrid.date}"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="SmallSp"
+            tools:text="2023/01/08" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
