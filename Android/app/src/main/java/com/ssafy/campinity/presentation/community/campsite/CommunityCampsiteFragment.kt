@@ -29,7 +29,6 @@ import com.sothree.slidinguppanel.SlidingUpPanelLayout
 import com.ssafy.campinity.ApplicationClass
 import com.ssafy.campinity.R
 import com.ssafy.campinity.common.util.BindingAdapters.setProfileImgString
-import com.ssafy.campinity.common.util.CustomDialogInterface
 import com.ssafy.campinity.databinding.FragmentCommunityCampsiteBinding
 import com.ssafy.campinity.domain.entity.community.CampsiteBriefInfo
 import com.ssafy.campinity.domain.entity.community.CampsiteMessageBriefInfo
@@ -49,7 +48,6 @@ import kotlin.math.pow
 @RequiresApi(Build.VERSION_CODES.Q)
 class CommunityCampsiteFragment :
     BaseFragment<FragmentCommunityCampsiteBinding>(R.layout.fragment_community_campsite),
-    CustomDialogInterface,
     MapView.MapViewEventListener,
     MapView.POIItemEventListener,
     CommunityCampsiteFreeReviewDetailDialogInterface {
@@ -65,14 +63,11 @@ class CommunityCampsiteFragment :
     private val communityCampsiteViewModel by activityViewModels<CommunityCampsiteViewModel>()
     private var isFabOpen = false
     private var isTracking = false
-    private var newUserLocation = RecentUserLocation(
-        0.0, 0.0
-        /*ApplicationClass.preferences.recentUserLat?.toDouble(),
-        ApplicationClass.preferences.recentUserLat?.toDouble()*/
-    )
+    private var newUserLocation = RecentUserLocation(0.0, 0.0)
 
     override fun initView() {
 
+        // 로티 설정
         binding.laMapOpen.apply {
             if (ApplicationClass.preferences.isUserInCommunity == false.toString()) {
                 addAnimatorListener(object : AnimatorListener {
@@ -98,9 +93,8 @@ class CommunityCampsiteFragment :
             }
         }
 
-        communityCampsiteViewModel.checkIsUserIn(
-            ApplicationClass.preferences.isUserIn.toBoolean()
-        )
+        communityCampsiteViewModel.checkIsUserIn(ApplicationClass.preferences.isUserIn.toBoolean())
+
         initToggle()
         initObserver()
         initListener()
@@ -109,6 +103,7 @@ class CommunityCampsiteFragment :
         setSubscribeState()
         communityCampsiteViewModel.getUserProfile()
 
+        // 현재 위치 값 받아오기
         val messageReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
 
@@ -168,10 +163,6 @@ class CommunityCampsiteFragment :
     override fun onDetach() {
         super.onDetach()
         callback.remove()
-    }
-
-    override fun onFinishButton() {
-        onDestroyView()
     }
 
     // 맵뷰 이벤트 관련
@@ -305,60 +296,6 @@ class CommunityCampsiteFragment :
         p1: MapPOIItem?,
         p2: MapPOIItem.CalloutBalloonButtonType?
     ) {
-        /*if (p1!!.tag == 1) {
-            if (mapView.zoomLevel > 6) {
-                mapView.setZoomLevel(3, true)
-
-                mapView.setMapCenterPoint(
-                    MapPoint.mapPointWithGeoCoord(
-                        p1.mapPoint.mapPointGeoCoord.latitude,
-                        p1.mapPoint.mapPointGeoCoord.longitude
-                    ), true
-                )
-            } else {
-                navigate(
-                    CommunityCampsiteFragmentDirections.actionCommunityCampsiteFragmentToCommunityNoteActivity()
-                )
-            }
-        } *//*else {
-            val campsiteMessageBriefInfo = p1.userObject as CampsiteMessageBriefInfo
-
-            if (campsiteMessageBriefInfo.messageCategory == "리뷰") {
-                getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
-            } else {
-                if (getDistance(
-                        campsiteMessageBriefInfo.latitude.toDouble(),
-                        campsiteMessageBriefInfo.longitude.toDouble()
-                    ) < 100
-                ) {
-                    CoroutineScope(Dispatchers.Main).launch {
-                        binding.laNoteOpen.apply {
-                            addAnimatorListener(object : AnimatorListener {
-                                override fun onAnimationStart(p0: Animator?) {}
-
-                                override fun onAnimationEnd(p0: Animator?) {
-                                    binding.laNoteOpen.visibility = View.GONE
-                                }
-
-                                override fun onAnimationCancel(p0: Animator?) {}
-
-                                override fun onAnimationRepeat(p0: Animator?) {}
-                            })
-                            setAnimation(R.raw.unlocked)
-                            speed = 1.5f
-                            visibility = View.VISIBLE
-                            playAnimation()
-                        }
-                        delay(3000)
-                        getFreeReviewDetail(campsiteMessageBriefInfo.messageId)
-                    }
-
-                } else {
-                    //아직 멀어서 불가능
-                    showToast("쪽지와 더 근접한 위치에서 열어보세요!")
-                }
-            }
-        }*/
     }
 
     override fun onDraggablePOIItemMoved(p0: MapView?, p1: MapPOIItem?, p2: MapPoint?) {}
@@ -439,8 +376,7 @@ class CommunityCampsiteFragment :
     private fun initListener() {
         binding.apply {
 
-            viewList =
-                listOf(tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
+            viewList = listOf(tvFabGetHelp, tvFabReview, tvFabFreeNote, clMapBackSite)
             fabList = listOf(clFabGetHelp, clFabReview, clFabFreeNote)
             slCommunityFrame.addPanelSlideListener(PanelEventListener())
 
@@ -697,7 +633,6 @@ class CommunityCampsiteFragment :
             markerType = MapPOIItem.MarkerType.CustomImage
             customImageResourceId = R.drawable.ic_community_campsite_marker3
             isShowCalloutBalloonOnTouch = false
-            //isCustomImageAutoscale = true
             userObject = campsite
             tag = 1
         }
@@ -723,19 +658,6 @@ class CommunityCampsiteFragment :
                 } else {
                     customImageResourceId = R.drawable.ic_community_campsite_close_note3
                 }
-
-                /*customImageResourceId = if (i.messageCategory == "리뷰") {
-                    R.drawable.ic_review_note_marker
-                } else {
-                    R.drawable.ic_community_campsite_close_note3
-                    *//*if (getDistance(i.latitude.toDouble(), i.longitude.toDouble()) < 30) {
-                        R.drawable.ic_community_campsite_open_note3
-                    } else {
-                        R.drawable.ic_community_campsite_close_note3
-                    }*//*
-                }*/
-                //isShowCalloutBalloonOnTouch = false
-                //isCustomImageAutoscale = false
                 userObject = i
                 tag = 2
             }
@@ -831,17 +753,8 @@ class CommunityCampsiteFragment :
                     if (ApplicationClass.preferences.userRecentCampsiteId != null) {
                         onService.startLocationBackground()
                         Log.d("세림", "setSubscribeState: 켜져있음")
-                        //showToast("현재 캠핑장 범위에 포함됩니다.")
-                        /*ApplicationClass.preferences.isSubScribing = true
-                        communityCampsiteViewModel.subscribeCampSite(
-                            ApplicationClass.preferences.userRecentCampsiteId.toString(),
-                            ApplicationClass.preferences.fcmToken.toString()
-                        )*/
                     } else {
                         showToast("캠핑장 설정이 필요합니다.")
-                        /*CoroutineScope(Dispatchers.Main).launch {
-                            toggleCampsite.isOn = false
-                        }*/
                     }
                 } else {
                     Log.d("세림", "setSubscribeState: 꺼져있음")
@@ -875,15 +788,11 @@ class CommunityCampsiteFragment :
     inner class GetUserLocation() : BroadcastReceiver() {
         override fun onReceive(p0: Context?, p1: Intent?) {
             val action = p1!!.action
-            if (action == "test") {
-                //newUserLocation = p1.getSerializableExtra("test") as UserLocation
-            }
         }
     }
 
     object DistanceManager {
         private const val R = 6372.8 * 1000
-
         /**
          * 두 좌표의 거리를 계산한다.
          *
