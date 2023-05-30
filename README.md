@@ -11,21 +11,23 @@
 
 ---
 
-<img src="./readme-images/Screenshot_20230217_104507_CAMPINITY.jpg"  width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104514_CAMPINITY.jpg"  width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_104507_CAMPINITY.jpg"  width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104514_CAMPINITY.jpg"  width="200" height="400"/>
 
 ### 👟 로그인/ 회원가입 화면
 
 ---
 
 - 로그인
-<img src="./readme-images/Screenshot_20230217_104531_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104557_CAMPINITY.jpg" width="200" height="400"/>
 
-- 회원가입    
-<img src="./readme-images/sign_up_user_info.png" width="200" height="400"/>
-<img src="./readme-images/sign_up_cancel.png" width="200" height="400"/>
-<img src="./readme-images/sign_up_welcome.png" width="200" height="400"/>
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104531_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104557_CAMPINITY.jpg" width="200" height="400"/>
+
+- 회원가입
+
+<br/>
+
+<img src="./readme-images/sign_up_user_info.png" width="200" height="400"/> <img src="./readme-images/sign_up_cancel.png" width="200" height="400"/> <img src="./readme-images/sign_up_welcome.png" width="200" height="400"/>
 
 ### 🗺 홈
 
@@ -38,114 +40,110 @@
 ---
 
 - 초기 화면
-<img src="./readme-images/Screenshot_20230217_104621_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104628_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104621_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104628_CAMPINITY.jpg" width="200" height="400"/><br/>
 
 - 캠핑장 등록
-<img src="./readme-images/Screenshot_20230217_104645_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104651_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104741_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104645_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104651_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104741_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
 
 - 캠핑장 등록 후 (구독, 클러스터링)
-<img src="./readme-images/Screenshot_20230217_104751_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104755_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_174713_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104751_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104755_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_174713_CAMPINITY.jpg" width="200" height="400"/><br/>
 
 - 우체통 (목록, 상세)
-<img src="./readme-images/Screenshot_20230217_104820_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104824_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104840_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104820_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104824_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104840_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
 
 - 우체통 (질문, 답변)
-<img src="./readme-images/Screenshot_20230217_104832_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104844_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104832_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104844_CAMPINITY.jpg" width="200" height="400"/><br/>
 
 - 위치 추적 모드
-<img src="./readme-images/Screenshot_20230217_104932_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104939_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104932_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104939_CAMPINITY.jpg" width="200" height="400"/><br/>
 
 - 쪽지 작성 (리뷰 쪽지)
-<img src="./readme-images/Screenshot_20230217_104945_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105034_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105030_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105243_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_104945_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105034_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105030_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105243_CAMPINITY.jpg" width="200" height="400"/><br/>
 
 - 쪽지 작성 (자유 쪽지)
-<img src="./readme-images/Screenshot_20230217_105056_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104909_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_104905_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_105056_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104909_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_104905_CAMPINITY.jpg" width="200" height="400"/><br/>
 
 - 쪽지 작성 (도움 주기)
-<img src="./readme-images/Screenshot_20230217_172318_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217-093224_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217-111528_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217-092058_CAMPINITY.jpg" width="200" height="400"/>
+
+<br/>
+
+<img src="./readme-images/Screenshot_20230217_172318_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217-093224_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217-111528_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217-092058_CAMPINITY.jpg" width="200" height="400"/>
+
+<br/>
 
 ### 🗺 캠핑장 검색
 
 ---
 
-<img src="./readme-images/Screenshot_20230217_105120_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105145_CAMPINITY.jpg" width="200" height="400"/><br/>
+<br/>
 
-<img src="./readme-images/Screenshot_20230217_105217_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105919_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110000_CAMPINITY.jpg" width="200" height="400"/><br/>
+<img src="./readme-images/Screenshot_20230217_105120_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105145_CAMPINITY.jpg" width="200" height="400"/><br/>
 
-<img src="./readme-images/Screenshot_20230217_110303_CAMPINITY-1.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_174644_CAMPINITY.jpg" width="200" height="400"/><br/>
+<img src="./readme-images/Screenshot_20230217_105217_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105919_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110000_CAMPINITY.jpg" width="200" height="400"/><br/>
 
-<img src="./readme-images/Screenshot_20230217_110118_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105223_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105235_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105314_CAMPINITY.jpg" width="200" height="400"/><br/>
+<img src="./readme-images/Screenshot_20230217_110303_CAMPINITY-1.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_174644_CAMPINITY.jpg" width="200" height="400"/><br/>
 
-<img src="./readme-images/Screenshot_20230217_110359_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110359_CAMPINITY-1.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110445_CAMPINITY.jpg" width="200" height="400"/><br/>
+<img src="./readme-images/Screenshot_20230217_110118_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105223_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105235_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105314_CAMPINITY.jpg" width="200" height="400"/><br/>
 
-<img src="./readme-images/Screenshot_20230217_105320_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105335_CAMPINITY.jpg" width="200" height="400"/><br/>
+<img src="./readme-images/Screenshot_20230217_110359_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110359_CAMPINITY-1.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110445_CAMPINITY.jpg" width="200" height="400"/><br/>
 
-<img src="./readme-images/Screenshot_20230217_105258_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_105306_CAMPINITY.jpg" width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_105320_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105335_CAMPINITY.jpg" width="200" height="400"/><br/>
+
+<img src="./readme-images/Screenshot_20230217_105258_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_105306_CAMPINITY.jpg" width="200" height="400"/>
 
 ### 🗺 큐레이션
 
 ---
 
-<img src="./readme-images/Screenshot_20230217_110503_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110506_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110509_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110515_CAMPINITY.jpg" width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_110503_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110506_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110509_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110515_CAMPINITY.jpg" width="200" height="400"/>
 
 ### 🗺 컬렉션
 
 ---
 
-<img src="./readme-images/Screenshot_20230217_110709_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110658_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110934_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110715_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110719_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110731_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110736_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_110743_CAMPINITY.jpg" width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_110709_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110658_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110934_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110715_CAMPINITY.jpg" width="200" height="400"/> 
+<br/>
+<img src="./readme-images/Screenshot_20230217_110719_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110731_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110736_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_110743_CAMPINITY.jpg" width="200" height="400"/>
 
 ### 🗺 마이페이지
 
 ---
 
-<img src="./readme-images/Screenshot_20230217_112739_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_112745_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_112828_CAMPINITY.jpg" width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_112739_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_112745_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_112828_CAMPINITY.jpg" width="200" height="400"/>
 
 ### 🗺 채팅
 
 ---
 
-<img src="./readme-images/Screenshot_20230217_111023_CAMPINITY.jpg" width="200" height="400"/>
-<img src="./readme-images/Screenshot_20230217_111027_CAMPINITY.jpg" width="200" height="400"/>
+<img src="./readme-images/Screenshot_20230217_111023_CAMPINITY.jpg" width="200" height="400"/> <img src="./readme-images/Screenshot_20230217_111027_CAMPINITY.jpg" width="200" height="400"/>
 
 
 ### 📌프로젝트 진행기간
@@ -155,9 +153,9 @@
 
 ### 📌Campinity 기획 배경
 
-<img src="./readme-images/KakaoTalk_20230217_121235438.png" width="300" />
+<img src="./readme-images/KakaoTalk_20230217_121235438.png" width="300" /> <img src="./readme-images/KakaoTalk_20230217_121235596.png" width="300" />
 
-<img src="./readme-images/KakaoTalk_20230217_121235596.png" width="300" />
+<br/>
 
 <img src="./readme-images/KakaoTalk_20230217_121235777.png" width="500" />
 
